@@ -447,6 +447,7 @@
       <a href="#certification">Cert</a>
       <a href="#estimate">Estimate</a>
       <a href="/ecosystem">Ecosystem ↗</a>
+      <a href="/stack-research">Evidence ↗</a>
     </div>
   </div>
 </div>
@@ -464,7 +465,7 @@
       A research package covering the FMCSA regulatory landscape, the capabilities of the major incumbent ELDs, a requirements view of the Tenna application, and a phased project plan with realistic level of effort. Revised after the June 4 working session with Jose: the ELD now leans on the Tenna ecosystem wherever a module already exists, Tenna owns FMCSA certification backed by a dedicated FMCSA compliance expert, and the plan compresses from 23 weeks to 18.
     </p>
     <p class="lede" style="font-size:15px; margin-top:14px;">
-      New to Tenna's product surface? Start with the companion <a href="/ecosystem">Tenna Product Ecosystem field guide&nbsp;↗</a> for background on the platform, modules, and hardware this ELD would plug into.
+      New to Tenna's product surface? Start with the companion <a href="/ecosystem">Tenna Product Ecosystem field guide&nbsp;↗</a> for background on the platform, modules, and hardware this ELD would plug into. For the engineering read, the <a href="/stack-research">Mobile Stack Evidence Brief&nbsp;↗</a> documents how Samsara, Motive, Omnitracs, and Geotab build their driver apps, with primary sources behind every claim.
     </p>
   </div>
 </section>
@@ -761,7 +762,7 @@
     <div class="eyebrow">Section 4 · Mobile Stack</div>
     <h2>React Native with strategic native modules.</h2>
     <p class="lede">
-      Three viable approaches: full native (Swift and Kotlin), pure React Native, or React Native with selectively-built native modules. This is a real engineering decision with real timeline implications. The driver application carries three constraints that shape the choice. Reliable Bluetooth pairing with the Tenna tracker. Background processing for HOS tracking when the application is not foregrounded. Roadside inspection display that renders in under 5 seconds without a network. The June 4 session added a fourth: the app ships on both vehicle-mounted tablets and driver personal devices at launch, which widens the device matrix and raises the bar on background reliability. The three options compared below.
+      Three viable approaches: full native (Swift and Kotlin), pure React Native, or React Native with selectively-built native modules. This is a real engineering decision with real timeline implications. The driver application carries three constraints that shape the choice. Reliable Bluetooth pairing with the Tenna tracker. Background processing for HOS tracking when the application is not foregrounded. Roadside inspection display that renders in under 5 seconds without a network. The June 4 session added a fourth: the app ships on both vehicle-mounted tablets and driver personal devices at launch, which widens the device matrix and raises the bar on background reliability. The three options compared below, against what the four incumbent leaders actually run, documented with primary sources in the companion <a href="/stack-research">Mobile Stack Evidence Brief&nbsp;↗</a>.
     </p>
 
     <div class="three-col">
@@ -775,6 +776,7 @@
           <li>Platform-idiomatic UX (smoother App Store review)</li>
           <li>Most expensive to maintain long-term</li>
           <li>Needs a second mobile engineer or doubles the mobile timeline</li>
+          <li>How Motive builds, sustained by 50-plus mobile engineers</li>
         </ul>
         <div class="price">+6 to 10 weeks vs hybrid</div>
       </div>
@@ -787,7 +789,7 @@
           <li>About 80% of code shared across platforms</li>
           <li>Native modules where reliability is non-negotiable</li>
           <li>1 mobile engineer ships both platforms</li>
-          <li>Matches what Motive and many ELDs run today</li>
+          <li>The architecture Samsara documents running at scale</li>
           <li>One codebase to maintain forever</li>
         </ul>
         <div class="price">Baseline (current plan)</div>
@@ -817,6 +819,40 @@
     <p>
       Pure native is marginally more reliable on paper. The day-to-day delta is small and the maintenance cost is roughly double. The marginal reliability gain does not justify the timeline and ongoing cost.
     </p>
+
+    <h3>What the incumbent leaders actually run</h3>
+    <p>
+      This recommendation is the industry mainstream, not a team-size compromise. <a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Samsara has publicly documented</a> running their Driver App on React Native at scale, including a deliberate rewrite in 2019 that reaffirmed the architectural choice when a Play Store deadline forced the question. <a href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">Omnitracs is following the same pattern</a> for new builds under Solera ownership. Geotab takes a different approach with a WebView hybrid, where <a href="https://github.com/Geotab/mobile-sdk-ios" target="_blank" rel="noopener">a single web codebase is wrapped in thin native Swift and Kotlin shells</a>. Motive is the outlier, running <a href="https://job-boards.greenhouse.io/gomotive" target="_blank" rel="noopener">two fully separate native codebases</a> at the cost of duplicate engineering effort, which is feasible at their team size of more than 50 mobile engineers but not at the scale of this engagement. Three of the four leaders avoid full native because the team-size cost is meaningful. The recommended approach aligns with Samsara's, which is the most directly comparable architecturally.
+    </p>
+
+    <table class="spec-table" style="margin-top:14px;">
+      <thead>
+        <tr><th>Provider</th><th>Mobile architecture</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-name"><b>Samsara</b><span>Enterprise telematics</span></td>
+          <td>React Native with native modules. The architecture this proposal recommends.</td>
+          <td><a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Engineering blog post</a></td>
+        </tr>
+        <tr>
+          <td class="col-name"><b>Motive</b><span>Market leader</span></td>
+          <td>Native iOS (Swift, Objective-C) and native Android (Kotlin), two codebases</td>
+          <td><a href="https://job-boards.greenhouse.io/gomotive" target="_blank" rel="noopener">Job listings citing Swift, Obj-C, VIPER, Kotlin coroutines, Dagger2</a></td>
+        </tr>
+        <tr>
+          <td class="col-name"><b>Omnitracs</b><span>Solera-owned</span></td>
+          <td>React Native for new builds, native bridges where required</td>
+          <td><a href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">React Mobile Engineer listing</a></td>
+        </tr>
+        <tr>
+          <td class="col-name"><b>Geotab</b><span>Largest installed base</span></td>
+          <td>WebView hybrid, one web app in native shells</td>
+          <td><a href="https://github.com/Geotab/mobile-sdk-ios" target="_blank" rel="noopener">Public Mobile SDK</a>, <a href="https://apkfab.com/geotab-drive/com.geotab.androidCheckmate" target="_blank" rel="noopener">3 to 5 MB APK size</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted-text small" style="margin-top:10px;">Full dossiers with direct quotes, the evidence methodology, and every primary source: the companion <a href="/stack-research">Mobile Stack Evidence Brief&nbsp;↗</a>.</p>
   </div>
 </section>
 
@@ -1085,7 +1121,7 @@
     <div class="eyebrow">Section 7 · Project Plan</div>
     <h2>Five phases. Roughly 18 weeks from kickoff to piloting and certification-ready.</h2>
     <p class="lede">
-      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Five weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management.
+      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Five weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management. An accelerated scenario in Section 9 adds Adam to the development team part-time and compresses the build phases by 20%, landing at 15 weeks.
     </p>
 
     <div class="timeline">
@@ -1210,38 +1246,44 @@
     <div class="eyebrow">Section 9 · Level of Effort</div>
     <h2>Phased delivery. Each phase a clean gate.</h2>
     <p class="lede">
-      AppAxis engages in fixed-outcome phases rather than hourly billing that incentivizes slow delivery, with commercial terms presented once both sides have walked the plan together. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
+      AppAxis engages in fixed-outcome phases rather than hourly billing that incentivizes slow delivery. Two scenarios below: the core team, and an accelerated option that adds Adam to the development team part-time, compressing each build phase by 20%. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
     </p>
 
+    <h3>Scenario A · Core team · 18 weeks</h3>
     <table class="cost-table">
       <thead>
-        <tr><th>Phase</th><th>Duration</th><th>Team</th></tr>
+        <tr><th>Phase</th><th>Duration</th><th>Team</th><th style="text-align:right;">Fixed Price</th></tr>
       </thead>
       <tbody>
         <tr>
           <td>1. Research and Assessment</td>
           <td>Complete</td>
           <td>Adam</td>
+          <td class="num-cell">$0</td>
         </tr>
         <tr>
           <td>2. <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> and Scope Lock</td>
           <td>3 weeks</td>
           <td>Adam</td>
+          <td class="num-cell">$5,000</td>
         </tr>
         <tr>
           <td>3. Core Build</td>
           <td>8 weeks</td>
           <td>2 senior eng + 1 QA</td>
+          <td class="num-cell">$120,000</td>
         </tr>
         <tr>
           <td>4. Log Module and Data Transfer</td>
           <td>3 weeks</td>
           <td>2 senior eng + 1 QA</td>
+          <td class="num-cell">$45,000</td>
         </tr>
         <tr>
           <td>5. Pilot, Certification Support, and Handoff</td>
           <td>4 weeks</td>
           <td>2 senior eng + 1 QA</td>
+          <td class="num-cell">$60,000</td>
         </tr>
       </tbody>
       <tfoot>
@@ -1249,6 +1291,55 @@
           <td>Total, kickoff to piloting and certification-ready</td>
           <td>18 wks</td>
           <td>2 senior eng + QA</td>
+          <td class="num-cell">$230,000</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <h3>Scenario B · Core team plus Adam, part-time · 15 weeks</h3>
+    <p>Adam joins the development team part-time across the build phases, compressing each by 20%. Three weeks sooner to pilot and certification-ready for roughly 1% more.</p>
+    <table class="cost-table">
+      <thead>
+        <tr><th>Phase</th><th>Duration</th><th>Team</th><th style="text-align:right;">Fixed Price</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. Research and Assessment</td>
+          <td>Complete</td>
+          <td>Adam</td>
+          <td class="num-cell">$0</td>
+        </tr>
+        <tr>
+          <td>2. <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> and Scope Lock</td>
+          <td>3 weeks</td>
+          <td>Adam</td>
+          <td class="num-cell">$5,000</td>
+        </tr>
+        <tr>
+          <td>3. Core Build</td>
+          <td>6.5 weeks</td>
+          <td>2 senior eng + 1 QA + Adam (part-time)</td>
+          <td class="num-cell">$123,500</td>
+        </tr>
+        <tr>
+          <td>4. Log Module and Data Transfer</td>
+          <td>2.5 weeks</td>
+          <td>2 senior eng + 1 QA + Adam (part-time)</td>
+          <td class="num-cell">$47,500</td>
+        </tr>
+        <tr>
+          <td>5. Pilot, Certification Support, and Handoff</td>
+          <td>3 weeks</td>
+          <td>2 senior eng + 1 QA + Adam (part-time)</td>
+          <td class="num-cell">$57,000</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total, kickoff to piloting and certification-ready</td>
+          <td>15 wks</td>
+          <td>2 senior eng + QA + Adam</td>
+          <td class="num-cell">$233,000</td>
         </tr>
       </tfoot>
     </table>

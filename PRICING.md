@@ -1,24 +1,50 @@
-# ELD Build Pricing (internal, not published)
+# ELD Build Pricing (internal notes)
 
-Dollar figures removed from the public proposal page on 2026-06-04, pending further project discovery before presenting a price. The phase structure, durations, and team composition remain on the page; only the price column lives here.
+Pricing restored to the public proposal page on 2026-06-04 with updated rates and a two-scenario structure. This file now holds the rate basis and history, not the published numbers (those live on the page).
 
-Reworked 2026-06-04 after the working session with Jose: certification moved to Tenna (dedicated FMCSA compliance expert hire), DVIR de-scoped to Tenna's standard app, web surface narrowed to a log management module inside the Tenna portal. Plan compressed from 23 weeks / $344,000 to 18 weeks.
+## Rate basis (2026-06-04)
+
+- Senior engineer: $6,500 per week (was $6,000)
+- QA engineer: $2,000 per week (was $2,500)
+- Adam, part-time: $4,000 per week
+- Core team weekly (2 senior + 1 QA): $15,000
+- Accelerated team weekly (core + Adam part-time): $19,000
+- No buffer or Phase 2 redistribution in this model; phases price as rate x weeks. Phase 2 stays a $5,000 loss-leader (3 weeks of Adam).
+
+## Published scenarios
+
+### Scenario A · Core team · 18 weeks · $230,000
 
 | Phase | Duration | Team | Fixed Price |
 |---|---|---|---|
-| 1. Research and Assessment | Complete | Adam | $0.00 |
+| 1. Research and Assessment | Complete | Adam | $0 |
 | 2. ProposalType and Scope Lock | 3 weeks | Adam | $5,000 |
-| 3. Core Build | 8 weeks | 2 senior eng + 1 QA | $135,600 |
-| 4. Log Module and Data Transfer | 3 weeks | 2 senior eng + 1 QA | $50,850 |
-| 5. Pilot, Certification Support, and Handoff | 4 weeks | 2 senior eng + 1 QA | $67,800 |
-| **Total, kickoff to piloting and certification-ready** | **18 wks** | | **$259,250** |
+| 3. Core Build | 8 weeks | 2 senior eng + 1 QA | $120,000 |
+| 4. Log Module and Data Transfer | 3 weeks | 2 senior eng + 1 QA | $45,000 |
+| 5. Pilot, Certification Support, and Handoff | 4 weeks | 2 senior eng + 1 QA | $60,000 |
+| **Total** | **18 wks** | | **$230,000** |
 
-If presenting a round number, quote $259,000.
+### Scenario B · Core team + Adam part-time · 15 weeks · $233,000
 
-## Notes
+Build phases compressed 20% (15 build weeks to 12). Per-phase durations rounded to half-weeks for the published table (6.5 / 2.5 / 3 instead of 6.4 / 2.4 / 3.2); the totals are exact.
 
-- Same implied build-phase rate as the prior model: $16,950 per team-week for the 2 senior eng + 1 QA team. 15 build team-weeks (phases 3 to 5) at that rate is $254,250, plus the $5,000 Phase 2.
-- Rate basis unchanged: 2 senior engineers at $6,000 per week each plus 1 QA at $2,500 per week ($14,500), plus a 10% buffer ($15,950), plus $1,000 per week redistributing the Phase 2 value ($15,000 across 15 build weeks). Phase 2 remains the loss-leader.
-- What left the scope versus the prior model: the standalone Certification and FMCSA Registration phase (4 weeks, $67,800). About half of that phase was Appendix A QA work that still happens, now inside phases 3 to 5; the other half (documentation package, user guide, registration submission) moved to Tenna's FMCSA compliance expert. AppAxis support during Tenna's certification pass is folded into Phase 5.
-- Prior model for reference: 23 weeks, $344,000 (phases: $5,000 / $135,600 / $67,800 / $67,800 / $67,800).
-- Outside the estimate (unpriced on the page and here): ongoing compliance and maintenance, the FMCSA compliance expert (Tenna-side hire), cloud infrastructure pass-through ($4,000 to $8,000 per month at Tenna's likely scale), backend platform operations, mobile telemetry tooling, production support, and existing-customer migration.
+| Phase | Duration | Team | Fixed Price |
+|---|---|---|---|
+| 1. Research and Assessment | Complete | Adam | $0 |
+| 2. ProposalType and Scope Lock | 3 weeks | Adam | $5,000 |
+| 3. Core Build | 6.5 weeks | 2 senior eng + 1 QA + Adam (pt) | $123,500 |
+| 4. Log Module and Data Transfer | 2.5 weeks | 2 senior eng + 1 QA + Adam (pt) | $47,500 |
+| 5. Pilot, Certification Support, and Handoff | 3 weeks | 2 senior eng + 1 QA + Adam (pt) | $57,000 |
+| **Total** | **15 wks** | | **$233,000** |
+
+The sell: Scenario B lands 3 weeks sooner for $3,000 more (about 1%).
+
+## History
+
+- 2026-06-04 (later): pricing restored to the page at the new rates above, two scenarios.
+- 2026-06-04 (earlier): post-call rework after the June 4 session with Jose. Certification moved to Tenna (FMCSA compliance expert), DVIR de-scoped, portal narrowed to log management. That model: 18 weeks, $259,250, built on $16,950 per team-week (2 senior at $6,000 + QA at $2,500, +10% buffer, +$1,000/wk Phase 2 redistribution).
+- Pre-call model: 23 weeks, $344,000 (phases: $5,000 / $135,600 / $67,800 / $67,800 / $67,800).
+
+## Outside the estimate (unpriced on the page and here)
+
+Ongoing compliance and maintenance, the FMCSA compliance expert (Tenna-side hire), cloud infrastructure pass-through ($4,000 to $8,000 per month at Tenna's likely scale), backend platform operations, mobile telemetry tooling, production support, and existing-customer migration.

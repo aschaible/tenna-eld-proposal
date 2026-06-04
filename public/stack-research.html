@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Competitor Mobile Stack · Evidence Brief</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F37021;
+    --orange-dark: #D9591A;
+    --orange-soft: #FFF1E8;
+    --orange-line: #F8D3B7;
+    --ink: #1A1F2A;
+    --ink-soft: #3D4654;
+    --muted: #6B7484;
+    --line: #E5E7EB;
+    --line-soft: #F1F3F6;
+    --bg: #FFFFFF;
+    --bg-alt: #F7F8FB;
+    --green: #1F8A56;
+    --red: #C24038;
+    --amber: #D98315;
+    --blue: #2E6BE6;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
+  img { max-width: 100%; display: block; }
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { color: var(--orange-dark); }
+  code, .mono { font-family: 'JetBrains Mono', Menlo, Consolas, monospace; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+
+  /* Top bar */
+  .topbar {
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px; max-width: 1240px; margin: 0 auto;
+  }
+  .brand-row { display: flex; align-items: center; gap: 14px; }
+  .brand-row img.appaxis { height: 24px; width: auto; }
+  .brand-row .title { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+  .topbar .nav { display: flex; gap: 18px; color: var(--ink-soft); font-size: 13px; font-weight: 500; align-items: center; flex-wrap: wrap; }
+  .topbar .nav a { color: var(--ink-soft); }
+  .topbar .nav a:hover { color: var(--orange); }
+  .field-guide {
+    border: 1px solid var(--orange);
+    color: var(--orange);
+    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 1.5px; font-weight: 800;
+    background: var(--orange-soft);
+  }
+
+  /* Hero */
+  .hero { padding: 70px 0 50px 0; position: relative; overflow: hidden; }
+  .hero::after {
+    content: ""; position: absolute; top: 0; right: -10%; width: 70%; height: 100%;
+    background: radial-gradient(700px 500px at 50% 30%, rgba(243,112,33,0.10), transparent 60%);
+    pointer-events: none;
+  }
+  .hero .container { position: relative; z-index: 1; }
+  .hero .kicker {
+    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px;
+    font-size: 11px; text-transform: uppercase; margin-bottom: 16px;
+    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 4.8vw, 54px);
+    line-height: 1.08; margin: 0 0 16px 0; letter-spacing: -1.2px; font-weight: 800;
+  }
+  .hero h1 .accent { color: var(--orange); }
+  .hero .lede { color: var(--ink-soft); font-size: 17px; max-width: 1000px; }
+
+  section { padding: 56px 0; }
+  section.alt { background: var(--bg-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  section h2 { font-size: clamp(24px, 3vw, 34px); margin: 0 0 10px 0; letter-spacing: -0.4px; font-weight: 800; }
+  section h3 { font-size: 19px; margin: 28px 0 8px 0; font-weight: 700; letter-spacing: -0.2px; }
+  section .eyebrow {
+    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-size: 10.5px; margin-bottom: 12px;
+    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
+  }
+  section .lede { color: var(--ink-soft); font-size: 16px; max-width: 1000px; margin-bottom: 30px; }
+  section p { color: var(--ink-soft); }
+
+  /* Verdict band */
+  .verdict-band {
+    background: var(--ink); color: white; border-radius: 16px; padding: 32px;
+    position: relative; overflow: hidden; margin-top: 26px;
+  }
+  .verdict-band::before {
+    content: ""; position: absolute; top: -40%; right: -10%; width: 60%; height: 180%;
+    background: radial-gradient(circle, rgba(243,112,33,0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .verdict-band > * { position: relative; z-index: 1; }
+  .verdict-band h2 { color: white; margin: 0 0 6px 0; font-size: 22px; }
+  .verdict-band .sub { color: rgba(255,255,255,0.7); font-size: 14px; margin: 0 0 22px 0; }
+  .verdict-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 880px) { .verdict-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .verdict-grid { grid-template-columns: 1fr; } }
+  .verdict-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .verdict-card:hover { border-color: rgba(243,112,33,0.55); transform: translateY(-2px); }
+  .verdict-card a { color: inherit; display: contents; }
+  .verdict-card .who { font-size: 16px; font-weight: 800; color: white; }
+  .verdict-card .what { font-size: 13px; color: rgba(255,255,255,0.82); line-height: 1.5; }
+  .verdict-card .chip {
+    align-self: flex-start; font-size: 9.5px; font-weight: 800; letter-spacing: 1.3px;
+    text-transform: uppercase; padding: 4px 9px; border-radius: 999px;
+  }
+  .chip.rn { background: rgba(243,112,33,0.18); color: #F8A05F; }
+  .chip.native { background: rgba(255,255,255,0.10); color: rgba(255,255,255,0.75); }
+  .chip.webview { background: rgba(46,107,230,0.20); color: #8FB2F5; }
+  .verdict-card .aligned {
+    margin-top: auto; font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
+    color: var(--orange); text-transform: uppercase;
+  }
+
+  /* Methodology */
+  .method {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 26px;
+  }
+  @media (max-width: 880px) { .method { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .method { grid-template-columns: 1fr; } }
+  .method .m {
+    background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
+  }
+  .method .m .n { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--orange); font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; }
+  .method .m h4 { margin: 0 0 6px 0; font-size: 14.5px; font-weight: 800; color: var(--ink); }
+  .method .m p { margin: 0; font-size: 13px; color: var(--ink-soft); }
+
+  /* Dossiers */
+  .dossier {
+    position: relative;
+    background: white; border: 1px solid var(--line); border-radius: 16px;
+    padding: 34px 38px; margin-bottom: 26px; overflow: hidden;
+    box-shadow: 0 8px 28px rgba(26,31,42,0.05);
+  }
+  .dossier::after {
+    content: attr(data-index);
+    position: absolute; top: -28px; right: 8px;
+    font-size: 170px; font-weight: 900; letter-spacing: -8px;
+    color: var(--line-soft); line-height: 1; pointer-events: none;
+    font-family: 'Inter', sans-serif; z-index: 0;
+  }
+  .dossier > * { position: relative; z-index: 1; }
+  .dossier.aligned { border-color: var(--orange-line); background: linear-gradient(170deg, #FFFDFB, #FFF8F2); }
+  .dossier.aligned::after { color: rgba(243,112,33,0.08); }
+  .dossier .head-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .dossier .head-row h3 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+  .dossier .market { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
+  .dossier .verdict-line {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 10px 0 18px 0;
+  }
+  .arch-chip {
+    font-size: 10.5px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px;
+  }
+  .arch-chip.rn { background: var(--orange-soft); color: var(--orange); border: 1px solid var(--orange-line); }
+  .arch-chip.native { background: var(--ink); color: white; }
+  .arch-chip.webview { background: rgba(46,107,230,0.10); color: var(--blue); border: 1px solid rgba(46,107,230,0.3); }
+  .conf-chip {
+    font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px; border: 1px dashed var(--line);
+    color: var(--muted); background: var(--bg-alt);
+  }
+  .conf-chip b { color: var(--ink-soft); font-weight: 800; }
+  .dossier .arch-def {
+    background: var(--bg-alt); border: 1px solid var(--line-soft); border-radius: 10px;
+    padding: 14px 18px; font-size: 14px; color: var(--ink-soft); margin-bottom: 18px;
+  }
+  .dossier .arch-def .lbl {
+    display: block; font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+  }
+  .dossier p { font-size: 14.5px; }
+
+  /* Evidence quotes */
+  .evidence { margin-top: 20px; }
+  .evidence .lbl {
+    font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 10px;
+  }
+  blockquote.proof {
+    margin: 0 0 14px 0; padding: 16px 22px;
+    border-left: 3px solid var(--orange);
+    background: linear-gradient(90deg, var(--orange-soft), transparent 70%);
+    border-radius: 0 10px 10px 0;
+  }
+  blockquote.proof .q {
+    font-family: 'Newsreader', Georgia, serif; font-style: italic;
+    font-size: 17.5px; line-height: 1.55; color: var(--ink); display: block;
+  }
+  blockquote.proof .cite {
+    display: block; margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3px;
+    color: var(--muted);
+  }
+  blockquote.proof .cite a { color: var(--orange); font-weight: 600; }
+
+  .source-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .source-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px;
+    background: white; transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .source-pill:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-soft); }
+  .source-pill::after { content: "↗"; font-size: 11px; color: var(--muted); }
+  .source-pill:hover::after { color: var(--orange); }
+
+  /* APK size chart */
+  .apk-chart { margin: 20px 0 6px 0; }
+  .apk-chart .row { display: grid; grid-template-columns: 220px 1fr 110px; gap: 12px; align-items: center; margin-bottom: 10px; }
+  @media (max-width: 640px) { .apk-chart .row { grid-template-columns: 130px 1fr 90px; } }
+  .apk-chart .name { font-size: 13px; font-weight: 700; color: var(--ink); text-align: right; }
+  .apk-chart .track { background: var(--line-soft); border-radius: 999px; height: 16px; overflow: hidden; }
+  .apk-chart .bar { height: 100%; border-radius: 999px; min-width: 6px; }
+  .apk-chart .bar.tiny { background: var(--blue); }
+  .apk-chart .bar.big { background: var(--ink); opacity: 0.85; }
+  .apk-chart .val { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+  .apk-note { font-size: 12.5px; color: var(--muted); font-style: italic; }
+
+  /* Matrix table */
+  .matrix {
+    width: 100%; border-collapse: collapse; font-size: 14px;
+    background: white; border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  }
+  .matrix th, .matrix td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  .matrix th { background: var(--bg-alt); color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .matrix tr:last-child td { border-bottom: 0; }
+  .matrix td.who { font-weight: 800; color: var(--ink); white-space: nowrap; }
+  .matrix tr.hl td { background: linear-gradient(90deg, var(--orange-soft), transparent 80%); }
+
+  /* Implication */
+  .stat-row { display: grid; grid-template-columns: 220px 1fr; gap: 36px; align-items: center; margin: 28px 0; }
+  @media (max-width: 760px) { .stat-row { grid-template-columns: 1fr; } }
+  .big-stat { text-align: center; }
+  .big-stat .v { font-size: 96px; font-weight: 900; letter-spacing: -5px; line-height: 1; color: var(--orange); }
+  .big-stat .l { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+  .implication-card {
+    background: white; border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px 24px; margin-bottom: 14px;
+  }
+  .implication-card h4 { margin: 0 0 6px 0; font-size: 15px; font-weight: 800; color: var(--ink); }
+  .implication-card p { margin: 0; font-size: 14px; }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+  footer { padding: 36px 0; color: var(--muted); font-size: 12px; background: var(--ink); text-align: center; }
+  footer .disc { max-width: 760px; margin: 0 auto; line-height: 1.7; color: rgba(255,255,255,0.55); font-style: italic; }
+  footer .copy { margin-top: 14px; color: rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-row">
+      <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
+      <span class="title">MOBILE STACK · EVIDENCE BRIEF</span>
+    </div>
+    <div class="nav">
+      <a href="#verdict">Verdict</a>
+      <a href="#samsara">Samsara</a>
+      <a href="#motive">Motive</a>
+      <a href="#omnitracs">Omnitracs</a>
+      <a href="#geotab">Geotab</a>
+      <a href="#implication">The Take</a>
+      <a href="/#mobile-stack">← The Proposal</a>
+      <span class="field-guide">PRIMARY SOURCES</span>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">Companion Brief · Primary Sources Only</div>
+    <h1>How the big four ELDs<br/><span class="accent">actually build their driver apps.</span></h1>
+    <p class="lede">
+      The proposal recommends React Native with strategic native modules for the Tenna ELD driver app. This brief establishes what Samsara, Motive, Omnitracs, and Geotab run in production, from engineering blogs, live job listings, public SDK repositories, and published package sizes. Every claim links to its primary source. No analyst commentary, no inference without the receipts.
+    </p>
+  </div>
+</section>
+
+<section id="verdict">
+  <div class="container">
+    <div class="eyebrow">The One-Screen Version</div>
+    <h2>Three of the four leaders avoid full native. One can afford not to.</h2>
+
+    <div class="verdict-band reveal">
+      <h2>The verdicts</h2>
+      <p class="sub">Each card links to the full dossier with evidence and sources below.</p>
+      <div class="verdict-grid">
+        <a href="#samsara"><div class="verdict-card">
+          <span class="chip rn">React Native + Native Modules</span>
+          <span class="who">Samsara</span>
+          <span class="what">Publicly documented, reaffirmed through a deliberate 2019 rewrite. Five apps from one codebase.</span>
+          <span class="aligned">● Aligned with this proposal</span>
+        </div></a>
+        <a href="#motive"><div class="verdict-card">
+          <span class="chip native">Pure Native · Two Codebases</span>
+          <span class="who">Motive</span>
+          <span class="what">Swift and Objective-C on iOS, Kotlin on Android. Sustained by 50-plus mobile engineers.</span>
+        </div></a>
+        <a href="#omnitracs"><div class="verdict-card">
+          <span class="chip rn">React Native for New Builds</span>
+          <span class="who">Omnitracs</span>
+          <span class="what">New mobile work in React Native under Solera, with native bridges where required.</span>
+        </div></a>
+        <a href="#geotab"><div class="verdict-card">
+          <span class="chip webview">WebView Hybrid</span>
+          <span class="who">Geotab</span>
+          <span class="what">One web codebase wrapped in thin Swift and Kotlin shells. The 3 MB APK gives it away.</span>
+        </div></a>
+      </div>
+    </div>
+
+    <h3>How the evidence was gathered</h3>
+    <div class="method">
+      <div class="m reveal">
+        <div class="n">SIGNAL 01</div>
+        <h4>Engineering blogs</h4>
+        <p>First-party architecture write-ups by named engineers. The strongest signal, available only for Samsara.</p>
+      </div>
+      <div class="m reveal">
+        <div class="n">SIGNAL 02</div>
+        <h4>Live job listings</h4>
+        <p>Hiring requirements reveal the stack. VIPER, Dagger2, and Kotlin coroutines do not appear in React Native teams.</p>
+      </div>
+      <div class="m reveal">
+        <div class="n">SIGNAL 03</div>
+        <h4>Public SDK repositories</h4>
+        <p>Language composition and README architecture descriptions on GitHub, straight from the vendor.</p>
+      </div>
+      <div class="m reveal">
+        <div class="n">SIGNAL 04</div>
+        <h4>Package forensics</h4>
+        <p>Published APK sizes. A 3 MB package cannot contain a native UI for an ELD feature set. The math is the proof.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="samsara" class="alt">
+  <div class="container">
+    <div class="eyebrow">Dossier 01 · Samsara</div>
+
+    <div class="dossier aligned reveal" data-index="01">
+      <div class="head-row">
+        <h3>Samsara</h3>
+        <span class="market">Enterprise telematics · NYSE: IOT</span>
+      </div>
+      <div class="verdict-line">
+        <span class="arch-chip rn">React Native + Native Modules</span>
+        <span class="conf-chip">Confidence: <b>Documented first-party</b></span>
+      </div>
+      <div class="arch-def">
+        <span class="lbl">Architecture</span>
+        React Native for the mobile codebase, Go for code running on Samsara-controlled hardware, React with TypeScript across web and mobile UI layers. Native modules used selectively for performance-critical paths.
+      </div>
+      <p>
+        Samsara is the only one of the four that documents its mobile architecture in public, in detail. A 2022 engineering blog post by Andrew Monks, a Staff Software Engineer on the team, describes both the architectural choice and the deliberate rewrite the team undertook in 2019 to stay on React Native rather than transition to native. When a 64-bit Play Store deadline forced an architectural decision, Samsara considered native Android and explicitly rejected it, because the cross-platform contribution model that React Native enables was worth preserving. Roughly half of the Driver App codebase is now shared infrastructure (logging, offline reconciliation, navigation, auth, storage, Code Push, component library) that powers four additional mobile apps in their ecosystem.
+      </p>
+      <p>
+        The choice reflects organizational structure as much as technology. React Native lets Samsara's feature teams contribute to mobile without dedicated iOS or Android specialists, and the company has shipped five customer-facing mobile apps from the same React Native foundation.
+      </p>
+      <div class="evidence">
+        <div class="lbl">Direct evidence</div>
+        <blockquote class="proof">
+          <span class="q">"Our app is built on React Native, which has been great for us. We love how it lets us structure our teams autonomously, and everyone can contribute to mobile, with engineers building features that work for both Android and iOS without a lot of overhead."</span>
+          <span class="cite">SAMSARA ENGINEERING BLOG · <a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Why and How We Rewrote Our Biggest Mobile App From Scratch</a></span>
+        </blockquote>
+        <blockquote class="proof">
+          <span class="q">"We use Go for any code that runs on devices in our control, and React + Typescript for all code that runs on devices we don't control, like web and mobile apps."</span>
+          <span class="cite">SAMSARA ENGINEERING BLOG · <a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">same source</a></span>
+        </blockquote>
+        <blockquote class="proof">
+          <span class="q">"More than 50% of our Samsara Driver App codebase consists of shared infrastructure."</span>
+          <span class="cite">SAMSARA ENGINEERING BLOG · <a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">same source</a></span>
+        </blockquote>
+      </div>
+      <div class="source-row">
+        <a class="source-pill" href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Samsara Engineering Blog, 2022</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="motive">
+  <div class="container">
+    <div class="eyebrow">Dossier 02 · Motive</div>
+
+    <div class="dossier reveal" data-index="02">
+      <div class="head-row">
+        <h3>Motive</h3>
+        <span class="market">Market leader · formerly KeepTruckin</span>
+      </div>
+      <div class="verdict-line">
+        <span class="arch-chip native">Pure Native · Two Codebases</span>
+        <span class="conf-chip">Confidence: <b>Hiring signals, unambiguous</b></span>
+      </div>
+      <div class="arch-def">
+        <span class="lbl">Architecture</span>
+        Native iOS in Swift and Objective-C with MVC, MVVM, and VIPER patterns. Native Android in Kotlin with Kotlin coroutines, Kotlin flows, RxJava2, and Dagger2. Two fully separate codebases, no shared cross-platform layer.
+      </div>
+      <p>
+        Motive does not publish architecture decisions, but its active Greenhouse job board makes the stack unambiguous. Multiple current and recent listings for iOS Engineer, iOS Platform Engineer, Senior iOS Engineer, and Senior Mobile Engineer iOS all require Swift and Objective-C proficiency along with native iOS architectural patterns. The Android listings require Kotlin coroutines, Kotlin flows, RxJava2, and Dagger2, all signature native Android tools with no React Native equivalents.
+      </p>
+      <p>
+        The tells are specific. VIPER is a native iOS architectural pattern. RxJava2 and Dagger2 are native Android libraries. Kotlin coroutines and flows are Kotlin-only constructs. None of these appear in a React Native codebase. The role descriptions also place GPS, Bluetooth, USB, and Camera API integration in native code, consistent with the two-codebase model. Motive sustains this approach because it has the engineering scale, more than 50 mobile engineers across both platforms, to make duplicate native work economically tractable.
+      </p>
+      <div class="evidence">
+        <div class="lbl">Direct evidence</div>
+        <blockquote class="proof">
+          <span class="q">"Strong proficiency in Swift and Objective-C, with experience in mobile app architecture patterns (MVC, MVVM, VIPER)."</span>
+          <span class="cite">MOTIVE JOB LISTING, iOS · <a href="https://job-boards.greenhouse.io/gomotive/jobs/7914917002" target="_blank" rel="noopener">Senior Software Engineer, iOS</a></span>
+        </blockquote>
+        <blockquote class="proof">
+          <span class="q">"Creating new features for iOS (Objective-C and Swift) apps for fleets, including GPS tracking, Geofencing, Bluetooth, and Camera APIs."</span>
+          <span class="cite">MOTIVE JOB LISTING, iOS · <a href="https://boards.greenhouse.io/gomotive/jobs/6862315002" target="_blank" rel="noopener">iOS Engineer</a></span>
+        </blockquote>
+        <blockquote class="proof">
+          <span class="q">"Knowledge in Kotlin coroutines, Kotlin flows, RxJava2, and Dagger2 is a plus."</span>
+          <span class="cite">MOTIVE JOB LISTING, ANDROID · <a href="https://androiddev.careers/software-engineer-mobile-android-at-gomotive-718" target="_blank" rel="noopener">Software Engineer, Mobile Android</a></span>
+        </blockquote>
+      </div>
+      <div class="source-row">
+        <a class="source-pill" href="https://job-boards.greenhouse.io/gomotive" target="_blank" rel="noopener">Motive Greenhouse job board</a>
+        <a class="source-pill" href="https://job-boards.greenhouse.io/gomotive/jobs/7914917002" target="_blank" rel="noopener">Senior Software Engineer, iOS</a>
+        <a class="source-pill" href="https://boards.greenhouse.io/gomotive/jobs/6284224002" target="_blank" rel="noopener">iOS Platform Engineer</a>
+        <a class="source-pill" href="https://boards.greenhouse.io/gomotive/jobs/6056761002" target="_blank" rel="noopener">Senior Mobile Engineer, iOS</a>
+        <a class="source-pill" href="https://boards.greenhouse.io/gomotive/jobs/6862315002" target="_blank" rel="noopener">iOS Engineer</a>
+        <a class="source-pill" href="https://androiddev.careers/software-engineer-mobile-android-at-gomotive-718" target="_blank" rel="noopener">Android listing summary</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="omnitracs" class="alt">
+  <div class="container">
+    <div class="eyebrow">Dossier 03 · Omnitracs</div>
+
+    <div class="dossier reveal" data-index="03">
+      <div class="head-row">
+        <h3>Omnitracs</h3>
+        <span class="market">Legacy incumbent · Solera-owned</span>
+      </div>
+      <div class="verdict-line">
+        <span class="arch-chip rn">React Native for New Builds</span>
+        <span class="conf-chip">Confidence: <b>Hiring signals, explicit</b></span>
+      </div>
+      <div class="arch-def">
+        <span class="lbl">Architecture</span>
+        React Native for current and new mobile development under Solera ownership. Native iOS (Objective-C, Swift) and native Android (Java) maintained where necessary, including performance-critical native bridges. Legacy products on the older IVG device run Windows, with an Android variant in testing.
+      </div>
+      <p>
+        Omnitracs operates an active engineering team in Mexico City building under the React Native model. The public listing for React Mobile Software Engineer II is unambiguous about technical direction: the role builds new mobile applications in React Native, while requiring native iOS and Android experience for the bridge and platform-specific work. The team maintains Sylectus, the Solera-owned TMS mobile application, alongside new React Native builds across the logistics product line.
+      </p>
+      <p>
+        The legacy picture is more mixed. The older Intelligent Vehicle Gateway hardware platform ran Windows for years, with Android support added later, and Omnitracs One has been the consolidation effort bringing the product suite onto modern mobile tooling. The strategic direction under Solera is clearly toward React Native for new mobile work.
+      </p>
+      <div class="evidence">
+        <div class="lbl">Direct evidence</div>
+        <blockquote class="proof">
+          <span class="q">"Building new mobile apps in React Native that will simplify and optimize all aspects of the logistics industry."</span>
+          <span class="cite">OMNITRACS JOB LISTING · <a href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">React Mobile Software Engineer II, Mexico City</a></span>
+        </blockquote>
+        <blockquote class="proof">
+          <span class="q">"Experience writing professional production code with native mobile development, specifically Objective-C/Swift for iOS and Java for Android."</span>
+          <span class="cite">OMNITRACS JOB LISTING · <a href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">same listing, the native-bridge requirement</a></span>
+        </blockquote>
+      </div>
+      <div class="source-row">
+        <a class="source-pill" href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">React Mobile Software Engineer II</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="geotab">
+  <div class="container">
+    <div class="eyebrow">Dossier 04 · Geotab</div>
+
+    <div class="dossier reveal" data-index="04">
+      <div class="head-row">
+        <h3>Geotab</h3>
+        <span class="market">Telematics platform · largest installed base</span>
+      </div>
+      <div class="verdict-line">
+        <span class="arch-chip webview">WebView Hybrid</span>
+        <span class="conf-chip">Confidence: <b>Triangulated, four independent signals</b></span>
+      </div>
+      <div class="arch-def">
+        <span class="lbl">Architecture</span>
+        A single web application (HTML, CSS, JavaScript) for the Geotab Drive interface, loaded inside thin native shells written in Swift on iOS and Kotlin on Android. The shells handle Bluetooth pairing, foreground services, location, and bridge APIs for what a WebView cannot reach.
+      </div>
+      <p>
+        Geotab publishes no single architecture statement, but four independent signals triangulate convincingly. First, Geotab's own Mobile SDK on GitHub: the iOS SDK is 94.5% Swift and 5.5% JavaScript, the Android SDK 95.5% Kotlin and 4.5% JavaScript, and both repositories describe their entry point as the container for the Geotab Drive web application. Second, the package math below. Third, Geotab's Add-In system loads the same HTML, CSS, and JavaScript into both the MyGeotab web portal and the Drive mobile app, which is only architecturally possible if the mobile app is fundamentally a WebView rendering the same web environment. Fourth, Geotab's own documentation refers to "the web version of the Drive App" as a variant of the same product, consistent with one shared codebase rendered in different shells.
+      </p>
+
+      <h3 style="margin-top:26px;">The package math</h3>
+      <p>Native apps with a comparable ELD feature scope (full HOS state machine, DVIR, eRODS roadside transfer, Bluetooth pairing, eight-day record cache, malfunction handling, UI) typically weigh 50 to 150 MB. A 3 to 5 MB package cannot contain a native UI for that feature set. The math only works if the UI loads at runtime from the network.</p>
+      <div class="apk-chart">
+        <div class="row">
+          <span class="name">Geotab Drive</span>
+          <div class="track"><div class="bar tiny" style="width:3.5%;"></div></div>
+          <span class="val">2.9 to 5.5 MB</span>
+        </div>
+        <div class="row">
+          <span class="name">Samsara Driver</span>
+          <div class="track"><div class="bar big" style="width:73%;"></div></div>
+          <span class="val">70 to 150 MB</span>
+        </div>
+        <div class="row">
+          <span class="name">Motive Driver</span>
+          <div class="track"><div class="bar big" style="width:73%;"></div></div>
+          <span class="val">70 to 150 MB</span>
+        </div>
+      </div>
+      <p class="apk-note">Android package sizes. Geotab from published APK listings; Samsara and Motive representative of the native and React Native app class.</p>
+
+      <div class="evidence">
+        <div class="lbl">Direct evidence</div>
+        <blockquote class="proof">
+          <span class="q">"DriveViewController is the starting point to integrate the Geotab Mobile SDK. It's the container for the Geotab Drive web app equipped with native APIs for accessing the contained app's data."</span>
+          <span class="cite">GEOTAB MOBILE SDK, iOS README · <a href="https://github.com/Geotab/mobile-sdk-ios" target="_blank" rel="noopener">github.com/Geotab/mobile-sdk-ios</a></span>
+        </blockquote>
+        <blockquote class="proof">
+          <span class="q">"The DriveFragment is the starting point of integrating mobile SDK. It's the container of the Geotab Drive Web app equipped with native APIs for accessing Geotab Drive web app's data."</span>
+          <span class="cite">GEOTAB MOBILE SDK, ANDROID README · <a href="https://github.com/Geotab/mobile-sdk-android" target="_blank" rel="noopener">github.com/Geotab/mobile-sdk-android</a></span>
+        </blockquote>
+        <blockquote class="proof">
+          <span class="q">"An Add-In is JavaScript, HTML and CSS loaded into the MyGeotab or Geotab Drive portal and resides directly inside the user interface. All Add-Ins that have been designed to work with MyGeotab will work on the Geotab Drive app as well."</span>
+          <span class="cite">GEOTAB DEVELOPER DOCUMENTATION · <a href="https://developers.geotab.com/myGeotab/addIns/developingAddIns/" target="_blank" rel="noopener">Developing Add-Ins</a></span>
+        </blockquote>
+        <blockquote class="proof">
+          <span class="q">"The self-help buttons are only available on the web version of the Drive App, and Drive App version 6.0 or newer."</span>
+          <span class="cite">GEOTAB DRIVE APP DRIVER GUIDE · <a href="https://support.geotab.com/geotab-drive/doc/drive-app-driver" target="_blank" rel="noopener">support.geotab.com</a></span>
+        </blockquote>
+      </div>
+      <div class="source-row">
+        <a class="source-pill" href="https://github.com/Geotab/mobile-sdk-ios" target="_blank" rel="noopener">Mobile SDK iOS (94.5% Swift)</a>
+        <a class="source-pill" href="https://github.com/Geotab/mobile-sdk-android" target="_blank" rel="noopener">Mobile SDK Android (95.5% Kotlin)</a>
+        <a class="source-pill" href="https://apkfab.com/geotab-drive/com.geotab.androidCheckmate" target="_blank" rel="noopener">Geotab Drive APK size</a>
+        <a class="source-pill" href="https://developers.geotab.com/myGeotab/addIns/developingAddIns/" target="_blank" rel="noopener">Add-In documentation</a>
+        <a class="source-pill" href="https://support.geotab.com/geotab-drive/doc/drive-app-driver" target="_blank" rel="noopener">Drive App Driver Guide</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="matrix" class="alt">
+  <div class="container">
+    <div class="eyebrow">The Matrix</div>
+    <h2>Four providers, three architecture families.</h2>
+    <table class="matrix reveal">
+      <thead>
+        <tr><th>Provider</th><th>Mobile architecture</th><th>Evidence class</th><th>Primary sources</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td class="who">Samsara</td>
+          <td>React Native with native modules</td>
+          <td>First-party engineering blog</td>
+          <td><a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Engineering blog post</a></td>
+        </tr>
+        <tr>
+          <td class="who">Motive</td>
+          <td>Native iOS (Swift, Objective-C) and native Android (Kotlin), two codebases</td>
+          <td>Live job listings</td>
+          <td><a href="https://job-boards.greenhouse.io/gomotive" target="_blank" rel="noopener">Listings citing Swift, Obj-C, VIPER, Kotlin coroutines, Dagger2</a></td>
+        </tr>
+        <tr>
+          <td class="who">Omnitracs</td>
+          <td>React Native for new builds, native bridges where required</td>
+          <td>Live job listing</td>
+          <td><a href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">React Mobile Engineer listing</a></td>
+        </tr>
+        <tr>
+          <td class="who">Geotab</td>
+          <td>WebView hybrid, one web app in native shells</td>
+          <td>SDK repos, APK size, add-in docs</td>
+          <td><a href="https://github.com/Geotab/mobile-sdk-ios" target="_blank" rel="noopener">Public Mobile SDK</a> · <a href="https://apkfab.com/geotab-drive/com.geotab.androidCheckmate" target="_blank" rel="noopener">3 to 5 MB APK</a> · <a href="https://developers.geotab.com/myGeotab/addIns/developingAddIns/" target="_blank" rel="noopener">Shared add-in framework</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="implication">
+  <div class="container">
+    <div class="eyebrow">The Take · What This Means For The Tenna Build</div>
+    <h2>The recommendation sits in the industry mainstream, by evidence rather than convenience.</h2>
+
+    <div class="stat-row reveal">
+      <div class="big-stat">
+        <div class="v">3/4</div>
+        <div class="l">Leaders avoid full native</div>
+      </div>
+      <p style="font-size:16px;">
+        Samsara picked React Native deliberately and reaffirmed the choice through a documented rewrite. Omnitracs is migrating new builds to React Native under Solera. Geotab chose a WebView hybrid that maximizes web-codebase reuse. Only Motive runs pure native on both platforms, and Motive has more than 50 mobile engineers to make duplicate work economically tractable. Three of the four avoid full native because the team-size cost is meaningful at any scale.
+      </p>
+    </div>
+
+    <div class="implication-card reveal">
+      <h4>The Samsara parallel is the operative one</h4>
+      <p>AppAxis proposes this build with one dedicated mobile engineer alongside a backend engineer and QA, which makes the Motive model structurally inaccessible. The Samsara model, React Native with native modules for performance-critical paths, is the most directly comparable approach and the one this proposal recommends: native code precisely where Bluetooth pairing, background ECM polling, and USB transfer demand it, shared code everywhere else.</p>
+    </div>
+    <div class="implication-card reveal">
+      <h4>The Geotab precedent, noted and declined</h4>
+      <p>Tenna already operates a web application at app.tenna.com, so the Geotab pattern of wrapping a web codebase in native shells has a real precedent worth acknowledging. The tradeoffs are also real: weaker UX polish, more fragile offline behavior, and a riskier Apple App Store review posture for a safety-critical application whose roadside inspection mode must render in under 5 seconds without a network. For an ELD, those tradeoffs run the wrong way.</p>
+    </div>
+    <div class="implication-card reveal">
+      <h4>The conclusion</h4>
+      <p>React Native with strategic native modules places the Tenna ELD in the mainstream of modern ELD mobile architecture, alongside Samsara and Omnitracs's new builds. The choice is defensible on industry precedent, not just on team economics. Back to <a href="/#mobile-stack">Section 4 of the proposal</a> for how the recommendation is structured.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="disc">
+      Evidence brief compiled by AppAxis from publicly available primary sources: vendor engineering blogs, live job listings, public GitHub repositories, vendor developer documentation, and published app package listings. Quotes are verbatim from the linked sources as of June 2026. Job listings may rotate; the Greenhouse board link reflects current openings. Not affiliated with Samsara, Motive, Omnitracs, Geotab, or FMCSA. All product names and trademarks are properties of their respective owners.
+    </div>
+    <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+<script src="/glossary.js" defer></script>
+
+</body>
+</html>
