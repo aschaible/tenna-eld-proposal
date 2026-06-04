@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tenna ELD · Meeting Prep · Requirements and Project Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F37021;
+    --orange-dark: #D9591A;
+    --orange-soft: #FFF1E8;
+    --orange-line: #F8D3B7;
+    --ink: #1A1F2A;
+    --ink-soft: #3D4654;
+    --muted: #6B7484;
+    --line: #E5E7EB;
+    --line-soft: #F1F3F6;
+    --bg: #FFFFFF;
+    --bg-alt: #F7F8FB;
+    --green: #1F8A56;
+    --red: #C24038;
+    --amber: #D98315;
+    --blue: #2E6BE6;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
+  img { max-width: 100%; display: block; }
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { color: var(--orange-dark); }
+  code, .mono { font-family: 'JetBrains Mono', Menlo, Consolas, monospace; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+  .container-wide { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+
+  .topbar {
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px; max-width: 1240px; margin: 0 auto;
+  }
+  .brand-row { display: flex; align-items: center; gap: 14px; }
+  .brand-row img.tenna {
+    height: 28px; width: auto;
+    background: var(--ink);
+    padding: 5px 9px; border-radius: 4px;
+  }
+  .brand-row img.appaxis { height: 24px; width: auto; }
+  .brand-row .x { color: var(--muted); font-size: 16px; }
+  .topbar .nav { display: flex; gap: 18px; color: var(--ink-soft); font-size: 13px; font-weight: 500; align-items: center; }
+  .topbar .nav a { color: var(--ink-soft); }
+  .topbar .nav a:hover { color: var(--orange); }
+  .nav-pill {
+    border: 1px solid var(--orange); color: var(--orange);
+    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 1.5px; font-weight: 800;
+    background: var(--orange-soft);
+  }
+
+  .hero {
+    padding: 60px 0 40px 0; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; top: 0; right: -10%; width: 70%; height: 100%;
+    background: radial-gradient(700px 500px at 50% 30%, rgba(243,112,33,0.10), transparent 60%);
+    pointer-events: none;
+  }
+  .hero .container { position: relative; z-index: 1; }
+  .hero .meta { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 16px; }
+  .hero .meta span { color: var(--muted); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+  .hero h1 {
+    font-size: clamp(34px, 4.6vw, 50px);
+    line-height: 1.1; margin: 0 0 14px 0; letter-spacing: -1px; font-weight: 800;
+  }
+  .hero h1 .accent { color: var(--orange); }
+  .hero .lede { color: var(--ink-soft); font-size: 17px; max-width: 820px; }
+  .hero .kicker {
+    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px;
+    font-size: 11px; text-transform: uppercase; margin-bottom: 14px;
+    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
+  }
+
+  section { padding: 56px 0; }
+  section.alt { background: var(--bg-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  section h2 {
+    font-size: clamp(24px, 3vw, 34px); margin: 0 0 10px 0; letter-spacing: -0.4px; font-weight: 800;
+  }
+  section h3 { font-size: 19px; margin: 28px 0 8px 0; font-weight: 700; letter-spacing: -0.2px; }
+  section h4 { font-size: 14px; margin: 20px 0 6px 0; font-weight: 700; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+  section .eyebrow {
+    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-size: 10.5px; margin-bottom: 12px;
+    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
+  }
+  section .lede { color: var(--ink-soft); font-size: 16px; max-width: 820px; margin-bottom: 30px; }
+  section p { color: var(--ink-soft); }
+
+  .panel {
+    background: white; border: 1px solid var(--line); border-radius: 12px;
+    padding: 22px 24px; box-shadow: 0 6px 22px rgba(26,31,42,0.04);
+  }
+  .panel.tight { padding: 16px 18px; }
+
+  .tldr {
+    background: var(--ink); color: white; border-radius: 16px; padding: 32px;
+    position: relative; overflow: hidden; margin-top: 22px;
+  }
+  .tldr::before {
+    content: ""; position: absolute; top: -40%; right: -10%; width: 60%; height: 180%;
+    background: radial-gradient(circle, rgba(243,112,33,0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .tldr > * { position: relative; z-index: 1; }
+  .tldr h2 { color: white; margin-top: 0; margin-bottom: 12px; font-size: 22px; }
+  .tldr .eyebrow { background: rgba(243,112,33,0.18); color: var(--orange); }
+  .tldr p { color: rgba(255,255,255,0.85); font-size: 15px; margin: 8px 0; }
+  .tldr .num-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 20px;
+  }
+  @media (max-width: 740px) { .tldr .num-row { grid-template-columns: 1fr 1fr; } }
+  .tldr .num {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .tldr .num .v { font-size: 24px; font-weight: 800; color: white; line-height: 1.1; }
+  .tldr .num .l { font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.65); font-weight: 700; margin-top: 4px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 900px) { .three-col { grid-template-columns: 1fr; } }
+
+  .spec-table {
+    width: 100%; border-collapse: collapse; font-size: 13.5px;
+    background: white; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  }
+  .spec-table th, .spec-table td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  .spec-table th { background: var(--bg-alt); color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .spec-table tr:last-child td { border-bottom: 0; }
+  .spec-table td.col-cfr { color: var(--orange); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 12px; white-space: nowrap; width: 1%; }
+  .spec-table td.col-name b { display: block; color: var(--ink); }
+  .spec-table td.col-name span { color: var(--muted); font-size: 12px; }
+
+  .risk-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .risk {
+    padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+  }
+  .risk.low { background: rgba(31,138,86,0.12); color: var(--green); }
+  .risk.med { background: rgba(217,131,21,0.14); color: var(--amber); }
+  .risk.high { background: rgba(194,64,56,0.14); color: var(--red); }
+
+  .competitor {
+    background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .competitor:hover { border-color: var(--orange); transform: translateY(-2px); }
+  .competitor h4 { color: var(--orange); margin: 0 0 4px 0; font-size: 11px; letter-spacing: 1.5px; }
+  .competitor h3 { margin: 0 0 8px 0; font-size: 18px; font-weight: 800; }
+  .competitor p { margin: 0 0 10px 0; color: var(--ink-soft); font-size: 13.5px; }
+  .competitor ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--ink-soft); }
+  .competitor ul li { margin-bottom: 3px; }
+  .competitor .price { color: var(--ink); font-weight: 700; font-size: 13px; }
+
+  .req-block {
+    background: white; border: 1px solid var(--line); border-radius: 12px;
+    margin-bottom: 16px; overflow: hidden;
+  }
+  .req-block .head {
+    background: var(--bg-alt); padding: 14px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .req-block .head h3 { margin: 0; font-size: 16px; font-weight: 800; }
+  .req-block .body { padding: 16px 20px; font-size: 14px; }
+  .req-block ul { margin: 6px 0 0 0; padding-left: 18px; color: var(--ink-soft); }
+  .req-block ul li { margin-bottom: 4px; }
+  .req-block .tag {
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; background: var(--orange-soft); color: var(--orange);
+  }
+  .req-block .tag.must { background: rgba(194,64,56,0.12); color: var(--red); }
+  .req-block .tag.should { background: rgba(217,131,21,0.14); color: var(--amber); }
+  .req-block .tag.could { background: rgba(46,107,230,0.12); color: var(--blue); }
+
+  .timeline {
+    display: grid; grid-template-columns: 60px 1fr; gap: 18px; margin-bottom: 14px;
+  }
+  .timeline .when {
+    background: var(--orange); color: white; border-radius: 10px;
+    padding: 14px 8px; text-align: center; font-weight: 800; font-size: 11px; letter-spacing: 1px;
+    display: flex; flex-direction: column; justify-content: center; line-height: 1.2;
+  }
+  .timeline .when .n { font-size: 18px; }
+  .timeline .when .u { font-size: 9px; opacity: 0.9; margin-top: 2px; letter-spacing: 1.5px; }
+  .timeline .phase-card {
+    background: white; border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px;
+  }
+  .timeline .phase-card h4 { margin: 0; font-size: 11px; color: var(--orange); letter-spacing: 1.5px; }
+  .timeline .phase-card h3 { margin: 4px 0 8px 0; font-size: 17px; font-weight: 800; }
+  .timeline .phase-card p { margin: 0 0 8px 0; font-size: 13.5px; color: var(--ink-soft); }
+  .timeline .phase-card .deliv { font-size: 12.5px; color: var(--ink); }
+  .timeline .phase-card .deliv b { color: var(--orange); }
+
+  .cost-table {
+    width: 100%; border-collapse: collapse;
+    background: white; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    font-size: 14px;
+  }
+  .cost-table th, .cost-table td { padding: 12px 18px; text-align: left; border-bottom: 1px solid var(--line-soft); }
+  .cost-table th { background: var(--bg-alt); color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .cost-table td.num-cell { font-family: 'JetBrains Mono', monospace; font-weight: 600; text-align: right; white-space: nowrap; }
+  .cost-table tfoot td { background: var(--ink); color: white; font-weight: 800; }
+  .cost-table tfoot td.num-cell { color: var(--orange); }
+
+  .arch {
+    background: white; border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px; box-shadow: 0 8px 28px rgba(26,31,42,0.05);
+  }
+  .arch-grid {
+    display: grid; grid-template-columns: 1fr; gap: 10px;
+  }
+  .arch-layer {
+    background: var(--bg-alt); border: 1px dashed var(--line); border-radius: 10px;
+    padding: 14px 16px 6px; position: relative;
+  }
+  .arch-layer .lbl {
+    position: absolute; top: -10px; left: 16px;
+    background: white; padding: 2px 9px; font-size: 10px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase;
+    color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+  }
+  .arch-layer .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .arch-layer .arch-pill {
+    background: white; border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 12px; font-size: 12.5px; font-weight: 600; color: var(--ink);
+  }
+  .arch-layer.tenna { background: linear-gradient(135deg, var(--orange-soft), #FFF8F0); border: 1px solid var(--orange-line); }
+  .arch-layer.tenna .lbl { color: var(--orange); border-color: var(--orange-line); }
+  .arch-layer.appaxis { background: #F0F4FB; border: 1px solid #C8D8F1; }
+  .arch-layer.appaxis .lbl { color: var(--blue); border-color: #C8D8F1; }
+  .arch-layer.appaxis .arch-logo {
+    position: absolute; top: -12px; right: 16px;
+    height: 22px; width: auto;
+    background: white; padding: 4px 9px; border-radius: 999px;
+    border: 1px solid #C8D8F1;
+    box-shadow: 0 2px 6px rgba(46,107,230,0.10);
+  }
+  .arch-flow {
+    text-align: center; color: var(--orange); font-size: 14px; font-weight: 800; padding: 2px 0;
+  }
+
+  .check-list { list-style: none; padding: 0; margin: 0; }
+  .check-list li {
+    padding: 8px 0 8px 26px; position: relative; color: var(--ink-soft); font-size: 14px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .check-list li:last-child { border-bottom: 0; }
+  .check-list li::before {
+    content: ""; position: absolute; left: 0; top: 13px;
+    width: 14px; height: 14px; border-radius: 4px;
+    background: var(--orange); display: inline-block;
+  }
+  .check-list li::after {
+    content: ""; position: absolute; left: 4px; top: 16px;
+    width: 6px; height: 3px; border-left: 2px solid white; border-bottom: 2px solid white;
+    transform: rotate(-45deg);
+  }
+
+  .risk-card {
+    background: white; border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 12px;
+  }
+  .risk-card .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .risk-card .top h4 { margin: 0; font-size: 14.5px; font-weight: 800; color: var(--ink); letter-spacing: 0; text-transform: none; }
+  .risk-card p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+
+  footer { padding: 36px 0; color: var(--muted); font-size: 12px; background: var(--ink); text-align: center; }
+  footer .disc { max-width: 760px; margin: 0 auto; line-height: 1.7; color: rgba(255,255,255,0.55); font-style: italic; }
+  footer .row { display: flex; justify-content: center; gap: 16px; margin-bottom: 12px; align-items: center; }
+  footer .row .x { color: rgba(255,255,255,0.4); }
+  footer .row img.tenna { height: 24px; }
+  footer .row img.appaxis { height: 22px; background: white; padding: 4px 8px; border-radius: 4px; }
+  footer .copy { margin-top: 14px; color: rgba(255,255,255,0.4); }
+
+  .muted-text { color: var(--muted); }
+  .small { font-size: 13px; }
+  .nowrap { white-space: nowrap; }
+
+  /* Clickable requirements */
+  .req-block ul li {
+    cursor: pointer;
+    padding: 7px 28px 7px 10px;
+    margin: 0 -10px 2px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+    position: relative;
+    list-style-position: outside;
+  }
+  .req-block ul li:hover {
+    background: var(--orange-soft);
+    color: var(--ink);
+  }
+  .req-block ul li::after {
+    content: "›";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 18px;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.15s, transform 0.15s, color 0.15s;
+  }
+  .req-block ul li:hover::after {
+    opacity: 1;
+    color: var(--orange);
+    transform: translateY(-50%) translateX(2px);
+  }
+  .req-hint {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 6px 0;
+    letter-spacing: 0.2px;
+  }
+  .req-hint::before {
+    content: "›";
+    color: var(--orange);
+    font-style: normal;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 31, 42, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 60px 24px 40px;
+    overflow-y: auto;
+  }
+  .modal-backdrop.active {
+    display: flex;
+    animation: modal-fade-in 0.18s ease-out;
+  }
+  @keyframes modal-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .modal {
+    background: white;
+    border-radius: 14px;
+    max-width: 680px;
+    width: 100%;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+    animation: modal-slide-up 0.2s ease-out;
+    overflow: hidden;
+  }
+  @keyframes modal-slide-up {
+    from { transform: translateY(12px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-head {
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .modal-head-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .modal-cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .modal-cite:empty { display: none; }
+  .modal-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: -0.2px;
+  }
+  .modal-close {
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-size: 20px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+    line-height: 1;
+    padding: 0;
+    font-family: inherit;
+  }
+  .modal-close:hover {
+    background: var(--orange-soft);
+    color: var(--orange);
+    border-color: var(--orange-line);
+  }
+  .modal-body {
+    padding: 20px 28px 28px;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .modal-body p { margin: 0 0 12px 0; }
+  .modal-body p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-row">
+      <img class="tenna" src="https://www.tenna.com/wp-content/uploads/2026/03/Tenna-Logo-Horz-OrangeWhite-RGB-Medium-No-BG-1024x465.png" alt="Tenna" />
+      <span class="x">×</span>
+      <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
+    </div>
+    <div class="nav">
+      <a href="#mandate">Mandate</a>
+      <a href="#requirements">Reqs</a>
+      <a href="#mobile-stack">Stack</a>
+      <a href="#screens">Screens</a>
+      <a href="#architecture">Arch</a>
+      <a href="#plan">Plan</a>
+      <a href="#certification">Cert</a>
+      <a href="#estimate">Estimate</a>
+      <a href="/ecosystem">Ecosystem ↗</a>
+      <span class="nav-pill">MEETING PREP</span>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">For Thursday's Discussion · Confidential</div>
+    <div class="meta">
+      <span>Prepared by AppAxis</span>
+      <span>Subject: Tenna ELD Application</span>
+      <span>For: Jose Cueva, CPO</span>
+    </div>
+    <h1>A Tenna-native ELD.<br/><span class="accent">What it takes. What it costs. What we'd do first.</span></h1>
+    <p class="lede">
+      A pre-meeting research package covering the FMCSA regulatory landscape, the capabilities of the major incumbent ELDs, a first-draft requirements view of the Tenna application, and a phased project plan with realistic level of effort. Designed to be skimmed in 15 minutes or read in full.
+    </p>
+    <p class="lede" style="font-size:15px; margin-top:14px;">
+      New to Tenna's product surface? Start with the companion <a href="/ecosystem">Tenna Product Ecosystem field guide&nbsp;↗</a> for background on the platform, modules, and hardware this ELD would plug into.
+    </p>
+  </div>
+</section>
+
+<section id="mandate">
+  <div class="container">
+    <div class="eyebrow">Section 1 · The ELD Mandate</div>
+    <h2>What the regulation actually requires.</h2>
+    <p class="lede">
+      An ELD is a federally-mandated device that automatically records a commercial driver's Hours-of-Service. The rule lives in <span class="mono">49 CFR Part 395, Subpart B</span>, with the device-level technical specification in Appendix A. Self-certification is permitted, but the compliance bar is real. FMCSA revoked 12 devices from the registered list as recently as May 20, 2026.
+    </p>
+
+    <h3>The 8 categories of ELD self-monitoring</h3>
+    <p>An ELD must continuously monitor itself and emit either a data diagnostic event (a notice, recoverable) or a compliance malfunction (must be remediated within 8 days; driver reverts to paper logs in the meantime). Categories:</p>
+
+    <table class="spec-table">
+      <thead>
+        <tr><th>CFR Ref</th><th>Category</th><th>What it monitors</th><th>Trigger threshold</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="col-cfr">§395.34(a)(1)</td><td class="col-name"><b>Power Compliance</b><span>ELD power continuity</span></td><td>ELD lost vehicle power for more than 30 min while the engine was on across 24h</td><td>Cumulative</td></tr>
+        <tr><td class="col-cfr">§395.34(a)(2)</td><td class="col-name"><b>Engine Synchronization</b><span>ECM connectivity</span></td><td>Lost ECM connection more than 30 min in 24h (any driver). Diagnostic at 5 sec.</td><td>Cumulative</td></tr>
+        <tr><td class="col-cfr">§395.34(a)(3)</td><td class="col-name"><b>Timing Compliance</b><span>UTC drift</span></td><td>ELD time drifts more than 10 min from external UTC source</td><td>Instant</td></tr>
+        <tr><td class="col-cfr">§395.34(a)(4)</td><td class="col-name"><b>Positioning Compliance</b><span>GPS validity</span></td><td>No valid position within 5 mi of CMV movement plus 60 min elapsed</td><td>Threshold</td></tr>
+        <tr><td class="col-cfr">§395.34(a)(5)</td><td class="col-name"><b>Data Recording</b><span>Storage failure</span></td><td>ELD can't record or retrieve required events</td><td>Instant</td></tr>
+        <tr><td class="col-cfr">§395.34(a)(6)</td><td class="col-name"><b>Data Transfer</b><span>eRODS delivery</span></td><td>Telematics or local transfer mechanism inoperative for 3 consecutive monitoring periods</td><td>3-period</td></tr>
+        <tr><td class="col-cfr">§395.34(a)(7)</td><td class="col-name"><b>Other ELD detected</b><span>Manufacturer-defined</span></td><td>Catch-all for spec violations the manufacturer detects internally</td><td>Variable</td></tr>
+        <tr><td class="col-cfr">§395.34(b)</td><td class="col-name"><b>Data Diagnostic Events</b><span>Recoverable warnings</span></td><td>Missing required data, unidentified driving accumulation (more than 30 min in 24h), inconsistent power, etc.</td><td>Per spec</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Required event records</h3>
+    <p>The ELD records eight categories of events. Each event carries a defined set of data elements (driver ID, vehicle ID, location code with city/state/lat-lon, date/time UTC, engine power status, vehicle motion status, miles driven, engine hours):</p>
+
+    <div class="two-col">
+      <ul style="margin:0; padding-left:18px; color: var(--ink-soft);">
+        <li>Duty status changes (OFF, SB, D, ON)</li>
+        <li>Intermediate logs every 60 min while driving</li>
+        <li>Personal Conveyance and Yard Move special duty modifiers</li>
+        <li>Driver certification of the daily log</li>
+      </ul>
+      <ul style="margin:0; padding-left:18px; color: var(--ink-soft);">
+        <li>Driver login and logout</li>
+        <li>Engine power on and off</li>
+        <li>Malfunction and diagnostic events (set and clear)</li>
+        <li>Log edits, driver or carrier-proposed, with annotations</li>
+      </ul>
+    </div>
+
+    <h3>The output file</h3>
+    <p>Every ELD must produce a single ASCII ELD output file in a defined format. Header section, user list, CMV list, malfunction and diagnostic log, edit history, event record, unidentified driver log, plus a line-by-line data check (CRC). This file is what gets transferred to a safety official via one of two modes:</p>
+    <ul style="color: var(--ink-soft);">
+      <li>Telematics ELD type. Wireless web services (HTTPS POST to FMCSA's eRODS endpoint) with email fallback.</li>
+      <li>Local ELD type. USB 2.0 and Bluetooth direct to inspector's device.</li>
+    </ul>
+    <p>An ELD provider chooses one and self-certifies to that mode. Telematics is the modern default and what Motive, Samsara, and Omnitracs all use.</p>
+
+    <h3>The recent enforcement context</h3>
+    <p>FMCSA revoked 12 ELDs from the Registered Devices List on May 20, 2026 for failing to meet Appendix A, bringing the total recent revocations to roughly 30 devices across the last few rounds. Carriers running revoked devices face an Out-of-Service order at the roadside after the 60-day grace period (July 20, 2026 for the latest batch). The list of registered providers exceeds 700, but it's a long tail. Motive, Samsara, Geotab, and Omnitracs hold the vast majority of vehicles.</p>
+
+  </div>
+</section>
+
+<section id="competitors" class="alt">
+  <div class="container">
+    <div class="eyebrow">Section 2 · Existing Applications</div>
+    <h2>What the big-three ELD apps actually ship.</h2>
+    <p class="lede">
+      The Motive, Samsara, and Omnitracs feature sets are largely overlapping at the regulatory core. The differences live in adjacent capabilities such as AI dashcam, dispatch, and fuel, and in vertical fit. Construction is not the design center for any of them. That is the gap a Tenna-native product is positioned to occupy.
+    </p>
+
+    <div class="three-col">
+      <div class="competitor">
+        <h4>MARKET LEADER · IPO 2024</h4>
+        <h3>Motive</h3>
+        <p>Formerly KeepTruckin. Most aggressive on pricing flexibility and AI dashcam. Strong with for-hire trucking.</p>
+        <ul>
+          <li>Driver app with ELD, DVIR, and messaging</li>
+          <li>DRIVE risk score for driver coaching</li>
+          <li>AI dashcam with event review queue</li>
+          <li>iOS and Android fleet manager app</li>
+          <li>Two-way messaging</li>
+          <li>Vehicle Gateway hardware (BYO option limited)</li>
+        </ul>
+        <div class="price">~$25/vehicle/mo, 1-yr or monthly</div>
+      </div>
+
+      <div class="competitor">
+        <h4>ENTERPRISE TELEMATICS</h4>
+        <h3>Samsara</h3>
+        <p>Most feature-rich, broadest platform. Strong with mixed fleets and enterprise. Heavier sales motion and longer contracts.</p>
+        <ul>
+          <li>Samsara Driver app with ELD, DVIR, and workflows</li>
+          <li>AI-powered event summaries</li>
+          <li>Custom locations, weather and traffic alerts</li>
+          <li>Real-time HOS proximity dashboard</li>
+          <li>Routing and dispatch integrations</li>
+          <li>Required Samsara hardware</li>
+        </ul>
+        <div class="price">~$27 to $33/vehicle/mo, 3-yr min</div>
+      </div>
+
+      <div class="competitor">
+        <h4>LEGACY · SOLERA-OWNED</h4>
+        <h3>Omnitracs (One)</h3>
+        <p>The incumbent, Qualcomm lineage. Strong in long-haul OTR. Less aggressive on modern UX than the other two, consolidating product lines under Omnitracs One.</p>
+        <ul>
+          <li>ELD, HOS, and DVIR</li>
+          <li>Navigation, dispatch, and messaging</li>
+          <li>Hardware-agnostic options</li>
+          <li>Strong fuel and IFTA tooling</li>
+          <li>Workflow and forms platform</li>
+        </ul>
+        <div class="price">Custom pricing, typically 2-3yr</div>
+      </div>
+    </div>
+
+    <h3>What they all share (the commodity layer)</h3>
+    <ul style="color: var(--ink-soft);">
+      <li>HOS state machine (11/14/30-min/60-70/restart/SB-split)</li>
+      <li>FMCSA-spec event recording and edit and annotation</li>
+      <li>Daily log certification UI</li>
+      <li>Roadside inspection display and eRODS transfer</li>
+      <li>DVIR (pre and post-trip)</li>
+      <li>Fleet manager web portal with status board, violations, log review, and exports</li>
+      <li>Unidentified-driving reconciliation</li>
+      <li>IFTA-adjacent fuel reporting</li>
+    </ul>
+
+    <h3>Where they're weak for construction</h3>
+    <ul style="color: var(--ink-soft);">
+      <li>Yard moves. Generic toggle that doesn't understand multi-site contractor yards or how "yard" is defined per project.</li>
+      <li>Personal conveyance for service trucks. Works, but UI assumes long-haul OTR mindset, not a foreman driving a Ford F-550 home.</li>
+      <li>Short-haul air-mile exemption. Supported but reporting and audit trail are generic.</li>
+      <li>Mixed CDL and non-CDL fleets. Drivers move between regulated and non-regulated vehicles in a day. UX assumes one-driver-one-truck.</li>
+      <li>Yellow iron context. No real awareness that the "vehicle" attached might be a paver or roller occasionally on-road.</li>
+      <li>Integration depth. Will connect to Tenna or any contractor stack, but via OEM/AEMP or generic API, not as a native peer module.</li>
+    </ul>
+
+    <p style="margin-top:18px;">The strategic read. Tenna does not need to outperform Motive on dashcam AI or Samsara on enterprise polish. It needs to be the obvious choice for contractors already operating on the Tenna platform. That is a much smaller and more tractable problem than building a better Motive.</p>
+  </div>
+</section>
+
+<section id="requirements">
+  <div class="container">
+    <div class="eyebrow">Section 3 · Best-Effort Requirements</div>
+    <h2>What a Tenna-native ELD needs to do.</h2>
+    <p class="lede">
+      First-draft requirements, organized by surface area and tagged <span class="risk high">MUST</span> for federal-specification mandates, <span class="risk med">SHOULD</span> for parity with Motive and Samsara, and <span class="risk low">COULD</span> for Tenna-native differentiation. Intended as a working document for discussion, not a sign-off list.
+    </p>
+    <p class="req-hint">Click any requirement for additional detail.</p>
+
+    <div class="req-block">
+      <div class="head">
+        <h3>1. Driver Mobile App</h3>
+        <span class="muted-text small">iOS and Android, React Native</span>
+      </div>
+      <div class="body">
+        <p><span class="tag must">MUST</span> &nbsp; Federal-spec features that gate certification.</p>
+        <ul>
+          <li onclick="openReq('driver-login')">Driver login and logout with carrier-issued credentials</li>
+          <li onclick="openReq('duty-status')">Duty status selection (OFF, SB, D, ON) with manual change and annotation</li>
+          <li onclick="openReq('auto-transition')">Auto-transition to "Driving" at over 5 mph; auto-transition to "On Duty Not Driving" at 0 mph for 5+ min (with prompt)</li>
+          <li onclick="openReq('pc-yard-move')">Personal Conveyance and Yard Move special duty modes</li>
+          <li onclick="openReq('log-certification')">Daily log certification (signature, prior 7-day review)</li>
+          <li onclick="openReq('duty-grid')">Graphical 24-hour duty grid view</li>
+          <li onclick="openReq('roadside-inspection')">Roadside inspection mode in a single tap; display 8-day record; transfer via web services or USB and Bluetooth</li>
+          <li onclick="openReq('log-edits')">Edit log entries with required reason annotation (8+ chars)</li>
+          <li onclick="openReq('udr-driver')">Unidentified driving record review and claim or reject</li>
+          <li onclick="openReq('malfunction-display')">Malfunction and diagnostic notice display with on-device acknowledgment</li>
+          <li onclick="openReq('dvir')">DVIR (pre and post-trip), required by §396.11</li>
+          <li onclick="openReq('offline-mode')">Offline mode with local persistence and sync</li>
+        </ul>
+        <p style="margin-top:12px;"><span class="tag should">SHOULD</span> &nbsp; Parity features Motive and Samsara have.</p>
+        <ul>
+          <li onclick="openReq('hos-clock')">HOS clock visualization (drive remaining, on-duty remaining, break required, weekly cycle)</li>
+          <li onclick="openReq('messaging')">Two-way messaging with dispatcher</li>
+          <li onclick="openReq('dvir-forms')">Form-based DVIR with defect templates</li>
+          <li onclick="openReq('coaching-nudges')">In-app coaching nudges before violation</li>
+          <li onclick="openReq('multi-vehicle')">Multi-vehicle pairing (driver moves between trucks)</li>
+        </ul>
+        <p style="margin-top:12px;"><span class="tag could">COULD</span> &nbsp; Construction-native differentiation.</p>
+        <ul>
+          <li onclick="openReq('tenna-asset-link')">Tenna asset link, where the driver sees current equipment context and scans TennaQR to pair</li>
+          <li onclick="openReq('foreman-mode')">Foreman mode for a single driver running multiple service trucks per shift, with simplified switching</li>
+          <li onclick="openReq('project-geofences')">Project-aware geofences, where Yard Move is auto-detected when inside a Tenna site geofence</li>
+          <li onclick="openReq('arrival-prompt')">Job site arrival triggers an auto-prompt to switch to ON</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head">
+        <h3>2. Fleet Manager Web Portal</h3>
+        <span class="muted-text small">Embedded into Tenna app or standalone alongside</span>
+      </div>
+      <div class="body">
+        <p><span class="tag must">MUST</span></p>
+        <ul>
+          <li onclick="openReq('driver-status-board')">Driver status board with live HOS clock per driver</li>
+          <li onclick="openReq('violation-log')">Violation log, past and current</li>
+          <li onclick="openReq('log-review')">Log review by driver and by day, graphical and tabular</li>
+          <li onclick="openReq('edit-requests')">Edit requests workflow where carrier proposes and driver approves</li>
+          <li onclick="openReq('log-export')">Log export, FMCSA-format file generation on demand</li>
+          <li onclick="openReq('udr-assignment')">Unidentified driving assignment to drivers</li>
+          <li onclick="openReq('malfunction-tracker')">Malfunction tracking with 8-day remediation clock per device</li>
+          <li onclick="openReq('driver-profile')">Driver profile management (license, CDL class, exempt status)</li>
+          <li onclick="openReq('log-retention')">6-month log retention with audit-ready archive</li>
+        </ul>
+        <p style="margin-top:12px;"><span class="tag should">SHOULD</span></p>
+        <ul>
+          <li onclick="openReq('approaching-alerts')">Approaching-limit alerts with configurable thresholds</li>
+          <li onclick="openReq('ifta-feed')">IFTA-adjacent reporting (already in Tenna, this layer feeds it)</li>
+          <li onclick="openReq('inspection-event-log')">Roadside inspection event log</li>
+          <li onclick="openReq('bulk-audit-export')">Bulk export for DOT audits</li>
+        </ul>
+        <p style="margin-top:12px;"><span class="tag could">COULD</span></p>
+        <ul>
+          <li onclick="openReq('embedded-portal')">Embedded inside the existing Tenna web app as a peer module</li>
+          <li onclick="openReq('asset-scorecard-crosslink')">Cross-link to Asset Records (the driver's vehicle) and Driver Scorecard</li>
+          <li onclick="openReq('project-rollup')">Construction project rollup for HOS hours by project, useful for billing</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head">
+        <h3>3. Backend Services</h3>
+        <span class="muted-text small">Standalone service, integrates with Tenna's data plane</span>
+      </div>
+      <div class="body">
+        <p><span class="tag must">MUST</span></p>
+        <ul>
+          <li onclick="openReq('hos-state-machine')">HOS state machine covering all federal duty rules, exceptions, and edge cases</li>
+          <li onclick="openReq('event-ingestion')">Event ingestion API that receives driver events and ECM telemetry</li>
+          <li onclick="openReq('output-generator')">ELD output file generator producing the FMCSA-format ASCII file with CRC line check</li>
+          <li onclick="openReq('data-transfer')">Data transfer service using web services to eRODS with email fallback (Telematics mode)</li>
+          <li onclick="openReq('malfunction-engine')">Malfunction and diagnostic engine with continuous self-monitoring across the 8 categories</li>
+          <li onclick="openReq('edit-versioning')">Edit and annotation versioning with full audit trail per event</li>
+          <li onclick="openReq('time-sync')">Time synchronization with UTC drift detection below 10 min tolerance</li>
+          <li onclick="openReq('auth-permissions')">Authentication and permissions covering driver, carrier admin, and FMCSA-inspector modes</li>
+        </ul>
+        <p style="margin-top:12px;"><span class="tag should">SHOULD</span></p>
+        <ul>
+          <li onclick="openReq('tenna-integrations-api')">API exposed for the Tenna Integrations module so other Tenna products can consume HOS data</li>
+          <li onclick="openReq('webhook-stream')">Webhook event stream for real-time downstream integrations</li>
+          <li onclick="openReq('historical-replay')">Historical replay for testing and reproducing edge cases</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head">
+        <h3>4. Hardware and ECM Integration</h3>
+        <span class="muted-text small">No new hardware. Leverage TennaFLEET and TennaCANbus.</span>
+      </div>
+      <div class="body">
+        <p><span class="tag must">MUST</span></p>
+        <ul>
+          <li onclick="openReq('ecm-data-contract')">Data contract with TennaFLEET II and TennaCANbus for engine power, motion, miles, and engine hours</li>
+          <li onclick="openReq('polling-cadence')">5-second polling cadence (FMCSA spec for engine sync)</li>
+          <li onclick="openReq('connection-failure')">Failure detection where a lost connection over 30 min triggers an engine sync malfunction</li>
+          <li onclick="openReq('vehicle-identity')">VIN, ECM serial, and vehicle identifier capture</li>
+          <li onclick="openReq('bluetooth-pairing')">Bluetooth pairing flow between driver mobile and Tenna hardware</li>
+        </ul>
+        <p class="muted-text small" style="margin-top:8px;">Critical scoping question. What is the existing API surface of TennaFLEET and CANbus? A clean modern stream keeps this phase straightforward. New firmware requirements would reshape the plan meaningfully.</p>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head">
+        <h3>5. Self-Certification and FMCSA Registration</h3>
+        <span class="muted-text small">Tenna becomes the listed provider</span>
+      </div>
+      <div class="body">
+        <p><span class="tag must">MUST</span></p>
+        <ul>
+          <li onclick="openReq('test-suite')">Internal compliance test suite covering all Appendix A sections</li>
+          <li onclick="openReq('output-validation')">Validation against FMCSA's reference ELD output file checker</li>
+          <li onclick="openReq('documentation-package')">Documentation package per FMCSA's submission guide</li>
+          <li onclick="openReq('user-guide')">Public-facing user guide (FMCSA reviewers will read it)</li>
+          <li onclick="openReq('registration-submission')">Submit through FMCSA Equipment Registration portal</li>
+          <li onclick="openReq('device-type')">Registration as one of two device types (Telematics recommended)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="mobile-stack" class="alt">
+  <div class="container">
+    <div class="eyebrow">Section 4 · Mobile Stack</div>
+    <h2>React Native with strategic native modules.</h2>
+    <p class="lede">
+      Three viable approaches: full native (Swift and Kotlin), pure React Native, or React Native with selectively-built native modules. This is a real engineering decision with real timeline implications. The driver application carries three constraints that shape the choice. Reliable Bluetooth pairing with TennaFLEET hardware. Background processing for HOS tracking when the application is not foregrounded. Roadside inspection display that renders in under 5 seconds without a network. The three options compared below.
+    </p>
+
+    <div class="three-col">
+      <div class="competitor">
+        <h4>OPTION A</h4>
+        <h3>Full Native (iOS + Android)</h3>
+        <p>Two separate codebases in Swift and Kotlin. Most reliable for Bluetooth, background tasks, and OS integration. Slowest to build and most expensive to maintain.</p>
+        <ul>
+          <li>2 separate codebases</li>
+          <li>Best-in-class Bluetooth and background reliability</li>
+          <li>Platform-idiomatic UX (smoother App Store review)</li>
+          <li>Most expensive to maintain long-term</li>
+          <li>Needs a second mobile engineer or doubles the mobile timeline</li>
+        </ul>
+        <div class="price">+6 to 10 weeks vs hybrid</div>
+      </div>
+
+      <div class="competitor">
+        <h4>OPTION B · RECOMMENDED</h4>
+        <h3>React Native + Native Modules</h3>
+        <p>One React Native codebase for UI and business logic. Small native modules in Swift and Kotlin for Bluetooth pairing, background ECM polling, and USB transfer. Best balance of speed and reliability.</p>
+        <ul>
+          <li>About 80% of code shared across platforms</li>
+          <li>Native modules where reliability is non-negotiable</li>
+          <li>1 mobile engineer ships both platforms</li>
+          <li>Matches what Motive and many ELDs run today</li>
+          <li>One codebase to maintain forever</li>
+        </ul>
+        <div class="price">Baseline (current plan)</div>
+      </div>
+
+      <div class="competitor">
+        <h4>OPTION C</h4>
+        <h3>Pure React Native (or Flutter)</h3>
+        <p>One codebase, no custom native modules. Fastest to build. Risk concentrates in Bluetooth and background processing where cross-platform frameworks have historically been weakest.</p>
+        <ul>
+          <li>Fastest initial build</li>
+          <li>Bluetooth reliability concerns under load</li>
+          <li>iOS background task limitations</li>
+          <li>Higher rework risk if reliability issues surface later</li>
+        </ul>
+        <div class="price">-2 to 3 weeks vs hybrid</div>
+      </div>
+    </div>
+
+    <h3>Why Option B is the recommendation</h3>
+    <p>
+      For most product applications, pure React Native is sufficient. ELDs carry a few specific failure modes that justify strategic native code. If Bluetooth pairing drops mid-trip and the application cannot reconnect within 30 minutes, that is an engine sync compliance malfunction under §395.34(a)(2). If iOS aggressively suspends the application and background polling stops, the same outcome. These are not failure modes to discover in production.
+    </p>
+    <p>
+      The parts that benefit from native code are small and well-bounded. Bluetooth pairing, background ECM polling, and USB transfer collectively represent roughly 10 to 15% of the mobile codebase. The remainder, including HOS clock, logs, DVIR, status flows, edit screens, and the roadside display, is standard React Native work that benefits from a single codebase.
+    </p>
+    <p>
+      Pure native is marginally more reliable on paper. The day-to-day delta is small and the maintenance cost is roughly double. The marginal reliability gain does not justify the timeline and ongoing cost.
+    </p>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="container">
+    <div class="eyebrow">Section 5 · Screen Inventory</div>
+    <h2>Two apps. Roughly 54 distinct screens between them.</h2>
+    <p class="lede">
+      Not mockups. The inventory. Every surface the user touches, what it does, and how it links. This is the source material for the Phase 1 Proposaltype. Some of these surfaces are full screens, others are modals or sheets, but each is a distinct piece of UX to design, build, and test.
+    </p>
+
+    <h3>Driver Mobile App · ~29 surfaces</h3>
+
+    <div class="req-block">
+      <div class="head"><h3>Authentication and Setup (3)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D1. Login.</b> Driver enters carrier-issued credentials. Lands on D4.</li>
+          <li><b>D2. Vehicle Pair.</b> Driver selects truck and pairs to TennaFLEET Bluetooth. Required before duty status can change. Links to D4 or D29 (about).</li>
+          <li><b>D3. Co-driver Login.</b> Second driver logs in on the same device for team driving.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>HOS Main Loop (4)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D4. HOS Dashboard (home).</b> The home screen. Current duty status, drive-time remaining, break required, current truck, alerts. Entry point to everything.</li>
+          <li><b>D5. Status Change Sheet.</b> Sheet to switch OFF / SB / D / ON. Triggered from D4. Leads to D7 if manual.</li>
+          <li><b>D6. Special Duty.</b> Personal Conveyance or Yard Move toggle with required justification. Subset of D5.</li>
+          <li><b>D7. Status Annotation.</b> Required 8+ character note when status is manually edited. Required by §395.32.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Daily Logs (6)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D8. Today's Log.</b> Graphical 24-hour duty grid for the current day. Tap any segment for detail (D10).</li>
+          <li><b>D9. Past Logs List.</b> Last 8 days minimum (7-day review window plus today).</li>
+          <li><b>D10. Log Detail.</b> Single-day expanded view, event list, edit history visible.</li>
+          <li><b>D11. Certify Log.</b> Daily certification screen with signature and prior 7-day review confirmation.</li>
+          <li><b>D12. Edit Log Entry.</b> Driver-initiated edit with required annotation.</li>
+          <li><b>D13. Edit History.</b> Audit trail of all edits with original values preserved.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>DVIR (4)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D14. DVIR Pre-Trip Start.</b> Entry to pre-trip inspection flow.</li>
+          <li><b>D15. DVIR Checklist.</b> Multi-step form, carrier-configurable defect categories.</li>
+          <li><b>D16. Defect Report.</b> Capture defect details, photos, severity. Conditional on D15.</li>
+          <li><b>D17. DVIR Submit.</b> Review and sign. Post-trip version reuses the same flow.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Roadside Inspection (3)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D18. Inspection Entry.</b> PIN-gated entry so a driver can't accidentally trigger it. Hands phone to officer.</li>
+          <li><b>D19. Inspection Display.</b> Full 8-day record on screen, FMCSA-required format. Officer can scroll.</li>
+          <li><b>D20. Transfer to Officer.</b> Initiate eRODS web service transfer or local USB / Bluetooth transfer. Success or failure confirmation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Malfunction and Diagnostic (2)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D21. Malfunction Notice.</b> Full-screen modal when a §395.34 malfunction triggers. Cannot be dismissed without acknowledgment. Driver must revert to paper logs until cleared.</li>
+          <li><b>D22. Diagnostic Notice.</b> Banner-style for recoverable diagnostic events. Lower urgency than malfunctions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Carrier-Initiated (2)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D23. Edit Request Notification.</b> Pushed when fleet manager proposes a log edit. Required by spec to need driver approval.</li>
+          <li><b>D24. Edit Review.</b> Side-by-side original vs proposed. Driver approves or rejects with reason.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Unidentified Driving (1)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D25. UD Records.</b> Driving events with no logged-in driver. Driver claims or rejects each record. Required workflow.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Profile and Settings (4)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>D26. Driver Profile.</b> CDL info, exempt status, cycle assignment, contact.</li>
+          <li><b>D27. Settings.</b> Notifications, units, accessibility.</li>
+          <li><b>D28. Help and Support.</b> User guide content (FMCSA reviewers check this).</li>
+          <li><b>D29. About.</b> FMCSA ELD Identifier, model, software version, registration link. Required to be visible.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Fleet Manager Web Portal · ~25 surfaces</h3>
+
+    <div class="req-block">
+      <div class="head"><h3>Authentication (2)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W1. Login.</b> SSO to Tenna identity.</li>
+          <li><b>W2. Org Selector.</b> For multi-subsidiary contractors, choose the operating org.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Dashboard (2)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W3. Live Fleet HOS Dashboard.</b> All drivers, current status, drive-time remaining, location. The home screen.</li>
+          <li><b>W4. Approaching-Limit Alerts.</b> Filterable feed of drivers near a violation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Drivers (4)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W5. Driver Roster.</b> Sortable list of all drivers.</li>
+          <li><b>W6. Driver Detail.</b> Single driver view with current state, log shortcuts, contact.</li>
+          <li><b>W7. Driver Profile Editor.</b> Edit CDL info, cycle, exempt status.</li>
+          <li><b>W8. Driver Onboarding.</b> Add new driver, issue credentials, set initial config.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Logs (5)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W9. Logs Review.</b> Filterable list of logs by driver, by day.</li>
+          <li><b>W10. Log Detail.</b> 24-hour graphical grid with full event list and edit history.</li>
+          <li><b>W11. Propose Edit.</b> Carrier proposes a log edit. Sends to driver for approval (W12).</li>
+          <li><b>W12. Edit Status Tracker.</b> Pending, approved, rejected edits across the fleet.</li>
+          <li><b>W13. Log Export.</b> Generate FMCSA-format output file for any date range or driver.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Violations and Compliance (4)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W14. Violations List.</b> Historical and current violations with severity.</li>
+          <li><b>W15. Violation Detail.</b> Specific violation with linked log, driver, and remediation note.</li>
+          <li><b>W16. Malfunction Tracker.</b> Per-device active malfunctions with 8-day remediation clock.</li>
+          <li><b>W17. DVIR Review.</b> Open DVIRs with defects, repair tracking, sign-off.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Vehicles (2)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W18. Vehicle Roster.</b> Trucks, paired ELD device, VIN, last activity.</li>
+          <li><b>W19. Vehicle Pairing.</b> Assign or reassign TennaFLEET / CANbus device to a vehicle record.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Reports (3)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W20. IFTA Data Export.</b> Feeds Tenna's existing IFTA module.</li>
+          <li><b>W21. DOT Audit Export.</b> Bulk export of logs, events, edits, malfunctions for an audit period.</li>
+          <li><b>W22. Roadside Inspection Log.</b> Every roadside inspection event with transfer status.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block">
+      <div class="head"><h3>Settings (3)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W23. Carrier Settings.</b> Cycle defaults, special-duty permissions, geofence rules for Yard Move.</li>
+          <li><b>W24. User Management.</b> Admin / supervisor / safety-officer roles. SSO-driven.</li>
+          <li><b>W25. Notification Preferences.</b> Email, SMS, in-app rules per role.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Flow logic in one paragraph</h3>
+    <p>The driver experience centers on D4 (the HOS dashboard), with almost everything one tap away. Three exceptions break that pattern: D18 (roadside inspection) is PIN-gated to prevent accidental entry, D21 (malfunction notice) interrupts everything else when triggered, and D23-D24 (edit requests) are push-driven from the back office. The fleet manager experience centers on W3 (the live dashboard), drilling into W6 (driver detail) or W10 (log detail) for everything else.</p>
+
+  </div>
+</section>
+
+<section id="architecture" class="alt">
+  <div class="container">
+    <div class="eyebrow">Section 6 · Architecture Sketch</div>
+    <h2>Standalone product. Integrated at the core.</h2>
+    <p class="lede">
+      The ELD application is built as a standalone product with its own backend, mobile client, and web client, with first-class integration into Tenna's Asset and User core data. Tenna owns the FMCSA registration. The application operates inside the Tenna identity and SSO perimeter. The two blue layers below are built and owned by AppAxis through Phase 6, then transferred to Tenna at handoff.
+    </p>
+
+    <div class="arch">
+      <div class="arch-grid">
+
+        <div class="arch-layer appaxis">
+          <span class="lbl">Built by AppAxis · Front-End Applications</span>
+          <img class="arch-logo" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
+          <div class="pills">
+            <div class="arch-pill">Driver Mobile (iOS and Android)</div>
+            <div class="arch-pill">Fleet Manager Web Portal</div>
+            <div class="arch-pill">Roadside Inspection Mode</div>
+          </div>
+        </div>
+
+        <div class="arch-flow">▼ &nbsp; API and SSO &nbsp; ▼</div>
+
+        <div class="arch-layer appaxis">
+          <span class="lbl">Built by AppAxis · ELD Backend Services</span>
+          <img class="arch-logo" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
+          <div class="pills">
+            <div class="arch-pill">HOS State Machine</div>
+            <div class="arch-pill">Event Ingestion API</div>
+            <div class="arch-pill">Malfunction and Diagnostic Engine</div>
+            <div class="arch-pill">ELD Output File Generator</div>
+            <div class="arch-pill">Data Transfer (eRODS web svc and email)</div>
+            <div class="arch-pill">Edit and Annotation Versioning</div>
+          </div>
+        </div>
+
+        <div class="arch-flow">▼ &nbsp; Integration Contracts &nbsp; ▼</div>
+
+        <div class="arch-layer tenna">
+          <span class="lbl">Tenna Core Data</span>
+          <div class="pills">
+            <div class="arch-pill">Asset Records</div>
+            <div class="arch-pill">User and Org Chart</div>
+            <div class="arch-pill">Authentication (SSO)</div>
+            <div class="arch-pill">Sites and Geofences (for yard moves)</div>
+            <div class="arch-pill">Driver Scorecard (consumes HOS events)</div>
+          </div>
+        </div>
+
+        <div class="arch-flow">▼ &nbsp; Telemetry Feed &nbsp; ▼</div>
+
+        <div class="arch-layer">
+          <span class="lbl">Tenna Hardware Layer</span>
+          <div class="pills">
+            <div class="arch-pill">TennaFLEET II (ECM engine data)</div>
+            <div class="arch-pill">TennaCANbus (engine hours and DTC)</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <h3>Integration boundary, what the project requires from Tenna</h3>
+    <ul style="color: var(--ink-soft);">
+      <li>Asset API access. Read VIN, vehicle identifier, and hardware-pairing info, with bi-directional access if current-driver writeback is desired.</li>
+      <li>User API access. Read driver profiles, CDL information, and org-chart permissions.</li>
+      <li>SSO. Driver and admin users authenticate against Tenna identity for a single sign-on experience.</li>
+      <li>Telemetry stream. TennaFLEET and CANbus engine data published through an existing webhook or stream, or under a new contract.</li>
+      <li>Geofence read access. The Sites and Geofences module exposes job and yard boundaries for automatic Yard Move detection.</li>
+      <li>Optional event push. The ELD writes HOS events back to Tenna's data plane so Scorecard, Maintenance, and other modules can consume them.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="container">
+    <div class="eyebrow">Section 7 · Project Plan</div>
+    <h2>Six phases. Roughly 22 weeks from kickoff to listed-and-piloting.</h2>
+    <p class="lede">
+      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 stands alone, so if the Proposaltype does not land, both parties walk away with a clean understanding of why and no further commitment.
+    </p>
+
+    <div class="timeline">
+      <div class="when"><span class="n">1</span><span class="u">WK 1-2</span></div>
+      <div class="phase-card">
+        <h4>PHASE 1 · ASSESSMENT AND PROPOSALTYPE</h4>
+        <h3>Clickable prototype on Tenna terminology</h3>
+        <p>Discovery with Tenna product and engineering teams, review of the current partner contract, technical assessment of the TennaFLEET and CANbus API surface, and a profile of one representative Tenna customer fleet. Output: an interactive prototype of the driver application and fleet portal running on actual Tenna data shapes.</p>
+        <div class="deliv"><b>Deliverable:</b> Proposaltype, prioritized requirements, and integration risk assessment</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="when"><span class="n">2</span><span class="u">WK 3-4</span></div>
+      <div class="phase-card">
+        <h4>PHASE 2 · STRATEGY AND SCOPE LOCK</h4>
+        <h3>Signed-off architecture and FMCSA path</h3>
+        <p>Final HOS engine spec, ECM data contract with Tenna engineering, registration plan with FMCSA (Telematics type), data-retention design, scope boundary with Tenna's existing driver app, malfunction-engine design. Both sides sign before any production code is written.</p>
+        <div class="deliv"><b>Deliverable:</b> Signed architecture doc, data contract, and certification roadmap</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="when"><span class="n">3</span><span class="u">WK 5-10</span></div>
+      <div class="phase-card">
+        <h4>PHASE 3 · CORE BUILD</h4>
+        <h3>HOS engine, malfunction engine, output file, mobile application</h3>
+        <p>Two senior engineers working in parallel. Backend engineer owns the HOS state machine, event ingestion, malfunction engine, and output file generator. Mobile engineer owns the driver application (iOS and Android via React Native) and roadside inspection mode. QA engineer joins this phase, building the specification-driven test harness alongside the code so that every Appendix A behavior carries a test from day one. Weekly Friday showbacks give Tenna real-time input on priorities.</p>
+        <div class="deliv"><b>Deliverable:</b> Working application and backend on test data, demonstrated weekly</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="when"><span class="n">4</span><span class="u">WK 11-14</span></div>
+      <div class="phase-card">
+        <h4>PHASE 4 · INTEGRATION AND PORTAL</h4>
+        <h3>Tenna hardware, web portal, and data transfer</h3>
+        <p>Same two engineers. Backend engineer integrates with TennaFLEET and CANbus hardware and builds the data-transfer service (web services and email to eRODS). Mobile engineer transitions to the fleet manager web portal, edit workflows, and unidentified-driving reconciliation. Construction-specific exception logic (yard moves via geofences, Personal Conveyance, short-haul) layered across both surfaces.</p>
+        <div class="deliv"><b>Deliverable:</b> End-to-end working system on a test fleet</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="when"><span class="n">5</span><span class="u">WK 15-18</span></div>
+      <div class="phase-card">
+        <h4>PHASE 5 · CERTIFICATION AND REGISTRATION</h4>
+        <h3>Self-certify and list on the FMCSA registered device list</h3>
+        <p>QA leads the compliance effort. Full Appendix A test suite executed end to end. Validation against FMCSA's output-file reference checker. Concentrated focus on malfunction and diagnostic edge cases, the section of the specification that most often results in revocation. Engineers resolve issues identified by QA. iOS and Android application store submissions filed (each carries a 1 to 2 week review window). Documentation package assembled. FMCSA Equipment Registration submitted through the Equipment Registration portal. Public-facing user guide finalized for FMCSA reviewer reference. FMCSA's own review of the submission runs into Phase 6 as elapsed time.</p>
+        <div class="deliv"><b>Deliverable:</b> Submission filed, app store approval pending, FMCSA review under way</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="when"><span class="n">6</span><span class="u">WK 19-22</span></div>
+      <div class="phase-card">
+        <h4>PHASE 6 · PILOT AND HANDOFF</h4>
+        <h3>One or two friendly customers, followed by code ownership transfer</h3>
+        <p>Pilot with 1 or 2 Tenna customers identified jointly. Tight feedback loop, daily standups with pilot teams, rapid iteration. Tenna onboarding and customer success teams trained. All code, infrastructure, documentation, and the deployment pipeline transferred. Tenna receives complete intellectual property ownership.</p>
+        <div class="deliv"><b>Deliverable:</b> Pilot live, Tenna team trained, full IP handoff complete</div>
+      </div>
+    </div>
+
+    <h3>Why this is faster and less expensive than the industry estimate</h3>
+    <p>A traditional development shop would quote this engagement at 12 to 18 months and $2 to $4M with a team of 8 to 12 engineers. AppAxis delivers it with two senior engineers plus a QA engineer, for three reasons.</p>
+    <ul style="color: var(--ink-soft);">
+      <li>The specification writes the scope. 49 CFR 395 Appendix A is one of the most rigorously defined specifications in commercial software. There is no requirements-discovery loop that drags on for months. The work translates specification directly to code.</li>
+      <li>AI-assisted senior engineers move 2 to 3 times faster on specification-driven work. The HOS state machine, output file generator, and malfunction engine are exactly the kind of well-defined translation tasks where modern AI tooling earns its keep. AppAxis has shipped projects this way for 18 months.</li>
+      <li>No body-shop overhead. Two senior engineers communicate directly in a Slack channel rather than through coordination meetings. There is no project manager translating between an engineer who does not understand HOS and a product person who does not write code.</li>
+    </ul>
+
+  </div>
+</section>
+
+<section id="certification" class="alt">
+  <div class="container">
+    <div class="eyebrow">Section 8 · Certification, Realistically</div>
+    <h2>Self-certification is fast on the front end. Staying certified is the work.</h2>
+    <p class="lede">
+      Unlike FDA approval, FCC certification, or PCI compliance, FMCSA's ELD registration involves no third-party lab, no front-end gatekeeper, and no waiting list. A provider self-certifies on a web form, the device appears on the public registered list within days, and drivers can begin using it. The harder discipline is staying listed when FMCSA audits.
+    </p>
+
+    <h3>What submission actually looks like</h3>
+    <p>FMCSA's Equipment Registration portal asks for these fields. There is no fee.</p>
+    <ul>
+      <li>Provider company info (name, address, primary contact)</li>
+      <li>ELD identification (a unique 4-character ELD Identifier, model name, software version)</li>
+      <li>Operating systems list. Each OS variant counts as a separate device bundle (iOS and Android register separately)</li>
+      <li>ELD type. Telematics or Local, which picks the data-transfer mode</li>
+      <li>Self-certification statement, a checkbox affirming the device meets Appendix A</li>
+      <li>URL to the public-facing user instructions. Must be accessible without login</li>
+      <li>Public contact info that appears on the FMCSA registered list</li>
+    </ul>
+    <p>Once submitted, the device typically appears on the public list within a few business days. There is no FMCSA-administered test, no third-party lab certification, and no in-person review. The process operates on the honor system, backed by a credible threat of audit and revocation.</p>
+
+    <h3>Common revocation triggers</h3>
+    <p>Recent revocations (12 devices in May 2026, on top of earlier rounds totaling approximately 30) trace to a small set of failure modes:</p>
+    <ul>
+      <li>Output file format errors. Missing required fields, wrong CRC checksum, wrong section ordering, character encoding mistakes.</li>
+      <li>Malfunction handling gaps. Device fails to detect one of the 8 categories under §395.34(a), or fails to clear correctly when the underlying condition resolves.</li>
+      <li>Engine sync failures. ECM data not polled at the right cadence, or device claims sync when it has lost ECM connection.</li>
+      <li>Edit history gaps. Edits not properly annotated, edit attribution missing, original record not preserved.</li>
+      <li>Unidentified driving not handled. Driving with no driver logged in must be captured and assignable later.</li>
+      <li>Driver complaints. Drivers report to FMCSA when an ELD generates impossible logs, drops events, or won't transfer at roadside.</li>
+    </ul>
+
+    <h3>Realistic Phase 5 effort</h3>
+    <p>Phase 5 is four weeks of QA-led compliance work. Not because the FMCSA review is slow (it is not), but because getting the device correct enough to stay listed requires that time. The four weeks decompose as follows:</p>
+    <ul>
+      <li>Week 1. QA runs the full Appendix A test suite end to end on the integrated system. Every event type, every malfunction trigger, every diagnostic threshold.</li>
+      <li>Week 2. Output file validation against FMCSA's reference parser. Edge cases on edit history, driver-vehicle pairings, multi-driver scenarios.</li>
+      <li>Week 3. Targeted hammering on malfunction and diagnostic handling. iOS and Android app store submissions (independent 1 to 2 week review).</li>
+      <li>Week 4. Documentation package, user guide, FMCSA registration submission through the Equipment Registration portal, FAQ for the public-facing listing.</li>
+    </ul>
+    <p>FMCSA's own review timeline is unpredictable but usually fast. Most providers see their device listed within 1 to 5 business days of submission. The risk window opens later: an audit triggered by a complaint or a random pull, sometimes months out.</p>
+
+    <h3>After launch: the compliance treadmill</h3>
+    <p>Worth understanding what ongoing compliance involves once the device is listed. Staffing options can be discussed separately.</p>
+    <ul>
+      <li>FMCSA spec interpretation updates. The agency issues clarifications and FAQs periodically. Some require code changes.</li>
+      <li>App store re-reviews. Apple and Google occasionally re-review safety-critical apps and ask for changes.</li>
+      <li>Driver-reported edge cases that surface in real production use.</li>
+      <li>Inspector-side issues at roadside transfers. Most are user-facing, a few are real bugs.</li>
+      <li>Annual refresh of the public user guide.</li>
+      <li>Re-submission to FMCSA whenever a major version ships.</li>
+    </ul>
+    <p>This is roughly 0.25 to 0.5 of an engineer's time on an ongoing basis, plus someone reading the FMCSA bulletin updates.</p>
+  </div>
+</section>
+
+<section id="estimate">
+  <div class="container">
+    <div class="eyebrow">Section 9 · LOE and Cost Estimate</div>
+    <h2>Fixed-price by phase. Transparent numbers.</h2>
+    <p class="lede">
+      Working numbers, not opening positions. AppAxis prices to fixed outcomes rather than hourly billing that incentivizes slow delivery. The only material unknown that could shift the plan is the TennaFLEET and CANbus API surface, which Phase 1 resolves before any production code is written.
+    </p>
+
+    <p class="muted-text small" style="margin-bottom:18px;">Pricing assumption. 2 senior engineers at $6,000 per week each, plus 1 QA engineer at $2,500 per week starting in Phase 3 (so $12,000 per week burn in Phases 1-2 and $14,500 per week in Phases 3-6). All phase prices include a 10% buffer for integration unknowns and FMCSA iteration. Team held constant within each phase.</p>
+
+    <table class="cost-table">
+      <thead>
+        <tr><th>Phase</th><th>Duration</th><th>Team</th><th class="num-cell">Fixed Price</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. Assessment and Proposaltype</td>
+          <td>2 weeks</td>
+          <td>2 senior eng</td>
+          <td class="num-cell">$26,400</td>
+        </tr>
+        <tr>
+          <td>2. Strategy and Scope Lock</td>
+          <td>2 weeks</td>
+          <td>2 senior eng</td>
+          <td class="num-cell">$26,400</td>
+        </tr>
+        <tr>
+          <td>3. Core Build</td>
+          <td>6 weeks</td>
+          <td>2 senior eng + 1 QA</td>
+          <td class="num-cell">$95,700</td>
+        </tr>
+        <tr>
+          <td>4. Integration and Portal</td>
+          <td>4 weeks</td>
+          <td>2 senior eng + 1 QA</td>
+          <td class="num-cell">$63,800</td>
+        </tr>
+        <tr>
+          <td>5. Certification and FMCSA Registration</td>
+          <td>4 weeks</td>
+          <td>2 senior eng + 1 QA</td>
+          <td class="num-cell">$63,800</td>
+        </tr>
+        <tr>
+          <td>6. Pilot and Handoff</td>
+          <td>4 weeks</td>
+          <td>2 senior eng + 1 QA</td>
+          <td class="num-cell">$63,800</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total, kickoff to FMCSA-listed and piloting</td>
+          <td>22 wks</td>
+          <td>2 senior eng + QA</td>
+          <td class="num-cell">$339,900</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <h3>Outside the estimate</h3>
+    <ul style="color: var(--ink-soft);">
+      <li>Ongoing compliance and maintenance after launch. Discussed separately, since the right structure depends on how Tenna staffs the FMCSA-specification treadmill internally versus externally.</li>
+      <li>Cloud infrastructure costs. At Tenna's likely scale, $4,000 to $8,000 per month for AWS or GCP. Standard pass-through.</li>
+      <li>FMCSA registration fee. No fee is currently charged for ELD provider registration.</li>
+      <li>Hardware. None. The project uses Tenna's existing tracker fleet.</li>
+      <li>Migration of existing customers. Moving customers off the current partner ELD onto the new platform is a separate phase, often as complex as the original build.</li>
+    </ul>
+
+    <h3>Payback math, directional</h3>
+    <p>If Tenna pays its current ELD partner anywhere in the per-vehicle-per-month range typical for this category, the build pays back well under a year on partner-fee savings alone. That payback precedes the strategic value of owning the intellectual property, the construction-vertical differentiation against Motive and Samsara, and the elimination of the partner as a dependency.</p>
+
+  </div>
+</section>
+
+<section id="risks" class="alt">
+  <div class="container">
+    <div class="eyebrow">Section 10 · Risks and Open Questions</div>
+    <h2>What could derail the plan.</h2>
+    <p class="lede">
+      Risks that Phase 1 would surface regardless, presented here for transparency.
+    </p>
+
+    <div class="two-col">
+      <div>
+        <h3>Engineering Risks</h3>
+
+        <div class="risk-card">
+          <div class="top"><h4>TennaFLEET and CANbus API surface</h4><span class="risk med">MEDIUM</span></div>
+          <p>If Tenna's existing hardware does not expose ECM data through a clean modern API, the integration phase expands. This risk is validated in Week 1 of Phase 1.</p>
+        </div>
+
+        <div class="risk-card">
+          <div class="top"><h4>Malfunction and diagnostic edge cases</h4><span class="risk med">MEDIUM</span></div>
+          <p>This is the section of the specification that gets ELDs revoked. Treated as a first-class engineering concern rather than an afterthought. Mitigated by specification-driven testing, though interpretation can vary across implementations.</p>
+        </div>
+
+        <div class="risk-card">
+          <div class="top"><h4>iOS and Android certification cycles</h4><span class="risk low">LOW</span></div>
+          <p>Apple and Google review for safety-critical applications can take 1 to 2 weeks. Submissions are filed early in Phase 5 to overlap with FMCSA registration.</p>
+        </div>
+
+        <div class="risk-card">
+          <div class="top"><h4>Specification drift during build</h4><span class="risk low">LOW</span></div>
+          <p>FMCSA occasionally updates the specification. The last major update was 2024, and the next likely change follows the July 2026 enforcement window. The architecture includes a versioned specification interpretation layer.</p>
+        </div>
+      </div>
+
+      <div>
+        <h3>Business and Process Risks</h3>
+
+        <div class="risk-card">
+          <div class="top"><h4>FMCSA registration owner and liability</h4><span class="risk med">MEDIUM</span></div>
+          <p>Tenna becomes the listed provider and therefore inherits liability if a driver receives a violation attributable to an application defect. Legal review is recommended, and the insurance and Errors and Omissions posture is worth confirming.</p>
+        </div>
+
+        <div class="risk-card">
+          <div class="top"><h4>Existing customer migration</h4><span class="risk high">HIGH (IF IN SCOPE)</span></div>
+          <p>Moving active customers from the partner ELD to the new platform involves data migration, retraining, and a regulatory cutover. Often as complex as the original build. Recommended approach: handle as a separate phase after the new-sales motion is proven.</p>
+        </div>
+
+        <div class="risk-card">
+          <div class="top"><h4>Decision approval path inside Tenna</h4><span class="risk low">LOW</span></div>
+          <p>Knowing which additional stakeholders need to sign off (engineering leadership, finance, legal, customer success) and what concerns they will raise allows the Phase 1 Proposaltype to address them directly.</p>
+        </div>
+
+        <div class="risk-card">
+          <div class="top"><h4>Partner contract exit</h4><span class="risk med">MEDIUM</span></div>
+          <p>The current partner agreement likely contains a notice period and possibly an exclusivity clause. A legal pre-read is advisable before the new ELD launches publicly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="eyebrow">Section 11 · Questions For Thursday</div>
+    <h2>Open questions for the discussion.</h2>
+    <p class="lede">Ordered roughly by how much each would shift the plan.</p>
+
+    <ul class="check-list">
+      <li>TennaFLEET and TennaCANbus API surface. What does the existing API look like? Is ECM data (engine on and off, miles, hours, motion) available as a clean modern stream?</li>
+      <li>Driver application strategy. Standalone application branded Tenna ELD, or a new module inside the existing Tenna application already on the App Store and Google Play?</li>
+      <li>Current partner. Identity, per-vehicle cost, contract term, and exclusivity provisions.</li>
+      <li>Migration scope. New sales only, or migration of existing ELD-active customers? (The latter is a separate phase.)</li>
+      <li>Timeline target. Is there a fixed in-market date tied to the July 20 enforcement window, a Tenna release cycle, a customer commitment, or a partner contract expiration?</li>
+      <li>FMCSA registration. Tenna becomes the listed provider. Is the legal posture confirmed, or does this warrant a parallel legal track?</li>
+      <li>Construction edge cases. Which must be first-class on day one across yard moves, Personal Conveyance, short-haul air-mile, and mixed CDL or non-CDL fleets? Which matter most to current customers?</li>
+      <li>Internal compliance ownership. After launch, will Tenna staff the FMCSA-specification maintenance treadmill internally, or retain AppAxis on a recurring engagement?</li>
+      <li>Hardware roadmap. Any TennaFLEET or CANbus hardware changes planned in the next 12 months that this design should accommodate?</li>
+      <li>Sign-off path. Which additional Tenna stakeholders need to approve this engagement, and what would they want to see?</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <img class="tenna" src="https://www.tenna.com/wp-content/uploads/2026/03/Tenna-Logo-Horz-OrangeWhite-RGB-Medium-No-BG-1024x465.png" alt="Tenna" />
+      <span class="x">×</span>
+      <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
+    </div>
+    <div class="disc">
+      Confidential discussion document. Prepared by AppAxis as background for the Thursday meeting with Jose Cueva. Estimates are working ranges, not contracts. All product names, modules, and trademarks are properties of their respective owners. Not affiliated with FMCSA. Regulatory citations are from publicly available FMCSA materials and the Code of Federal Regulations.
+    </div>
+    <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
+  </div>
+</footer>
+
+<!-- Requirement Detail Modal -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModalIfBackdrop(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <div class="modal-head-text">
+        <div class="modal-cite" id="modal-cite"></div>
+        <h3 class="modal-title" id="modal-title"></h3>
+      </div>
+      <button class="modal-close" type="button" aria-label="Close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  const reqData = {
+    /* DRIVER MOBILE APP - MUST */
+    "driver-login": {
+      cite: "49 CFR §395.32",
+      title: "Driver login and logout with carrier-issued credentials",
+      body: "<p>Each driver authenticates to the ELD application using credentials issued by the carrier. The credentials map to a federal Driver ID tied to the driver's CDL, and that Driver ID is a required data element on every event the ELD records.</p><p>The driver must log in before beginning any duty time. When the driver logs out, any subsequent vehicle movement is recorded as unidentified driving and assigned to a known driver later through the reconciliation workflow.</p><p>Co-driver support allows a second driver to log in simultaneously for team driving operations, with the ability to swap primary status during the trip. Authentication operates offline against cached credentials, which is essential for drivers starting shifts in areas with no cellular coverage.</p>"
+    },
+    "duty-status": {
+      cite: "49 CFR §395.24",
+      title: "Duty status selection with manual change and annotation",
+      body: "<p>The driver selects from the four federal duty statuses: Off Duty (OFF), Sleeper Berth (SB), Driving (D), and On Duty Not Driving (ON). Manual status changes require an annotation of at least eight characters explaining the reason, which is the regulatory anti-fraud control.</p><p>Each status change is recorded as an event with timestamp, location to within one mile, driver ID, vehicle ID, engine power status, vehicle motion status, miles driven, and engine hours.</p><p>The 8-character annotation minimum is enforced both client-side and server-side. Insufficient or substanceless annotations have been cited as revocation triggers in prior FMCSA enforcement actions.</p>"
+    },
+    "auto-transition": {
+      cite: "49 CFR §395.24(b)(2)",
+      title: "Auto-transition between Driving and On Duty Not Driving",
+      body: "<p>The ELD automatically transitions to Driving status when ECM data shows vehicle speed exceeding 5 mph, regardless of the driver's prior selection. This is the specification's primary anti-fraud control, preventing drivers from remaining off the Driving clock while actually driving.</p><p>When the vehicle stops moving and remains stationary for five continuous minutes while in Driving status, the ELD prompts the driver to switch to On Duty Not Driving. If the driver does not respond within 60 seconds, the ELD auto-transitions to ON. The driver retains the ability to dismiss the prompt for legitimate brief stops such as long traffic signals.</p><p>Defects in this logic are among the most common revocation triggers in prior FMCSA enforcement. Implementation rigor here is non-negotiable.</p>"
+    },
+    "pc-yard-move": {
+      cite: "49 CFR §395.24",
+      title: "Personal Conveyance and Yard Move special duty modes",
+      body: "<p>Two special duty modifiers that exempt vehicle movement from standard Hours of Service clocks.</p><p>Personal Conveyance (PC) records vehicle motion under Off Duty status, used when the driver is operating the commercial vehicle for personal reasons such as commuting from a job site. Yard Move (YM) records motion under On Duty status but exempts it from the driving-time clock, used for moving the vehicle within a yard or terminal at low speed.</p><p>Each mode requires per-driver authorization configured by the carrier. The driver must select the special mode before the vehicle moves, with an annotation describing the reason. This is an area where Tenna-native integration creates clear differentiation: Yard Move can be automatically suggested when the vehicle enters a Tenna Sites and Geofences boundary, a capability that general-purpose ELDs cannot replicate.</p>"
+    },
+    "log-certification": {
+      cite: "49 CFR §395.26",
+      title: "Daily log certification with signature and 7-day review",
+      body: "<p>Once per 24-hour period, the driver reviews the day's logs and digitally signs that the record is accurate. The certification interface displays the full day in both graphical and tabular form, with the ability to make last-minute corrections before signing.</p><p>Certified logs remain editable, but post-certification edits require the same annotation workflow. Carrier-proposed edits after certification require driver approval through the edit-request workflow. The application also surfaces the prior seven days of logs for review and re-certification when changes occur.</p><p>Each certification event is stamped with driver ID and timestamp, forming part of the regulatory audit trail.</p>"
+    },
+    "duty-grid": {
+      cite: "49 CFR §395.26",
+      title: "Graphical 24-hour duty grid view",
+      body: "<p>The standard log-grid visualization required for both driver review and roadside inspection display. Horizontal axis spans 24 hours in 15-minute increments. Four horizontal rows represent the duty statuses, with solid lines indicating which status the driver occupied at each time and vertical drops marking status transitions.</p><p>Annotations, location stops, and miles driven are surfaced alongside the grid. The view is rendered directly from the underlying event records, ensuring the grid is always consistent with the audit trail.</p><p>This is the standard format for HOS data and the required display for the Roadside Inspection mode.</p>"
+    },
+    "roadside-inspection": {
+      cite: "49 CFR §395.22, §395.32",
+      title: "Roadside inspection mode",
+      body: "<p>When a DOT officer pulls over a driver for inspection, the driver activates Inspection Mode from a single button on the application's home screen. The 8-day record (current day plus seven prior days) renders in the FMCSA-mandated format. The driver hands the device to the officer for review.</p><p>A PIN gate at entry prevents drivers from accidentally tripping inspection mode or exiting prematurely. The mode supports two data-transfer mechanisms per FMCSA specification: Telematics mode (HTTPS POST to FMCSA's eRODS web service with email fallback) or Local mode (USB 2.0 file transfer or Bluetooth direct to the inspector's device). The provider self-certifies one mode. Telematics is the modern default used by Motive, Samsara, and Omnitracs.</p><p>Failed transfers at roadside result in immediate Out-of-Service orders, which makes this the highest-stakes feature in the application. The ELD output file must be FMCSA-format ASCII with correct section ordering and CRC line check.</p>"
+    },
+    "log-edits": {
+      cite: "49 CFR §395.30",
+      title: "Edit log entries with required reason annotation",
+      body: "<p>Drivers can edit their own past log entries to correct mistakes. Every edit creates a new event record linked to the original, with the original value preserved permanently. The annotation, at least eight characters, explains the reason for the change. Edit history is visible to driver, carrier, and any FMCSA auditor.</p><p>Carrier-proposed edits are a parallel workflow. The carrier administrator proposes an edit from the web portal, the driver receives a push notification, the driver approves or rejects the edit with their own annotation, and only then does the edit take effect. The carrier cannot change a driver's log unilaterally.</p><p>Edit history defects are among the most common revocation triggers. Original record not preserved or edit attribution missing both appear repeatedly in FMCSA enforcement actions.</p>"
+    },
+    "udr-driver": {
+      cite: "49 CFR §395.32(d)",
+      title: "Unidentified driving record review",
+      body: "<p>When a vehicle moves while no driver is logged in, the resulting driving events are tagged as Unidentified Driving Records (UDR). The application surfaces these records to drivers for resolution.</p><p>The driver application shows pending UDR events for the driver's vehicle. The driver can claim the record (acknowledging the events were theirs, which adds them to the log) or reject (returning the record to the carrier for further investigation).</p><p>Accumulated UDR exceeding 30 minutes in a 24-hour window across a vehicle triggers a diagnostic event. Failure to handle UDR correctly is a common revocation trigger.</p>"
+    },
+    "malfunction-display": {
+      cite: "49 CFR §395.34",
+      title: "Malfunction and diagnostic notice display",
+      body: "<p>When the ELD detects one of the eight monitoring categories under §395.34(a), it either sets a malfunction or a diagnostic event. The application surfaces each with distinct severity.</p><p>Malfunctions render as full-screen modals that cannot be dismissed without explicit driver acknowledgment. The driver reverts to paper logs while the malfunction persists. The carrier has eight days to remediate, with a remediation clock visible in the web portal.</p><p>Diagnostic events render as persistent banners at the top of the screen and indicate recoverable data-quality issues that do not require paper logs. The visual distinction (red for malfunction, amber for diagnostic) follows FMCSA convention. Each acknowledgment is itself a logged event with driver ID and timestamp. When the underlying condition clears, the application records a clear event.</p>"
+    },
+    "dvir": {
+      cite: "49 CFR §396.11",
+      title: "DVIR (pre and post-trip)",
+      body: "<p>The Driver Vehicle Inspection Report is a separate federal regulation from the ELD mandate, but conventionally bundled in the same driver application. Before each shift, the driver inspects the vehicle and records any defects. After each shift, the driver records anything that surfaced during the day's operation.</p><p>Defects are classified by severity, photographed where applicable, and tracked through repair before the vehicle returns to service. The carrier reviews and signs off on remediation through the web portal.</p><p>Tenna already ships a DVIR module on the existing platform. The architectural recommendation is to surface DVIR through Tenna's existing module rather than rebuilding it, with the driver experiencing a continuous flow between the ELD and DVIR functions.</p>"
+    },
+    "offline-mode": {
+      title: "Offline mode with local persistence and sync",
+      body: "<p>Drivers routinely operate in areas without cellular coverage: rural deliveries, mountain passes, equipment yards in remote locations. Every ELD function must operate fully offline.</p><p>Status changes record to a local database. The Hours of Service state machine runs on-device with no backend dependency. The 8-day record remains cached so that roadside inspection mode functions without network access. Bluetooth pairing to TennaFLEET hardware operates over local radio without internet. DVIR submissions queue locally and synchronize when signal returns.</p><p>The synchronization layer handles conflict resolution between offline driver edits and concurrent online carrier edits. Event ingestion is idempotent so that intermittent connectivity does not produce duplicate records. Persistence survives application suspension, device reboot, and unexpected power loss.</p>"
+    },
+
+    /* DRIVER MOBILE APP - SHOULD */
+    "hos-clock": {
+      title: "HOS clock visualization",
+      body: "<p>A persistent display of the driver's remaining time across each HOS metric: drive remaining (toward the 11-hour limit), on-duty remaining (toward the 14-hour window), time until break required (toward the 30-minute break), and weekly cycle remaining (toward the 60 or 70-hour limit). Each clock counts down in real time as the driver accumulates duty time.</p><p>This is a parity feature offered by Motive and Samsara. Drivers rely on it for in-cab decision making about when to take breaks and when they can safely accept additional dispatches.</p>"
+    },
+    "messaging": {
+      title: "Two-way messaging with dispatcher",
+      body: "<p>An in-application messaging channel between drivers and dispatchers. Replaces voice calls and SMS for routine communication about job assignments, delays, and instructions. Messages persist with the driver's record and can be referenced in the case of disputes or audits.</p><p>This is a common parity feature across Motive, Samsara, and Omnitracs. In the Tenna context, this messaging layer ties naturally to the existing Resource Management and Dispatching module.</p>"
+    },
+    "dvir-forms": {
+      title: "Form-based DVIR with defect templates",
+      body: "<p>Configurable defect templates allow carriers to define inspection checklists by vehicle type. A pickup truck carries a different defect catalog than a paving machine or a service vehicle. Drivers see the checklist relevant to the vehicle paired at the start of the shift.</p><p>This streamlines compliance and produces more consistent inspection data for the carrier. Tenna's existing custom inspection module already supports this pattern.</p>"
+    },
+    "coaching-nudges": {
+      title: "In-application coaching nudges before violation",
+      body: "<p>Proactive notifications that alert the driver before a violation occurs. Examples include warnings 30 minutes before the required break, alerts an hour before reaching the 14-hour on-duty window, and heads-up notices that the current trip will push the driver into a violation if not paused.</p><p>Reduces preventable violations and improves safety scores. Aligns naturally with Tenna's existing Driver Scorecard module.</p>"
+    },
+    "multi-vehicle": {
+      title: "Multi-vehicle pairing",
+      body: "<p>Allows a driver to move between vehicles during a single shift. Common in construction operations where a driver might use a service truck in the morning, a dump truck in the afternoon, and a pickup at end of day. The ELD application unpairs from the previous vehicle and pairs with the new one without requiring the driver to log out and back in.</p><p>Each vehicle change is recorded as an event, preserving the audit trail of which vehicle the driver was operating at any moment.</p>"
+    },
+
+    /* DRIVER MOBILE APP - COULD */
+    "tenna-asset-link": {
+      title: "Tenna asset link",
+      body: "<p>The driver application reads the current vehicle's asset context from Tenna's Asset Records the moment a TennaQR code or TennaBLE beacon is scanned. The driver sees relevant asset information including last maintenance date, open work orders, and DVIR history without leaving the ELD flow.</p><p>This integration is structurally impossible for general-purpose ELDs, which lack access to Tenna's asset graph. It transforms the ELD application from a compliance tool into a contextual operator-of-record interface.</p>"
+    },
+    "foreman-mode": {
+      title: "Foreman mode",
+      body: "<p>A workflow optimization for drivers who run multiple service trucks per shift, common among construction foremen. Foreman mode pre-populates the day's expected vehicle changes, allows quick switching with a single tap, and maintains a continuous duty record across the vehicle changes.</p><p>A construction-vertical UX win that general-purpose ELDs cannot replicate. Their interfaces assume the long-haul OTR pattern of one driver, one truck per shift.</p>"
+    },
+    "project-geofences": {
+      title: "Project-aware Yard Move detection",
+      body: "<p>Yard Move duty mode is automatically suggested when the vehicle enters a Tenna Sites and Geofences boundary defined as a yard or jobsite. This eliminates manual driver toggling, reduces missed selections, and improves compliance data quality.</p><p>Direct integration with Tenna's existing Sites and Geofences module. A capability that depends on the broader Tenna platform context.</p>"
+    },
+    "arrival-prompt": {
+      title: "Job site arrival auto-prompt",
+      body: "<p>When the vehicle arrives at a project site (defined in Tenna's Sites module), the application prompts the driver to consider switching to On Duty Not Driving status. The driver retains full control over the decision, but the prompt reduces missed status changes that lead to violations.</p><p>A behavioral nudge that improves compliance without adding driver burden.</p>"
+    },
+
+    /* WEB PORTAL - MUST */
+    "driver-status-board": {
+      title: "Driver status board with live HOS clock per driver",
+      body: "<p>The portal's primary dashboard view. Shows every active driver with current duty status, time remaining on each HOS clock, current vehicle, and last known location. Fleet managers use this surface as the live operational picture during the workday.</p><p>Supports filtering and sorting by status, region, project, or approaching-limit window. Click-through to driver detail and log review.</p>"
+    },
+    "violation-log": {
+      title: "Violation log",
+      body: "<p>A chronological record of HOS violations across the fleet, both current and historical. Each violation links to the affected driver, the relevant log day, the specific rule that was exceeded, and any annotations associated with the event.</p><p>Used for trend analysis, driver coaching, and regulatory defense in the case of DOT audits or accident investigations.</p>"
+    },
+    "log-review": {
+      title: "Log review by driver and by day",
+      body: "<p>Carrier administrators can review any driver's log for any historical day, in both graphical (24-hour duty grid) and tabular (event list with timestamps and annotations) form. Edit history is visible inline.</p><p>Required surface for both routine review and audit response. Used to investigate violations, verify driver accuracy, and prepare audit packages.</p>"
+    },
+    "edit-requests": {
+      cite: "49 CFR §395.30",
+      title: "Edit requests workflow",
+      body: "<p>When a carrier administrator identifies a needed correction to a driver's log, they propose the edit from the web portal. The driver receives a push notification on the mobile application. The driver reviews the proposed edit, approves or rejects it with an annotation of their own, and only then does the edit take effect.</p><p>This is the federally required workflow. Carriers cannot change driver logs unilaterally. The portal tracks edit-request status (pending, approved, rejected) across the fleet.</p>"
+    },
+    "log-export": {
+      title: "Log export with FMCSA-format file generation",
+      body: "<p>On-demand generation of the FMCSA-format ELD output file for any date range, any driver, or any vehicle. The output is the same ASCII file used during roadside inspections, with correct section ordering and CRC line check.</p><p>Used for DOT audit response, accident investigation, and provider transition if a carrier ever changes ELD systems. Bulk export supports multi-driver audit packages.</p>"
+    },
+    "udr-assignment": {
+      title: "Unidentified driving assignment",
+      body: "<p>A queue of UDR events that the carrier administrator works through. For each unassigned record, the admin can assign the events to a known driver (which sends a notification to that driver for confirmation), or leave the record open while investigating further.</p><p>This is the carrier-side resolution surface for unidentified driving, complementing the driver-side claim and reject flow in the mobile application.</p>"
+    },
+    "malfunction-tracker": {
+      cite: "49 CFR §395.34",
+      title: "Malfunction tracking with 8-day remediation clock",
+      body: "<p>A device-level view of every active malfunction across the fleet, with the 8-day remediation clock visible per device. Carriers must remediate malfunctions within eight days of detection. The affected driver continues operating on paper logs in the meantime, and unresolved malfunctions can result in FMCSA scrutiny.</p><p>Surfaces both the technical detail of each malfunction and the operational urgency. Integrates with Tenna's existing Maintenance module for work order creation.</p>"
+    },
+    "driver-profile": {
+      title: "Driver profile management",
+      body: "<p>Centralized management of driver attributes that affect HOS calculations and compliance. CDL information, license class, exempt-status flags (short-haul air-mile, oilfield, agricultural), assigned HOS cycle (60-hour over 7 days or 70-hour over 8 days), and contact details.</p><p>Changes to these fields propagate to the driver's HOS state machine on the next sync. An audit log preserves the history of changes for regulatory review.</p>"
+    },
+    "log-retention": {
+      cite: "49 CFR §395.22",
+      title: "6-month log retention with audit-ready archive",
+      body: "<p>The ELD application retains six months of driver log data as the federally required minimum, with a longer retention option available for carriers that prefer it. Archived logs remain queryable and exportable in FMCSA-format on demand.</p><p>The archive structure is built for audit response. Bulk exports for DOT audit can pull all driver-days within a date range in a single packaged output.</p>"
+    },
+
+    /* WEB PORTAL - SHOULD */
+    "approaching-alerts": {
+      title: "Approaching-limit alerts with configurable thresholds",
+      body: "<p>Push notifications or in-portal alerts when a driver approaches an HOS limit: 30 minutes before mandatory break, an hour before the 14-hour window closes, two hours before the weekly cycle limit. Thresholds are configurable per carrier policy.</p><p>Enables proactive dispatch decisions and prevents violations that would otherwise occur due to inadvertent overruns.</p>"
+    },
+    "ifta-feed": {
+      title: "IFTA-adjacent reporting",
+      body: "<p>HOS and vehicle-motion data from the ELD feeds Tenna's existing IFTA module, automating quarterly fuel-tax reporting across state lines. The integration eliminates duplicate data entry and ensures IFTA filings remain in lockstep with the source HOS records.</p><p>Direct value to Tenna's existing IFTA customers and a clear cross-module benefit.</p>"
+    },
+    "inspection-event-log": {
+      title: "Roadside inspection event log",
+      body: "<p>Every time a driver activates Inspection Mode on the mobile application, the event is logged with timestamp, location, driver ID, vehicle ID, and transfer status (Telematics succeeded, USB used, transfer failed). Carriers can review the history of roadside inspections across the fleet.</p><p>Useful for tracking inspector activity, identifying drivers who may need additional training, and providing context for DOT audit responses.</p>"
+    },
+    "bulk-audit-export": {
+      title: "Bulk export for DOT audits",
+      body: "<p>Single-click generation of an audit response package containing every driver's logs across a specified date range, in FMCSA-format. Includes the underlying event records, all edits with annotations, malfunction history, and unidentified driving resolutions.</p><p>Reduces audit response time from days to hours.</p>"
+    },
+
+    /* WEB PORTAL - COULD */
+    "embedded-portal": {
+      title: "Embedded inside the existing Tenna web application",
+      body: "<p>Rather than living as a separate web application, the fleet manager portal renders as a peer module inside the existing Tenna interface. Customers see ELD as one of the modules in their Tenna sidebar, alongside Asset Tracking, Maintenance, and Resource Management. Single login, single navigation, single brand.</p><p>A structural differentiator over standalone ELD providers. Reduces user-training burden and reinforces the single-platform value proposition.</p>"
+    },
+    "asset-scorecard-crosslink": {
+      title: "Cross-link to Asset Records and Driver Scorecard",
+      body: "<p>From any driver detail screen, click-through to the associated vehicle's Asset Record (maintenance history, work orders, paired hardware) and to the driver's Scorecard (safety events, behavior trends, coaching status). Bidirectional links from those modules back to the ELD context.</p><p>Connects HOS data with operational context that general-purpose ELDs do not have access to. Tenna's structural advantage materialized as a UX feature.</p>"
+    },
+    "project-rollup": {
+      title: "Construction project rollup for HOS hours by project",
+      body: "<p>Aggregates driver HOS hours by project (defined in Tenna's Sites and Geofences module) for billing, labor allocation, and project-cost analysis.</p><p>A construction-vertical feature that general-purpose ELDs cannot replicate, because they lack the project context that Tenna already maintains.</p>"
+    },
+
+    /* BACKEND SERVICES - MUST */
+    "hos-state-machine": {
+      cite: "49 CFR §395",
+      title: "HOS state machine",
+      body: "<p>The core engine that interprets driver events against the federal Hours of Service rules. Handles the 11-hour driving limit, the 14-hour on-duty window, the 30-minute mandatory break, the 60-hour over 7 days and 70-hour over 8 days weekly cycles, the 34-hour restart provision, and the sleeper-berth split provisions (8 and 2, or 7 and 3).</p><p>Also handles federal exceptions including adverse driving conditions, the short-haul air-mile exemption, agricultural and oilfield exemptions, and the personal conveyance and yard move duty modifiers.</p><p>The state machine is the regulatory heart of the entire system. Specification-driven testing is essential to keep it correct as FMCSA issues clarifications over time.</p>"
+    },
+    "event-ingestion": {
+      title: "Event ingestion API",
+      body: "<p>The interface through which driver actions, ECM telemetry, and system-generated events arrive at the backend. Receives events from the mobile application, the TennaFLEET and TennaCANbus hardware, and the malfunction detection subsystem.</p><p>Idempotent ingestion handles intermittent connectivity without producing duplicates. Validates incoming events against schema and rejects malformed payloads. Stores events in an append-only event store that serves as the source of truth for all downstream surfaces.</p>"
+    },
+    "output-generator": {
+      cite: "49 CFR §395 Appendix A",
+      title: "ELD output file generator",
+      body: "<p>Produces the FMCSA-format ELD output file used during roadside inspections and DOT audits. The output is structured ASCII with specific section ordering: header, user list, CMV list, malfunction and diagnostic log, edit history, event record, unidentified driver log, and a line-by-line data check using CRC.</p><p>The format is rigorously specified in 49 CFR 395 Appendix A. Validation against FMCSA's reference parser is part of the Phase 5 certification work. Format errors here are a common revocation trigger.</p>"
+    },
+    "data-transfer": {
+      cite: "49 CFR §395.22(h)",
+      title: "Data transfer service",
+      body: "<p>The mechanism for delivering ELD output files to FMCSA's eRODS system at roadside inspections or during audits. Two specified modes: Telematics (HTTPS POST to FMCSA's web service endpoint with email fallback) or Local (USB 2.0 or Bluetooth direct to the inspector's device). The provider self-certifies one mode.</p><p>Telematics is the modern default used by Motive, Samsara, and Omnitracs. Email fallback handles areas with poor cellular coverage at roadside.</p>"
+    },
+    "malfunction-engine": {
+      cite: "49 CFR §395.34",
+      title: "Malfunction and diagnostic engine",
+      body: "<p>Continuous self-monitoring across the eight categories defined in §395.34(a): power compliance, engine synchronization, timing compliance, positioning compliance, data recording, data transfer, other ELD-detected events, and the broader data diagnostic category. Each category carries specific trigger thresholds defined in the specification.</p><p>The engine emits malfunction events when serious failures occur (requiring 8-day remediation) and diagnostic events for recoverable issues. Both event types flow to the driver application for display and acknowledgment, and to the carrier portal for tracking.</p><p>This is the section of the specification where ELDs are most often revoked. Implementation rigor here is essential.</p>"
+    },
+    "edit-versioning": {
+      cite: "49 CFR §395.30",
+      title: "Edit and annotation versioning",
+      body: "<p>Every event record carries a complete history of modifications: who made each edit, when, the annotation explaining the reason, and the original value. Versioning is append-only, so original records can never be overwritten or deleted.</p><p>The audit trail is queryable at any time, surfaced to drivers in the mobile application and to carriers in the web portal. FMCSA enforcement actions frequently cite missing or incomplete edit histories.</p>"
+    },
+    "time-sync": {
+      cite: "49 CFR §395.34(a)(3)",
+      title: "Time synchronization with UTC drift detection",
+      body: "<p>The ELD's internal clock must remain synchronized to within 10 minutes of an external UTC source. The backend monitors clock drift across the device fleet and triggers a timing-compliance malfunction when drift exceeds the tolerance.</p><p>Time sync is checked continuously. Implementation typically anchors to NTP, with fallback to GPS time when network is unavailable.</p>"
+    },
+    "auth-permissions": {
+      title: "Authentication and permissions",
+      body: "<p>Role-based access control across three user classes. Drivers authenticate to the mobile application using carrier-issued credentials and have access to their own logs only. Carrier administrators authenticate to the web portal and have access scoped to their organization. FMCSA inspectors operate in Inspection Mode, which is gated by a PIN configured at the device level and exposes only the 8-day record without editing rights.</p><p>The architecture sits inside Tenna's identity perimeter, so SSO from Tenna's existing authentication flows into the ELD application without requiring separate login.</p>"
+    },
+
+    /* BACKEND SERVICES - SHOULD */
+    "tenna-integrations-api": {
+      title: "API exposed for the Tenna Integrations module",
+      body: "<p>HOS events, violation data, and driver status are exposed through API endpoints designed to be consumed by Tenna's existing Integrations module. This allows other Tenna products (Driver Scorecard, Maintenance, Resource Management) to use HOS data as inputs to their own workflows.</p><p>A cross-module benefit that general-purpose ELDs cannot deliver, because they have no peer modules within Tenna's platform.</p>"
+    },
+    "webhook-stream": {
+      title: "Webhook event stream",
+      body: "<p>Real-time event delivery to downstream consumers. Carriers and Tenna modules can subscribe to event types (status change, violation, malfunction, certification) and receive push notifications via webhook. Reduces polling latency for time-sensitive workflows.</p><p>A standard pattern in modern fleet platforms. Enables real-time integrations with ERP, accounting, and project-management systems.</p>"
+    },
+    "historical-replay": {
+      title: "Historical replay for testing",
+      body: "<p>Engineering tooling that allows the team to replay a sequence of historical events against the HOS state machine to reproduce edge cases. Essential for verifying behavior when FMCSA issues specification clarifications, and for debugging customer-reported issues without disturbing production data.</p><p>Reduces time to resolution for compliance defects and improves confidence during specification updates.</p>"
+    },
+
+    /* HARDWARE AND ECM INTEGRATION - MUST */
+    "ecm-data-contract": {
+      title: "Data contract with TennaFLEET II and TennaCANbus",
+      body: "<p>The ELD application reads engine power status, vehicle motion status, miles driven, and engine hours directly from TennaFLEET II (for on-road vehicles) and TennaCANbus (for heavy equipment) hardware. These four ECM data elements are required on every event record per FMCSA specification.</p><p>The integration consumes data from Tenna's existing telemetry layer rather than adding a parallel hardware path. This is the core architectural advantage: no second gateway, no duplicate hardware, no reconciliation between data sources.</p>"
+    },
+    "polling-cadence": {
+      cite: "49 CFR §395.34(a)(2)",
+      title: "5-second polling cadence",
+      body: "<p>ECM data is polled at the cadence required by FMCSA's engine-synchronization specification. A diagnostic event triggers if the ELD cannot acquire updated values for the four required data elements within five seconds of need. Sustained loss of connectivity becomes a compliance malfunction.</p><p>The polling layer is built for reliability. Connection-loss recovery, automatic re-pair, and graceful degradation are all design requirements.</p>"
+    },
+    "connection-failure": {
+      cite: "49 CFR §395.34(a)(2)",
+      title: "Connection failure detection with 30-minute threshold",
+      body: "<p>The engine-synchronization compliance malfunction triggers when the ELD loses ECM connectivity for more than 30 minutes aggregated across a 24-hour period. The detection logic tracks connection time across power cycles, driver shifts, and intermittent radio drops to compute the cumulative loss.</p><p>The 30-minute threshold is defined in §395.34(a)(2). Implementation must be conservative because exceeding the threshold and failing to emit the malfunction is a revocation trigger.</p>"
+    },
+    "vehicle-identity": {
+      title: "VIN, ECM serial, and vehicle identifier capture",
+      body: "<p>At pairing time, the application captures the vehicle's VIN, the ECM serial number, and the carrier-assigned vehicle identifier. These three identifiers are required data elements on event records and are how the ELD ties events to a specific physical vehicle.</p><p>Identifiers are read from the ECM where available, with fallback to manual entry through the carrier administrator interface for vehicles with non-standard ECM responses.</p>"
+    },
+    "bluetooth-pairing": {
+      title: "Bluetooth pairing between driver mobile and Tenna hardware",
+      body: "<p>The driver application establishes and maintains a Bluetooth connection with the paired TennaFLEET or TennaCANbus device. The pairing flow is the moment when the driver, the device, and the vehicle become associated. Pairing persists across application restarts and reconnects automatically when in range.</p><p>Bluetooth reliability is one of the specific concerns that drives the recommendation for React Native with strategic native modules. Pairing failures during a trip trigger engine synchronization diagnostics or malfunctions.</p>"
+    },
+
+    /* SELF-CERTIFICATION AND FMCSA REGISTRATION - MUST */
+    "test-suite": {
+      title: "Internal compliance test suite",
+      body: "<p>A comprehensive test harness that exercises every behavior defined in 49 CFR 395 Appendix A. Every event type, every malfunction trigger, every diagnostic threshold, every edit-history path, every status transition. Built alongside the production code so coverage is complete before Phase 5 begins.</p><p>The test suite is the documented evidence of compliance that supports the self-certification submission and the response to any FMCSA audit.</p>"
+    },
+    "output-validation": {
+      title: "Output file validation against FMCSA reference",
+      body: "<p>ELD output files generated by the system are validated against FMCSA's reference parser, which is the same tool FMCSA uses to evaluate provider compliance. Validation runs on every release.</p><p>Output file format defects are a common revocation trigger. Continuous validation catches drift before it reaches production.</p>"
+    },
+    "documentation-package": {
+      title: "Documentation package per FMCSA submission guide",
+      body: "<p>The full set of materials required by FMCSA's Equipment Registration portal. Provider information, device identification, operating-system list, ELD-type declaration (Telematics or Local), self-certification statement, public-facing user instructions URL, and contact information for the regulatory record.</p><p>Documentation accuracy matters. FMCSA reviewers reference these materials during audits.</p>"
+    },
+    "user-guide": {
+      title: "Public-facing user guide",
+      body: "<p>The user-facing documentation that FMCSA hosts on the registered device list. Must be accessible without authentication and must accurately describe device operation, data transfer procedures, malfunction response, and roadside inspection flow.</p><p>FMCSA reviewers read this document. It must align exactly with the actual product behavior. Mismatches between documentation and implementation are a citation source.</p>"
+    },
+    "registration-submission": {
+      title: "FMCSA Equipment Registration submission",
+      body: "<p>Submission of the device for self-certification through FMCSA's Equipment Registration portal. There is no fee. The provider attests that the device meets Appendix A specifications, lists the operating systems on which it runs, and provides the public-facing user-guide URL.</p><p>Once submitted, the device typically appears on the public registered list within a few business days. No third-party lab certification is involved.</p>"
+    },
+    "device-type": {
+      title: "Registration as Telematics ELD type",
+      body: "<p>The ELD-type declaration governs which data transfer mechanism the device uses at roadside inspection. Telematics mode (HTTPS POST to FMCSA's eRODS web service with email fallback) is the modern default used by Motive, Samsara, and Omnitracs, and is the recommendation for this implementation.</p><p>The alternative is Local mode (USB 2.0 or Bluetooth direct to the inspector's device), which is less common in modern deployments.</p>"
+    }
+  };
+
+  function openReq(id) {
+    const data = reqData[id];
+    if (!data) return;
+    document.getElementById('modal-cite').textContent = data.cite || '';
+    document.getElementById('modal-title').textContent = data.title;
+    document.getElementById('modal-body').innerHTML = data.body;
+    document.getElementById('modal-backdrop').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal-backdrop').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalIfBackdrop(event) {
+    if (event.target.id === 'modal-backdrop') {
+      closeModal();
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+<script src="/glossary.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "appaxis-eld-build",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@vercel/functions": "^2.2.0"
+  }
+}
