@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Tenna ELD · Meeting Prep · Requirements and Project Plan</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -57,12 +58,6 @@
   .topbar .nav { display: flex; gap: 18px; color: var(--ink-soft); font-size: 13px; font-weight: 500; align-items: center; }
   .topbar .nav a { color: var(--ink-soft); }
   .topbar .nav a:hover { color: var(--orange); }
-  .nav-pill {
-    border: 1px solid var(--orange); color: var(--orange);
-    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 1.5px; font-weight: 800;
-    background: var(--orange-soft);
-  }
-
   .hero {
     padding: 60px 0 40px 0; position: relative; overflow: hidden;
   }
@@ -452,7 +447,6 @@
       <a href="#certification">Cert</a>
       <a href="#estimate">Estimate</a>
       <a href="/ecosystem">Ecosystem ↗</a>
-      <span class="nav-pill">MEETING PREP</span>
     </div>
   </div>
 </div>
@@ -1243,52 +1237,46 @@
 
 <section id="estimate">
   <div class="container">
-    <div class="eyebrow">Section 9 · LOE and Cost Estimate</div>
-    <h2>Fixed-price by phase. Transparent numbers.</h2>
+    <div class="eyebrow">Section 9 · Level of Effort</div>
+    <h2>Phased delivery. Each phase a clean gate.</h2>
     <p class="lede">
-      Working numbers, not opening positions. AppAxis prices to fixed outcomes rather than hourly billing that incentivizes slow delivery. The only material unknown that could shift the plan is the TennaFLEET and CANbus API surface, which Phase 2 resolves before any production code is written.
+      AppAxis engages in fixed-outcome phases rather than hourly billing that incentivizes slow delivery, with commercial terms presented once both sides have walked the plan together. The only material unknown that could shift the plan is the TennaFLEET and CANbus API surface, which Phase 2 resolves before any production code is written.
     </p>
 
     <table class="cost-table">
       <thead>
-        <tr><th>Phase</th><th>Duration</th><th>Team</th><th class="num-cell">Fixed Price</th></tr>
+        <tr><th>Phase</th><th>Duration</th><th>Team</th></tr>
       </thead>
       <tbody>
         <tr>
           <td>1. Research and Assessment</td>
           <td>Complete</td>
           <td>Adam</td>
-          <td class="num-cell">$0.00</td>
         </tr>
         <tr>
           <td>2. <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> and Scope Lock</td>
           <td>3 weeks</td>
           <td>Adam</td>
-          <td class="num-cell">$5,000</td>
         </tr>
         <tr>
           <td>3. Core Build</td>
           <td>8 weeks</td>
           <td>2 senior eng + 1 QA</td>
-          <td class="num-cell">$135,600</td>
         </tr>
         <tr>
           <td>4. Portal and Data Transfer</td>
           <td>4 weeks</td>
           <td>2 senior eng + 1 QA</td>
-          <td class="num-cell">$67,800</td>
         </tr>
         <tr>
           <td>5. Certification and FMCSA Registration</td>
           <td>4 weeks</td>
           <td>2 senior eng + 1 QA</td>
-          <td class="num-cell">$67,800</td>
         </tr>
         <tr>
           <td>6. Pilot and Handoff</td>
           <td>4 weeks</td>
           <td>2 senior eng + 1 QA</td>
-          <td class="num-cell">$67,800</td>
         </tr>
       </tbody>
       <tfoot>
@@ -1296,7 +1284,6 @@
           <td>Total, kickoff to FMCSA-listed and piloting</td>
           <td>23 wks</td>
           <td>2 senior eng + QA</td>
-          <td class="num-cell">$344,000</td>
         </tr>
       </tfoot>
     </table>
