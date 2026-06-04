@@ -241,6 +241,21 @@
     to { opacity: 1; transform: none; }
   }
   .scenario-panel .panel-label { display: none; }
+
+  .mgmt-note {
+    margin: 30px 0 6px;
+    background: linear-gradient(170deg, #FFFDFB, white);
+    border: 1px solid var(--line); border-left: 3px solid var(--orange);
+    border-radius: 12px; padding: 22px 26px;
+    box-shadow: 0 6px 22px rgba(26,31,42,0.04);
+  }
+  .mgmt-note .lbl {
+    font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 8px;
+  }
+  .mgmt-note h3 { margin: 0 0 8px 0; font-size: 17px; }
+  .mgmt-note p { margin: 0 0 10px 0; font-size: 14px; }
+  .mgmt-note p:last-child { margin-bottom: 0; }
   @media print {
     .scenario-tabs { display: none; }
     .scenario-panel[hidden] { display: block; }
@@ -1394,6 +1409,13 @@
           </tr>
         </tfoot>
       </table>
+    </div>
+
+    <div class="mgmt-note">
+      <div class="lbl">Product and Project Management · Included in Both Scenarios</div>
+      <h3>Adam runs product and project management throughout.</h3>
+      <p>Priorities and scope calls, the weekly showback cadence, and the working channel with Tenna's product and engineering teams all route through Adam for the length of the engagement. It is part of how the phases stay clean gates rather than handoffs, and it is built into both scenarios rather than billed as a separate line.</p>
+      <p>On engagements of similar shape, that workload has stayed light enough to carry well alongside the principal role. If it grows past what one person can carry at full quality, AppAxis asks for one thing now: the opportunity to add a dedicated management role to the team at that point, raised openly with Tenna before anyone is staffed.</p>
     </div>
 
     <h3>Outside the estimate</h3>
