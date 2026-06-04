@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tenna ELD · Meeting Prep · Requirements and Project Plan</title>
+<title>Tenna ELD · Requirements and Project Plan · Revised June 4</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -453,7 +453,7 @@
 
 <section class="hero">
   <div class="container">
-    <div class="kicker">For Thursday's Discussion · Confidential</div>
+    <div class="kicker">Revised After the June 4 Working Session · Confidential</div>
     <div class="meta">
       <span>Prepared by AppAxis</span>
       <span>Subject: Tenna ELD Application</span>
@@ -461,7 +461,7 @@
     </div>
     <h1>A Tenna-native ELD.<br/><span class="accent">What it takes. What it costs. What we'd do first.</span></h1>
     <p class="lede">
-      A pre-meeting research package covering the FMCSA regulatory landscape, the capabilities of the major incumbent ELDs, a first-draft requirements view of the Tenna application, and a phased project plan with realistic level of effort. Designed to be skimmed in 15 minutes or read in full.
+      A research package covering the FMCSA regulatory landscape, the capabilities of the major incumbent ELDs, a requirements view of the Tenna application, and a phased project plan with realistic level of effort. Revised after the June 4 working session with Jose: the ELD now leans on the Tenna ecosystem wherever a module already exists, Tenna owns FMCSA certification backed by a dedicated FMCSA compliance expert, and the plan compresses from 23 weeks to 18.
     </p>
     <p class="lede" style="font-size:15px; margin-top:14px;">
       New to Tenna's product surface? Start with the companion <a href="/ecosystem">Tenna Product Ecosystem field guide&nbsp;↗</a> for background on the platform, modules, and hardware this ELD would plug into.
@@ -620,7 +620,7 @@
     <div class="req-block">
       <div class="head">
         <h3>1. Driver Mobile App</h3>
-        <span class="muted-text small">iOS and Android, React Native</span>
+        <span class="muted-text small">iOS and Android, on vehicle tablets and driver personal devices</span>
       </div>
       <div class="body">
         <p><span class="tag must">MUST</span> &nbsp; Federal-spec features that gate certification.</p>
@@ -635,14 +635,13 @@
           <li onclick="openReq('log-edits')">Edit log entries with required reason annotation (8+ chars)</li>
           <li onclick="openReq('udr-driver')">Unidentified driving record review and claim or reject</li>
           <li onclick="openReq('malfunction-display')">Malfunction and diagnostic notice display with on-device acknowledgment</li>
-          <li onclick="openReq('dvir')">DVIR (pre and post-trip), required by §396.11</li>
+          <li onclick="openReq('dvir-handoff')">DVIR handoff to Tenna's standard app (launch or API), keeping §396.11 covered without a rebuild</li>
           <li onclick="openReq('offline-mode')">Offline mode with local persistence and sync</li>
         </ul>
         <p style="margin-top:12px;"><span class="tag should">SHOULD</span> &nbsp; Parity features Motive and Samsara have.</p>
         <ul>
           <li onclick="openReq('hos-clock')">HOS clock visualization (drive remaining, on-duty remaining, break required, weekly cycle)</li>
           <li onclick="openReq('messaging')">Two-way messaging with dispatcher</li>
-          <li onclick="openReq('dvir-forms')">Form-based DVIR with defect templates</li>
           <li onclick="openReq('coaching-nudges')">In-app coaching nudges before violation</li>
           <li onclick="openReq('multi-vehicle')">Multi-vehicle pairing (driver moves between trucks)</li>
         </ul>
@@ -658,10 +657,11 @@
 
     <div class="req-block">
       <div class="head">
-        <h3>2. Fleet Manager Web Portal</h3>
-        <span class="muted-text small">Embedded into Tenna app or standalone alongside</span>
+        <h3>2. Log Management Module (Web)</h3>
+        <span class="muted-text small">A module inside the existing Tenna web portal</span>
       </div>
       <div class="body">
+        <p class="muted-text small" style="margin-top:0;">Scope narrowed in the June 4 session. Reviewing, editing, and approving driver logs is the core of this surface. Driver roster, onboarding, profiles, user management, and notifications stay in Tenna's existing platform, and the module ships inside the Tenna web portal rather than as a standalone app.</p>
         <p><span class="tag must">MUST</span></p>
         <ul>
           <li onclick="openReq('driver-status-board')">Driver status board with live HOS clock per driver</li>
@@ -671,7 +671,6 @@
           <li onclick="openReq('log-export')">Log export, FMCSA-format file generation on demand</li>
           <li onclick="openReq('udr-assignment')">Unidentified driving assignment to drivers</li>
           <li onclick="openReq('malfunction-tracker')">Malfunction tracking with 8-day remediation clock per device</li>
-          <li onclick="openReq('driver-profile')">Driver profile management (license, CDL class, exempt status)</li>
           <li onclick="openReq('log-retention')">6-month log retention with audit-ready archive</li>
         </ul>
         <p style="margin-top:12px;"><span class="tag should">SHOULD</span></p>
@@ -683,7 +682,6 @@
         </ul>
         <p style="margin-top:12px;"><span class="tag could">COULD</span></p>
         <ul>
-          <li onclick="openReq('embedded-portal')">Embedded inside the existing Tenna web app as a peer module</li>
           <li onclick="openReq('asset-scorecard-crosslink')">Cross-link to Asset Records (the driver's vehicle) and Driver Scorecard</li>
           <li onclick="openReq('project-rollup')">Construction project rollup for HOS hours by project, useful for billing</li>
         </ul>
@@ -693,13 +691,13 @@
     <div class="req-block">
       <div class="head">
         <h3>3. Backend Services</h3>
-        <span class="muted-text small">Standalone service, integrates with Tenna's data plane</span>
+        <span class="muted-text small">Deployed inside Tenna's platform, beside the existing ingestion service</span>
       </div>
       <div class="body">
         <p><span class="tag must">MUST</span></p>
         <ul>
           <li onclick="openReq('hos-state-machine')">HOS state machine covering all federal duty rules, exceptions, and edge cases</li>
-          <li onclick="openReq('event-ingestion')">Event ingestion API that receives driver events and ECM telemetry</li>
+          <li onclick="openReq('event-ingestion')">Event ingestion API that receives the distilled HOS record set from the in-cab app over its cellular link</li>
           <li onclick="openReq('output-generator')">ELD output file generator producing the FMCSA-format ASCII file with CRC line check</li>
           <li onclick="openReq('data-transfer')">Data transfer service using web services to eRODS with email fallback (Telematics mode)</li>
           <li onclick="openReq('malfunction-engine')">Malfunction and diagnostic engine with continuous self-monitoring across the 8 categories</li>
@@ -718,36 +716,39 @@
 
     <div class="req-block">
       <div class="head">
-        <h3>4. Hardware and ECM Integration</h3>
-        <span class="muted-text small">No new hardware. Leverage TennaFLEET and TennaCANbus.</span>
+        <h3>4. Hardware and Telemetry Integration</h3>
+        <span class="muted-text small">No new hardware. The Tenna tracker and its Bluetooth-linked tablet are already on the vehicle.</span>
       </div>
       <div class="body">
         <p><span class="tag must">MUST</span></p>
         <ul>
-          <li onclick="openReq('ecm-data-contract')">Data contract with TennaFLEET II and TennaCANbus for engine power, motion, miles, and engine hours</li>
+          <li onclick="openReq('ecm-data-contract')">Bluetooth broadcast contract with the Tenna tracker for engine power, motion, miles, and engine hours</li>
           <li onclick="openReq('polling-cadence')">5-second polling cadence (FMCSA spec for engine sync)</li>
           <li onclick="openReq('connection-failure')">Failure detection where a lost connection over 30 min triggers an engine sync malfunction</li>
           <li onclick="openReq('vehicle-identity')">VIN, ECM serial, and vehicle identifier capture</li>
-          <li onclick="openReq('bluetooth-pairing')">Bluetooth pairing flow between driver mobile and Tenna hardware</li>
+          <li onclick="openReq('bluetooth-pairing')">Bluetooth pairing flow between the in-cab device and the Tenna tracker</li>
         </ul>
-        <p class="muted-text small" style="margin-top:8px;">Critical scoping question. What is the existing API surface of TennaFLEET and CANbus? A clean modern stream keeps this phase straightforward. New firmware requirements would reshape the plan meaningfully.</p>
+        <p class="muted-text small" style="margin-top:8px;">Updated after the June 4 session. The tracker is already deployed, already feeding Tenna's ingestion service, and already pairs with an in-cab Bluetooth tablet. The remaining scoping question is the broadcast contract itself: which data elements the tracker emits over Bluetooth, at what cadence, and how pairing is authenticated.</p>
       </div>
     </div>
 
     <div class="req-block">
       <div class="head">
-        <h3>5. Self-Certification and FMCSA Registration</h3>
-        <span class="muted-text small">Tenna becomes the listed provider</span>
+        <h3>5. Certification Readiness</h3>
+        <span class="muted-text small">Tenna owns registration, guided by a dedicated FMCSA compliance expert</span>
       </div>
       <div class="body">
-        <p><span class="tag must">MUST</span></p>
+        <p><span class="tag must">MUST</span> &nbsp; What AppAxis delivers so Tenna's self-certification signature is defensible.</p>
         <ul>
           <li onclick="openReq('test-suite')">Internal compliance test suite covering all Appendix A sections</li>
           <li onclick="openReq('output-validation')">Validation against FMCSA's reference ELD output file checker</li>
+          <li onclick="openReq('device-type')">Built to the Telematics device type, the recommended transfer mode</li>
+        </ul>
+        <p style="margin-top:12px;"><span class="tag">TENNA-OWNED</span> &nbsp; Driven by Tenna's FMCSA compliance expert, with AppAxis supplying source material and fixes.</p>
+        <ul>
           <li onclick="openReq('documentation-package')">Documentation package per FMCSA's submission guide</li>
           <li onclick="openReq('user-guide')">Public-facing user guide (FMCSA reviewers will read it)</li>
           <li onclick="openReq('registration-submission')">Submit through FMCSA Equipment Registration portal</li>
-          <li onclick="openReq('device-type')">Registration as one of two device types (Telematics recommended)</li>
         </ul>
       </div>
     </div>
@@ -760,7 +761,7 @@
     <div class="eyebrow">Section 4 · Mobile Stack</div>
     <h2>React Native with strategic native modules.</h2>
     <p class="lede">
-      Three viable approaches: full native (Swift and Kotlin), pure React Native, or React Native with selectively-built native modules. This is a real engineering decision with real timeline implications. The driver application carries three constraints that shape the choice. Reliable Bluetooth pairing with TennaFLEET hardware. Background processing for HOS tracking when the application is not foregrounded. Roadside inspection display that renders in under 5 seconds without a network. The three options compared below.
+      Three viable approaches: full native (Swift and Kotlin), pure React Native, or React Native with selectively-built native modules. This is a real engineering decision with real timeline implications. The driver application carries three constraints that shape the choice. Reliable Bluetooth pairing with the Tenna tracker. Background processing for HOS tracking when the application is not foregrounded. Roadside inspection display that renders in under 5 seconds without a network. The June 4 session added a fourth: the app ships on both vehicle-mounted tablets and driver personal devices at launch, which widens the device matrix and raises the bar on background reliability. The three options compared below.
     </p>
 
     <div class="three-col">
@@ -822,19 +823,19 @@
 <section id="screens">
   <div class="container">
     <div class="eyebrow">Section 5 · Screen Inventory</div>
-    <h2>Two apps. Roughly 54 distinct screens between them.</h2>
+    <h2>One driver app, one web module. Roughly 41 distinct screens between them.</h2>
     <p class="lede">
       Not mockups. The inventory. Every surface the user touches, what it does, and how it links. This is the source material for the Phase 2 <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a>. Some of these surfaces are full screens, others are modals or sheets, but each is a distinct piece of UX to design, build, and test.
     </p>
 
-    <h3>Driver Mobile App · ~29 surfaces</h3>
+    <h3>Driver Mobile App · ~26 surfaces</h3>
 
     <div class="req-block">
       <div class="head"><h3>Authentication and Setup (3)</h3></div>
       <div class="body">
         <ul>
           <li><b>D1. Login.</b> Driver enters carrier-issued credentials. Lands on D4.</li>
-          <li><b>D2. Vehicle Pair.</b> Driver selects truck and pairs to TennaFLEET Bluetooth. Required before duty status can change. Links to D4 or D29 (about).</li>
+          <li><b>D2. Vehicle Pair.</b> Driver selects truck and pairs to the Tenna tracker over Bluetooth. Required before duty status can change. Links to D4 or D26 (about).</li>
           <li><b>D3. Co-driver Login.</b> Second driver logs in on the same device for team driving.</li>
         </ul>
       </div>
@@ -867,13 +868,10 @@
     </div>
 
     <div class="req-block">
-      <div class="head"><h3>DVIR (4)</h3></div>
+      <div class="head"><h3>DVIR Handoff (1)</h3></div>
       <div class="body">
         <ul>
-          <li><b>D14. DVIR Pre-Trip Start.</b> Entry to pre-trip inspection flow.</li>
-          <li><b>D15. DVIR Checklist.</b> Multi-step form, carrier-configurable defect categories.</li>
-          <li><b>D16. Defect Report.</b> Capture defect details, photos, severity. Conditional on D15.</li>
-          <li><b>D17. DVIR Submit.</b> Review and sign. Post-trip version reuses the same flow.</li>
+          <li><b>D14. DVIR Launch.</b> Hands off to Tenna's standard DVIR flow (app launch or API) and returns the driver to D4 when complete. De-scoped from this build in the June 4 session; Tenna's existing module covers §396.11.</li>
         </ul>
       </div>
     </div>
@@ -882,9 +880,9 @@
       <div class="head"><h3>Roadside Inspection (3)</h3></div>
       <div class="body">
         <ul>
-          <li><b>D18. Inspection Entry.</b> PIN-gated entry so a driver can't accidentally trigger it. Hands phone to officer.</li>
-          <li><b>D19. Inspection Display.</b> Full 8-day record on screen, FMCSA-required format. Officer can scroll.</li>
-          <li><b>D20. Transfer to Officer.</b> Initiate eRODS web service transfer or local USB / Bluetooth transfer. Success or failure confirmation.</li>
+          <li><b>D15. Inspection Entry.</b> PIN-gated entry so a driver can't accidentally trigger it. Hands phone to officer.</li>
+          <li><b>D16. Inspection Display.</b> Full 8-day record on screen, FMCSA-required format. Officer can scroll.</li>
+          <li><b>D17. Transfer to Officer.</b> Initiate eRODS web service transfer or local USB / Bluetooth transfer. Success or failure confirmation.</li>
         </ul>
       </div>
     </div>
@@ -893,8 +891,8 @@
       <div class="head"><h3>Malfunction and Diagnostic (2)</h3></div>
       <div class="body">
         <ul>
-          <li><b>D21. Malfunction Notice.</b> Full-screen modal when a §395.34 malfunction triggers. Cannot be dismissed without acknowledgment. Driver must revert to paper logs until cleared.</li>
-          <li><b>D22. Diagnostic Notice.</b> Banner-style for recoverable diagnostic events. Lower urgency than malfunctions.</li>
+          <li><b>D18. Malfunction Notice.</b> Full-screen modal when a §395.34 malfunction triggers. Cannot be dismissed without acknowledgment. Driver must revert to paper logs until cleared.</li>
+          <li><b>D19. Diagnostic Notice.</b> Banner-style for recoverable diagnostic events. Lower urgency than malfunctions.</li>
         </ul>
       </div>
     </div>
@@ -903,8 +901,8 @@
       <div class="head"><h3>Carrier-Initiated (2)</h3></div>
       <div class="body">
         <ul>
-          <li><b>D23. Edit Request Notification.</b> Pushed when fleet manager proposes a log edit. Required by spec to need driver approval.</li>
-          <li><b>D24. Edit Review.</b> Side-by-side original vs proposed. Driver approves or rejects with reason.</li>
+          <li><b>D20. Edit Request Notification.</b> Pushed when fleet manager proposes a log edit. Required by spec to need driver approval.</li>
+          <li><b>D21. Edit Review.</b> Side-by-side original vs proposed. Driver approves or rejects with reason.</li>
         </ul>
       </div>
     </div>
@@ -913,7 +911,7 @@
       <div class="head"><h3>Unidentified Driving (1)</h3></div>
       <div class="body">
         <ul>
-          <li><b>D25. UD Records.</b> Driving events with no logged-in driver. Driver claims or rejects each record. Required workflow.</li>
+          <li><b>D22. UD Records.</b> Driving events with no logged-in driver. Driver claims or rejects each record. Required workflow.</li>
         </ul>
       </div>
     </div>
@@ -922,44 +920,23 @@
       <div class="head"><h3>Profile and Settings (4)</h3></div>
       <div class="body">
         <ul>
-          <li><b>D26. Driver Profile.</b> CDL info, exempt status, cycle assignment, contact.</li>
-          <li><b>D27. Settings.</b> Notifications, units, accessibility.</li>
-          <li><b>D28. Help and Support.</b> User guide content (FMCSA reviewers check this).</li>
-          <li><b>D29. About.</b> FMCSA ELD Identifier, model, software version, registration link. Required to be visible.</li>
+          <li><b>D23. Driver Profile.</b> CDL info, exempt status, cycle assignment, contact.</li>
+          <li><b>D24. Settings.</b> Notifications, units, accessibility.</li>
+          <li><b>D25. Help and Support.</b> User guide content (FMCSA reviewers check this).</li>
+          <li><b>D26. About.</b> FMCSA ELD Identifier, model, software version, registration link. Required to be visible.</li>
         </ul>
       </div>
     </div>
 
-    <h3>Fleet Manager Web Portal · ~25 surfaces</h3>
-
-    <div class="req-block">
-      <div class="head"><h3>Authentication (2)</h3></div>
-      <div class="body">
-        <ul>
-          <li><b>W1. Login.</b> SSO to Tenna identity.</li>
-          <li><b>W2. Org Selector.</b> For multi-subsidiary contractors, choose the operating org.</li>
-        </ul>
-      </div>
-    </div>
+    <h3>Log Management Module (Web) · ~15 surfaces</h3>
+    <p class="muted-text small">The module ships inside the existing Tenna web portal, so login, SSO, and org context come from the shell. Handled by Tenna's existing surfaces: driver roster and onboarding, driver profiles, user management, notification preferences, DVIR review (the safety and compliance module), and IFTA reporting, which consumes the HOS event feed.</p>
 
     <div class="req-block">
       <div class="head"><h3>Dashboard (2)</h3></div>
       <div class="body">
         <ul>
-          <li><b>W3. Live Fleet HOS Dashboard.</b> All drivers, current status, drive-time remaining, location. The home screen.</li>
-          <li><b>W4. Approaching-Limit Alerts.</b> Filterable feed of drivers near a violation.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="req-block">
-      <div class="head"><h3>Drivers (4)</h3></div>
-      <div class="body">
-        <ul>
-          <li><b>W5. Driver Roster.</b> Sortable list of all drivers.</li>
-          <li><b>W6. Driver Detail.</b> Single driver view with current state, log shortcuts, contact.</li>
-          <li><b>W7. Driver Profile Editor.</b> Edit CDL info, cycle, exempt status.</li>
-          <li><b>W8. Driver Onboarding.</b> Add new driver, issue credentials, set initial config.</li>
+          <li><b>W1. Live Fleet HOS Dashboard.</b> All drivers, current status, drive-time remaining, location. The home screen.</li>
+          <li><b>W2. Approaching-Limit Alerts.</b> Filterable feed of drivers near a violation.</li>
         </ul>
       </div>
     </div>
@@ -968,23 +945,22 @@
       <div class="head"><h3>Logs (5)</h3></div>
       <div class="body">
         <ul>
-          <li><b>W9. Logs Review.</b> Filterable list of logs by driver, by day.</li>
-          <li><b>W10. Log Detail.</b> 24-hour graphical grid with full event list and edit history.</li>
-          <li><b>W11. Propose Edit.</b> Carrier proposes a log edit. Sends to driver for approval (W12).</li>
-          <li><b>W12. Edit Status Tracker.</b> Pending, approved, rejected edits across the fleet.</li>
-          <li><b>W13. Log Export.</b> Generate FMCSA-format output file for any date range or driver.</li>
+          <li><b>W3. Logs Review.</b> Filterable list of logs by driver, by day.</li>
+          <li><b>W4. Log Detail.</b> 24-hour graphical grid with full event list and edit history.</li>
+          <li><b>W5. Propose Edit.</b> Carrier proposes a log edit. Sends to driver for approval (W6).</li>
+          <li><b>W6. Edit Status Tracker.</b> Pending, approved, rejected edits across the fleet.</li>
+          <li><b>W7. Log Export.</b> Generate FMCSA-format output file for any date range or driver.</li>
         </ul>
       </div>
     </div>
 
     <div class="req-block">
-      <div class="head"><h3>Violations and Compliance (4)</h3></div>
+      <div class="head"><h3>Violations and Compliance (3)</h3></div>
       <div class="body">
         <ul>
-          <li><b>W14. Violations List.</b> Historical and current violations with severity.</li>
-          <li><b>W15. Violation Detail.</b> Specific violation with linked log, driver, and remediation note.</li>
-          <li><b>W16. Malfunction Tracker.</b> Per-device active malfunctions with 8-day remediation clock.</li>
-          <li><b>W17. DVIR Review.</b> Open DVIRs with defects, repair tracking, sign-off.</li>
+          <li><b>W8. Violations List.</b> Historical and current violations with severity.</li>
+          <li><b>W9. Violation Detail.</b> Specific violation with linked log, driver, and remediation note.</li>
+          <li><b>W10. Malfunction Tracker.</b> Per-device active malfunctions with 8-day remediation clock.</li>
         </ul>
       </div>
     </div>
@@ -993,36 +969,33 @@
       <div class="head"><h3>Vehicles (2)</h3></div>
       <div class="body">
         <ul>
-          <li><b>W18. Vehicle Roster.</b> Trucks, paired ELD device, VIN, last activity.</li>
-          <li><b>W19. Vehicle Pairing.</b> Assign or reassign TennaFLEET / CANbus device to a vehicle record.</li>
+          <li><b>W11. Vehicle Roster.</b> Trucks, paired ELD device, VIN, last activity.</li>
+          <li><b>W12. Vehicle Pairing.</b> Map the Tenna tracker and in-cab device to a vehicle record.</li>
         </ul>
       </div>
     </div>
 
     <div class="req-block">
-      <div class="head"><h3>Reports (3)</h3></div>
+      <div class="head"><h3>Reports (2)</h3></div>
       <div class="body">
         <ul>
-          <li><b>W20. IFTA Data Export.</b> Feeds Tenna's existing IFTA module.</li>
-          <li><b>W21. DOT Audit Export.</b> Bulk export of logs, events, edits, malfunctions for an audit period.</li>
-          <li><b>W22. Roadside Inspection Log.</b> Every roadside inspection event with transfer status.</li>
+          <li><b>W13. DOT Audit Export.</b> Bulk export of logs, events, edits, malfunctions for an audit period.</li>
+          <li><b>W14. Roadside Inspection Log.</b> Every roadside inspection event with transfer status.</li>
         </ul>
       </div>
     </div>
 
     <div class="req-block">
-      <div class="head"><h3>Settings (3)</h3></div>
+      <div class="head"><h3>Settings (1)</h3></div>
       <div class="body">
         <ul>
-          <li><b>W23. Carrier Settings.</b> Cycle defaults, special-duty permissions, geofence rules for Yard Move.</li>
-          <li><b>W24. User Management.</b> Admin / supervisor / safety-officer roles. SSO-driven.</li>
-          <li><b>W25. Notification Preferences.</b> Email, SMS, in-app rules per role.</li>
+          <li><b>W15. Carrier Settings.</b> Cycle defaults, special-duty permissions, geofence rules for Yard Move.</li>
         </ul>
       </div>
     </div>
 
     <h3>Flow logic in one paragraph</h3>
-    <p>The driver experience centers on D4 (the HOS dashboard), with almost everything one tap away. Three exceptions break that pattern: D18 (roadside inspection) is PIN-gated to prevent accidental entry, D21 (malfunction notice) interrupts everything else when triggered, and D23-D24 (edit requests) are push-driven from the back office. The fleet manager experience centers on W3 (the live dashboard), drilling into W6 (driver detail) or W10 (log detail) for everything else.</p>
+    <p>The driver experience centers on D4 (the HOS dashboard), with almost everything one tap away. Three exceptions break that pattern: D15 (roadside inspection) is PIN-gated to prevent accidental entry, D18 (malfunction notice) interrupts everything else when triggered, and D20-D21 (edit requests) are push-driven from the back office. The fleet manager experience centers on W1 (the live dashboard), drilling into W4 (log detail) for everything else, with driver records living in Tenna's existing surfaces.</p>
 
   </div>
 </section>
@@ -1030,59 +1003,62 @@
 <section id="architecture" class="alt">
   <div class="container">
     <div class="eyebrow">Section 6 · Architecture Sketch</div>
-    <h2>Standalone product. Integrated at the core.</h2>
+    <h2>The in-cab device is the ELD. The platform is Tenna.</h2>
     <p class="lede">
-      The ELD application is built as a standalone product with its own backend, mobile client, and web client, with first-class integration into Tenna's Asset and User core data. Tenna owns the FMCSA registration. The application operates inside the Tenna identity and SSO perimeter. The two blue layers below are built and owned by AppAxis through Phase 6, then transferred to Tenna at handoff.
+      The Tenna tracker is already on the vehicle and already feeding Tenna's ingestion service. The ELD app, running on a vehicle-linked tablet or the driver's personal device, absorbs that telemetry over Bluetooth, runs the HOS logic locally, and transmits the distilled ELD record set back to the Tenna platform over the device's cellular connection. The application operates inside the Tenna identity and SSO perimeter, and Tenna owns the FMCSA registration. The two blue layers below are built and owned by AppAxis through Phase 5, then transferred to Tenna at handoff.
     </p>
 
     <div class="arch">
       <div class="arch-grid">
 
-        <div class="arch-layer appaxis">
-          <span class="lbl">Built by AppAxis · Front-End Applications</span>
-          <img class="arch-logo" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
+        <div class="arch-layer tenna">
+          <span class="lbl">Tenna Hardware Layer · Already Deployed</span>
           <div class="pills">
-            <div class="arch-pill">Driver Mobile (iOS and Android)</div>
-            <div class="arch-pill">Fleet Manager Web Portal</div>
-            <div class="arch-pill">Roadside Inspection Mode</div>
+            <div class="arch-pill">Tenna tracker (ECM engine data)</div>
+            <div class="arch-pill">Existing telemetry feed to Tenna ingestion</div>
           </div>
         </div>
 
-        <div class="arch-flow">▼ &nbsp; API and SSO &nbsp; ▼</div>
+        <div class="arch-flow">▼ &nbsp; Bluetooth broadcast (engine power, motion, miles, hours) &nbsp; ▼</div>
 
         <div class="arch-layer appaxis">
-          <span class="lbl">Built by AppAxis · ELD Backend Services</span>
+          <span class="lbl">Built by AppAxis · In-Cab ELD App (the ELD unit)</span>
           <img class="arch-logo" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
           <div class="pills">
-            <div class="arch-pill">HOS State Machine</div>
-            <div class="arch-pill">Event Ingestion API</div>
-            <div class="arch-pill">Malfunction and Diagnostic Engine</div>
+            <div class="arch-pill">Driver App (iOS and Android)</div>
+            <div class="arch-pill">On-Device HOS State Machine</div>
+            <div class="arch-pill">Malfunction and Diagnostic Detection</div>
+            <div class="arch-pill">Roadside Inspection Mode</div>
+            <div class="arch-pill">Offline Event Store</div>
+          </div>
+        </div>
+
+        <div class="arch-flow">▼ &nbsp; Distilled HOS and ELD events via cellular &nbsp; ▼</div>
+
+        <div class="arch-layer appaxis">
+          <span class="lbl">Built by AppAxis · ELD Services, Deployed Inside Tenna's Platform</span>
+          <img class="arch-logo" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
+          <div class="pills">
+            <div class="arch-pill">HOS Event Ingestion</div>
             <div class="arch-pill">ELD Output File Generator</div>
             <div class="arch-pill">Data Transfer (eRODS web svc and email)</div>
             <div class="arch-pill">Edit and Annotation Versioning</div>
+            <div class="arch-pill">Malfunction Tracking</div>
+            <div class="arch-pill">Log Management Module (in the Tenna portal)</div>
           </div>
         </div>
 
-        <div class="arch-flow">▼ &nbsp; Integration Contracts &nbsp; ▼</div>
+        <div class="arch-flow">▼ &nbsp; Integration Contracts and SSO &nbsp; ▼</div>
 
         <div class="arch-layer tenna">
-          <span class="lbl">Tenna Core Data</span>
+          <span class="lbl">Tenna Core Platform</span>
           <div class="pills">
             <div class="arch-pill">Asset Records</div>
             <div class="arch-pill">User and Org Chart</div>
             <div class="arch-pill">Authentication (SSO)</div>
             <div class="arch-pill">Sites and Geofences (for yard moves)</div>
+            <div class="arch-pill">DVIR and Safety &amp; Compliance Module</div>
             <div class="arch-pill">Driver Scorecard (consumes HOS events)</div>
-          </div>
-        </div>
-
-        <div class="arch-flow">▼ &nbsp; Telemetry Feed &nbsp; ▼</div>
-
-        <div class="arch-layer">
-          <span class="lbl">Tenna Hardware Layer</span>
-          <div class="pills">
-            <div class="arch-pill">TennaFLEET II (ECM engine data)</div>
-            <div class="arch-pill">TennaCANbus (engine hours and DTC)</div>
           </div>
         </div>
 
@@ -1091,12 +1067,15 @@
 
     <h3>Integration boundary, what the project requires from Tenna</h3>
     <ul style="color: var(--ink-soft);">
+      <li>Bluetooth broadcast contract. Which data elements the tracker emits (engine power, motion, miles, engine hours), at what cadence, and how pairing is authenticated.</li>
+      <li>Ingestion path. Where the distilled HOS and ELD record set lands in Tenna's platform, whether through the existing ingestion service or a peer endpoint the ELD services own.</li>
       <li>Asset API access. Read VIN, vehicle identifier, and hardware-pairing info, with bi-directional access if current-driver writeback is desired.</li>
       <li>User API access. Read driver profiles, CDL information, and org-chart permissions.</li>
       <li>SSO. Driver and admin users authenticate against Tenna identity for a single sign-on experience.</li>
-      <li>Telemetry stream. TennaFLEET and CANbus engine data published through an existing webhook or stream, or under a new contract.</li>
+      <li>Portal embedding contract. How a partner-built module ships inside the Tenna web portal: shell, navigation, and permission model.</li>
+      <li>DVIR launch contract. Deep link or API into Tenna's standard DVIR flow from the ELD app, with return navigation.</li>
       <li>Geofence read access. The Sites and Geofences module exposes job and yard boundaries for automatic Yard Move detection.</li>
-      <li>Optional event push. The ELD writes HOS events back to Tenna's data plane so Scorecard, Maintenance, and other modules can consume them.</li>
+      <li>Event push. The ELD writes HOS events back to Tenna's data plane so Scorecard, Maintenance, IFTA, and other modules can consume them.</li>
     </ul>
   </div>
 </section>
@@ -1104,9 +1083,9 @@
 <section id="plan">
   <div class="container">
     <div class="eyebrow">Section 7 · Project Plan</div>
-    <h2>Six phases. Roughly 23 weeks from kickoff to listed-and-piloting.</h2>
+    <h2>Five phases. Roughly 18 weeks from kickoff to piloting and certification-ready.</h2>
     <p class="lede">
-      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment.
+      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Five weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management.
     </p>
 
     <div class="timeline">
@@ -1124,8 +1103,8 @@
       <div class="phase-card">
         <h4>PHASE 2 · PROPOSALTYPE AND SCOPE LOCK</h4>
         <h3>Clickable prototype on Tenna terminology, architecture signed</h3>
-        <p>Discovery with Tenna product and engineering teams, review of the current partner contract, technical assessment of the TennaFLEET and CANbus API surface, and a profile of one representative Tenna customer fleet, expressed as an interactive prototype of the driver application and fleet portal running on actual Tenna data shapes. Alongside the prototype, the decisions that gate production code: final HOS engine spec, ECM data contract with Tenna engineering, registration plan with FMCSA (Telematics type), data-retention design, and the scope boundary with Tenna's existing driver app. Both sides sign before any production code is written.</p>
-        <div class="deliv"><b>Deliverable:</b> <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a>, prioritized requirements, signed architecture doc, data contract, and certification roadmap</div>
+        <p>Discovery with Tenna product and engineering teams, review of the current partner contract, technical assessment of the tracker's Bluetooth broadcast contract and the portal embedding contract, and a profile of one representative Tenna customer fleet, expressed as an interactive prototype of the driver application and log module running on actual Tenna data shapes. Alongside the prototype, the decisions that gate production code: final HOS engine spec, the Bluetooth data contract with Tenna engineering, the supported-device matrix across vehicle tablets and personal devices, data-retention design, and the certification-readiness plan with Tenna's FMCSA compliance expert. Both sides sign before any production code is written.</p>
+        <div class="deliv"><b>Deliverable:</b> <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a>, prioritized requirements, signed architecture doc, data contract, and certification-readiness roadmap</div>
       </div>
     </div>
 
@@ -1134,38 +1113,28 @@
       <div class="phase-card">
         <h4>PHASE 3 · CORE BUILD</h4>
         <h3>HOS engine, malfunction engine, output file, mobile application, on real hardware</h3>
-        <p>Two senior engineers working in parallel, with real TennaFLEET and CANbus hardware in the loop from the first week rather than saved for a later integration phase. The auto-transition logic, engine-synchronization rules, and malfunction thresholds all depend on how the hardware actually behaves, so building against live ECM data burns down the project's biggest unknown earliest. Backend engineer owns the HOS state machine, event ingestion, malfunction engine, and output file generator. Mobile engineer owns the driver application (iOS and Android via React Native), Bluetooth pairing against TennaFLEET, and roadside inspection mode. QA engineer joins this phase, building the specification-driven test harness alongside the code so that every Appendix A behavior carries a test from day one. Weekly Friday showbacks give Tenna real-time input on priorities.</p>
+        <p>Two senior engineers working in parallel, with real Tenna trackers and tablets in the loop from the first week rather than saved for a later integration phase. The auto-transition logic, engine-synchronization rules, and malfunction thresholds all depend on how the hardware actually behaves, so building against the live Bluetooth broadcast burns down the project's biggest unknown earliest. Backend engineer owns the HOS state machine, event ingestion, malfunction engine, and output file generator. Mobile engineer owns the driver application (iOS and Android via React Native) across the tablet and personal-device matrix, Bluetooth intake from the tracker, and roadside inspection mode. QA engineer joins this phase, building the specification-driven test harness alongside the code so that every Appendix A behavior carries a test from day one; that harness is the backbone of the certification-readiness handoff to Tenna's FMCSA compliance expert. Weekly Friday showbacks give Tenna real-time input on priorities.</p>
         <div class="deliv"><b>Deliverable:</b> Working application and backend running against real Tenna hardware, demonstrated weekly</div>
       </div>
     </div>
 
     <div class="timeline">
-      <div class="when"><span class="n">4</span><span class="u">WK 12-15</span></div>
+      <div class="when"><span class="n">4</span><span class="u">WK 12-14</span></div>
       <div class="phase-card">
-        <h4>PHASE 4 · PORTAL AND DATA TRANSFER</h4>
-        <h3>Fleet manager portal, eRODS transfer, construction exceptions</h3>
-        <p>Same two engineers. Backend engineer builds the data-transfer service (web services and email to eRODS) and hardens the Phase 3 hardware integration against the edge cases a test fleet surfaces. Mobile engineer transitions to the fleet manager web portal, edit workflows, and unidentified-driving reconciliation. Construction-specific exception logic (yard moves via geofences, Personal Conveyance, short-haul) layered across both surfaces.</p>
+        <h4>PHASE 4 · LOG MODULE AND DATA TRANSFER</h4>
+        <h3>Log management module, eRODS transfer, construction exceptions</h3>
+        <p>Same two engineers. Backend engineer builds the data-transfer service (web services and email to eRODS) and hardens the Phase 3 telemetry intake against the edge cases a test fleet surfaces. Mobile engineer transitions to the log management module embedded in the Tenna portal, edit workflows, and unidentified-driving reconciliation. Construction-specific exception logic (yard moves via geofences, Personal Conveyance, short-haul) layered across both surfaces. Three weeks instead of the original four because the June 4 session narrowed the web surface to log management.</p>
         <div class="deliv"><b>Deliverable:</b> End-to-end working system on a test fleet</div>
       </div>
     </div>
 
     <div class="timeline">
-      <div class="when"><span class="n">5</span><span class="u">WK 16-19</span></div>
+      <div class="when"><span class="n">5</span><span class="u">WK 15-18</span></div>
       <div class="phase-card">
-        <h4>PHASE 5 · CERTIFICATION AND REGISTRATION</h4>
-        <h3>Self-certify and list on the FMCSA registered device list</h3>
-        <p>QA leads the compliance effort. Full Appendix A test suite executed end to end. Validation against FMCSA's output-file reference checker. Concentrated focus on malfunction and diagnostic edge cases, the section of the specification that most often results in revocation. Engineers resolve issues identified by QA. iOS and Android application store submissions filed (each carries a 1 to 2 week review window). Documentation package assembled. FMCSA Equipment Registration submitted through the Equipment Registration portal. Public-facing user guide finalized for FMCSA reviewer reference. FMCSA's own review of the submission runs into Phase 6 as elapsed time.</p>
-        <div class="deliv"><b>Deliverable:</b> Submission filed, app store approval pending, FMCSA review under way</div>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="when"><span class="n">6</span><span class="u">WK 20-23</span></div>
-      <div class="phase-card">
-        <h4>PHASE 6 · PILOT AND HANDOFF</h4>
-        <h3>One or two friendly customers, followed by code ownership transfer</h3>
-        <p>Pilot with 1 or 2 Tenna customers identified jointly. Tight feedback loop, daily standups with pilot teams, rapid iteration. Tenna onboarding and customer success teams trained. All code, infrastructure, documentation, and the deployment pipeline transferred. Tenna receives complete intellectual property ownership.</p>
-        <div class="deliv"><b>Deliverable:</b> Pilot live, Tenna team trained, full IP handoff complete</div>
+        <h4>PHASE 5 · PILOT, CERTIFICATION SUPPORT, AND HANDOFF</h4>
+        <h3>Pilot customers live while Tenna's FMCSA compliance expert drives registration</h3>
+        <p>Pilot with 1 or 2 Tenna customers identified jointly, with daily standups and rapid iteration. In parallel, Tenna's FMCSA compliance expert drives the documentation package, public user guide, and Equipment Registration submission, with AppAxis supplying the Appendix A test evidence, output-file validation results, and engineering fixes for anything the certification pass surfaces. iOS and Android app store submissions filed at the start of the phase (each carries a 1 to 2 week review window). Tenna onboarding and customer success teams trained. All code, infrastructure, documentation, and the deployment pipeline transferred. Tenna receives complete intellectual property ownership.</p>
+        <div class="deliv"><b>Deliverable:</b> Pilot live, certification submission in flight under Tenna's lead, Tenna team trained, full IP handoff complete</div>
       </div>
     </div>
 
@@ -1175,6 +1144,7 @@
       <li>The specification writes the scope. 49 CFR 395 Appendix A is one of the most rigorously defined specifications in commercial software. There is no requirements-discovery loop that drags on for months. The work translates specification directly to code.</li>
       <li>AI-assisted senior engineers move 2 to 3 times faster on specification-driven work. The HOS state machine, output file generator, and malfunction engine are exactly the kind of well-defined translation tasks where modern AI tooling earns its keep. AppAxis has shipped projects this way for 18 months.</li>
       <li>No body-shop overhead. Two senior engineers communicate directly in a Slack channel rather than through coordination meetings. There is no project manager translating between an engineer who does not understand HOS and a product person who does not write code.</li>
+      <li>The Tenna ecosystem already carries the rest. DVIR, driver management, identity, telemetry ingestion, IFTA, and safety and compliance all exist as Tenna modules. The build covers only what is genuinely new: the HOS engine, the in-cab app, the log module, and the FMCSA data path. Certification itself is Tenna-led, which takes the FMCSA paperwork off the critical path entirely.</li>
     </ul>
 
   </div>
@@ -1183,13 +1153,13 @@
 <section id="certification" class="alt">
   <div class="container">
     <div class="eyebrow">Section 8 · Certification, Realistically</div>
-    <h2>Self-certification is fast on the front end. Staying certified is the work.</h2>
+    <h2>Tenna self-certifies. AppAxis delivers a device that makes that signature safe.</h2>
     <p class="lede">
-      Unlike FDA approval, FCC certification, or PCI compliance, FMCSA's ELD registration involves no third-party lab, no front-end gatekeeper, and no waiting list. A provider self-certifies on a web form, the device appears on the public registered list within days, and drivers can begin using it. The harder discipline is staying listed when FMCSA audits.
+      Unlike FDA approval, FCC certification, or PCI compliance, FMCSA's ELD registration involves no third-party lab, no front-end gatekeeper, and no waiting list. A provider self-certifies on a web form, the device appears on the public registered list within days, and drivers can begin using it. The harder discipline is staying listed when FMCSA audits. In the June 4 session, Tenna took ownership of certification and registration, backed by a dedicated FMCSA compliance expert. AppAxis's job is certification readiness: a device and an evidence trail that make Tenna's self-certification signature defensible.
     </p>
 
     <h3>What submission actually looks like</h3>
-    <p>FMCSA's Equipment Registration portal asks for these fields. There is no fee.</p>
+    <p>FMCSA's Equipment Registration portal asks for these fields. There is no fee. This is the part Tenna's FMCSA compliance expert owns.</p>
     <ul>
       <li>Provider company info (name, address, primary contact)</li>
       <li>ELD identification (a unique 4-character ELD Identifier, model name, software version)</li>
@@ -1212,18 +1182,18 @@
       <li>Driver complaints. Drivers report to FMCSA when an ELD generates impossible logs, drops events, or won't transfer at roadside.</li>
     </ul>
 
-    <h3>Realistic Phase 5 effort</h3>
-    <p>Phase 5 is four weeks of QA-led compliance work. Not because the FMCSA review is slow (it is not), but because getting the device correct enough to stay listed requires that time. The four weeks decompose as follows:</p>
+    <h3>The division of labor</h3>
+    <p>Tenna's FMCSA compliance expert owns the documentation package, the public user guide, the Equipment Registration submission, and the relationship with FMCSA. AppAxis owns certification readiness, which has a concrete exit criterion:</p>
     <ul>
-      <li>Week 1. QA runs the full Appendix A test suite end to end on the integrated system. Every event type, every malfunction trigger, every diagnostic threshold.</li>
-      <li>Week 2. Output file validation against FMCSA's reference parser. Edge cases on edit history, driver-vehicle pairings, multi-driver scenarios.</li>
-      <li>Week 3. Targeted hammering on malfunction and diagnostic handling. iOS and Android app store submissions (independent 1 to 2 week review).</li>
-      <li>Week 4. Documentation package, user guide, FMCSA registration submission through the Equipment Registration portal, FAQ for the public-facing listing.</li>
+      <li>The full Appendix A test suite passing on the integrated system. Every event type, every malfunction trigger, every diagnostic threshold, built alongside the code from Phase 3 rather than bolted on at the end.</li>
+      <li>Output files validating clean against FMCSA's reference parser, on every release. Edge cases on edit history, driver-vehicle pairings, and multi-driver scenarios covered.</li>
+      <li>Documented evidence on the malfunction and diagnostic edge cases, the section of the specification that most often results in revocation.</li>
+      <li>Engineering support through Tenna's certification pass during Phase 5, fixing anything the expert's review surfaces.</li>
     </ul>
-    <p>FMCSA's own review timeline is unpredictable but usually fast. Most providers see their device listed within 1 to 5 business days of submission. The risk window opens later: an audit triggered by a complaint or a random pull, sometimes months out.</p>
+    <p>FMCSA's own review timeline is unpredictable but usually fast. Most providers see their device listed within 1 to 5 business days of submission. The risk window opens later: an audit triggered by a complaint or a random pull, sometimes months out. That later window is exactly what the test suite and the FMCSA compliance expert exist to survive.</p>
 
     <h3>After launch: the compliance treadmill</h3>
-    <p>Worth understanding what ongoing compliance involves once the device is listed. Staffing options can be discussed separately.</p>
+    <p>Worth understanding what ongoing compliance involves once the device is listed. With the FMCSA compliance expert in-house, Tenna is well positioned to own this treadmill, with AppAxis available for the code changes it generates.</p>
     <ul>
       <li>FMCSA spec interpretation updates. The agency issues clarifications and FAQs periodically. Some require code changes.</li>
       <li>App store re-reviews. Apple and Google occasionally re-review safety-critical apps and ask for changes.</li>
@@ -1240,7 +1210,7 @@
     <div class="eyebrow">Section 9 · Level of Effort</div>
     <h2>Phased delivery. Each phase a clean gate.</h2>
     <p class="lede">
-      AppAxis engages in fixed-outcome phases rather than hourly billing that incentivizes slow delivery, with commercial terms presented once both sides have walked the plan together. The only material unknown that could shift the plan is the TennaFLEET and CANbus API surface, which Phase 2 resolves before any production code is written.
+      AppAxis engages in fixed-outcome phases rather than hourly billing that incentivizes slow delivery, with commercial terms presented once both sides have walked the plan together. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
     </p>
 
     <table class="cost-table">
@@ -1264,25 +1234,20 @@
           <td>2 senior eng + 1 QA</td>
         </tr>
         <tr>
-          <td>4. Portal and Data Transfer</td>
-          <td>4 weeks</td>
+          <td>4. Log Module and Data Transfer</td>
+          <td>3 weeks</td>
           <td>2 senior eng + 1 QA</td>
         </tr>
         <tr>
-          <td>5. Certification and FMCSA Registration</td>
-          <td>4 weeks</td>
-          <td>2 senior eng + 1 QA</td>
-        </tr>
-        <tr>
-          <td>6. Pilot and Handoff</td>
+          <td>5. Pilot, Certification Support, and Handoff</td>
           <td>4 weeks</td>
           <td>2 senior eng + 1 QA</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td>Total, kickoff to FMCSA-listed and piloting</td>
-          <td>23 wks</td>
+          <td>Total, kickoff to piloting and certification-ready</td>
+          <td>18 wks</td>
           <td>2 senior eng + QA</td>
         </tr>
       </tfoot>
@@ -1290,13 +1255,14 @@
 
     <h3>Outside the estimate</h3>
     <ul style="color: var(--ink-soft);">
-      <li>Ongoing compliance and maintenance after launch. Discussed separately, since the right structure depends on how Tenna staffs the FMCSA-specification treadmill internally versus externally.</li>
+      <li>Ongoing compliance and maintenance after launch. With Tenna's FMCSA compliance expert owning the specification treadmill, the natural structure is a lightweight AppAxis engagement for the code changes it generates. Discussed separately.</li>
+      <li>FMCSA registration and certification labor. Tenna-owned, driven by the FMCSA compliance expert. AppAxis support during the certification pass is included in Phase 5.</li>
       <li>Cloud infrastructure costs. At Tenna's likely scale, $4,000 to $8,000 per month for AWS or GCP. Standard pass-through.</li>
       <li>Backend platform operations. Day-to-day running of the ELD backend after launch: uptime monitoring, on-call incident response, security patching, database maintenance and backups, and capacity scaling as the device fleet grows.</li>
       <li>Mobile app telemetry and monitoring. Crash reporting, performance monitoring, and usage analytics across the driver app and fleet portal, with dashboards and alerting so regressions surface before drivers report them. Tooling subscriptions (crash reporting, APM, log aggregation) are a pass-through alongside cloud costs.</li>
       <li>Production support operations. Triage of driver-reported issues, escalation paths for roadside transfer failures, and the runbooks and staffing model behind them. Structure depends on how Tenna wants to split first-line support between its existing customer success team and an engineering escalation tier.</li>
       <li>FMCSA registration fee. No fee is currently charged for ELD provider registration.</li>
-      <li>Hardware. None. The project uses Tenna's existing tracker fleet.</li>
+      <li>Hardware. None. The project uses Tenna's existing trackers and Bluetooth-linked tablets, plus driver personal devices where carriers prefer them.</li>
       <li>Migration of existing customers. Moving customers off the current partner ELD onto the new platform is a separate phase.</li>
     </ul>
 
@@ -1316,8 +1282,13 @@
         <h3>Engineering Risks</h3>
 
         <div class="risk-card">
-          <div class="top"><h4>TennaFLEET and CANbus API surface</h4><span class="risk med">MEDIUM</span></div>
-          <p>If Tenna's existing hardware does not expose ECM data through a clean modern API, the integration phase expands. This risk is validated in Week 1 of Phase 2.</p>
+          <div class="top"><h4>Tracker Bluetooth broadcast contract</h4><span class="risk med">MEDIUM</span></div>
+          <p>The tracker already pairs with an in-cab tablet and Tenna's ingestion service is already running, which removes most of the original integration unknown. What remains is the broadcast contract itself: whether the tracker emits all four required ECM elements over Bluetooth at the cadence the specification needs. Validated in Week 1 of Phase 2.</p>
+        </div>
+
+        <div class="risk-card">
+          <div class="top"><h4>Personal devices as the ELD unit</h4><span class="risk med">MEDIUM</span></div>
+          <p>Supporting driver personal devices at launch alongside vehicle tablets widens the test matrix: OS fragmentation, aggressive battery managers killing background Bluetooth, and shared-device edge cases. Mitigated by native modules for Bluetooth and background processing plus a defined supported-device list agreed in Phase 2.</p>
         </div>
 
         <div class="risk-card">
@@ -1341,7 +1312,12 @@
 
         <div class="risk-card">
           <div class="top"><h4>FMCSA registration owner and liability</h4><span class="risk med">MEDIUM</span></div>
-          <p>Tenna becomes the listed provider and therefore inherits liability if a driver receives a violation attributable to an application defect. Legal review is recommended, and the insurance and Errors and Omissions posture is worth confirming.</p>
+          <p>Tenna becomes the listed provider and therefore inherits liability if a driver receives a violation attributable to an application defect. The planned FMCSA compliance expert materially improves this posture. Legal review and the Errors and Omissions position are still worth confirming.</p>
+        </div>
+
+        <div class="risk-card">
+          <div class="top"><h4>Certification gate now lives with Tenna</h4><span class="risk med">MEDIUM</span></div>
+          <p>Tenna owns the step that gates launch. If the FMCSA compliance expert hire slips or the certification pass stalls, the pilot ends with software that is done but not listed. Mitigated by a concrete certification-readiness exit criterion and AppAxis support through the pass in Phase 5.</p>
         </div>
 
         <div class="risk-card">
@@ -1365,20 +1341,28 @@
 
 <section>
   <div class="container">
-    <div class="eyebrow">Section 11 · Questions For Thursday</div>
-    <h2>Open questions for the discussion.</h2>
-    <p class="lede">Ordered roughly by how much each would shift the plan.</p>
+    <div class="eyebrow">Section 11 · Where the Discussion Stands</div>
+    <h2>Settled on June 4, and what's still open.</h2>
+    <p class="lede">The working session resolved the questions that shaped the plan most. The remainder land in Phase 2.</p>
 
+    <h3>Settled in the June 4 session</h3>
     <ul class="check-list">
-      <li>TennaFLEET and TennaCANbus API surface. What does the existing API look like? Is ECM data (engine on and off, miles, hours, motion) available as a clean modern stream?</li>
-      <li>Driver application strategy. Standalone application branded Tenna ELD, or a new module inside the existing Tenna application already on the App Store and Google Play?</li>
+      <li>Driver application strategy. Lean on the Tenna ecosystem wherever a module already exists. DVIR and safety and compliance run through Tenna's standard app, and the web surface narrows to a log management module inside the Tenna portal.</li>
+      <li>Hardware and data path. The Tenna tracker is already deployed and feeding the existing ingestion service. The ELD app absorbs telemetry over Bluetooth on a vehicle tablet or the driver's personal device and transmits the distilled HOS record set back over cellular.</li>
+      <li>Certification ownership. Tenna owns FMCSA registration and is bringing in a dedicated FMCSA compliance expert. AppAxis delivers certification readiness with a concrete exit criterion.</li>
+      <li>Duration. The plan compresses from 23 weeks to 18.</li>
+    </ul>
+
+    <h3>Still open, resolved in Phase 2</h3>
+    <ul class="check-list">
+      <li>Bluetooth broadcast contract. Which data elements the tracker emits, at what cadence, and how pairing is authenticated.</li>
+      <li>Portal embedding contract. How a partner-built module ships inside the Tenna web portal: shell, navigation, and permission model.</li>
       <li>Current partner. Identity, per-vehicle cost, contract term, and exclusivity provisions.</li>
       <li>Migration scope. New sales only, or migration of existing ELD-active customers? (The latter is a separate phase.)</li>
       <li>Timeline target. Is there a fixed in-market date tied to the July 20 enforcement window, a Tenna release cycle, a customer commitment, or a partner contract expiration?</li>
-      <li>FMCSA registration. Tenna becomes the listed provider. Is the legal posture confirmed, or does this warrant a parallel legal track?</li>
+      <li>Supported-device matrix. Which personal devices are officially supported at launch alongside the vehicle tablets.</li>
       <li>Construction edge cases. Which must be first-class on day one across yard moves, Personal Conveyance, short-haul air-mile, and mixed CDL or non-CDL fleets? Which matter most to current customers?</li>
-      <li>Internal compliance ownership. After launch, will Tenna staff the FMCSA-specification maintenance treadmill internally, or retain AppAxis on a recurring engagement?</li>
-      <li>Hardware roadmap. Any TennaFLEET or CANbus hardware changes planned in the next 12 months that this design should accommodate?</li>
+      <li>Post-launch split. Which compliance-driven code changes Tenna's team takes versus a recurring AppAxis engagement.</li>
       <li>Sign-off path. Which additional Tenna stakeholders need to approve this engagement, and what would they want to see?</li>
     </ul>
   </div>
@@ -1392,7 +1376,7 @@
       <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
     </div>
     <div class="disc">
-      Confidential discussion document. Prepared by AppAxis as background for the Thursday meeting with Jose Cueva. Estimates are working ranges, not contracts. All product names, modules, and trademarks are properties of their respective owners. Not affiliated with FMCSA. Regulatory citations are from publicly available FMCSA materials and the Code of Federal Regulations.
+      Confidential discussion document. Prepared by AppAxis for the engagement discussion with Jose Cueva and revised after the June 4 working session. Estimates are working ranges, not contracts. All product names, modules, and trademarks are properties of their respective owners. Not affiliated with FMCSA. Regulatory citations are from publicly available FMCSA materials and the Code of Federal Regulations.
     </div>
     <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
   </div>
@@ -1465,14 +1449,14 @@
       title: "Malfunction and diagnostic notice display",
       body: "<p>When the ELD detects one of the eight monitoring categories under §395.34(a), it either sets a malfunction or a diagnostic event. The application surfaces each with distinct severity.</p><p>Malfunctions render as full-screen modals that cannot be dismissed without explicit driver acknowledgment. The driver reverts to paper logs while the malfunction persists. The carrier has eight days to remediate, with a remediation clock visible in the web portal.</p><p>Diagnostic events render as persistent banners at the top of the screen and indicate recoverable data-quality issues that do not require paper logs. The visual distinction (red for malfunction, amber for diagnostic) follows FMCSA convention. Each acknowledgment is itself a logged event with driver ID and timestamp. When the underlying condition clears, the application records a clear event.</p>"
     },
-    "dvir": {
+    "dvir-handoff": {
       cite: "49 CFR §396.11",
-      title: "DVIR (pre and post-trip)",
-      body: "<p>The Driver Vehicle Inspection Report is a separate federal regulation from the ELD mandate, but conventionally bundled in the same driver application. Before each shift, the driver inspects the vehicle and records any defects. After each shift, the driver records anything that surfaced during the day's operation.</p><p>Defects are classified by severity, photographed where applicable, and tracked through repair before the vehicle returns to service. The carrier reviews and signs off on remediation through the web portal.</p><p>Tenna already ships a DVIR module on the existing platform. The architectural recommendation is to surface DVIR through Tenna's existing module rather than rebuilding it, with the driver experiencing a continuous flow between the ELD and DVIR functions.</p>"
+      title: "DVIR handoff to Tenna's standard app",
+      body: "<p>The Driver Vehicle Inspection Report is a separate federal regulation from the ELD mandate, conventionally bundled in the same driver application. Tenna already ships DVIR and a safety and compliance module on the existing platform, so the June 4 session de-scoped a DVIR rebuild from this project. This confirms the original architectural recommendation.</p><p>The ELD app hands off to Tenna's standard DVIR flow instead, either by launching the Tenna app or through the API, and returns the driver to the HOS dashboard when the inspection is complete. The driver experiences one continuous flow, and the carrier reviews defects and remediation where they already do today.</p><p>The handoff contract (deep link or API, plus return navigation) is confirmed in Phase 2.</p>"
     },
     "offline-mode": {
       title: "Offline mode with local persistence and sync",
-      body: "<p>Drivers routinely operate in areas without cellular coverage: rural deliveries, mountain passes, equipment yards in remote locations. Every ELD function must operate fully offline.</p><p>Status changes record to a local database. The Hours of Service state machine runs on-device with no backend dependency. The 8-day record remains cached so that roadside inspection mode functions without network access. Bluetooth pairing to TennaFLEET hardware operates over local radio without internet. DVIR submissions queue locally and synchronize when signal returns.</p><p>The synchronization layer handles conflict resolution between offline driver edits and concurrent online carrier edits. Event ingestion is idempotent so that intermittent connectivity does not produce duplicate records. Persistence survives application suspension, device reboot, and unexpected power loss.</p>"
+      body: "<p>Drivers routinely operate in areas without cellular coverage: rural deliveries, mountain passes, equipment yards in remote locations. Every ELD function must operate fully offline.</p><p>Status changes record to a local database. The Hours of Service state machine runs on-device with no backend dependency. The 8-day record remains cached so that roadside inspection mode functions without network access. Bluetooth pairing to the Tenna tracker operates over local radio without internet. The distilled HOS record set queues locally and transmits over cellular when signal returns.</p><p>The synchronization layer handles conflict resolution between offline driver edits and concurrent online carrier edits. Event ingestion is idempotent so that intermittent connectivity does not produce duplicate records. Persistence survives application suspension, device reboot, and unexpected power loss.</p>"
     },
 
     /* DRIVER MOBILE APP - SHOULD */
@@ -1483,10 +1467,6 @@
     "messaging": {
       title: "Two-way messaging with dispatcher",
       body: "<p>An in-application messaging channel between drivers and dispatchers. Replaces voice calls and SMS for routine communication about job assignments, delays, and instructions. Messages persist with the driver's record and can be referenced in the case of disputes or audits.</p><p>This is a common parity feature across Motive, Samsara, and Omnitracs. In the Tenna context, this messaging layer ties naturally to the existing Resource Management and Dispatching module.</p>"
-    },
-    "dvir-forms": {
-      title: "Form-based DVIR with defect templates",
-      body: "<p>Configurable defect templates allow carriers to define inspection checklists by vehicle type. A pickup truck carries a different defect catalog than a paving machine or a service vehicle. Drivers see the checklist relevant to the vehicle paired at the start of the shift.</p><p>This streamlines compliance and produces more consistent inspection data for the carrier. Tenna's existing custom inspection module already supports this pattern.</p>"
     },
     "coaching-nudges": {
       title: "In-application coaching nudges before violation",
@@ -1518,7 +1498,7 @@
     /* WEB PORTAL - MUST */
     "driver-status-board": {
       title: "Driver status board with live HOS clock per driver",
-      body: "<p>The portal's primary dashboard view. Shows every active driver with current duty status, time remaining on each HOS clock, current vehicle, and last known location. Fleet managers use this surface as the live operational picture during the workday.</p><p>Supports filtering and sorting by status, region, project, or approaching-limit window. Click-through to driver detail and log review.</p>"
+      body: "<p>The module's primary dashboard view. Shows every active driver with current duty status, time remaining on each HOS clock, current vehicle, and last known location. Fleet managers use this surface as the live operational picture during the workday.</p><p>Supports filtering and sorting by status, region, project, or approaching-limit window. Click-through to log review, with driver records living in Tenna's existing surfaces.</p>"
     },
     "violation-log": {
       title: "Violation log",
@@ -1546,10 +1526,6 @@
       title: "Malfunction tracking with 8-day remediation clock",
       body: "<p>A device-level view of every active malfunction across the fleet, with the 8-day remediation clock visible per device. Carriers must remediate malfunctions within eight days of detection. The affected driver continues operating on paper logs in the meantime, and unresolved malfunctions can result in FMCSA scrutiny.</p><p>Surfaces both the technical detail of each malfunction and the operational urgency. Integrates with Tenna's existing Maintenance module for work order creation.</p>"
     },
-    "driver-profile": {
-      title: "Driver profile management",
-      body: "<p>Centralized management of driver attributes that affect HOS calculations and compliance. CDL information, license class, exempt-status flags (short-haul air-mile, oilfield, agricultural), assigned HOS cycle (60-hour over 7 days or 70-hour over 8 days), and contact details.</p><p>Changes to these fields propagate to the driver's HOS state machine on the next sync. An audit log preserves the history of changes for regulatory review.</p>"
-    },
     "log-retention": {
       cite: "49 CFR §395.22",
       title: "6-month log retention with audit-ready archive",
@@ -1575,10 +1551,6 @@
     },
 
     /* WEB PORTAL - COULD */
-    "embedded-portal": {
-      title: "Embedded inside the existing Tenna web application",
-      body: "<p>Rather than living as a separate web application, the fleet manager portal renders as a peer module inside the existing Tenna interface. Customers see ELD as one of the modules in their Tenna sidebar, alongside Asset Tracking, Maintenance, and Resource Management. Single login, single navigation, single brand.</p><p>A structural differentiator over standalone ELD providers. Reduces user-training burden and reinforces the single-platform value proposition.</p>"
-    },
     "asset-scorecard-crosslink": {
       title: "Cross-link to Asset Records and Driver Scorecard",
       body: "<p>From any driver detail screen, click-through to the associated vehicle's Asset Record (maintenance history, work orders, paired hardware) and to the driver's Scorecard (safety events, behavior trends, coaching status). Bidirectional links from those modules back to the ELD context.</p><p>Connects HOS data with operational context that general-purpose ELDs do not have access to. Tenna's structural advantage materialized as a UX feature.</p>"
@@ -1596,7 +1568,7 @@
     },
     "event-ingestion": {
       title: "Event ingestion API",
-      body: "<p>The interface through which driver actions, ECM telemetry, and system-generated events arrive at the backend. Receives events from the mobile application, the TennaFLEET and TennaCANbus hardware, and the malfunction detection subsystem.</p><p>Idempotent ingestion handles intermittent connectivity without producing duplicates. Validates incoming events against schema and rejects malformed payloads. Stores events in an append-only event store that serves as the source of truth for all downstream surfaces.</p>"
+      body: "<p>The interface through which the in-cab ELD app delivers its distilled record set to the backend over the device's cellular connection: duty status events, HOS calculations, malfunction and diagnostic events, edits, and certifications. Raw vehicle telemetry continues to flow through Tenna's existing ingestion service; this API carries only the ELD-specific record set.</p><p>Idempotent ingestion handles intermittent connectivity without producing duplicates. Validates incoming events against schema and rejects malformed payloads. Stores events in an append-only event store that serves as the source of truth for all downstream surfaces.</p>"
     },
     "output-generator": {
       cite: "49 CFR §395 Appendix A",
@@ -1644,8 +1616,8 @@
 
     /* HARDWARE AND ECM INTEGRATION - MUST */
     "ecm-data-contract": {
-      title: "Data contract with TennaFLEET II and TennaCANbus",
-      body: "<p>The ELD application reads engine power status, vehicle motion status, miles driven, and engine hours directly from TennaFLEET II (for on-road vehicles) and TennaCANbus (for heavy equipment) hardware. These four ECM data elements are required on every event record per FMCSA specification.</p><p>The integration consumes data from Tenna's existing telemetry layer rather than adding a parallel hardware path. This is the core architectural advantage: no second gateway, no duplicate hardware, no reconciliation between data sources.</p>"
+      title: "Bluetooth broadcast contract with the Tenna tracker",
+      body: "<p>The ELD app reads engine power status, vehicle motion status, miles driven, and engine hours from the Tenna tracker over the existing Bluetooth link. These four ECM data elements are required on every event record per FMCSA specification.</p><p>The tracker is already deployed, already feeding Tenna's ingestion service, and already pairs with an in-cab tablet, so the integration consumes an existing radio path rather than adding new hardware. The remaining scoping work is the contract itself: which elements the broadcast carries, at what cadence, and how pairing is authenticated. Confirmed in Week 1 of Phase 2.</p>"
     },
     "polling-cadence": {
       cite: "49 CFR §395.34(a)(2)",
@@ -1662,14 +1634,14 @@
       body: "<p>At pairing time, the application captures the vehicle's VIN, the ECM serial number, and the carrier-assigned vehicle identifier. These three identifiers are required data elements on event records and are how the ELD ties events to a specific physical vehicle.</p><p>Identifiers are read from the ECM where available, with fallback to manual entry through the carrier administrator interface for vehicles with non-standard ECM responses.</p>"
     },
     "bluetooth-pairing": {
-      title: "Bluetooth pairing between driver mobile and Tenna hardware",
-      body: "<p>The driver application establishes and maintains a Bluetooth connection with the paired TennaFLEET or TennaCANbus device. The pairing flow is the moment when the driver, the device, and the vehicle become associated. Pairing persists across application restarts and reconnects automatically when in range.</p><p>Bluetooth reliability is one of the specific concerns that drives the recommendation for React Native with strategic native modules. Pairing failures during a trip trigger engine synchronization diagnostics or malfunctions.</p>"
+      title: "Bluetooth pairing between the in-cab device and the Tenna tracker",
+      body: "<p>The in-cab device, whether a vehicle-mounted tablet or the driver's personal phone, establishes and maintains a Bluetooth connection with the Tenna tracker. The pairing flow is the moment when the driver, the device, and the vehicle become associated. Pairing persists across application restarts and reconnects automatically when in range.</p><p>Bluetooth reliability is one of the specific concerns that drives the recommendation for React Native with strategic native modules, and the bar rises further with personal devices in the launch matrix. Pairing failures during a trip trigger engine synchronization diagnostics or malfunctions.</p>"
     },
 
-    /* SELF-CERTIFICATION AND FMCSA REGISTRATION - MUST */
+    /* CERTIFICATION READINESS */
     "test-suite": {
       title: "Internal compliance test suite",
-      body: "<p>A comprehensive test harness that exercises every behavior defined in 49 CFR 395 Appendix A. Every event type, every malfunction trigger, every diagnostic threshold, every edit-history path, every status transition. Built alongside the production code so coverage is complete before Phase 5 begins.</p><p>The test suite is the documented evidence of compliance that supports the self-certification submission and the response to any FMCSA audit.</p>"
+      body: "<p>A comprehensive test harness that exercises every behavior defined in 49 CFR 395 Appendix A. Every event type, every malfunction trigger, every diagnostic threshold, every edit-history path, every status transition. Built alongside the production code from Phase 3 so coverage is complete before the certification pass begins.</p><p>The test suite is the documented evidence of compliance that backs Tenna's self-certification signature and the response to any FMCSA audit. It is the core of the certification-readiness handoff to Tenna's FMCSA compliance expert.</p>"
     },
     "output-validation": {
       title: "Output file validation against FMCSA reference",
@@ -1677,15 +1649,15 @@
     },
     "documentation-package": {
       title: "Documentation package per FMCSA submission guide",
-      body: "<p>The full set of materials required by FMCSA's Equipment Registration portal. Provider information, device identification, operating-system list, ELD-type declaration (Telematics or Local), self-certification statement, public-facing user instructions URL, and contact information for the regulatory record.</p><p>Documentation accuracy matters. FMCSA reviewers reference these materials during audits.</p>"
+      body: "<p>The full set of materials required by FMCSA's Equipment Registration portal. Provider information, device identification, operating-system list, ELD-type declaration (Telematics or Local), self-certification statement, public-facing user instructions URL, and contact information for the regulatory record.</p><p>Owned by Tenna's FMCSA compliance expert, with AppAxis supplying the technical source material. Documentation accuracy matters. FMCSA reviewers reference these materials during audits.</p>"
     },
     "user-guide": {
       title: "Public-facing user guide",
-      body: "<p>The user-facing documentation that FMCSA hosts on the registered device list. Must be accessible without authentication and must accurately describe device operation, data transfer procedures, malfunction response, and roadside inspection flow.</p><p>FMCSA reviewers read this document. It must align exactly with the actual product behavior. Mismatches between documentation and implementation are a citation source.</p>"
+      body: "<p>The user-facing documentation that FMCSA hosts on the registered device list. Must be accessible without authentication and must accurately describe device operation, data transfer procedures, malfunction response, and roadside inspection flow.</p><p>Owned by Tenna's FMCSA compliance expert, drafted from AppAxis source material. FMCSA reviewers read this document. It must align exactly with the actual product behavior. Mismatches between documentation and implementation are a citation source.</p>"
     },
     "registration-submission": {
       title: "FMCSA Equipment Registration submission",
-      body: "<p>Submission of the device for self-certification through FMCSA's Equipment Registration portal. There is no fee. The provider attests that the device meets Appendix A specifications, lists the operating systems on which it runs, and provides the public-facing user-guide URL.</p><p>Once submitted, the device typically appears on the public registered list within a few business days. No third-party lab certification is involved.</p>"
+      body: "<p>Submission of the device for self-certification through FMCSA's Equipment Registration portal. There is no fee. The provider attests that the device meets Appendix A specifications, lists the operating systems on which it runs, and provides the public-facing user-guide URL.</p><p>Owned by Tenna as the listed provider, executed by the FMCSA compliance expert, with AppAxis supplying the Appendix A test evidence behind the attestation. Once submitted, the device typically appears on the public registered list within a few business days. No third-party lab certification is involved.</p>"
     },
     "device-type": {
       title: "Registration as Telematics ELD type",
