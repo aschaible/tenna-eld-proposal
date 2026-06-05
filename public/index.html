@@ -271,6 +271,16 @@
     position: absolute; top: 2px; transform: translateX(-50%);
     font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted);
   }
+  .gantt-months { position: relative; height: 24px; margin-bottom: 3px; }
+  .g-month {
+    position: absolute; top: 0; bottom: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--ink-soft); background: var(--bg-alt);
+    border: 1px solid var(--line); border-radius: 6px;
+    overflow: hidden; white-space: nowrap;
+  }
+  .g-month.alt { background: var(--orange-soft); color: var(--orange-dark); border-color: var(--orange-line); }
   .g-label b { display: block; font-size: 13px; color: var(--ink); font-weight: 700; line-height: 1.3; }
   .g-label span { font-size: 11px; color: var(--muted); }
   .g-track {
@@ -1476,8 +1486,8 @@
     <div class="mgmt-note avail">
       <div class="lbl">Team Availability · Kickoff Early July</div>
       <h3>The build team is available at the beginning of July.</h3>
-      <p>AppAxis has team members rolling off current engagements at the end of June, which puts the full build team available for a kickoff at the beginning of July. Phase 2 needs only Adam, so scope lock can begin ahead of that and be signed before the engineers land.</p>
-      <p>From a July start, the calendar reads cleanly: Scenario B reaches pilot and certification-ready in late October, Scenario A in mid-November.</p>
+      <p>AppAxis has team members rolling off current engagements at the end of June, which puts the full build team available for a Phase 3 start on July 6. Phase 2 needs only Adam, so scope lock begins mid-June and is signed before the engineers land.</p>
+      <p>On that calendar, Scenario B reaches pilot and certification-ready in early October, Scenario A in late October. The delivery schedule is drawn month by month on the Gantt charts above.</p>
     </div>
 
   </div>
@@ -1904,14 +1914,41 @@
     });
   }
 
-  function renderGantt(id, totalWeeks, phases, caption) {
+  function monthSegments(kickoff, totalWeeks) {
+    var start = new Date(kickoff + 'T00:00:00');
+    var totalDays = totalWeeks * 7;
+    var segs = [];
+    var d = new Date(start.getFullYear(), start.getMonth(), 1);
+    while (true) {
+      var next = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+      var segStart = Math.max(0, (d - start) / 86400000);
+      var segEnd = Math.min(totalDays, (next - start) / 86400000);
+      if (segStart >= totalDays) break;
+      segs.push({
+        name: d.toLocaleString('en-US', { month: 'short' }),
+        start: segStart / 7,
+        end: segEnd / 7
+      });
+      if (segEnd >= totalDays) break;
+      d = next;
+    }
+    return segs;
+  }
+
+  function renderGantt(id, totalWeeks, kickoff, phases, caption) {
     var el = document.getElementById(id);
     if (!el) return;
+    var months = '<div class="gantt-head"><div></div><div class="gantt-months">';
+    monthSegments(kickoff, totalWeeks).forEach(function (m, i) {
+      months += '<div class="g-month' + (i % 2 ? ' alt' : '') + '" style="left:' + (m.start / totalWeeks * 100).toFixed(3) + '%;width:' + ((m.end - m.start) / totalWeeks * 100).toFixed(3) + '%">' + m.name + '</div>';
+    });
+    months += '</div></div>';
     var axis = '<div class="gantt-head"><div></div><div class="gantt-axis">';
     for (var w = 1; w <= totalWeeks; w++) {
       axis += '<span class="g-tick" style="left:' + ((w - 0.5) / totalWeeks * 100).toFixed(3) + '%">' + w + '</span>';
     }
     axis += '</div></div>';
+    axis = months + axis;
     var rows = phases.map(function (p) {
       return '<div class="gantt-row">' +
         '<div class="g-label"><b>' + p.name + '</b><span>' + p.team + '</span></div>' +
@@ -1923,19 +1960,19 @@
     el.innerHTML = axis + rows + cap;
   }
 
-  renderGantt('gantt-a', 19, [
+  renderGantt('gantt-a', 19, '2026-06-15', [
     { name: 'Phase 2 · Scope Lock', team: 'Adam', cls: 'p2', start: 0, dur: 3, label: '3 wks' },
     { name: 'Phase 3 · Core Build', team: '2 senior eng + 1 QA', cls: 'p3', start: 3, dur: 9, label: '9 wks' },
     { name: 'Phase 4 · Log Module and Transfer', team: '2 senior eng + 1 QA', cls: 'p4', start: 12, dur: 3, label: '3 wks' },
     { name: 'Phase 5 · Pilot and Handoff', team: '2 senior eng + 1 QA', cls: 'p5', start: 15, dur: 4, label: '4 wks' }
-  ], 'Weeks from kickoff. From an early-July start, week 19 lands mid-November.');
+  ], 'Scope lock runs ahead on Adam\'s calendar from mid-June; the build team lands July 6 for Phase 3. Week 19 lands late October.');
 
-  renderGantt('gantt-b', 16, [
+  renderGantt('gantt-b', 16, '2026-06-15', [
     { name: 'Phase 2 · Scope Lock', team: 'Adam', cls: 'p2', start: 0, dur: 3, label: '3 wks' },
     { name: 'Phase 3 · Core Build', team: '3 senior eng + 1 QA', cls: 'p3', start: 3, dur: 7.5, label: '7.5 wks' },
     { name: 'Phase 4 · Log Module and Transfer', team: '3 senior eng + 1 QA', cls: 'p4', start: 10.5, dur: 2.5, label: '2.5 wks' },
     { name: 'Phase 5 · Pilot and Handoff', team: '2 senior eng + 1 QA', cls: 'p5', start: 13, dur: 3, label: '3 wks' }
-  ], 'Weeks from kickoff. From an early-July start, week 16 lands late October.');
+  ], 'Scope lock runs ahead on Adam\'s calendar from mid-June; the build team lands July 6 for Phase 3. Week 16 lands early October.');
 
   function closeModalIfBackdrop(event) {
     if (event.target.id === 'modal-backdrop') {
