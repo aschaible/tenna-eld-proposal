@@ -527,6 +527,33 @@
   }
   .modal-body p { margin: 0 0 12px 0; }
   .modal-body p:last-child { margin-bottom: 0; }
+
+  /* Mobile refinements */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table-scroll .spec-table { min-width: 640px; }
+  .table-scroll .cost-table { min-width: 600px; }
+
+  @media (max-width: 860px) {
+    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 16px; }
+    .brand-row img.tenna { height: 22px; }
+    .brand-row img.appaxis { height: 18px; }
+    .topbar .nav {
+      width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 16px;
+      white-space: nowrap; padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .topbar .nav::-webkit-scrollbar { display: none; }
+    .topbar .nav > * { flex: none; }
+  }
+  @media (max-width: 700px) {
+    .container, .container-wide { padding: 0 20px; }
+    section { padding: 44px 0; }
+    .hero { padding: 44px 0 32px 0; }
+    .req-block .head { flex-wrap: wrap; gap: 2px 12px; }
+    .modal-backdrop { padding: 32px 12px 24px; }
+    .modal-head { padding: 18px 18px 14px; }
+    .modal-body { padding: 16px 18px 22px; }
+  }
 </style>
 </head>
 <body>
@@ -582,6 +609,7 @@
     <h3>The 8 categories of ELD self-monitoring</h3>
     <p>An ELD must continuously monitor itself and emit either a data diagnostic event (a notice, recoverable) or a compliance malfunction (must be remediated within 8 days; driver reverts to paper logs in the meantime). Categories:</p>
 
+    <div class="table-scroll">
     <table class="spec-table">
       <thead>
         <tr><th>CFR Ref</th><th>Category</th><th>What it monitors</th><th>Trigger threshold</th></tr>
@@ -597,6 +625,7 @@
         <tr><td class="col-cfr">§395.34(b)</td><td class="col-name"><b>Data Diagnostic Events</b><span>Recoverable warnings</span></td><td>Missing required data, unidentified driving accumulation (more than 30 min in 24h), inconsistent power, etc.</td><td>Per spec</td></tr>
       </tbody>
     </table>
+    </div>
 
     <h3>Required event records</h3>
     <p>The ELD records eight categories of events. Each event carries a defined set of data elements (driver ID, vehicle ID, location code with city/state/lat-lon, date/time UTC, engine power status, vehicle motion status, miles driven, engine hours):</p>
@@ -926,6 +955,7 @@
       This recommendation is the industry mainstream, not a team-size compromise. <a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Samsara has publicly documented</a> running their Driver App on React Native at scale, including a deliberate rewrite in 2019 that reaffirmed the architectural choice when a Play Store deadline forced the question. <a href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">Omnitracs is following the same pattern</a> for new builds under Solera ownership. Geotab takes a different approach with a WebView hybrid, where <a href="https://github.com/Geotab/mobile-sdk-ios" target="_blank" rel="noopener">a single web codebase is wrapped in thin native Swift and Kotlin shells</a>. Motive is the outlier, running <a href="https://job-boards.greenhouse.io/gomotive" target="_blank" rel="noopener">two fully separate native codebases</a> at the cost of duplicate engineering effort, which is feasible at their team size of more than 50 mobile engineers but not at the scale of this engagement. Three of the four leaders avoid full native because the team-size cost is meaningful. The recommended approach aligns with Samsara's, which is the most directly comparable architecturally.
     </p>
 
+    <div class="table-scroll">
     <table class="spec-table" style="margin-top:14px;">
       <thead>
         <tr><th>Provider</th><th>Mobile architecture</th><th>Evidence</th></tr>
@@ -953,6 +983,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
     <p class="muted-text small" style="margin-top:10px;">Full dossiers with direct quotes, the evidence methodology, and every primary source: the companion <a href="/stack-research">Mobile Stack Evidence Brief&nbsp;↗</a>.</p>
   </div>
 </section>
@@ -1364,7 +1395,7 @@
     <div class="scenario-panel" id="panel-a" role="tabpanel" aria-labelledby="tab-a">
       <h3 class="panel-label">Scenario A · Core team · 19 weeks · $250,000</h3>
       <p>The baseline plan as structured in Section 7. Two senior engineers and QA through the build phases, Adam through research and scope lock.</p>
-      <table class="cost-table">
+      <div class="table-scroll"><table class="cost-table">
         <thead>
           <tr><th>Phase</th><th>Duration</th><th>Team</th><th style="text-align:right;">Fixed Price</th></tr>
         </thead>
@@ -1408,14 +1439,14 @@
             <td class="num-cell">$250,000</td>
           </tr>
         </tfoot>
-      </table>
+      </table></div>
       <div class="gantt" id="gantt-a"></div>
     </div>
 
     <div class="scenario-panel" id="panel-b" role="tabpanel" aria-labelledby="tab-b" hidden>
       <h3 class="panel-label">Scenario B · Accelerated build, third senior engineer · 16 weeks · $290,000</h3>
       <p>A third senior engineer and a second QA engineer join through the core build and log module phases, compressing the build by roughly 20%, then roll off for pilot and handoff. Three weeks sooner to pilot and certification-ready for roughly 16% more.</p>
-      <table class="cost-table">
+      <div class="table-scroll"><table class="cost-table">
         <thead>
           <tr><th>Phase</th><th>Duration</th><th>Team</th><th style="text-align:right;">Fixed Price</th></tr>
         </thead>
@@ -1459,7 +1490,7 @@
             <td class="num-cell">$290,000</td>
           </tr>
         </tfoot>
-      </table>
+      </table></div>
       <div class="gantt" id="gantt-b"></div>
     </div>
 

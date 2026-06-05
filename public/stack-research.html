@@ -266,6 +266,31 @@
   footer { padding: 36px 0; color: var(--muted); font-size: 12px; background: var(--ink); text-align: center; }
   footer .disc { max-width: 760px; margin: 0 auto; line-height: 1.7; color: rgba(255,255,255,0.55); font-style: italic; }
   footer .copy { margin-top: 14px; color: rgba(255,255,255,0.4); }
+
+  /* Mobile refinements */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table-scroll .matrix { min-width: 680px; }
+
+  @media (max-width: 860px) {
+    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 16px; }
+    .topbar .nav {
+      width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 16px;
+      white-space: nowrap; padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .topbar .nav::-webkit-scrollbar { display: none; }
+    .topbar .nav > * { flex: none; }
+  }
+  @media (max-width: 700px) {
+    .container { padding: 0 20px; }
+    section { padding: 44px 0; }
+    .hero { padding: 48px 0 36px 0; }
+    .dossier { padding: 22px 18px; }
+    .dossier::after { font-size: 96px; top: -16px; letter-spacing: -4px; }
+    blockquote.proof { padding: 12px 14px; }
+    blockquote.proof .q { font-size: 16px; }
+    .verdict-band { padding: 22px 18px; }
+  }
 </style>
 </head>
 <body>
@@ -570,7 +595,8 @@
   <div class="container">
     <div class="eyebrow">The Matrix</div>
     <h2>Four providers, three architecture families.</h2>
-    <table class="matrix reveal">
+    <div class="table-scroll reveal">
+    <table class="matrix">
       <thead>
         <tr><th>Provider</th><th>Mobile architecture</th><th>Evidence class</th><th>Primary sources</th></tr>
       </thead>
@@ -601,6 +627,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </section>
 
@@ -645,17 +672,27 @@
 
 <script>
   (function () {
-    var els = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(function (el) { el.classList.add('in'); });
-      return;
-    }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    var timer = null;
+    function check() {
+      els = els.filter(function (el) {
+        /* Reveal anything in view or already scrolled past (anchor jumps, scroll restoration). */
+        if (el.getBoundingClientRect().top < window.innerHeight - 40) {
+          el.classList.add('in');
+          return false;
+        }
+        return true;
       });
-    }, { threshold: 0.12 });
-    els.forEach(function (el) { io.observe(el); });
+      if (!els.length) {
+        window.removeEventListener('scroll', check);
+        window.removeEventListener('resize', check);
+        if (timer) clearInterval(timer);
+      }
+    }
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    timer = setInterval(check, 300);
+    check();
   })();
 </script>
 <script src="/glossary.js" defer></script>
