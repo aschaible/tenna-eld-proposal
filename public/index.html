@@ -1222,7 +1222,7 @@
     <div class="eyebrow">Section 7 · Project Plan</div>
     <h2>Five phases. Roughly 19 weeks from kickoff to piloting and certification-ready.</h2>
     <p class="lede">
-      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Four weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management. An accelerated scenario in Section 9 adds a third senior engineer through the build phases and compresses them by roughly 20%, landing at 16 weeks.
+      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Four weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management. An accelerated scenario in Section 9 adds a third senior engineer and a second QA engineer through the build phases and compresses them by roughly 20%, landing at 16 weeks.
     </p>
 
     <div class="timeline">
@@ -1347,7 +1347,7 @@
     <div class="eyebrow">Section 9 · Level of Effort</div>
     <h2>Phased delivery. Each phase a clean gate.</h2>
     <p class="lede">
-      AppAxis engages in fixed-outcome phases rather than hourly billing that incentivizes slow delivery. Two scenarios below: the core team, and an accelerated option that adds a third senior engineer through the build phases, compressing them by roughly 20%. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
+      AppAxis engages in fixed-outcome phases rather than hourly billing that incentivizes slow delivery. Two scenarios below: the core team, and an accelerated option that adds a third senior engineer and a second QA engineer through the build phases, compressing them by roughly 20%. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
     </p>
 
     <div class="scenario-tabs" role="tablist" aria-label="Pricing scenarios">
@@ -1357,7 +1357,7 @@
       </button>
       <button class="scenario-tab" type="button" id="tab-b" role="tab" aria-selected="false" aria-controls="panel-b" onclick="switchScenario('b')">
         <span class="t">Scenario B · Accelerated build</span>
-        <span class="m">16 weeks · $270,000</span>
+        <span class="m">16 weeks · $290,000</span>
       </button>
     </div>
 
@@ -1413,8 +1413,8 @@
     </div>
 
     <div class="scenario-panel" id="panel-b" role="tabpanel" aria-labelledby="tab-b" hidden>
-      <h3 class="panel-label">Scenario B · Accelerated build, third senior engineer · 16 weeks · $270,000</h3>
-      <p>A third senior engineer joins through the core build and log module phases, compressing the build by roughly 20%, then rolls off for pilot and handoff. Three weeks sooner to pilot and certification-ready for roughly 8% more.</p>
+      <h3 class="panel-label">Scenario B · Accelerated build, third senior engineer · 16 weeks · $290,000</h3>
+      <p>A third senior engineer and a second QA engineer join through the core build and log module phases, compressing the build by roughly 20%, then roll off for pilot and handoff. Three weeks sooner to pilot and certification-ready for roughly 16% more.</p>
       <table class="cost-table">
         <thead>
           <tr><th>Phase</th><th>Duration</th><th>Team</th><th style="text-align:right;">Fixed Price</th></tr>
@@ -1435,14 +1435,14 @@
           <tr>
             <td>3. Core Build</td>
             <td>7.5 weeks</td>
-            <td>3 senior eng + 1 QA</td>
-            <td class="num-cell">$161,250</td>
+            <td>3 senior eng + 2 QA</td>
+            <td class="num-cell">$176,250</td>
           </tr>
           <tr>
             <td>4. Log Module and Data Transfer</td>
             <td>2.5 weeks</td>
-            <td>3 senior eng + 1 QA</td>
-            <td class="num-cell">$53,750</td>
+            <td>3 senior eng + 2 QA</td>
+            <td class="num-cell">$58,750</td>
           </tr>
           <tr>
             <td>5. Pilot, Certification Support, and Handoff</td>
@@ -1455,8 +1455,8 @@
           <tr>
             <td>Total, kickoff to piloting and certification-ready</td>
             <td>16 wks</td>
-            <td>2 senior eng + QA, +1 eng in build</td>
-            <td class="num-cell">$270,000</td>
+            <td>2 senior eng + QA, +1 eng +1 QA in build</td>
+            <td class="num-cell">$290,000</td>
           </tr>
         </tfoot>
       </table>
@@ -1968,8 +1968,8 @@
 
   renderGantt('gantt-b', 16, '2026-06-15', [
     { name: 'Phase 2 · Scope Lock', team: 'Adam', cls: 'p2', start: 0, dur: 3, label: '3 wks' },
-    { name: 'Phase 3 · Core Build', team: '3 senior eng + 1 QA', cls: 'p3', start: 3, dur: 7.5, label: '7.5 wks' },
-    { name: 'Phase 4 · Log Module and Transfer', team: '3 senior eng + 1 QA', cls: 'p4', start: 10.5, dur: 2.5, label: '2.5 wks' },
+    { name: 'Phase 3 · Core Build', team: '3 senior eng + 2 QA', cls: 'p3', start: 3, dur: 7.5, label: '7.5 wks' },
+    { name: 'Phase 4 · Log Module and Transfer', team: '3 senior eng + 2 QA', cls: 'p4', start: 10.5, dur: 2.5, label: '2.5 wks' },
     { name: 'Phase 5 · Pilot and Handoff', team: '2 senior eng + 1 QA', cls: 'p5', start: 13, dur: 3, label: '3 wks' }
   ], 'Scope lock runs ahead on Adam\'s calendar from mid-June; the build team lands July 6 for Phase 3. Week 16 lands early October.');
 

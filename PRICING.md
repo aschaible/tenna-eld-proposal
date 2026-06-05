@@ -8,7 +8,7 @@ Pricing lives on the public proposal page (Section 9) in a two-scenario structur
 - QA engineer: $2,000 per week
 - Adam: $6,500 per week while on the project (was $4,000 in the first draft). Presented on the page as a third senior engineer, not by name; the rate matches the senior rate exactly so the framing is clean.
 - Core team weekly (2 senior + 1 QA): $15,000
-- Accelerated team weekly (3 senior + 1 QA): $21,500
+- Accelerated build team weekly (3 senior + 2 QA): $23,500. The second QA joins for the 3-developer phases only, adding $2,000 per week for that duration.
 - No buffer or Phase 2 redistribution in this model; phases price as rate x weeks. Phase 2 is $10,000 for 3 weeks of Adam, still roughly half rate against the $6,500 weekly (about $19,500 of time), so it remains a loss-leader.
 - One week added to Core Build in both scenarios versus the first draft (8 to 9 base).
 
@@ -25,21 +25,22 @@ Pricing lives on the public proposal page (Section 9) in a two-scenario structur
 | 5. Pilot, Certification Support, and Handoff | 4 weeks | 2 senior eng + 1 QA | $60,000 |
 | **Total** | **19 wks** | | **$250,000** |
 
-### Scenario B · Accelerated build · 16 weeks · $270,000
+### Scenario B · Accelerated build · 16 weeks · $290,000
 
-Build phases compressed roughly 20% (16 build weeks to 13: 7.5 / 2.5 / 3, half-week rounding). Presented as a third senior engineer on Phases 3 and 4, rolling off for Phase 5 (pilot and handoff run on the core team; the phase stays at 3 weeks since it is mostly calendar-driven). Internally the third senior is Adam at the matching $6,500 rate. The sell: three weeks sooner to pilot and certification-ready, for $20,000 more (about 8%).
+Build phases compressed roughly 20% (16 build weeks to 13: 7.5 / 2.5 / 3, half-week rounding). Presented as a third senior engineer plus a second QA engineer on Phases 3 and 4, all rolling off for Phase 5 (pilot and handoff run on the core team; the phase stays at 3 weeks since it is mostly calendar-driven). Internally the third senior is Adam at the matching $6,500 rate; the second QA matches the 3-developer throughput. The sell: three weeks sooner to pilot and certification-ready, for $40,000 more (about 16%).
 
 | Phase | Duration | Team | Fixed Price |
 |---|---|---|---|
 | 1. Research and Assessment | Complete | Adam | $0 |
 | 2. ProposalType and Scope Lock | 3 weeks | Adam | $10,000 |
-| 3. Core Build | 7.5 weeks | 3 senior eng + 1 QA | $161,250 |
-| 4. Log Module and Data Transfer | 2.5 weeks | 3 senior eng + 1 QA | $53,750 |
+| 3. Core Build | 7.5 weeks | 3 senior eng + 2 QA | $176,250 |
+| 4. Log Module and Data Transfer | 2.5 weeks | 3 senior eng + 2 QA | $58,750 |
 | 5. Pilot, Certification Support, and Handoff | 3 weeks | 2 senior eng + 1 QA | $45,000 |
-| **Total** | **16 wks** | | **$270,000** |
+| **Total** | **16 wks** | | **$290,000** |
 
 ## History
 
+- 2026-06-04 (seventh revision): second QA engineer added to the 3-developer phases in Scenario B (+$2,000/wk for Phases 3 and 4). B: 16 wks / $290,000.
 - 2026-06-04 (sixth revision): Phase 2 bumped from $5,000 to $10,000 in both scenarios. A: 19 wks / $250,000. B: 16 wks / $270,000.
 - 2026-06-04 (fifth revision): Scenario B reframed on the page as "Accelerated build" with a third senior engineer, no longer naming Adam or describing the role as part-time. Numbers unchanged.
 - 2026-06-04 (fourth revision): Adam rolled off Phase 5 in Scenario B. B: 16 wks / $265,000.
