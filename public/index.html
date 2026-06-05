@@ -256,6 +256,11 @@
   .mgmt-note h3 { margin: 0 0 8px 0; font-size: 17px; }
   .mgmt-note p { margin: 0 0 10px 0; font-size: 14px; }
   .mgmt-note p:last-child { margin-bottom: 0; }
+  .mgmt-note.avail {
+    border-left-color: var(--green);
+    background: linear-gradient(170deg, #FBFDFB, white);
+  }
+  .mgmt-note.avail .lbl { color: var(--green); }
   @media print {
     .scenario-tabs { display: none; }
     .scenario-panel[hidden] { display: block; }
@@ -1430,6 +1435,13 @@
       <li>Hardware. None. The project uses Tenna's existing trackers and Bluetooth-linked tablets, plus driver personal devices where carriers prefer them.</li>
       <li>Migration of existing customers. Moving customers off the current partner ELD onto the new platform is a separate phase.</li>
     </ul>
+
+    <div class="mgmt-note avail">
+      <div class="lbl">Team Availability · Kickoff Early July</div>
+      <h3>The build team is available at the beginning of July.</h3>
+      <p>AppAxis has team members rolling off current engagements at the end of June, which puts the full build team available for a kickoff at the beginning of July. Phase 2 needs only Adam, so scope lock can begin ahead of that and be signed before the engineers land.</p>
+      <p>From a July start, the calendar reads cleanly: Scenario B reaches pilot and certification-ready in late October, Scenario A in mid-November.</p>
+    </div>
 
   </div>
 </section>
