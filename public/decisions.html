@@ -479,10 +479,15 @@
             The device exposes a serial number (item <span class="mono">0x0F</span>) and its BLE MAC address. How does either map to a Tenna asset ID, and which is the stable production identifier?
           </p>
           <div class="q-evidence">
-            <span class="q-label">Correction · 9 Aug</span>
+            <span class="q-label">Correction · 9 Aug · confirmed on the device</span>
             <p>
               Addresses published before 9 August were byte-reversed — see Q14. <span class="mono">WQ-87X060680218</span> is <span class="mono">78:42:1C:12:16:66</span>, not the <span class="mono">66:16:12:1C:42:78</span> quoted earlier. Any lookup against the old value would have matched nothing, and would have looked like missing inventory rather than a formatting bug.
             </p>
+            <p style="margin-top:10px;">
+              Verified directly on that tracker the same day. Connecting it from Android puts both readings in one session record, and they agree:
+            </p>
+            <pre class="eq">advertised address (Android)   78:42:1C:12:16:66
+characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           </div>
         </div>
       </article>
@@ -641,6 +646,9 @@
 characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
             <p style="margin-top:10px;">
               This was invisible for the whole iOS phase, and not for want of looking: iOS deliberately hides the hardware address behind a per-app UUID, so there was no second reading to compare against. The value looked well-formed and stayed stable — and was wrong the whole time. It matters because the address is a candidate key for tying a device to a Tenna asset record (Q7).
+            </p>
+            <p style="margin-top:10px;">
+              <b>Confirmed on a second device once the fix was in.</b> <span class="mono">WQ-87X060680218</span> — the tracker in the test vehicle, and the one whose address had been published backwards — now decodes to <span class="mono">78:42:1C:12:16:66</span>, matching the address Android advertises for it exactly. Two devices, both exact reversals: this is the encoding, not a quirk of one unit.
             </p>
           </div>
         </div>
