@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Decision Log · Tenna ELD</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F37021;
+    --orange-dark: #D9591A;
+    --orange-soft: #FFF1E8;
+    --orange-line: #F8D3B7;
+    --ink: #1A1F2A;
+    --ink-soft: #3D4654;
+    --muted: #6B7484;
+    --line: #E5E7EB;
+    --line-soft: #F1F3F6;
+    --bg: #FFFFFF;
+    --bg-alt: #F7F8FB;
+    --green: #1F8A56;
+    --green-soft: #E9F5EF;
+    --red: #C24038;
+    --red-soft: #FBEDEC;
+    --amber: #D98315;
+    --amber-soft: #FDF3E3;
+    --blue: #2E6BE6;
+    --blue-soft: #EAF0FD;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
+  img { max-width: 100%; display: block; }
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { color: var(--orange-dark); }
+  code, .mono { font-family: 'JetBrains Mono', Menlo, Consolas, monospace; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+
+  /* Top bar */
+  .topbar {
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px; max-width: 1240px; margin: 0 auto;
+  }
+  .brand-row { display: flex; align-items: center; gap: 14px; }
+  .brand-row img.appaxis { height: 24px; width: auto; }
+  .brand-row .title { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+  .topbar .nav { display: flex; gap: 18px; color: var(--ink-soft); font-size: 13px; font-weight: 500; align-items: center; flex-wrap: wrap; }
+  .topbar .nav a { color: var(--ink-soft); }
+  .topbar .nav a:hover { color: var(--orange); }
+  .field-guide {
+    border: 1px solid var(--orange);
+    color: var(--orange);
+    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 1.5px; font-weight: 800;
+    background: var(--orange-soft);
+  }
+
+  /* Hero */
+  .hero { padding: 70px 0 42px 0; position: relative; overflow: hidden; }
+  .hero::after {
+    content: ""; position: absolute; top: 0; right: -10%; width: 70%; height: 100%;
+    background: radial-gradient(700px 500px at 50% 30%, rgba(243,112,33,0.10), transparent 60%);
+    pointer-events: none;
+  }
+  .hero .container { position: relative; z-index: 1; }
+  .hero .kicker {
+    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px;
+    font-size: 11px; text-transform: uppercase; margin-bottom: 16px;
+    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 4.8vw, 54px);
+    line-height: 1.08; margin: 0 0 16px 0; letter-spacing: -1.2px; font-weight: 800;
+  }
+  .hero h1 .accent { color: var(--orange); }
+  .hero .lede { color: var(--ink-soft); font-size: 17px; max-width: 900px; }
+
+  section { padding: 52px 0; }
+  section.alt { background: var(--bg-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  section h2 { font-size: clamp(24px, 3vw, 34px); margin: 0 0 10px 0; letter-spacing: -0.4px; font-weight: 800; }
+  section .eyebrow {
+    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-size: 10.5px; margin-bottom: 12px;
+    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
+  }
+  section .lede { color: var(--ink-soft); font-size: 16px; max-width: 940px; margin-bottom: 28px; }
+  section p { color: var(--ink-soft); }
+
+  /* Scoreboard */
+  .score-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 26px; }
+  @media (max-width: 820px) { .score-row { grid-template-columns: 1fr 1fr; } }
+
+  /* Same topbar treatment as the other pages (b2ddb0f): stack the brand row
+     above the nav and make the nav a horizontally swipeable strip, rather than
+     letting it wrap into stacked rows that push the content down. */
+  @media (max-width: 860px) {
+    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 16px; }
+    .topbar .nav {
+      width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 16px;
+      white-space: nowrap; padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .topbar .nav::-webkit-scrollbar { display: none; }
+    .topbar .nav > * { flex: none; }
+  }
+  .score {
+    background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
+  }
+  .score .v { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
+  .score .l { font-size: 10.5px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+  .score.is-open .v { color: var(--red); }
+  .score.is-blocking .v { color: var(--amber); }
+  .score.is-answered .v { color: var(--green); }
+  .score.is-meetings .v { color: var(--blue); }
+
+  /* Filters */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
+  .filters .flabel { font-size: 10.5px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+  .fbtn {
+    font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+    border: 1px solid var(--line); background: white; color: var(--ink-soft);
+    padding: 6px 13px; border-radius: 999px; transition: all 0.15s;
+  }
+  .fbtn:hover { border-color: var(--orange-line); color: var(--orange); }
+  .fbtn[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: white; }
+  .fcount { color: var(--muted); font-size: 12.5px; margin-left: 2px; }
+
+  /* Question cards */
+  .qlist { display: flex; flex-direction: column; gap: 14px; }
+  .q {
+    background: white; border: 1px solid var(--line); border-left: 3px solid var(--line);
+    border-radius: 12px; padding: 20px 24px;
+  }
+  .q.open { border-left-color: var(--red); }
+  .q.blocking { border-left-color: var(--amber); }
+  .q.answered { border-left-color: var(--green); }
+  .q[hidden] { display: none; }
+  .q-head { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .q-id {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    color: var(--muted); background: var(--bg-alt); border: 1px solid var(--line);
+    border-radius: 6px; padding: 3px 8px; white-space: nowrap; margin-top: 2px;
+  }
+  .q-title { font-size: 17px; font-weight: 800; color: var(--ink); margin: 0; flex: 1 1 320px; letter-spacing: -0.2px; }
+  .q-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 999px; white-space: nowrap; border: 1px solid transparent;
+  }
+  .chip.owner-compliance { background: var(--blue-soft); color: var(--blue); border-color: #C9D8FA; }
+  .chip.owner-geometris { background: var(--orange-soft); color: var(--orange-dark); border-color: var(--orange-line); }
+  .chip.owner-tenna { background: #EDE9FB; color: #5B3FBF; border-color: #D7CEF5; }
+  .chip.st-open { background: var(--red-soft); color: var(--red); border-color: #F2CFCC; }
+  .chip.st-blocking { background: var(--amber-soft); color: #A9640C; border-color: #F3DDB6; }
+  .chip.st-answered { background: var(--green-soft); color: var(--green); border-color: #C4E5D5; }
+  .q-body { margin-top: 12px; }
+  .q-body p { margin: 0 0 10px 0; font-size: 14.5px; }
+  .q-body p:last-child { margin-bottom: 0; }
+  .q-label { font-size: 10.5px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 3px; }
+  .q-ask { margin-top: 12px; padding: 13px 16px; background: var(--bg-alt); border-radius: 9px; border: 1px solid var(--line-soft); }
+  .q-ask p { font-size: 14px; color: var(--ink); }
+  .q-evidence {
+    margin-top: 12px; padding: 12px 16px; border-radius: 9px;
+    background: var(--green-soft); border: 1px solid #C4E5D5;
+  }
+  .q-evidence p { font-size: 14px; color: #14603B; }
+  .q-evidence .mono, .q-ask .mono { font-size: 12.5px; }
+  pre.eq {
+    margin: 8px 0 0 0; padding: 11px 13px; background: white; border: 1px solid var(--line);
+    border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--ink-soft); line-height: 1.7;
+  }
+  .q-foot { margin-top: 12px; font-size: 12px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .empty-note { display: none; color: var(--muted); font-size: 14px; font-style: italic; padding: 18px 0; }
+  .empty-note.on { display: block; }
+
+  /* Timeline */
+  .timeline { position: relative; margin-top: 8px; padding-left: 26px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: var(--line);
+  }
+  .tl-item { position: relative; padding-bottom: 26px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -23px; top: 5px; width: 12px; height: 12px;
+    border-radius: 50%; background: white; border: 3px solid var(--orange);
+  }
+  .tl-date { font-size: 11px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--orange); }
+  .tl-card {
+    background: white; border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 22px; margin-top: 8px;
+  }
+  .tl-card h3 { margin: 0 0 4px 0; font-size: 16.5px; font-weight: 800; letter-spacing: -0.2px; }
+  .tl-who { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
+  .tl-card p { font-size: 14.5px; margin: 0 0 10px 0; }
+  .tl-card p:last-child { margin-bottom: 0; }
+  .outcome {
+    margin-top: 12px; padding: 12px 16px; border-radius: 9px;
+    background: var(--green-soft); border: 1px solid #C4E5D5;
+  }
+  .outcome p { font-size: 14px; color: #14603B; margin: 0; }
+  .outcome .q-label { color: #2E7D57; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+  footer { padding: 36px 0; color: var(--muted); font-size: 12px; background: var(--ink); text-align: center; }
+  footer .disc { max-width: 760px; margin: 0 auto; line-height: 1.7; color: rgba(255,255,255,0.55); font-style: italic; }
+  footer .copy { margin-top: 14px; color: rgba(255,255,255,0.4); }
+
+  @media (max-width: 700px) {
+    .container { padding: 0 20px; }
+    section { padding: 42px 0; }
+    .hero { padding: 46px 0 32px 0; }
+    .q { padding: 18px 18px; }
+    .tl-card { padding: 16px 18px; }
+    .score { padding: 16px 16px; }
+    .score .v { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-row">
+      <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
+      <span class="title">DECISION LOG</span>
+    </div>
+    <div class="nav">
+      <a href="#open">Open</a>
+      <a href="#answered">Answered</a>
+      <a href="#meetings">Meetings</a>
+      <a href="/">← The Proposal</a>
+      <a href="/ecosystem">Ecosystem ↗</a>
+      <a href="/stack-research">Evidence ↗</a>
+      <span class="field-guide">SHARED RECORD</span>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">Updated 9 August 2026 · Confidential</div>
+    <h1>Decision Log.<br/><span class="accent">Open questions, settled answers, and how we got there.</span></h1>
+    <p class="lede">
+      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2 — building against real Geometris WQ hardware surfaces things a specification cannot.
+    </p>
+
+    <div class="score-row">
+      <div class="score is-blocking">
+        <div class="v">1</div>
+        <div class="l">Blocking Phase&nbsp;3</div>
+      </div>
+      <div class="score is-open">
+        <div class="v">10</div>
+        <div class="l">Awaiting an answer</div>
+      </div>
+      <div class="score is-answered">
+        <div class="v">4</div>
+        <div class="l">Settled by test</div>
+      </div>
+      <div class="score is-meetings">
+        <div class="v">1</div>
+        <div class="l">Meetings logged</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="open">
+  <div class="container">
+    <div class="eyebrow">Awaiting an answer</div>
+    <h2>Ten questions, and who owns each.</h2>
+    <p class="lede">
+      Filter by owner to see only what is on your plate. Nothing here is a blocker on Phase 2 delivery except where marked — but several shape Phase 3 architecture, and answering them early is cheaper than reworking around a guess.
+    </p>
+
+    <div class="filters">
+      <span class="flabel">Owner</span>
+      <button class="fbtn" type="button" data-filter="all" aria-pressed="true">All <span class="fcount">10</span></button>
+      <button class="fbtn" type="button" data-filter="compliance" aria-pressed="false">ELD Compliance <span class="fcount">1</span></button>
+      <button class="fbtn" type="button" data-filter="geometris" aria-pressed="false">Geometris <span class="fcount">6</span></button>
+      <button class="fbtn" type="button" data-filter="tenna" aria-pressed="false">Tenna <span class="fcount">4</span></button>
+    </div>
+
+    <div class="qlist" id="qlist">
+
+      <article class="q blocking reveal" data-owner="compliance">
+        <div class="q-head">
+          <span class="q-id">Q1</span>
+          <h3 class="q-title">Duty status when the phone loses its link to the vehicle</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">ELD Compliance</span>
+            <span class="chip st-blocking">Blocking Phase 3</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            §4.4.1.2 requires that after <b>5 consecutive minutes stationary</b> while Driving, the ELD prompt the driver, and that 1 minute without a response switch duty status to On-duty not driving. Our state machine only counts stationary minutes it directly observes — it will not attest to time it could not see.
+          </p>
+          <p>
+            The difficulty is that the most ordinary stop in real operation — the driver parks and walks away carrying the phone — <b>is itself the loss of the link</b>. The stationary window never completes, so duty status stays in Driving. The regulation assumes an ELD wired into the vehicle that never loses sight of it; a phone-based recorder does not have that property.
+          </p>
+          <p>
+            What makes this tractable: <b>the tracker already records what we are missing.</b> It emits <span class="mono">BEGIN_STOP</span> / <span class="mono">END_STOP</span> with timestamp, odometer and position, and stores them while no phone is connected. The evidence exists and is attested by the device that stayed with the vehicle — it simply arrives later. That turns the problem from "we cannot know" into "may we act on the device's attestation after the fact," which is a compliance judgement rather than an engineering one.
+          </p>
+          <pre class="eq">Field evidence · 8 Aug · 87-minute session
+  entered Driving 09:43:41 — and never left it
+  3 engine shut-downs recorded while status stayed Driving
+  10 connection losses, several exceeding ten minutes</pre>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Which component is the <b>ELD of record</b> — the tracker, which stays with the vehicle and already logs stop/start, or the phone? Most deployments treat the hardware as the recorder and the phone as its display; if that is the intended model, it changes what the app owns.<br/>
+              2 · May the tracker's stored <span class="mono">BEGIN_STOP</span> timestamp serve as attested stationary evidence, letting the 5-minute window be evaluated retroactively on reconnect and the On-duty switch recorded at its true time?<br/>
+              3 · If retroactive duty-status changes are not permissible, what is the correct behaviour instead?<br/>
+              4 · Does this fall under §4.6 malfunction and diagnostic reporting rather than being purely a duty-status question?
+            </p>
+          </div>
+          <p style="margin-top:12px;">
+            <span class="q-label">Our position pending an answer</span>
+            We have not guessed. The machine holds Driving rather than inventing a transition it cannot support, which we believe is the safer failure. We would rather implement the correct behaviour once than ship a plausible one now.
+          </p>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="geometris">
+        <div class="q-head">
+          <span class="q-id">Q2</span>
+          <h3 class="q-title">Is <span class="mono">ENGINEHOURS</span> the ECM lifetime total?</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            Item <span class="mono">0x11</span> behaves as a genuine monotonic engine-hour counter — it advanced 2.4&nbsp;h → 3.0&nbsp;h across 39.5 minutes of running time, 1:1 with actual run time, and carried across days and ignition cycles. But a 126,500-mile F-150 has thousands of engine hours, not three. The counter is evidently running from a device-local baseline.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Is <span class="mono">ENGINEHOURS</span> specified as the ECM lifetime total, or as a device-local accumulator? The protocol document states only the ×10 scaling.<br/>
+              2 · If device-local, what resets it — installation, configuration, firmware update, power loss? Does it survive a reboot? We need to know whether a value can silently restart at zero mid-service.<br/>
+              3 · Can the device report the ECM's true total (J1939 PGN 65253, or OBD-II Mode 01 PID <span class="mono">0x7F</span>) where the vehicle exposes it?
+            </p>
+          </div>
+          <div class="q-foot"><span>Engine hours is one of the four data elements named in SoW §3.1 and is required on FMCSA event records — this needs an answer before Phase 3. See also Q8; it may be specific to light-duty vehicles.</span></div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="geometris">
+        <div class="q-head">
+          <span class="q-id">Q3</span>
+          <h3 class="q-title"><span class="mono">0</span> versus the unavailable sentinel for missing data</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            <span class="mono">ENGINEHOURS</span> returns <b><span class="mono">0</span></b> whenever the engine is off, rather than the <span class="mono">0xFFFFFFFF</span> unavailable sentinel that RPM uses in the same condition. The zero arrives precisely at engine shut-down — which is exactly when the §4.5.1 record is written.
+          </p>
+          <pre class="eq">engine-power / code 3 (shut-down) · auto
+  timestamp    17:37:07
+  odometer     126,490.7 mi
+  engineHours  0          ← indistinguishable from a real zero</pre>
+          <p>
+            A wrong-but-plausible number in a compliance record is worse than a blank one: <span class="mono">0</span> cannot be distinguished downstream from a legitimate zero, so nothing can flag it. An unavailable sentinel would let us record honestly. The same pattern appears elsewhere — ignition off, <span class="mono">ODOMETER</span> reads <span class="mono">0</span> and <span class="mono">VIN</span> returns an empty string.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Can <span class="mono">ENGINEHOURS</span> use <span class="mono">0xFFFFFFFF</span> when the ECM is not supplying a value?<br/>
+              2 · Is <span class="mono">0</span> the intended "no data" convention for <span class="mono">ODOMETER</span> and <span class="mono">VIN</span>, and which items use <span class="mono">0xFFFFFFFF</span> instead? We would rather not infer this per-field from observation.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="geometris">
+        <div class="q-head">
+          <span class="q-id">Q4</span>
+          <h3 class="q-title">Unidentified-driving capacity, retention, and drain rate</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The device embeds <b>one stored event at a time</b> in the telemetry stream and repeats that event across 2–4 consecutive frames before advancing — <b>4–11 seconds per event</b>. With a backlog of 46 events on 8 August, draining took several minutes, and the device redelivered the whole backlog on every reconnection.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Why is each event repeated across multiple frames rather than advancing immediately — is there an acknowledgement mechanism we are missing?<br/>
+              2 · Is a bulk-transfer mode available that the document does not describe?<br/>
+              3 · What is the storage capacity, and what happens on overflow — oldest discarded, or newest refused?<br/>
+              4 · How long are events retained if never purged?<br/>
+              5 · Does the feature need explicit enablement per device, and is it enabled across Tenna's fleet?
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="geometris tenna">
+        <div class="q-head">
+          <span class="q-id">Q5</span>
+          <h3 class="q-title">No authentication in the BLE protocol</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The protocol as documented has no pairing, bonding, or authentication. Any phone in range that knows the service UUID can connect, read VIN, odometer, position and engine data, and <b>issue the purge command that permanently deletes the device's stored unidentified-driving events</b>. We confirmed connection with no pairing prompt and no credential of any kind.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Is unauthenticated access the intended production posture?<br/>
+              2 · Is any pairing, bonding or application-layer authentication available or planned?<br/>
+              3 · Given purge is destructive, unacknowledged and all-or-nothing, should it be gated behind something stronger than proximity?
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="tenna">
+        <div class="q-head">
+          <span class="q-id">Q6</span>
+          <h3 class="q-title">Which odometer is authoritative for compliance?</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The device's odometer reads consistently <b>~2.8 miles below the vehicle dashboard</b> (126,488.8 vs 126,491.6). The gap is consistent with ordinary ECM-versus-dashboard calibration plus the protocol's whole-kilometre resolution — about 0.002% over 126,000 miles — and the value tracks distance correctly, advancing 16.16 mi over a measured drive.
+          </p>
+          <p>
+            This is not an app defect, but the two sources will never agree exactly.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>Which value does Tenna consider authoritative for compliance records and customer-facing reporting?</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="tenna">
+        <div class="q-head">
+          <span class="q-id">Q7</span>
+          <h3 class="q-title">Mapping a device serial to a Tenna asset ID</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The device exposes a serial number (item <span class="mono">0x0F</span>) and its BLE MAC address. How does either map to a Tenna asset ID, and which is the stable production identifier?
+          </p>
+          <div class="q-evidence">
+            <span class="q-label">Correction · 9 Aug</span>
+            <p>
+              Addresses published before 9 August were byte-reversed — see Q14. <span class="mono">WQ-87X060680218</span> is <span class="mono">78:42:1C:12:16:66</span>, not the <span class="mono">66:16:12:1C:42:78</span> quoted earlier. Any lookup against the old value would have matched nothing, and would have looked like missing inventory rather than a formatting bug.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="tenna">
+        <div class="q-head">
+          <span class="q-id">Q8</span>
+          <h3 class="q-title">Fleet composition — light-duty OBD-II vs heavy-duty J1939</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            All testing so far has been on a light-duty Ford F-150 over OBD-II. Several observations — particularly the engine-hours behaviour in Q2 — may be specific to that vehicle class. Heavy-duty vehicles on J1939 typically expose total engine hours directly.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>What is the actual composition of the fleet this will serve? If it is predominantly heavy-duty, Q2 may not affect production at all, and we should retest on a representative vehicle before treating it as a gap.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="geometris">
+        <div class="q-head">
+          <span class="q-id">Q9</span>
+          <h3 class="q-title">Two phones connected to one tracker</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            Untested and undocumented. What happens when two phones connect, or attempt to connect, simultaneously? Can both drain the stored-event queue? Can either purge it out from under the other? This matters for driver handover, and for a mechanic's phone connecting to a truck already carrying a driver's.
+          </p>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="geometris">
+        <div class="q-head">
+          <span class="q-id">Q10</span>
+          <h3 class="q-title">Firmware predating the TLV format (protocol 0)</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The app rejects protocol-0 frames with an explicit error rather than implementing the legacy fixed-layout format. Worth noting: the device broadcasts protocol 0 by default until the start command is written, so protocol 0 is the boot state, not necessarily older firmware.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>What proportion of the deployed fleet would still require the legacy format? If it is zero, we leave the rejection in place permanently.</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <p class="empty-note" id="emptyNote">No open questions for that owner.</p>
+  </div>
+</section>
+
+<section class="alt" id="answered">
+  <div class="container">
+    <div class="eyebrow">Settled</div>
+    <h2>Four answered by hardware, not by assumption.</h2>
+    <p class="lede">
+      Each of these was an ambiguity in the protocol document that a literal reading would have resolved the wrong way — silently, with no error to signal it. They stay in the log with their evidence so the reasoning survives.
+    </p>
+
+    <div class="qlist">
+
+      <article class="q answered reveal">
+        <div class="q-head">
+          <span class="q-id">Q11</span>
+          <h3 class="q-title">Control-word byte order</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-answered">Answered 6 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The document specifies control words as <span class="mono">0x0201</span> without stating wire byte order.
+          </p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p>
+              The device reads them <b>little-endian</b>: <span class="mono">0x0201</span> must be sent as bytes <span class="mono">01 02</span>. Sending the big-endian reading <span class="mono">02 01</span> is interpreted as <span class="mono">0x0102</span> and produces no ELD data — silence, with no error. Worth flagging for the document.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q answered reveal">
+        <div class="q-head">
+          <span class="q-id">Q12</span>
+          <h3 class="q-title">Latitude / longitude sign encoding</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-answered">Answered 6 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>The document's only worked example is east of Greenwich, leaving negative coordinates undefined.</p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p><b>Two's complement, confirmed.</b> A US fix decoded correctly as <span class="mono">39.29537, −84.59589</span>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q answered reveal">
+        <div class="q-head">
+          <span class="q-id">Q13</span>
+          <h3 class="q-title">Notification cadence</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-answered">Answered 6–8 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>Undocumented — and it determines whether the FMCSA engine-synchronisation requirement can be met at all.</p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p>
+              Measured <b>~2.1 s while driving and ~2.8 s at idle</b> (p95 3.1 s) — roughly twice as fast as the FMCSA 5-second requirement, and unchanged while the app is backgrounded. No watchdog retuning was needed.
+            </p>
+          </div>
+          <div class="q-foot"><span>Remaining sub-question: is the cadence configurable, and is it guaranteed under conditions we have not exercised (poor GPS, heavy bus traffic)?</span></div>
+        </div>
+      </article>
+
+      <article class="q answered reveal">
+        <div class="q-head">
+          <span class="q-id">Q14</span>
+          <h3 class="q-title">Byte order of the device-address characteristic</h3>
+          <div class="q-chips">
+            <span class="chip owner-geometris">Geometris</span>
+            <span class="chip st-answered">Answered 9 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            Characteristic <span class="mono">0x2A59</span> carries the device address <b>least-significant octet first</b> — the order Bluetooth uses on the wire, but the reverse of how an address is written everywhere else. The document does not state the order, the same omission as the control words in Q11.
+          </p>
+          <div class="q-evidence">
+            <span class="q-label">Answer · found on Android</span>
+            <p>
+              Android reports a peripheral's advertised address directly, so one tracker produced two readings that are exact reversals:
+            </p>
+            <pre class="eq">advertised address (Android)   1C:C3:AB:87:DD:3A
+characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
+            <p style="margin-top:10px;">
+              This was invisible for the whole iOS phase, and not for want of looking: iOS deliberately hides the hardware address behind a per-app UUID, so there was no second reading to compare against. The value looked well-formed and stayed stable — and was wrong the whole time. It matters because the address is a candidate key for tying a device to a Tenna asset record (Q7).
+            </p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="meetings">
+  <div class="container">
+    <div class="eyebrow">Meetings &amp; decisions</div>
+    <h2>What was agreed, and when.</h2>
+    <p class="lede">
+      Working sessions and the decisions that came out of them, most recent last. Anything that changed the shape of the work belongs here.
+    </p>
+
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-date">Monday · 3 August 2026</div>
+        <div class="tl-card">
+          <h3>Hardware setup for Phase 2 validation</h3>
+          <div class="tl-who">Adam Schaible (AppAxis) · Mark Leszczynski (Tenna)</div>
+          <p>
+            Working session on what hardware the Phase 2 spike would need in hand to prove the broadcast contract end to end against real Geometris WQ devices, rather than against a simulator.
+          </p>
+          <div class="outcome">
+            <span class="q-label">Outcome</span>
+            <p>Mark shipped <b>4 trackers and power supplies</b>.</p>
+          </div>
+          <p style="margin-top:12px;">
+            The power supplies matter more than they sound: they allow a tracker to be driven from a desk rather than only from a vehicle's OBD port. Bench testing on desk power has since carried a large share of the protocol work — BLE pairing, TLV parsing, the store-and-forward drain, background capture, and the Android foreground service were all validated without a vehicle, reserving drive time for the things that genuinely need motion.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="disc">
+      Maintained by AppAxis under SoW No. 1, Phase 2 hardware validation. Questions are raised by building and field-testing against real hardware; answered items remain in the log with their evidence so the reasoning behind a settled decision is not lost. Findings reflect testing on a Geometris WQ tracker in a light-duty vehicle and on the bench — see Q8 on how far they generalise to the wider fleet.
+    </div>
+    <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
+  </div>
+</footer>
+
+<script>
+  /* Owner filter. Cards carry a space-separated data-owner, so a question
+     owned by two parties (Q5) shows under both. */
+  (function () {
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('.fbtn'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#qlist .q'));
+    var empty = document.getElementById('emptyNote');
+    if (!buttons.length || !cards.length) return;
+
+    function apply(filter) {
+      var shown = 0;
+      cards.forEach(function (card) {
+        var owners = (card.getAttribute('data-owner') || '').split(/\s+/);
+        var match = filter === 'all' || owners.indexOf(filter) !== -1;
+        card.hidden = !match;
+        if (match) {
+          shown++;
+          // Filtering pulls cards up into view without firing a scroll event,
+          // so the reveal observer never runs for them. Reveal on the spot —
+          // otherwise filtering to an owner whose questions all sat below the
+          // fold renders a blank page.
+          card.classList.add('in');
+        }
+      });
+      if (empty) empty.classList.toggle('on', shown === 0);
+      buttons.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === filter));
+      });
+    }
+
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        apply(b.getAttribute('data-filter') || 'all');
+      });
+    });
+  })();
+
+  /* Reveal on scroll — same implementation as the other three pages, kept
+     deliberately identical. An IntersectionObserver was tried here first and
+     reverted: it is what b2ddb0f already replaced, because elements jumped
+     past rather than scrolled through (anchor links, scroll restoration)
+     stayed permanently invisible. The rect check reveals anything at or above
+     the viewport, and the interval is the safety net for a hash jump that
+     lands after the first check has already run — without it, opening
+     /decisions#answered cold renders a blank page. */
+  (function () {
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    var timer = null;
+    function check() {
+      els = els.filter(function (el) {
+        /* Reveal anything in view or already scrolled past (anchor jumps, scroll restoration). */
+        if (el.getBoundingClientRect().top < window.innerHeight - 40) {
+          el.classList.add('in');
+          return false;
+        }
+        return true;
+      });
+      if (!els.length) {
+        window.removeEventListener('scroll', check);
+        window.removeEventListener('resize', check);
+        if (timer) clearInterval(timer);
+      }
+    }
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    timer = setInterval(check, 300);
+    check();
+  })();
+</script>
+
+</body>
+</html>
