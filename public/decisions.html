@@ -302,7 +302,7 @@
       <article class="q blocking" id="p1">
         <div class="q-head">
           <span class="q-id">P1</span>
-          <h3 class="q-title">Driver account model — full Tenna users, or a stripped-down driver credential?</h3>
+          <h3 class="q-title">Driver account model: full Tenna users, or a stripped-down driver credential?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -315,8 +315,8 @@
           <div class="q-ask">
             <span class="q-label">The candidates</span>
             <p>
-              A · <b>Full Tenna users</b> — identity, profile, and permissions live in Tenna; the ELD reads them via the purpose-built API. One roster, one admin surface.<br/>
-              B · <b>Stripped-down driver credential</b> — the ELD owns a lightweight driver record; Tenna sees drivers only where a workflow needs them.
+              A · Full Tenna users: identity, profile, and permissions live in Tenna; the ELD reads them via the purpose-built API. One roster, one admin surface.<br/>
+              B · Stripped-down driver credential: the ELD owns a lightweight driver record; Tenna sees drivers only where a workflow needs them.
             </p>
           </div>
           <div class="q-foot"><span>Gates <a href="/wireframes#d1">D1</a>–<a href="/wireframes#d3">D3</a>, <a href="/wireframes#d23">D23</a>, and the web shell's user context. P2 follows directly from this answer.</span></div>
@@ -326,7 +326,7 @@
       <article class="q blocking" id="p2">
         <div class="q-head">
           <span class="q-id">P2</span>
-          <h3 class="q-title">Authentication — Tenna Cognito/OIDC, or ELD-owned auth with a trusted-peer link?</h3>
+          <h3 class="q-title">Authentication: Tenna Cognito/OIDC, or ELD-owned auth with a trusted-peer link?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -338,7 +338,7 @@
           </p>
           <div class="q-ask">
             <span class="q-label">Also needs an answer</span>
-            <p>Offline session policy — a driver out of coverage must still reach their logs. How long may a cached session live before re-authentication?</p>
+            <p>Offline session policy: a driver out of coverage must still reach their logs. How long may a cached session live before re-authentication?</p>
           </div>
           <div class="q-foot"><span>Gates <a href="/wireframes#d1">D1</a> and <a href="/wireframes#d3">D3</a>; shapes the web module sign-in via P5.</span></div>
         </div>
@@ -347,7 +347,7 @@
       <article class="q blocking" id="p3">
         <div class="q-head">
           <span class="q-id">P3</span>
-          <h3 class="q-title">Telematics point data — does Tenna retain it at all, and where is it processed?</h3>
+          <h3 class="q-title">Telematics point data: does Tenna retain it at all, and where is it processed?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -355,13 +355,13 @@
         </div>
         <div class="q-body">
           <p>
-            ELD device data won't run through Tenna's existing ingestion pipeline. Two questions from Luke's note: does Tenna need to retain the individual point data at all — and if so, is it processed on the Tenna side or held within the ELD? The answer draws the data boundary for exports, audit bundles, and any Tenna-side analytics on ELD telemetry.
+            ELD device data won't run through Tenna's existing ingestion pipeline. Two questions from Luke's note: does Tenna need to retain the individual point data at all, and if so, is it processed on the Tenna side or held within the ELD? The answer draws the data boundary for exports, audit bundles, and any Tenna-side analytics on ELD telemetry.
           </p>
           <div class="q-ask">
             <span class="q-label">The candidates</span>
             <p>
-              A · <b>ELD holds the points</b> — Tenna receives derived events and summaries only; exports serve from the ELD.<br/>
-              B · <b>Tenna retains point data</b> — points flow to Tenna for processing and retention through a new path.
+              A · ELD holds the points: Tenna receives derived events and summaries only; exports serve from the ELD.<br/>
+              B · Tenna retains point data: points flow to Tenna for processing and retention through a new path.
             </p>
           </div>
           <div class="q-foot"><span>Gates the <a href="/wireframes#data">master data-element table</a>, <a href="/wireframes#w7">W7</a>, and <a href="/wireframes#w13">W13</a>.</span></div>
@@ -371,7 +371,7 @@
       <article class="q blocking" id="p4">
         <div class="q-head">
           <span class="q-id">P4</span>
-          <h3 class="q-title">Which ELD-generated events — alarms, exceptions — surface inside Tenna?</h3>
+          <h3 class="q-title">Which ELD-generated events (alarms, exceptions) surface inside Tenna?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -381,14 +381,14 @@
           <p>
             HOS violations, approaching-limit warnings, malfunctions, and diagnostics all originate in the ELD. Which cross into Tenna's own alarm and notification surfaces, and which live only in the ELD module? The strongest candidate for pushing through: a §395.34 malfunction's 8-day remediation clock, which a fleet manager must not be able to miss.
           </p>
-          <div class="q-foot"><span>Gates the placement of <a href="/wireframes#w1">W1</a>, <a href="/wireframes#w2">W2</a>, and <a href="/wireframes#w8">W8</a>–<a href="/wireframes#w10">W10</a> — primary surfaces, or mirrors of Tenna-side alarms.</span></div>
+          <div class="q-foot"><span>Gates the placement of <a href="/wireframes#w1">W1</a>, <a href="/wireframes#w2">W2</a>, and <a href="/wireframes#w8">W8</a>–<a href="/wireframes#w10">W10</a>: primary surfaces, or mirrors of Tenna-side alarms.</span></div>
         </div>
       </article>
 
       <article class="q blocking" id="p5">
         <div class="q-head">
           <span class="q-id">P5</span>
-          <h3 class="q-title">Front-end placement — microfrontend inside Tenna's auth boundary, or standalone?</h3>
+          <h3 class="q-title">Front-end placement: microfrontend inside Tenna's auth boundary, or standalone?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -396,7 +396,7 @@
         </div>
         <div class="q-body">
           <p>
-            Luke's current thinking: <i>a microfrontend hosted within Tenna's auth boundary rather than a fully standalone app, with seamless access for permissioned users as the requirement.</i> Every web wireframe is drawn inside a Tenna portal shell to make that assumption visible — if the decision lands the other way, the shell changes, not the screens.
+            Luke's current thinking: <i>a microfrontend hosted within Tenna's auth boundary rather than a fully standalone app, with seamless access for permissioned users as the requirement.</i> Every web wireframe is drawn inside a Tenna portal shell to make that assumption visible. If the decision lands the other way, the shell changes, not the screens.
           </p>
           <div class="q-foot"><span>Gates all fifteen web screens (<a href="/wireframes#web">W1–W15</a>).</span></div>
         </div>
@@ -819,15 +819,15 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <h3>ELD Solution API · Platform kickoff</h3>
           <div class="tl-who">Adam Schaible (AppAxis) · Luke Douglas, Tamar Amit, Kyle Romero (Tenna)</div>
           <p>
-            First platform-level session on the API and integration approach, followed by Luke's written recap so the working assumptions are captured in one place. The five product decisions above (P1–P5) come out of this meeting, queued in dependency order for the <b>Thursday August 20, 2 PM ET</b> product session.
+            First platform-level session on the API and integration approach, followed by Luke's written recap so the working assumptions are captured in one place. The five product decisions above (P1–P5) come out of this meeting, queued in dependency order for the Thursday August 20, 2 PM ET product session.
           </p>
           <div class="outcome">
             <span class="q-label">Settled in the room / in Luke's recap</span>
             <p>
-              <b>Integration approach</b> — working assumption is net-new, purpose-built APIs for this integration rather than direct access to Tenna's existing ones, with on-demand access rather than bulk synchronization as the default pattern. To be confirmed once data requirements take shape; plan against it.<br/>
-              <b>Code &amp; accounts</b> — build-phase code lives in Tenna's GitHub; prototype work proceeds now through AppAxis's app store accounts for the POC phase.<br/>
-              <b>Contacts</b> — Kyle Romero is engineering's day-to-day point of contact, Tamar Amit the owning engineering manager; Luke copied for visibility.<br/>
-              <b>Mockups</b> — bring them: props for pulling out data elements. Screens are proposals to react to; requirements get recorded in this log, since the ELD flow is specified by the certifiable logic underneath rather than the UI. → <a href="/wireframes">Wireframes&nbsp;↗</a>
+              <b>Integration approach:</b> working assumption is net-new, purpose-built APIs for this integration rather than direct access to Tenna's existing ones, with on-demand access rather than bulk synchronization as the default pattern. To be confirmed once data requirements take shape; plan against it.<br/>
+              <b>Code &amp; accounts:</b> build-phase code lives in Tenna's GitHub; prototype work proceeds now through AppAxis's app store accounts for the POC phase.<br/>
+              <b>Contacts:</b> Kyle Romero is engineering's day-to-day point of contact, Tamar Amit the owning engineering manager; Luke copied for visibility.<br/>
+              <b>Mockups:</b> bring them, props for pulling out data elements. Screens are proposals to react to; requirements get recorded in this log, since the ELD flow is specified by the certifiable logic underneath rather than the UI. → <a href="/wireframes">Wireframes&nbsp;↗</a>
             </p>
           </div>
         </div>

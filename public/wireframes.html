@@ -29,7 +29,7 @@
     --amber-soft: #FDF3E3;
     --blue: #2E6BE6;
     --blue-soft: #EAF0FD;
-    /* wireframe grays — interiors stay deliberately grayscale */
+    /* wireframe grays: interiors stay deliberately grayscale */
     --wf-frame: #C9CED8;
     --wf-line: #E3E6EC;
     --wf-line-soft: #F1F3F6;
@@ -162,7 +162,7 @@
   .anatomy p { font-size: 13.5px; margin: 0 0 8px 0; }
   .anatomy p:last-child { margin-bottom: 0; }
 
-  /* ---- Tag chips (annotation layer — this is where color is allowed) ---- */
+  /* ---- Tag chips (annotation layer, where color is allowed) ---- */
   .tag {
     display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.9px;
     padding: 3px 8px; border-radius: 999px; white-space: nowrap; border: 1px solid transparent; text-transform: uppercase;
@@ -421,12 +421,12 @@
       <span>For: Tamar Amit &amp; Kyle Romero</span>
       <span>cc: Luke Douglas</span>
     </div>
-    <h1>All 41 screens, drawn.<br/><span class="accent">Proposals to react to — not specs.</span></h1>
+    <h1>All 41 screens, drawn.<br/><span class="accent">Proposals to react to, not specs.</span></h1>
     <p class="lede">
-      Every surface from the <a href="/#screens">Section 5 screen inventory</a> — 26 driver-app screens and 15 web log-management screens — as a mid-fidelity wireframe with realistic ELD data. Each one is annotated with the data elements it needs, tagged by which system supplies them, and the open questions it raises. The framing from the kickoff holds throughout: <b>these screens are props for pulling out data elements, the requirements themselves get recorded in the <a href="/decisions">shared decision log</a>, and the ELD flow is ultimately specified by the certifiable logic underneath rather than the UI.</b>
+      Every surface from the <a href="/#screens">Section 5 screen inventory</a>, 26 driver-app screens and 15 web log-management screens, as a mid-fidelity wireframe with realistic ELD data. Each one is annotated with the data elements it needs, tagged by which system supplies them, and the open questions it raises. The framing from the kickoff holds throughout: these screens are props for pulling out data elements, the requirements themselves get recorded in the <a href="/decisions">shared decision log</a>, and the ELD flow is ultimately specified by the certifiable logic underneath rather than the UI.
     </p>
     <p class="lede" style="font-size:15px; margin-top:14px;">
-      Wireframe interiors are deliberately grayscale so the conversation stays on content, not visual design. The sample data is real: it comes from the Phase 2 hardware spike — a Geometris WQ tracker on a Ford F-150 — so odometer readings, coordinates, and device identifiers are values the hardware actually produced.
+      Wireframe interiors are deliberately grayscale so the conversation stays on content, not visual design. The sample data is real: it comes from the Phase 2 hardware spike, a Geometris WQ tracker on a Ford F-150, so odometer readings, coordinates, and device identifiers are values the hardware actually produced.
     </p>
 
     <div class="score-row">
@@ -443,7 +443,7 @@
     <div class="eyebrow">Before the screens</div>
     <h2>Five product decisions gate the interface design.</h2>
     <p class="lede">
-      From Luke's follow-up to the August 13 kickoff: <i>"the data guidelines Jose mentioned will fall out of a handful of product decisions, so I'd suggest we point the session at those directly."</i> Here they are in his dependency order — each card names the screens it gates, and each is recorded as an open entry in the <a href="/decisions">decision log</a>. Anything not decided Thursday leaves the room with a named owner and a date.
+      From Luke's follow-up to the August 13 kickoff: <i>"the data guidelines Jose mentioned will fall out of a handful of product decisions, so I'd suggest we point the session at those directly."</i> Here they are in his dependency order; each card names the screens it gates, and each is recorded as an open entry in the <a href="/decisions">decision log</a>. Anything not decided Thursday leaves the room with a named owner and a date.
     </p>
 
     <div class="pchain">
@@ -451,7 +451,7 @@
       <article class="pcard" id="pd1">
         <div class="p-head">
           <span class="p-id">P1</span>
-          <h3 class="p-title">Driver account model — full Tenna users, or a stripped-down driver credential?</h3>
+          <h3 class="p-title">Driver account model: full Tenna users, or a stripped-down driver credential?</h3>
         </div>
         <p class="p-quote">
           Are ELD drivers full Tenna users, or a lighter-weight driver credential that exists mainly for the ELD? Luke's note: <i>"Most of the interface design hangs on this one."</i> It decides where the driver record lives, what D1 asks for, and whose profile D23 displays.
@@ -472,7 +472,7 @@
       <article class="pcard" id="pd2">
         <div class="p-head">
           <span class="p-id">P2</span>
-          <h3 class="p-title">Authentication — Tenna Cognito/OIDC, or ELD-owned auth with a trusted-peer link?</h3>
+          <h3 class="p-title">Authentication: Tenna Cognito/OIDC, or ELD-owned auth with a trusted-peer link?</h3>
         </div>
         <p class="p-quote">
           Follows directly from P1. If ELD users are Tenna users, the app integrates with Tenna's existing authentication (Cognito/OIDC). Alternatively, the ELD handles its own user authentication and the two systems communicate as trusted peers.
@@ -488,19 +488,19 @@
         <p class="p-log">Recorded as <a href="/decisions#p2">P2 in the decision log ↗</a></p>
       </article>
 
-      <div class="pconn">Independent of identity — the data question</div>
+      <div class="pconn">Independent of identity: the data question</div>
 
       <article class="pcard" id="pd3">
         <div class="p-head">
           <span class="p-id">P3</span>
-          <h3 class="p-title">Telematics point data — does Tenna retain it at all, and if so, where is it processed?</h3>
+          <h3 class="p-title">Telematics point data: does Tenna retain it at all, and if so, where is it processed?</h3>
         </div>
         <p class="p-quote">
-          ELD device data won't run through Tenna's existing ingestion pipeline. Two open questions from Luke's note: does Tenna need to retain the individual point data at all — and if it does, is it processed on the Tenna side or held within the ELD?
+          ELD device data won't run through Tenna's existing ingestion pipeline. Two open questions from Luke's note: does Tenna need to retain the individual point data at all, and if it does, is it processed on the Tenna side or held within the ELD?
         </p>
         <div class="p-opts">
           <div class="p-opt"><b>A · ELD holds the points</b> The ELD keeps second-by-second telemetry; Tenna receives only derived events and summaries. Exports and audit bundles are served from the ELD.</div>
-          <div class="p-opt"><b>B · Tenna retains point data</b> Individual points flow to Tenna for processing and retention alongside its other asset data — through a new path, not the existing pipeline.</div>
+          <div class="p-opt"><b>B · Tenna retains point data</b> Individual points flow to Tenna for processing and retention alongside its other asset data, through a new path rather than the existing pipeline.</div>
         </div>
         <div class="p-gates">
           <span class="glabel">Gates</span>
@@ -514,7 +514,7 @@
       <article class="pcard" id="pd4">
         <div class="p-head">
           <span class="p-id">P4</span>
-          <h3 class="p-title">Which ELD-generated events — alarms, exceptions — surface inside Tenna?</h3>
+          <h3 class="p-title">Which ELD-generated events (alarms, exceptions) surface inside Tenna?</h3>
         </div>
         <p class="p-quote">
           HOS violations, approaching-limit warnings, malfunctions, and diagnostics all originate in the ELD. Which of them cross into Tenna's own alarm and notification surfaces, and which live only in the ELD module? The answer decides whether W2 and W8–W10 are the primary surfaces or mirrors of something Tenna-side.
@@ -535,10 +535,10 @@
       <article class="pcard" id="pd5">
         <div class="p-head">
           <span class="p-id">P5</span>
-          <h3 class="p-title">Front-end placement — microfrontend inside Tenna's auth boundary, or standalone?</h3>
+          <h3 class="p-title">Front-end placement: microfrontend inside Tenna's auth boundary, or standalone?</h3>
         </div>
         <p class="p-quote">
-          Luke's current thinking: <i>"a microfrontend hosted within our auth boundary rather than a fully standalone app, with seamless access for permissioned users as the requirement."</i> Every web wireframe on this page is drawn inside a Tenna portal shell to make that assumption visible — if the answer changes, the shell changes, not the screens.
+          Luke's current thinking: <i>"a microfrontend hosted within our auth boundary rather than a fully standalone app, with seamless access for permissioned users as the requirement."</i> Every web wireframe on this page is drawn inside a Tenna portal shell to make that assumption visible. If the answer changes, the shell changes, not the screens.
         </p>
         <div class="p-opts">
           <div class="p-opt"><b>A · Microfrontend in the Tenna portal</b> The ELD module renders inside Tenna's web app behind Tenna auth. Seamless for permissioned users; ties releases to an integration contract.</div>
@@ -559,38 +559,38 @@
     <div class="eyebrow">How to read this page</div>
     <h2>Every data element is tagged by the system that supplies it.</h2>
     <p class="lede">
-      The point of Thursday's session is pulling data elements out of screens. So every wireframe below carries an annotation panel — purpose, data elements, open questions — and every data element wears one of five tags. The tags are the draft vocabulary for the data guidelines that fall out of the five decisions.
+      The point of Thursday's session is pulling data elements out of screens. So every wireframe below carries an annotation panel (purpose, data elements, open questions), and every data element wears one of five tags. The tags are the draft vocabulary for the data guidelines that fall out of the five decisions.
     </p>
 
     <div class="legend-grid">
       <div class="legend-item">
         <span class="tag t-api">Tenna API</span>
-        <p>Read <b>on demand</b> from the integration APIs. Working assumption from the kickoff: <b>net-new, purpose-built APIs</b> for this integration rather than direct access to Tenna's existing ones, with on-demand access rather than bulk synchronization as the default pattern.</p>
+        <p>Read on demand from the integration APIs. Working assumption from the kickoff: net-new, purpose-built APIs for this integration rather than direct access to Tenna's existing ones, with on-demand access rather than bulk synchronization as the default pattern.</p>
       </div>
       <div class="legend-item">
         <span class="tag t-eld">ELD-owned</span>
-        <p>Lives in the ELD's own system of record — the certifiable event log and everything derived from it (duty statuses, clocks, edits, certifications, malfunctions).</p>
+        <p>Lives in the ELD's own system of record: the certifiable event log and everything derived from it (duty statuses, clocks, edits, certifications, malfunctions).</p>
       </div>
       <div class="legend-item">
         <span class="tag t-ble">Tracker · BLE</span>
-        <p>Read from the <b>Geometris WQ</b> over Bluetooth LE — VIN, odometer, engine hours, position, speed, stored events. Phase 2 measured the stream at ~2–3 s cadence, comfortably inside the FMCSA 5-second engine-sync requirement.</p>
+        <p>Read from the Geometris WQ over Bluetooth LE: VIN, odometer, engine hours, position, speed, stored events. Phase 2 measured the stream at ~2–3 s cadence, comfortably inside the FMCSA 5-second engine-sync requirement.</p>
       </div>
       <div class="legend-item">
         <span class="tag t-push">→ Tenna</span>
-        <p>An event the ELD <b>pushes across the boundary into Tenna</b> (alarms, exceptions, status). Which events make this list is exactly what decision <a href="/decisions#p4">P4</a> settles.</p>
+        <p>An event the ELD pushes across the boundary into Tenna (alarms, exceptions, status). Which events make this list is exactly what decision <a href="/decisions#p4">P4</a> settles.</p>
       </div>
       <div class="legend-item">
         <span class="tag t-gated">Gated · P#</span>
-        <p>This element or screen <b>cannot be finalized until the numbered product decision lands</b>. The wireframe shows one candidate answer so there is something concrete to react to.</p>
+        <p>This element or screen cannot be finalized until the numbered product decision lands. The wireframe shows one candidate answer so there is something concrete to react to.</p>
       </div>
       <div class="legend-item">
         <span class="qref" style="margin-top:3px; flex-shrink:0;">Q7</span>
-        <p>Open questions marked <b>Q#</b> reference the Phase 2 hardware question log — findings from testing the real tracker. Each links to its entry in the <a href="/decisions">decision log</a>.</p>
+        <p>Open questions marked Q# reference the Phase 2 hardware question log: findings from testing the real tracker. Each links to its entry in the <a href="/decisions">decision log</a>.</p>
       </div>
     </div>
 
     <div class="anatomy">
-      <p><b>Reading an entry:</b> the frame on the left is the wireframe — grayscale on purpose, so we argue about content and data, not color and polish. The panel on the right is what the screen <i>needs</i>: its purpose, its data elements with source tags, and the open questions it raises. Screen IDs (D4, W7…) match the Section 5 inventory in the proposal, so the meeting can reference any screen unambiguously.</p>
+      <p><b>Reading an entry:</b> the frame on the left is the wireframe, grayscale on purpose, so we argue about content and data, not color and polish. The panel on the right is what the screen <i>needs</i>: its purpose, its data elements with source tags, and the open questions it raises. Screen IDs (D4, W7…) match the Section 5 inventory in the proposal, so the meeting can reference any screen unambiguously.</p>
       <p><b>Sample data is grounded, not lorem ipsum:</b> the vehicle is the Phase 2 test truck (Ford F-150, VIN <span class="mono" style="font-size:12px;">1FTFW1R63EFA84339</span>, ~126,500 mi), the tracker is the real unit on it (<span class="mono" style="font-size:12px;">WQ-87X060680218</span>), and the HOS clocks are a plausible mid-shift afternoon: 11-hour drive limit, 14-hour window, 70-hour/8-day cycle.</p>
     </div>
   </div>
@@ -601,7 +601,7 @@
     <div class="eyebrow">Driver mobile app · D1–D26</div>
     <h2>Nine flows, one hub.</h2>
     <p class="lede">
-      The driver experience centers on <a href="#d4">D4, the HOS dashboard</a> — almost everything is one tap away from it. Three flows deliberately break that pattern: roadside inspection (<a href="#d15">D15</a>) is PIN-gated so it cannot be entered by accident, the malfunction notice (<a href="#d18">D18</a>) interrupts everything when it fires, and carrier edit requests (<a href="#d20">D20–D21</a>) arrive by push from the back office.
+      The driver experience centers on <a href="#d4">D4, the HOS dashboard</a>; almost everything is one tap away from it. Three flows deliberately break that pattern: roadside inspection (<a href="#d15">D15</a>) is PIN-gated so it cannot be entered by accident, the malfunction notice (<a href="#d18">D18</a>) interrupts everything when it fires, and carrier edit requests (<a href="#d20">D20–D21</a>) arrive by push from the back office.
     </p>
     <div class="jump">
       <a href="#g-auth">Auth &amp; Setup <span class="r">D1–D3</span></a>
@@ -641,7 +641,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D1</span><h4 class="wf-name">Login</h4><span class="tag t-gated">Gated · P1</span><span class="tag t-gated">Gated · P2</span></div>
-          <p class="wf-purpose">Driver signs in with carrier-issued credentials and lands on the HOS dashboard (D4). Drawn as a native credential form — <b>if P2 lands on Tenna Cognito/OIDC, this becomes a hosted OIDC flow instead</b> and the password never touches the app.</p>
+          <p class="wf-purpose">Driver signs in with carrier-issued credentials and lands on the HOS dashboard (D4). Drawn as a native credential form; if P2 lands on Tenna Cognito/OIDC, this becomes a hosted OIDC flow instead and the password never touches the app.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -655,7 +655,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p1">P1</a> Is the thing typed here a Tenna user or an ELD driver credential? Everything on this screen follows from that.</li>
-              <li><a class="qref" href="/decisions#p2">P2</a> Offline grace: a driver at a rural jobsite with no signal must still reach their logs — how long may a cached session live?</li>
+              <li><a class="qref" href="/decisions#p2">P2</a> Offline grace: a driver at a rural jobsite with no signal must still reach their logs. How long may a cached session live?</li>
             </ul>
           </div>
         </div>
@@ -679,7 +679,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D2</span><h4 class="wf-name">Vehicle Pair</h4></div>
-          <p class="wf-purpose">Driver selects the truck and the app connects to its Geometris WQ over Bluetooth. Required before any duty-status change — the pairing is what ties every HOS event to a VIN and odometer.</p>
+          <p class="wf-purpose">Driver selects the truck and the app connects to its Geometris WQ over Bluetooth. Required before any duty-status change; the pairing is what ties every HOS event to a VIN and odometer.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -692,8 +692,8 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#q7">Q7</a> Which identifier is the stable production key for the serial → asset lookup — the serial or the BLE address? (Phase 2 found the address characteristic arrives byte-reversed; a naïve read matches nothing.)</li>
-              <li><a class="qref" href="/decisions#q5">Q5</a> The BLE protocol has no authentication — "pairing" here is an app-level concept, not a security boundary. Any phone in range can connect to the tracker.</li>
+              <li><a class="qref" href="/decisions#q7">Q7</a> Which identifier is the stable production key for the serial → asset lookup: the serial or the BLE address? (Phase 2 found the address characteristic arrives byte-reversed; a naïve read matches nothing.)</li>
+              <li><a class="qref" href="/decisions#q5">Q5</a> The BLE protocol has no authentication; "pairing" here is an app-level concept, not a security boundary. Any phone in range can connect to the tracker.</li>
             </ul>
           </div>
         </div>
@@ -713,7 +713,7 @@
               <div class="ph-label">Password</div>
               <div class="ph-field filled">••••••••</div>
               <div class="ph-btn primary">Log in as co-driver</div>
-              <div class="ph-note">Both drivers stay signed in on this device. Swap who is at the wheel from the dashboard — driving time always accrues to the active driver.</div>
+              <div class="ph-note">Both drivers stay signed in on this device. Swap who is at the wheel from the dashboard; driving time always accrues to the active driver.</div>
             </div>
           </div></div>
         </div>
@@ -762,7 +762,7 @@
               <div class="ph-card"><div class="h">Unit 218 · Ford F-150</div>
                 <div class="ph-note">Odometer 126,502.5 mi · near Blue Ash, OH<br/>Last tracker frame 2 s ago</div>
               </div>
-              <div class="ph-banner"><b>1 log needs certification</b> — Sat Aug 15. Tap to review and certify.</div>
+              <div class="ph-banner"><b>1 log needs certification:</b> Sat Aug 15. Tap to review and certify.</div>
               <div class="ph-btn primary">Change status</div>
               <div class="ph-tabbar">
                 <div class="ph-tab on"><span class="ic">⌂</span>Home</div>
@@ -791,8 +791,8 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#q1">Q1</a> The ordinary stop breaks the link: driver parks and walks away with the phone. Status stays DRIVING because the 5-minute stationary window never completes on the phone's side. What should this screen show, and may the tracker's stored stop evidence settle the status retroactively? <b>Blocking Phase 3 design.</b></li>
-              <li>When the link is lost, the odometer and location freeze — the wireframe shows last-frame age so staleness is honest. Is that the right treatment?</li>
+              <li><a class="qref" href="/decisions#q1">Q1</a> The ordinary stop breaks the link: driver parks and walks away with the phone. Status stays DRIVING because the 5-minute stationary window never completes on the phone's side. What should this screen show, and may the tracker's stored stop evidence settle the status retroactively? Blocking Phase 3 design.</li>
+              <li>When the link is lost, the odometer and location freeze; the wireframe shows last-frame age so staleness is honest. Is that the right treatment?</li>
             </ul>
           </div>
         </div>
@@ -814,7 +814,7 @@
               </div>
               <div class="ph-li"><span class="a">Personal conveyance / Yard move</span><span class="b">→</span></div>
               <div class="ph-banner">A manual change requires a short note (next step). Automatic driving detection cannot be overridden while the vehicle is moving.</div>
-              <div class="ph-btn primary">Switch to ON — On duty</div>
+              <div class="ph-btn primary">Switch to ON · On duty</div>
               <div class="ph-btn ghost">Cancel</div>
             </div>
           </div></div>
@@ -858,7 +858,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D6</span><h4 class="wf-name">Special Duty · PC / Yard Move</h4></div>
-          <p class="wf-purpose">Personal Conveyance or Yard Move with a required justification. Whether a driver sees these toggles at all is carrier policy set in W15 — the screen enforces a rule someone else configured.</p>
+          <p class="wf-purpose">Personal Conveyance or Yard Move with a required justification. Whether a driver sees these toggles at all is carrier policy set in W15; the screen enforces a rule someone else configured.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -886,7 +886,7 @@
                 <div class="ph-note">DRIVING → ON · On duty, not driving<br/>2:41 PM · Blue Ash, OH · odo 126,502.5 mi</div>
               </div>
               <div class="ph-label">Why are you making this change?</div>
-              <div class="ph-field filled" style="min-height:64px;">Arrived at Kenwood jobsite — staging materials</div>
+              <div class="ph-field filled" style="min-height:64px;">Arrived at Kenwood jobsite, staging materials</div>
               <div class="ph-note" style="text-align:right;">44 characters · minimum 8 ✓</div>
               <div class="ph-btn primary">Save status change</div>
               <div class="ph-btn ghost">Back</div>
@@ -915,7 +915,7 @@
     <!-- ============ DAILY LOGS ============ -->
     <div class="wf-group" id="g-logs">
       <div class="wf-group-head"><h3>Daily Logs</h3><span class="range">D8 – D13</span></div>
-      <p class="wf-group-note">The graphical 24-hour grid is the centerpiece — it is what drivers, fleet managers (W4), and roadside officers (D16) all read. The same event log renders all three; only the framing differs.</p>
+      <p class="wf-group-note">The graphical 24-hour grid is the centerpiece: it is what drivers, fleet managers (W4), and roadside officers (D16) all read. The same event log renders all three; only the framing differs.</p>
 
       <div class="wf-item" id="d8">
         <div class="wf-frame-col">
@@ -939,9 +939,9 @@
                 <div class="ph-tile"><div class="v" style="font-size:12px;">6:45 / 0:00</div><div class="l">Off / Sleeper</div></div>
                 <div class="ph-tile"><div class="v" style="font-size:12px;">6:31 / 1:25</div><div class="l">Driving / On duty</div></div>
               </div>
-              <div class="ph-li"><span class="a">12:00 PM · D — Driving<small>automatic · Blue Ash, OH · odo 126,485.7</small></span><span class="b">→</span></div>
-              <div class="ph-li"><span class="a">11:30 AM · OFF — Off duty<small>manual · "Lunch" · odo 126,485.7</small></span><span class="b">→</span></div>
-              <div class="ph-li"><span class="a">10:10 AM · D — Driving<small>automatic · Evendale, OH · odo 126,470.1</small></span><span class="b">→</span></div>
+              <div class="ph-li"><span class="a">12:00 PM · D · Driving<small>automatic · Blue Ash, OH · odo 126,485.7</small></span><span class="b">→</span></div>
+              <div class="ph-li"><span class="a">11:30 AM · OFF · Off duty<small>manual · "Lunch" · odo 126,485.7</small></span><span class="b">→</span></div>
+              <div class="ph-li"><span class="a">10:10 AM · D · Driving<small>automatic · Evendale, OH · odo 126,470.1</small></span><span class="b">→</span></div>
               <div class="ph-note">Tap any segment or event for detail (D10). Distance today: 61.5 mi.</div>
               <div class="ph-tabbar">
                 <div class="ph-tab"><span class="ic">⌂</span>Home</div>
@@ -967,7 +967,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#q6">Q6</a> The tracker's odometer reads ~2.8 mi below the dashboard — ordinary calibration, but the two will never agree. Which value is authoritative on the printed log?</li>
+              <li><a class="qref" href="/decisions#q6">Q6</a> The tracker's odometer reads ~2.8 mi below the dashboard: ordinary calibration, but the two will never agree. Which value is authoritative on the printed log?</li>
               <li><a class="qref" href="/decisions#q2">Q2</a> The tracker's engine-hours counter runs from a device-local baseline, not the ECM lifetime total. What number belongs on these event records?</li>
             </ul>
           </div>
@@ -1028,10 +1028,10 @@
                 </g>
                 <path d="M24,18 H79 V72 H84 V54 H136.5 V18 H144 V54 H189 V72 H196.5 V18 H264" fill="none" stroke="#2A303B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
               </svg>
-              <div class="ph-li"><span class="a">4:30 PM · ON — On duty<small>edited · was 4:30–5:15, now 4:30–5:30 PM</small></span><span class="b">history →</span></div>
-              <div class="ph-li"><span class="a">12:00 PM · D — Driving<small>automatic · Sharonville, OH</small></span><span class="b"></span></div>
-              <div class="ph-li"><span class="a">11:15 AM · OFF — Off duty<small>manual · "Lunch"</small></span><span class="b"></span></div>
-              <div class="ph-li"><span class="a">6:00 AM · D — Driving<small>automatic · Blue Ash, OH</small></span><span class="b"></span></div>
+              <div class="ph-li"><span class="a">4:30 PM · ON · On duty<small>edited · was 4:30–5:15, now 4:30–5:30 PM</small></span><span class="b">history →</span></div>
+              <div class="ph-li"><span class="a">12:00 PM · D · Driving<small>automatic · Sharonville, OH</small></span><span class="b"></span></div>
+              <div class="ph-li"><span class="a">11:15 AM · OFF · Off duty<small>manual · "Lunch"</small></span><span class="b"></span></div>
+              <div class="ph-li"><span class="a">6:00 AM · D · Driving<small>automatic · Blue Ash, OH</small></span><span class="b"></span></div>
               <div class="ph-row2">
                 <div class="ph-btn ghost">Edit an entry</div>
                 <div class="ph-btn ghost">Edit history</div>
@@ -1053,7 +1053,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li>How much raw FMCSA detail belongs in the driver view — sequence IDs and data-check values, or keep those to the officer/export surfaces (D16, W7)?</li>
+              <li>How much raw FMCSA detail belongs in the driver view: sequence IDs and data-check values, or keep those to the officer/export surfaces (D16, W7)?</li>
             </ul>
           </div>
         </div>
@@ -1071,7 +1071,7 @@
               <div class="ph-banner">"I hereby certify that my data entries and my record of duty status for this 24-hour period are true and correct."</div>
               <div class="ph-label">Signature</div>
               <div class="ph-sig">Marcus Alvarez</div>
-              <div class="ph-btn primary">Agree — certify Aug 15</div>
+              <div class="ph-btn primary">Agree and certify Aug 15</div>
               <div class="ph-btn ghost">Not ready</div>
               <div class="ph-note">Also uncertified: today (certify after your shift). Approving a carrier edit re-opens the day for recertification.</div>
             </div>
@@ -1104,7 +1104,7 @@
             <div class="ph-appbar"><span class="t">Edit entry · Aug 19</span><span class="r">§395.30</span></div>
             <div class="ph-body">
               <div class="ph-card"><div class="h">Original</div>
-                <div class="ph-note">ON — On duty · 4:30 → 5:15 PM · automatic</div>
+                <div class="ph-note">ON · On duty · 4:30 → 5:15 PM · automatic</div>
               </div>
               <div class="ph-label">Status</div>
               <div class="ph-status-row">
@@ -1118,8 +1118,8 @@
                 <div><div class="ph-label" style="margin-bottom:3px;">To</div><div class="ph-field filled">5:30 PM</div></div>
               </div>
               <div class="ph-label">Annotation · required</div>
-              <div class="ph-field filled">Unload ran long — forgot to log it</div>
-              <div class="ph-banner">Automatically recorded <b>driving time cannot be shortened or reassigned</b> by an edit. The original entry is preserved in history.</div>
+              <div class="ph-field filled">Unload ran long, forgot to log it</div>
+              <div class="ph-banner">Automatically recorded driving time cannot be shortened or reassigned by an edit. The original entry is preserved in history.</div>
               <div class="ph-btn primary">Submit edit</div>
             </div>
           </div></div>
@@ -1137,7 +1137,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li>None open — the constraint set here is fixed by §395.30/§395.32. This screen is certifiable-logic-driven end to end.</li>
+              <li>None open: the constraint set here is fixed by §395.30/§395.32. This screen is certifiable-logic-driven end to end.</li>
             </ul>
           </div>
         </div>
@@ -1150,7 +1150,7 @@
             <div class="ph-appbar"><span class="t">Edit history · Aug 19</span><span class="r">originals<br/>preserved</span></div>
             <div class="ph-body">
               <div class="ph-card"><div class="h">v3 · current</div>
-                <div class="ph-note">ON · 4:30 → 5:30 PM<br/>Edited by M. Alvarez · Aug 20, 7:12 AM<br/>"Unload ran long — forgot to log it"</div>
+                <div class="ph-note">ON · 4:30 → 5:30 PM<br/>Edited by M. Alvarez · Aug 20, 7:12 AM<br/>"Unload ran long, forgot to log it"</div>
               </div>
               <div class="ph-card"><div class="h">v2 · carrier proposal · rejected</div>
                 <div class="ph-note">ON · 4:30 → 6:00 PM<br/>Proposed by dispatch (K. Byers) · Aug 19, 9:02 PM<br/>Rejected by driver: "Left yard at 5:30"</div>
@@ -1158,13 +1158,13 @@
               <div class="ph-card"><div class="h">v1 · original · automatic</div>
                 <div class="ph-note">ON · 4:30 → 5:15 PM<br/>Recorded automatically · Aug 19, 4:30 PM</div>
               </div>
-              <div class="ph-note">Every version is retained. Nothing is ever overwritten — §395.32(c).</div>
+              <div class="ph-note">Every version is retained. Nothing is ever overwritten, per §395.32(c).</div>
             </div>
           </div></div>
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D13</span><h4 class="wf-name">Edit History</h4></div>
-          <p class="wf-purpose">The audit trail for a day's edits: original values, every proposal, who made each change, and each annotation. The same trail renders in W4 for the fleet manager — one source of truth, two windows onto it.</p>
+          <p class="wf-purpose">The audit trail for a day's edits: original values, every proposal, who made each change, and each annotation. The same trail renders in W4 for the fleet manager: one source of truth, two windows onto it.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1175,7 +1175,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li>None — display of an immutable trail. Feeds W4 and W6 unchanged.</li>
+              <li>None: display of an immutable trail. Feeds W4 and W6 unchanged.</li>
             </ul>
           </div>
         </div>
@@ -1185,7 +1185,7 @@
     <!-- ============ DVIR HANDOFF ============ -->
     <div class="wf-group" id="g-dvir">
       <div class="wf-group-head"><h3>DVIR Handoff</h3><span class="range">D14</span></div>
-      <p class="wf-group-note">De-scoped from this build in the June 4 session — Tenna's existing module covers §396.11. The only design question left is the seam.</p>
+      <p class="wf-group-note">De-scoped from this build in the June 4 session; Tenna's existing module covers §396.11. The only design question left is the seam.</p>
 
       <div class="wf-item" id="d14">
         <div class="wf-frame-col">
@@ -1196,7 +1196,7 @@
               <div class="ph-card"><div class="h">Pre-trip · Unit 218 · Ford F-150</div>
                 <div class="ph-note">Status today: not started<br/>Carrier policy: required before first drive</div>
               </div>
-              <div class="ph-banner">Inspections run in <b>Tenna's DVIR module</b> — the flow you already use. You'll come back here automatically when it's submitted.</div>
+              <div class="ph-banner">Inspections run in Tenna's DVIR module, the flow you already use. You'll come back here automatically when it's submitted.</div>
               <div class="ph-btn primary">Open Tenna DVIR ↗</div>
               <div class="ph-card"><div class="h">Last inspection</div>
                 <div class="ph-note">Yesterday 6:04 AM · J. Whitfield<br/>No defects reported</div>
@@ -1212,7 +1212,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D14</span><h4 class="wf-name">DVIR Launch</h4><span class="tag t-gated">Gated · P1</span></div>
-          <p class="wf-purpose">Hands off to Tenna's standard DVIR flow (app launch or API) and returns the driver to D4 when complete. The ELD shows just enough state — required, started, submitted — to nudge without duplicating the module.</p>
+          <p class="wf-purpose">Hands off to Tenna's standard DVIR flow (app launch or API) and returns the driver to D4 when complete. The ELD shows just enough state (required, started, submitted) to nudge without duplicating the module.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1255,7 +1255,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D15</span><h4 class="wf-name">Inspection Entry</h4></div>
-          <p class="wf-purpose">PIN gate so inspection mode can't be triggered by accident — and so the officer, once handed the phone, can see logs but not the rest of the app. One of the three deliberate exceptions to "everything is one tap from D4."</p>
+          <p class="wf-purpose">PIN gate so inspection mode can't be triggered by accident, and so the officer, once handed the phone, can see logs but not the rest of the app. One of the three deliberate exceptions to "everything is one tap from D4."</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1266,7 +1266,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li>Who sets and resets the PIN — the driver in D24, or carrier policy in W15? A forgotten PIN at the roadside is the failure case to design for.</li>
+              <li>Who sets and resets the PIN: the driver in D24, or carrier policy in W15? A forgotten PIN at the roadside is the failure case to design for.</li>
             </ul>
           </div>
         </div>
@@ -1289,7 +1289,7 @@
                 Co-drv&nbsp;&nbsp;&nbsp;WHITFIELD, JAMES<br/>
                 Carrier&nbsp;&nbsp;BLUE ASH CONSTRUCTION · USDOT 3172584<br/>
                 Truck&nbsp;&nbsp;&nbsp;&nbsp;UNIT 218 · VIN 1FTFW1R63EFA84339<br/>
-                ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · odo 126,502.5 · eng-hrs —<br/>
+                ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · odo 126,502.5 · eng-hrs –<br/>
                 Unident.&nbsp;2 unassigned driving records
               </div>
               <svg class="ph-grid-svg" viewBox="0 0 272 96" role="img" aria-label="officer duty grid">
@@ -1303,7 +1303,7 @@
                 </g>
                 <path d="M24,18 H79 V72 H84 V54 H136.5 V18 H144 V54 H189 V72 H196.5 V18 H264" fill="none" stroke="#2A303B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
               </svg>
-              <div class="ph-note">Full event list follows — officer scrolls. FMCSA-required display format, all 8 days.</div>
+              <div class="ph-note">Full event list follows; officer scrolls. FMCSA-required display format, all 8 days.</div>
               <div class="ph-btn primary">Transfer to officer →</div>
             </div>
           </div></div>
@@ -1324,7 +1324,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#q3">Q3</a> With the ignition off — the normal state during an inspection — the tracker reports <span class="mono" style="font-size:11px;">0</span> for odometer and an empty VIN. The display must carry last-valid values and mark them as such; a plausible zero on this screen is worse than a blank.</li>
+              <li><a class="qref" href="/decisions#q3">Q3</a> With the ignition off (the normal state during an inspection), the tracker reports <span class="mono" style="font-size:11px;">0</span> for odometer and an empty VIN. The display must carry last-valid values and mark them as such; a plausible zero on this screen is worse than a blank.</li>
             </ul>
           </div>
         </div>
@@ -1348,7 +1348,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D17</span><h4 class="wf-name">Transfer to Officer</h4></div>
-          <p class="wf-purpose">Initiates the eRODS web-service transfer (or the local fallback), with the officer's code in the output file comment, and shows an unambiguous success or failure. Every attempt — including failures — is recorded and surfaces in W14.</p>
+          <p class="wf-purpose">Initiates the eRODS web-service transfer (or the local fallback), with the officer's code in the output file comment, and shows an unambiguous success or failure. Every attempt, including failures, is recorded and surfaces in W14.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1386,14 +1386,14 @@
                 2 · Your carrier has been notified automatically.<br/>
                 3 · The malfunction must be resolved within 8 days.
               </div>
-              <div class="ph-btn" style="border-color:#fff; color:#fff;">Acknowledge — I've read this</div>
+              <div class="ph-btn" style="border-color:#fff; color:#fff;">Acknowledge · I've read this</div>
               <div class="ph-note" style="color:#7A828F;">This notice cannot be dismissed without acknowledgment. Your acknowledgment is recorded.</div>
             </div>
           </div></div>
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D18</span><h4 class="wf-name">Malfunction Notice</h4></div>
-          <p class="wf-purpose">Full-screen interrupt when a §395.34 compliance malfunction triggers. It states the code, the clock, and the paper-logs obligation in driver language — and it stays until acknowledged. The second of the three exceptions to the one-tap pattern.</p>
+          <p class="wf-purpose">Full-screen interrupt when a §395.34 compliance malfunction triggers. It states the code, the clock, and the paper-logs obligation in driver language, and it stays until acknowledged. The second of the three exceptions to the one-tap pattern.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1405,7 +1405,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#p4">P4</a> A malfunction is the strongest candidate for pushing into Tenna's own alarm surfaces — an 8-day remediation clock a fleet manager doesn't see is how devices end up on FMCSA's revocation list.</li>
+              <li><a class="qref" href="/decisions#p4">P4</a> A malfunction is the strongest candidate for pushing into Tenna's own alarm surfaces: an 8-day remediation clock a fleet manager doesn't see is how devices end up on FMCSA's revocation list.</li>
             </ul>
           </div>
         </div>
@@ -1417,7 +1417,7 @@
             <div class="ph-status"><span>2:41 PM</span><span>▪▪▪ 5G · 84%</span></div>
             <div class="ph-appbar"><span class="t">Good afternoon, Marcus</span><span class="r">Unit 218<br/>○ link lost 6 m</span></div>
             <div class="ph-body">
-              <div class="ph-banner" style="border-style:solid; border-color:#9AA1AD;"><b>Data diagnostic · engine synchronization</b><br/>The tracker link has been down for 6 minutes. Reconnect to the vehicle to clear. Not a malfunction — logs continue.</div>
+              <div class="ph-banner" style="border-style:solid; border-color:#9AA1AD;"><b>Data diagnostic · engine synchronization</b><br/>The tracker link has been down for 6 minutes. Reconnect to the vehicle to clear. Not a malfunction; logs continue.</div>
               <div class="ph-hero" style="background:#565D6A;">
                 <div class="st">DRIVING</div>
                 <div class="sub">since 12:00 PM · last confirmed by tracker 2:35 PM</div>
@@ -1438,7 +1438,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D19</span><h4 class="wf-name">Diagnostic Notice</h4></div>
-          <p class="wf-purpose">Banner treatment for recoverable data diagnostics — visible on the dashboard, lower urgency than D18, self-clearing when the condition resolves. Drawn here mid link-loss, because that is the diagnostic this hardware will actually raise.</p>
+          <p class="wf-purpose">Banner treatment for recoverable data diagnostics: visible on the dashboard, lower urgency than D18, self-clearing when the condition resolves. Drawn here mid link-loss, because that is the diagnostic this hardware will actually raise.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1459,7 +1459,7 @@
     <!-- ============ CARRIER-INITIATED ============ -->
     <div class="wf-group" id="g-carrier">
       <div class="wf-group-head"><h3>Carrier-Initiated</h3><span class="range">D20 – D21</span></div>
-      <p class="wf-group-note">The push-driven exception: a fleet manager proposes an edit in W5, and it lands here. The spec requires the driver's explicit approval — the carrier can never silently change a log.</p>
+      <p class="wf-group-note">The push-driven exception: a fleet manager proposes an edit in W5, and it lands here. The spec requires the driver's explicit approval; the carrier can never silently change a log.</p>
 
       <div class="wf-item" id="d20">
         <div class="wf-frame-col">
@@ -1469,7 +1469,7 @@
             <div class="ph-body">
               <div class="ph-banner" style="border-style:solid;"><b>Push notification</b> · received 2:39 PM<br/>"Dispatch proposed a change to your Tue Aug 18 log."</div>
               <div class="ph-card"><div class="h">Log edit proposal · Tue Aug 18</div>
-                <div class="ph-note">Proposed by K. Byers (dispatch) · 2:39 PM<br/>Fuel stop 3:15–3:45 PM logged as OFF — proposed ON<br/>Reason: "Fueling is on-duty time"</div>
+                <div class="ph-note">Proposed by K. Byers (dispatch) · 2:39 PM<br/>Fuel stop 3:15–3:45 PM logged as OFF, proposed ON<br/>Reason: "Fueling is on-duty time"</div>
               </div>
               <div class="ph-btn primary">Review side by side →</div>
               <div class="ph-btn ghost">Later</div>
@@ -1510,10 +1510,10 @@
                   <div class="ph-note">ON · On duty<br/>3:15 → 3:45 PM<br/>"Fueling is on-duty time"</div>
                 </div>
               </div>
-              <div class="ph-banner">Approving changes your cycle by <b>−0:30 available</b> and re-opens Aug 18 for recertification.</div>
+              <div class="ph-banner">Approving changes your cycle by −0:30 available and re-opens Aug 18 for recertification.</div>
               <div class="ph-btn primary">Approve edit</div>
               <div class="ph-btn">Reject</div>
-              <div class="ph-label">If rejecting — reason</div>
+              <div class="ph-label">If rejecting · reason</div>
               <div class="ph-field">Why are you rejecting this change?</div>
             </div>
           </div></div>
@@ -1532,7 +1532,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li>What happens to a proposal a driver never answers — reminder cadence here, expiry, and how W6 escalates it on the carrier side?</li>
+              <li>What happens to a proposal a driver never answers: reminder cadence here, expiry, and how W6 escalates it on the carrier side?</li>
             </ul>
           </div>
         </div>
@@ -1542,7 +1542,7 @@
     <!-- ============ UNIDENTIFIED DRIVING ============ -->
     <div class="wf-group" id="g-ud">
       <div class="wf-group-head"><h3>Unidentified Driving</h3><span class="range">D22</span></div>
-      <p class="wf-group-note">The tracker records driving even when no phone is connected, then hands those records over on reconnect. Phase 2 measured exactly how — and raised more questions than any other flow.</p>
+      <p class="wf-group-note">The tracker records driving even when no phone is connected, then hands those records over on reconnect. Phase 2 measured exactly how, and raised more questions than any other flow.</p>
 
       <div class="wf-item" id="d22">
         <div class="wf-frame-col">
@@ -1571,7 +1571,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D22</span><h4 class="wf-name">UD Records · claim or reject</h4></div>
-          <p class="wf-purpose">Driving events with no logged-in driver, drained from the tracker's store-and-forward queue on reconnect. The driver claims what's theirs; rejections route to the carrier. A required workflow — unassigned driving is a top audit finding.</p>
+          <p class="wf-purpose">Driving events with no logged-in driver, drained from the tracker's store-and-forward queue on reconnect. The driver claims what's theirs; rejections route to the carrier. A required workflow; unassigned driving is a top audit finding.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1585,7 +1585,7 @@
             <ul>
               <li><a class="qref" href="/decisions#q4">Q4</a> The tracker drains one stored event per 4–11 s and redelivers the whole backlog on every reconnect (46 events took minutes in the field). Capacity, retention, and a bulk-transfer mode are all open with Geometris.</li>
               <li><a class="qref" href="/decisions#q9">Q9</a> Two phones on one tracker: can both drain the queue? Can one purge it out from under the other?</li>
-              <li><a class="qref" href="/decisions#q5">Q5</a> The purge command is destructive, unacknowledged, and — today — unauthenticated.</li>
+              <li><a class="qref" href="/decisions#q5">Q5</a> The purge command is destructive, unacknowledged, and currently unauthenticated.</li>
               <li><b>Inventory gap for Thursday:</b> rejected records need a carrier surface to reassign them, but no W screen owns unidentified driving. Fold into W3, or add one?</li>
             </ul>
           </div>
@@ -1616,7 +1616,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D23</span><h4 class="wf-name">Driver Profile</h4><span class="tag t-gated">Gated · P1</span></div>
-          <p class="wf-purpose">CDL, cycle assignment, exemptions, home terminal — the fields that parameterize the HOS engine for this driver. Read-only to the driver; administered wherever P1 says the driver record lives.</p>
+          <p class="wf-purpose">CDL, cycle assignment, exemptions, home terminal: the fields that parameterize the HOS engine for this driver. Read-only to the driver; administered wherever P1 says the driver record lives.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1628,7 +1628,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#p1">P1</a> Where is this record administered? The web module deliberately has no driver-roster screen — the June plan assumes Tenna's existing surfaces own it. That only works if drivers are Tenna users.</li>
+              <li><a class="qref" href="/decisions#p1">P1</a> Where is this record administered? The web module deliberately has no driver-roster screen; the June plan assumes Tenna's existing surfaces own it. That only works if drivers are Tenna users.</li>
             </ul>
           </div>
         </div>
@@ -1642,9 +1642,9 @@
             <div class="ph-body">
               <div class="ph-toggle"><span>Push notifications</span><span class="sw on"></span></div>
               <div class="ph-toggle"><span>Approaching-limit warnings<br/><small style="font-weight:600; color:var(--wf-mid); font-size:8.5px;">30 min before each clock runs out</small></span><span class="sw on"></span></div>
-              <div class="ph-toggle"><span>Units — miles</span><span class="sw on"></span></div>
+              <div class="ph-toggle"><span>Units · miles</span><span class="sw on"></span></div>
               <div class="ph-toggle"><span>Large text mode</span><span class="sw"></span></div>
-              <div class="ph-toggle"><span>Language — English</span><span class="b" style="font-size:9px; color:var(--wf-mid);">EN ▾</span></div>
+              <div class="ph-toggle"><span>Language · English</span><span class="b" style="font-size:9px; color:var(--wf-mid);">EN ▾</span></div>
               <div class="ph-li"><span class="a">Reset inspection PIN</span><span class="b">→</span></div>
               <div class="ph-note">Compliance behavior is never a setting. Nothing here changes what the ELD records.</div>
             </div>
@@ -1676,7 +1676,7 @@
             <div class="ph-body">
               <div class="ph-li"><span class="a">User guide<small>Getting started · pairing · duty status</small></span><span class="b">→</span></div>
               <div class="ph-li"><span class="a">Roadside inspection walkthrough<small>What to do when you're pulled over</small></span><span class="b">→</span></div>
-              <div class="ph-li"><span class="a">Malfunction instruction sheet<small>§395.34 — printable, keep in cab</small></span><span class="b">→</span></div>
+              <div class="ph-li"><span class="a">Malfunction instruction sheet<small>§395.34 · printable, keep in cab</small></span><span class="b">→</span></div>
               <div class="ph-li"><span class="a">Data transfer instructions<small>eRODS · email · Bluetooth · USB</small></span><span class="b">→</span></div>
               <div class="ph-li"><span class="a">Contact support<small>Your carrier's fleet administrator</small></span><span class="b">→</span></div>
               <div class="ph-note">Available offline. FMCSA requires the malfunction instruction sheet to be in the vehicle.</div>
@@ -1685,7 +1685,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D25</span><h4 class="wf-name">Help &amp; Support</h4></div>
-          <p class="wf-purpose">The user-guide content FMCSA reviewers check during registration: pairing, inspection walkthrough, malfunction steps, transfer instructions. Bundled offline — the driver who needs it is usually out of coverage.</p>
+          <p class="wf-purpose">The user-guide content FMCSA reviewers check during registration: pairing, inspection walkthrough, malfunction steps, transfer instructions. Bundled offline; the driver who needs it is usually out of coverage.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1696,7 +1696,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li>None — content obligations are fixed by the registration checklist. Copywriting, not design.</li>
+              <li>None: content obligations are fixed by the registration checklist. Copywriting, not design.</li>
             </ul>
           </div>
         </div>
@@ -1708,7 +1708,7 @@
             <div class="ph-status"><span>2:41 PM</span><span>▪▪▪ 5G · 84%</span></div>
             <div class="ph-appbar"><span class="t">About this ELD</span><span class="r">required<br/>visible</span></div>
             <div class="ph-body">
-              <div class="ph-li"><span class="a">ELD identifier<small>Assigned at FMCSA registration — pending</small></span><span class="b mono">TENNA01</span></div>
+              <div class="ph-li"><span class="a">ELD identifier<small>Assigned at FMCSA registration · pending</small></span><span class="b mono">TENNA01</span></div>
               <div class="ph-li"><span class="a">Registration ID<small>fmcsa.dot.gov listing</small></span><span class="b mono">pending</span></div>
               <div class="ph-li"><span class="a">App version<small>source revision stamped per build</small></span><span class="b mono">0.9.0<br/>e9262cb</span></div>
               <div class="ph-li"><span class="a">Paired tracker<small>Geometris WQ · Unit 218</small></span><span class="b mono">WQ-87X06<br/>0680218</span></div>
@@ -1720,7 +1720,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D26</span><h4 class="wf-name">About</h4></div>
-          <p class="wf-purpose">The FMCSA ELD identifier, registration link, software version, and the paired tracker's identity and firmware — everything support and an auditor need to pin down exactly what was running.</p>
+          <p class="wf-purpose">The FMCSA ELD identifier, registration link, software version, and the paired tracker's identity and firmware: everything support and an auditor need to pin down exactly what was running.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1746,7 +1746,7 @@
     <div class="eyebrow">Log management module · Web · W1–W15</div>
     <h2>Fifteen screens, drawn inside the Tenna portal.</h2>
     <p class="lede">
-      Every frame below is rendered <b>inside a Tenna portal shell — the dashed outline is the ELD microfrontend</b> — because that is the P5 working assumption: hosted within Tenna's auth boundary, seamless for permissioned users, rather than a standalone app. If P5 lands the other way, the shell changes and the screens survive. Consider every screen in this section implicitly <span class="tag t-gated">Gated · P5</span>. The web spine is W1 → W4: managers live on the dashboard and drill into log detail; driver rosters, user admin, and DVIR review stay in Tenna's existing surfaces.
+      Every frame below is rendered inside a Tenna portal shell, where the dashed outline is the ELD microfrontend, because that is the P5 working assumption: hosted within Tenna's auth boundary, seamless for permissioned users, rather than a standalone app. If P5 lands the other way, the shell changes and the screens survive. Consider every screen in this section implicitly <span class="tag t-gated">Gated · P5</span>. The web spine is W1 → W4: managers live on the dashboard and drill into log detail; driver rosters, user admin, and DVIR review stay in Tenna's existing surfaces.
     </p>
     <div class="jump">
       <a href="#g-wdash">Dashboard <span class="r">W1–W2</span></a>
@@ -1796,20 +1796,20 @@
                       <tr><td><b>M. Alvarez</b></td><td><span class="wb-pill dark">D · Driving</span></td><td>4:29</td><td>Unit 218</td><td>Blue Ash, OH</td><td>12 s</td></tr>
                       <tr><td><b>J. Whitfield</b></td><td><span class="wb-pill">ON · On duty</span></td><td>7:02</td><td>Unit 224</td><td>Mason, OH</td><td>41 s</td></tr>
                       <tr><td><b>R. Delgado</b></td><td><span class="wb-pill">SB · Sleeper</span></td><td>8:15</td><td>Unit 231</td><td>Columbus, OH</td><td>3 m</td></tr>
-                      <tr><td><b>T. Okafor</b></td><td><span class="wb-pill out">OFF</span></td><td>11:00</td><td>—</td><td>—</td><td>22 m</td></tr>
+                      <tr><td><b>T. Okafor</b></td><td><span class="wb-pill out">OFF</span></td><td>11:00</td><td>–</td><td>–</td><td>22 m</td></tr>
                     </tbody>
                   </table>
-                  <div class="wb-note">Sorted by urgency — closest clock to zero first. Row click → driver's log (W4).</div>
+                  <div class="wb-note">Sorted by urgency, closest clock to zero first. Row click → driver's log (W4).</div>
                 </div>
               </div>
             </div>
           </div>
-          <p class="wb-caption">The grayscale chrome is Tenna's portal — logo, product nav, sidebar — drawn as placeholder. Only the dashed region is this project's to design.</p>
+          <p class="wb-caption">The grayscale chrome is Tenna's portal (logo, product nav, sidebar), drawn as placeholder. Only the dashed region is this project's to design.</p>
           </div>
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W1</span><h4 class="wf-name">Live Fleet HOS Dashboard</h4><span class="tag t-gated">Gated · P4</span></div>
-          <p class="wf-purpose">All drivers, current status, remaining drive time, and location — sorted by urgency so the next problem is the first row. The home screen of the module and the top of the web spine (W1 → W4).</p>
+          <p class="wf-purpose">All drivers, current status, remaining drive time, and location, sorted by urgency so the next problem is the first row. The home screen of the module and the top of the web spine (W1 → W4).</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1824,7 +1824,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Is this the only place a manager watches HOS, or does a summary tile also live on Tenna's own dashboard? Decides whether W1 is a destination or the detail view behind an alarm.</li>
-              <li><a class="qref" href="/decisions#p3">P3</a> Showing live location here implies Tenna renders point data — from ELD-held data on demand, or from Tenna-retained points?</li>
+              <li><a class="qref" href="/decisions#p3">P3</a> Showing live location here implies Tenna renders point data: from ELD-held data on demand, or from Tenna-retained points?</li>
             </ul>
           </div>
         </div>
@@ -1868,7 +1868,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W2</span><h4 class="wf-name">Approaching-Limit Alerts</h4><span class="tag t-gated">Gated · P4</span></div>
-          <p class="wf-purpose">A filterable feed of drivers approaching a violation, ordered by time-to-violation. This is dispatch's intervention window — the point of the screen is the phone call that prevents the violation.</p>
+          <p class="wf-purpose">A filterable feed of drivers approaching a violation, ordered by time-to-violation. This is dispatch's intervention window; the point of the screen is the phone call that prevents the violation.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1916,10 +1916,10 @@
                   <table class="wb-table">
                     <thead><tr><th>Date</th><th>Driver</th><th>Drive</th><th>On duty</th><th>Certified</th><th>Flags</th></tr></thead>
                     <tbody>
-                      <tr><td>Aug 15</td><td><b>M. Alvarez</b></td><td>4:05</td><td>2:31</td><td><span class="wb-pill out">No</span></td><td>—</td></tr>
+                      <tr><td>Aug 15</td><td><b>M. Alvarez</b></td><td>4:05</td><td>2:31</td><td><span class="wb-pill out">No</span></td><td>–</td></tr>
                       <tr><td>Aug 17</td><td><b>K. Burns</b></td><td>8:44</td><td>1:52</td><td><span class="wb-pill">Yes</span></td><td>⚠ 30-min break</td></tr>
                       <tr><td>Aug 18</td><td><b>M. Alvarez</b></td><td>5:12</td><td>3:04</td><td><span class="wb-pill">Yes</span></td><td>1 edit pending</td></tr>
-                      <tr><td>Aug 19</td><td><b>T. Okafor</b></td><td>6:20</td><td>2:12</td><td><span class="wb-pill out">No</span></td><td>—</td></tr>
+                      <tr><td>Aug 19</td><td><b>T. Okafor</b></td><td>6:20</td><td>2:12</td><td><span class="wb-pill out">No</span></td><td>–</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">Full 6-month archive, filterable by driver, day, certification, and flag. Row click → W4.</div>
@@ -1982,9 +1982,9 @@
                   <table class="wb-table" style="margin-top:8px;">
                     <thead><tr><th>Time</th><th>Event</th><th>Origin</th><th>Odometer</th><th>Location</th></tr></thead>
                     <tbody>
-                      <tr><td>4:30 PM</td><td>ON — On duty</td><td>edited · v3 <span class="wb-pill out">history</span></td><td>126,474.5</td><td>Blue Ash yard</td></tr>
-                      <tr><td>12:00 PM</td><td>D — Driving</td><td>automatic</td><td>126,447.9</td><td>Sharonville, OH</td></tr>
-                      <tr><td>6:00 AM</td><td>D — Driving</td><td>automatic</td><td>126,412.3</td><td>Blue Ash, OH</td></tr>
+                      <tr><td>4:30 PM</td><td>ON · On duty</td><td>edited · v3 <span class="wb-pill out">history</span></td><td>126,474.5</td><td>Blue Ash yard</td></tr>
+                      <tr><td>12:00 PM</td><td>D · Driving</td><td>automatic</td><td>126,447.9</td><td>Sharonville, OH</td></tr>
+                      <tr><td>6:00 AM</td><td>D · Driving</td><td>automatic</td><td>126,412.3</td><td>Blue Ash, OH</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-filter" style="margin-top:8px;"><span class="wb-btn primary">Propose edit</span><span class="wb-btn">Full edit history</span><span class="wb-btn">Export this day</span></div>
@@ -1995,7 +1995,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W4</span><h4 class="wf-name">Log Detail</h4></div>
-          <p class="wf-purpose">The web spine's destination: one driver-day as the 24-hour grid with the complete event list and edit history. Same event log as D10 and D16 — this is the manager's window onto it, and the launch point for W5.</p>
+          <p class="wf-purpose">The web spine's destination: one driver-day as the 24-hour grid with the complete event list and edit history. Same event log as D10 and D16; this is the manager's window onto it, and the launch point for W5.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -2035,10 +2035,10 @@
                   <div class="wb-h">Propose edit · M. Alvarez · Tue Aug 18</div>
                   <div class="wb-two">
                     <div class="wb-box"><div class="h">Original entry</div>
-                      OFF — Off duty · 3:15 → 3:45 PM<br/>manual · "Break"
+                      OFF · Off duty · 3:15 → 3:45 PM<br/>manual · "Break"
                     </div>
                     <div class="wb-box" style="border-color:#565D6A;"><div class="h">Proposed</div>
-                      ON — On duty · 3:15 → 3:45 PM
+                      ON · On duty · 3:15 → 3:45 PM
                     </div>
                   </div>
                   <div class="wb-filter" style="margin-top:9px;"><span class="wb-fld" style="flex:1;">Annotation (required): Fueling is on-duty time</span></div>
@@ -2096,7 +2096,7 @@
                       <tr><td>Aug 18</td><td><b>M. Alvarez</b></td><td>OFF → ON · 3:15–3:45 PM</td><td>K. Byers · 2:39 PM</td><td><span class="wb-pill dark">Pending</span></td><td>0:02</td></tr>
                       <tr><td>Aug 16</td><td><b>T. Okafor</b></td><td>OFF → ON · 7:00–7:20 AM</td><td>K. Byers · Aug 17</td><td><span class="wb-pill dark">Pending</span></td><td>3 days ⚠</td></tr>
                       <tr><td>Aug 19</td><td><b>M. Alvarez</b></td><td>ON 4:30–5:15 → 4:30–6:00 PM</td><td>K. Byers · Aug 19</td><td><span class="wb-pill out">Rejected</span></td><td>"Left yard at 5:30"</td></tr>
-                      <tr><td>Aug 14</td><td><b>R. Delgado</b></td><td>OFF → SB · 10:00 PM–2:00 AM</td><td>dispatch · Aug 15</td><td><span class="wb-pill">Approved</span></td><td>—</td></tr>
+                      <tr><td>Aug 14</td><td><b>R. Delgado</b></td><td>OFF → SB · 10:00 PM–2:00 AM</td><td>dispatch · Aug 15</td><td><span class="wb-pill">Approved</span></td><td>–</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">Stale pending proposals age visibly. Rejections carry the driver's reason back to the proposer.</div>
@@ -2107,7 +2107,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W6</span><h4 class="wf-name">Edit Status Tracker</h4></div>
-          <p class="wf-purpose">Every proposal in flight: pending, approved, rejected — with the driver's rejection reasons and visible aging on anything stuck. Closes the loop that W5 opens.</p>
+          <p class="wf-purpose">Every proposal in flight: pending, approved, rejected, with the driver's rejection reasons and visible aging on anything stuck. Closes the loop that W5 opens.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -2118,7 +2118,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li>Same as D21's: what is the escalation for a proposal a driver never answers? Expiry, re-push, or supervisor nudge — pick one Thursday.</li>
+              <li>Same as D21's: what is the escalation for a proposal a driver never answers? Expiry, re-push, or supervisor nudge: pick one Thursday.</li>
             </ul>
           </div>
         </div>
@@ -2184,7 +2184,7 @@
     <!-- ============ WEB · VIOLATIONS & COMPLIANCE ============ -->
     <div class="wf-group" id="g-wviol">
       <div class="wf-group-head"><h3>Violations &amp; Compliance</h3><span class="range">W8 – W10</span></div>
-      <p class="wf-group-note">Whether these three live here, mirror into Tenna's alarm surfaces, or both — is decision P4. Drawn here as the system of record either way.</p>
+      <p class="wf-group-note">Whether these three live here, mirror into Tenna's alarm surfaces, or both is decision P4. Drawn here as the system of record either way.</p>
 
       <div class="wf-item web" id="w8">
         <div class="wf-frame-col">
@@ -2215,7 +2215,7 @@
                       <tr><td>Aug 06</td><td><b>T. Okafor</b></td><td>Missing certification &gt; 3 days</td><td><span class="wb-pill">Low</span></td><td><span class="wb-pill">Reviewed</span></td></tr>
                     </tbody>
                   </table>
-                  <div class="wb-note">Row click → W9 with the violating log segment. Severity taxonomy is ours to define — FMCSA defines the violations, not their triage.</div>
+                  <div class="wb-note">Row click → W9 with the violating log segment. Severity taxonomy is ours to define; FMCSA defines the violations, not their triage.</div>
                 </div>
               </div>
             </div>
@@ -2223,7 +2223,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W8</span><h4 class="wf-name">Violations List</h4><span class="tag t-gated">Gated · P4</span></div>
-          <p class="wf-purpose">Historical and current HOS violations with severity and review state — the compliance manager's queue, and the input to coaching and audit-prep workflows.</p>
+          <p class="wf-purpose">Historical and current HOS violations with severity and review state: the compliance manager's queue, and the input to coaching and audit-prep workflows.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -2266,10 +2266,10 @@
                       30-min break not taken by the 8th cumulative driving hour.<br/>Break was due 2:12 PM · taken 2:47 PM (+0:35).
                     </div>
                     <div class="wb-box"><div class="h">Context</div>
-                      Unit 207 · I-71 S corridor<br/>Warning shown to driver 1:42 PM ✓<br/>Linked log: <b>Aug 17 → W4</b>
+                      Unit 207 · I-71 S corridor<br/>Warning shown to driver 1:42 PM ✓<br/>Linked log: Aug 17 → W4
                     </div>
                   </div>
-                  <div class="wb-filter" style="margin-top:9px;"><span class="wb-fld" style="flex:1;">Remediation note: Discussed at Tue toolbox talk — driver acknowledged</span></div>
+                  <div class="wb-filter" style="margin-top:9px;"><span class="wb-fld" style="flex:1;">Remediation note: Discussed at Tue toolbox talk, driver acknowledged</span></div>
                   <div class="wb-filter"><span class="wb-btn primary">Mark reviewed</span><span class="wb-btn">Open driver's log</span></div>
                 </div>
               </div>
@@ -2321,7 +2321,7 @@
                     <tbody>
                       <tr><td><b>Unit 207</b> · WQ-…0355</td><td><span class="wb-pill dark">P · Power</span></td><td>Aug 18, 2:38 PM</td><td><div class="wb-bar" style="width:60px;"><i style="width:75%;"></i></div> 6 d left</td><td>K. Burns ✓ ack</td><td><span class="wb-pill out">Open</span></td></tr>
                       <tr><td><b>Unit 231</b> · WQ-…0301</td><td><span class="wb-pill dark">E · Engine sync</span></td><td>Aug 20, 9:12 AM</td><td><div class="wb-bar" style="width:60px;"><i style="width:97%;"></i></div> 7 d 18 h</td><td>R. Delgado ✓ ack</td><td><span class="wb-pill out">Open</span></td></tr>
-                      <tr><td><b>Unit 224</b> · WQ-…0266</td><td><span class="wb-pill">T · Timing</span></td><td>Aug 09</td><td>resolved Aug 10</td><td>—</td><td><span class="wb-pill">Resolved</span></td></tr>
+                      <tr><td><b>Unit 224</b> · WQ-…0266</td><td><span class="wb-pill">T · Timing</span></td><td>Aug 09</td><td>resolved Aug 10</td><td>–</td><td><span class="wb-pill">Resolved</span></td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">A malfunction that outlives its 8-day clock is an out-of-service ELD. This table exists so that never happens quietly.</div>
@@ -2382,7 +2382,7 @@
                       <tr><td><b>218</b></td><td>Ford F-150 · 1FTFW1R63EFA84339</td><td><span class="wb-pill">OBD-II</span></td><td>WQ-…0218</td><td>3.2 · TLV</td><td>2 s ago</td></tr>
                       <tr><td><b>207</b></td><td>Ford F-550 · 1FDUF5HT4KEG55817</td><td><span class="wb-pill">OBD-II</span></td><td>WQ-…0355</td><td>3.2 · TLV</td><td>8 s ago</td></tr>
                       <tr><td><b>224</b></td><td>Ford F-250 · 1FT8W2BT6KEC44902</td><td><span class="wb-pill">OBD-II</span></td><td>WQ-…0266</td><td>3.1 · TLV</td><td>41 s ago</td></tr>
-                      <tr><td><b>231</b></td><td>Kenworth T380 · 2NKHHM7X5LM431188</td><td><span class="wb-pill dark">J1939</span></td><td>WQ-…0301</td><td>2.9 · <b>proto 0 ⚠</b></td><td>3 m ago</td></tr>
+                      <tr><td><b>231</b></td><td>Kenworth T380 · 2NKHHM7X5LM431188</td><td><span class="wb-pill dark">J1939</span></td><td>WQ-…0301</td><td>2.9 · proto 0 ⚠</td><td>3 m ago</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">Firmware and protocol version surfaced on purpose: protocol-0 devices can't feed the ELD until updated or handled.</div>
@@ -2393,7 +2393,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W11</span><h4 class="wf-name">Vehicle Roster</h4></div>
-          <p class="wf-purpose">Trucks, their paired trackers, VINs, firmware, and last activity. The bus-type column (OBD-II vs J1939) is deliberate — it is the fleet-composition question made visible on real inventory.</p>
+          <p class="wf-purpose">Trucks, their paired trackers, VINs, firmware, and last activity. The bus-type column (OBD-II vs J1939) is deliberate: it is the fleet-composition question made visible on real inventory.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -2463,7 +2463,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#q7">Q7</a> Which identifier is the stable key in Tenna's records — serial or BLE address — and who owns the mapping table?</li>
+              <li><a class="qref" href="/decisions#q7">Q7</a> Which identifier is the stable key in Tenna's records, serial or BLE address, and who owns the mapping table?</li>
               <li><a class="qref" href="/decisions#q14">Q14</a> Settled by test, worth stating: the address characteristic reads byte-reversed. Any Tenna-side lookup keyed on raw reads will silently match nothing.</li>
             </ul>
           </div>
@@ -2513,7 +2513,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W13</span><h4 class="wf-name">DOT Audit Export</h4><span class="tag t-gated">Gated · P3</span></div>
-          <p class="wf-purpose">Bulk export of logs, events, edits, malfunctions, and unidentified driving for an audit period — the fleet-wide version of W7, packaged the way an auditor asks for it.</p>
+          <p class="wf-purpose">Bulk export of logs, events, edits, malfunctions, and unidentified driving for an audit period: the fleet-wide version of W7, packaged the way an auditor asks for it.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -2558,7 +2558,7 @@
                       <tr><td>Jul 28 · 9:11 AM</td><td><b>K. Burns</b></td><td>Walton, KY</td><td>eRODS</td><td>KY-118</td><td><span class="wb-pill out">✗ retried</span></td></tr>
                     </tbody>
                   </table>
-                  <div class="wb-note">Failed attempts stay in the record — the retry trail is evidence of good faith at the roadside.</div>
+                  <div class="wb-note">Failed attempts stay in the record; the retry trail is evidence of good faith at the roadside.</div>
                 </div>
               </div>
             </div>
@@ -2566,7 +2566,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W14</span><h4 class="wf-name">Roadside Inspection Log</h4></div>
-          <p class="wf-purpose">Every roadside inspection event with its transfer method, officer code, and outcome — including failures and retries. Fed directly by D17.</p>
+          <p class="wf-purpose">Every roadside inspection event with its transfer method, officer code, and outcome, including failures and retries. Fed directly by D17.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -2587,7 +2587,7 @@
     <!-- ============ WEB · SETTINGS ============ -->
     <div class="wf-group" id="g-wset">
       <div class="wf-group-head"><h3>Settings</h3><span class="range">W15</span></div>
-      <p class="wf-group-note">Carrier policy — the knobs that parameterize the compliance engine without ever weakening it.</p>
+      <p class="wf-group-note">Carrier policy: the knobs that parameterize the compliance engine without ever weakening it.</p>
 
       <div class="wf-item web" id="w15">
         <div class="wf-frame-col">
@@ -2622,7 +2622,7 @@
                     Kenwood jobsite · drawn polygon <span class="wb-pill out">ELD-defined</span><br/>
                     <span class="wb-pill">+ Add geofence</span>
                   </div>
-                  <div class="wb-note">Compliance rules are not configurable — these settings choose among legal behaviors, never around them.</div>
+                  <div class="wb-note">Compliance rules are not configurable; these settings choose among legal behaviors, never around them.</div>
                 </div>
               </div>
             </div>
@@ -2656,7 +2656,7 @@
     <div class="eyebrow">The aggregation</div>
     <h2>Every data element, by source and access pattern.</h2>
     <p class="lede">
-      This table is what the wireframes exist to produce: every distinct data element across all 41 screens, the system of record that supplies it, how it moves (on-demand read, BLE stream, event push, or ELD-internal), and the screens that consume it. It is the draft input for the data guidelines Luke expects to fall out of the five decisions — the gated rows are exactly where those decisions bite.
+      This table is what the wireframes exist to produce: every distinct data element across all 41 screens, the system of record that supplies it, how it moves (on-demand read, BLE stream, event push, or ELD-internal), and the screens that consume it. It is the draft input for the data guidelines Luke expects to fall out of the five decisions; the gated rows are exactly where those decisions bite.
     </p>
 
     <div class="table-scroll">
@@ -2670,27 +2670,27 @@
           <tr><td class="el">Driver roster<small>who is in the fleet, for filters &amp; display</small></td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">W1 W2 W3 W5 W6</td></tr>
           <tr><td class="el">CDL number &amp; licensing state</td><td><span class="tag t-gated">Gated · P1</span></td><td class="ap">On-demand read</td><td class="scr">D16 D23</td></tr>
           <tr><td class="el">Carrier name, USDOT, home terminal</td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D1 D16 D26 W15</td></tr>
-          <tr><td class="el">Auth session &amp; tokens</td><td><span class="tag t-gated">Gated · P2</span></td><td class="ap">—</td><td class="scr">D1 D3 · W shell</td></tr>
+          <tr><td class="el">Auth session &amp; tokens</td><td><span class="tag t-gated">Gated · P2</span></td><td class="ap">–</td><td class="scr">D1 D3 · W shell</td></tr>
           <tr><td class="el">Module user permissions<small>who may open the web module</small></td><td><span class="tag t-gated">Gated · P1·P5</span></td><td class="ap">On-demand read</td><td class="scr">W shell</td></tr>
 
           <tr class="cat"><td colspan="4">Vehicle &amp; device</td></tr>
           <tr><td class="el">Asset / unit name &amp; type</td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D2 D4 W1 W11 W12</td></tr>
           <tr><td class="el">VIN<small>read from the vehicle; cross-checked vs asset record</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D2 D16 W11 W12</td></tr>
           <tr><td class="el">Tracker serial (item 0x0F)</td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D2 D26 W11 W12</td></tr>
-          <tr><td class="el">Tracker BLE address (char. 0x2A59)<small>arrives byte-reversed — Q14, settled</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D2 W12</td></tr>
-          <tr><td class="el">Serial ↔ asset mapping<small>the join everything hangs on — Q7</small></td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D2 W11 W12</td></tr>
+          <tr><td class="el">Tracker BLE address (char. 0x2A59)<small>arrives byte-reversed · Q14, settled</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D2 W12</td></tr>
+          <tr><td class="el">Serial ↔ asset mapping<small>the join everything hangs on · Q7</small></td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D2 W11 W12</td></tr>
           <tr><td class="el">Tracker firmware &amp; protocol version</td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D26 W11</td></tr>
 
           <tr class="cat"><td colspan="4">Telemetry</td></tr>
-          <tr><td class="el">Odometer<small>authoritative source open — Q6</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D4 D8 D10 D16 W4</td></tr>
-          <tr><td class="el">Engine hours<small>device-local baseline — Q2</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D8 D16 W4</td></tr>
+          <tr><td class="el">Odometer<small>authoritative source open · Q6</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D4 D8 D10 D16 W4</td></tr>
+          <tr><td class="el">Engine hours<small>device-local baseline · Q2</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D8 D16 W4</td></tr>
           <tr><td class="el">Engine power state (on / off events)</td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D8 D10</td></tr>
           <tr><td class="el">Road speed / motion state<small>drives automatic Driving detection</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D4 D5</td></tr>
           <tr><td class="el">Stop evidence (BEGIN_STOP / END_STOP)<small>stored on device; key to Q1</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream · stored</td><td class="scr">ELD-internal</td></tr>
           <tr><td class="el">Position (lat / lon)<small>retention is the P3 question</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-gated">Gated · P3</span></td><td class="ap">BLE stream</td><td class="scr">D4 D8 D16 W1</td></tr>
           <tr><td class="el">Geocoded place name<small>derived from position</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D4 D8 D16 W1 W4</td></tr>
 
-          <tr class="cat"><td colspan="4">HOS record — the certifiable core</td></tr>
+          <tr class="cat"><td colspan="4">HOS record · the certifiable core</td></tr>
           <tr><td class="el">Duty-status events</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D4 D5 D8 D10 D16 W1 W3 W4</td></tr>
           <tr><td class="el">Derived clocks<small>drive · window · cycle · break</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D4 D19 W1 W2</td></tr>
           <tr><td class="el">Special-duty state (PC / YM)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D6 D8 W15</td></tr>
@@ -2699,7 +2699,7 @@
           <tr><td class="el">Edits &amp; edit history<small>originals preserved, every version</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D12 D13 D20 D21 W4 W5 W6</td></tr>
           <tr><td class="el">HOS violations</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · push gated P4</td><td class="scr">D4 W2 W8 W9</td></tr>
           <tr><td class="el">Malfunctions &amp; diagnostics (§395.34)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · push gated P4</td><td class="scr">D18 D19 W10</td></tr>
-          <tr><td class="el">Unidentified-driving records<small>carrier surface unresolved — see D22</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stored</td><td class="scr">D16 D22</td></tr>
+          <tr><td class="el">Unidentified-driving records<small>carrier surface unresolved · see D22</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stored</td><td class="scr">D16 D22</td></tr>
 
           <tr class="cat"><td colspan="4">Compliance outputs</td></tr>
           <tr><td class="el">FMCSA output file (Appendix A)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">Generated on demand</td><td class="scr">D17 W7 W13</td></tr>
@@ -2708,16 +2708,16 @@
           <tr><td class="el">8-day inspection record (display format)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D15 D16</td></tr>
 
           <tr class="cat"><td colspan="4">Cross-system</td></tr>
-          <tr><td class="el">ELD events into Tenna<small>alarms &amp; exceptions — the P4 set</small></td><td><span class="tag t-push">→ Tenna</span> <span class="tag t-gated">Gated · P4</span></td><td class="ap">Event push</td><td class="scr">D18 W1 W2 W8 W9 W10</td></tr>
+          <tr><td class="el">ELD events into Tenna<small>alarms &amp; exceptions · the P4 set</small></td><td><span class="tag t-push">→ Tenna</span> <span class="tag t-gated">Gated · P4</span></td><td class="ap">Event push</td><td class="scr">D18 W1 W2 W8 W9 W10</td></tr>
           <tr><td class="el">DVIR status &amp; handoff context</td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D14</td></tr>
-          <tr><td class="el">Yard geofences<small>Tenna sites vs ELD-drawn — open</small></td><td><span class="tag t-api">Tenna API</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">On-demand read</td><td class="scr">D6 W15</td></tr>
+          <tr><td class="el">Yard geofences<small>Tenna sites vs ELD-drawn · open</small></td><td><span class="tag t-api">Tenna API</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">On-demand read</td><td class="scr">D6 W15</td></tr>
           <tr><td class="el">Carrier HOS policy<small>cycles, permissions, thresholds, presets</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D5 D6 D24 W2 W15</td></tr>
           <tr><td class="el">Push notifications to the driver</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">Event push</td><td class="scr">D18 D20</td></tr>
         </tbody>
       </table>
     </div>
     <p style="font-size:13px; color:var(--muted); margin-top:12px;">
-      37 distinct elements. Counting rule: an element appears once even when several screens consume it; screens listed are where it is <i>displayed or captured</i>, not every internal use. Rows tagged <span class="tag t-gated">Gated</span> cannot be specified until their decision lands — that is the Thursday agenda in table form.
+      37 distinct elements. Counting rule: an element appears once even when several screens consume it; screens listed are where it is <i>displayed or captured</i>, not every internal use. Rows tagged <span class="tag t-gated">Gated</span> cannot be specified until their decision lands; that is the Thursday agenda in table form.
     </p>
   </div>
 </section>
