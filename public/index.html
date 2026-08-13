@@ -1251,7 +1251,7 @@
     <div class="eyebrow">Section 7 · Project Plan</div>
     <h2>Five phases. Roughly 19 weeks from kickoff to piloting and certification-ready.</h2>
     <p class="lede">
-      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Four weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management. An accelerated scenario adds a third senior engineer and a second QA engineer through the build phases and compresses them by roughly 20%, landing at 16 weeks.
+      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Four weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management.
     </p>
 
     <div class="timeline">
@@ -1376,23 +1376,11 @@
     <div class="eyebrow">Section 9 · Level of Effort</div>
     <h2>Phased delivery. Each phase a clean gate.</h2>
     <p class="lede">
-      AppAxis engages in fixed-outcome phases. Two scenarios below: the core team, and an accelerated option that adds a third senior engineer and a second QA engineer through the build phases, compressing them by roughly 20%. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
+      AppAxis engages in fixed-outcome phases. The plan runs 19 weeks with the core team: two senior engineers and a QA engineer through the build, Adam through scope lock. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
     </p>
 
-    <div class="scenario-tabs" role="tablist" aria-label="Delivery scenarios">
-      <button class="scenario-tab active" type="button" id="tab-a" role="tab" aria-selected="true" aria-controls="panel-a" onclick="switchScenario('a')">
-        <span class="t">Scenario A · Core team</span>
-        <span class="m">19 weeks</span>
-      </button>
-      <button class="scenario-tab" type="button" id="tab-b" role="tab" aria-selected="false" aria-controls="panel-b" onclick="switchScenario('b')">
-        <span class="t">Scenario B · Accelerated build</span>
-        <span class="m">16 weeks</span>
-      </button>
-    </div>
-
-    <div class="scenario-panel" id="panel-a" role="tabpanel" aria-labelledby="tab-a">
-      <h3 class="panel-label">Scenario A · Core team · 19 weeks</h3>
-      <p>The baseline plan as structured in Section 7. Two senior engineers and QA through the build phases, Adam through research and scope lock.</p>
+    <div>
+      <p>Two senior engineers and QA through the build phases, Adam through research and scope lock, as structured in Section 7.</p>
       <div class="table-scroll"><table class="cost-table">
         <thead>
           <tr><th>Phase</th><th>Duration</th><th>Team</th></tr>
@@ -1435,55 +1423,10 @@
       <div class="gantt" id="gantt-a"></div>
     </div>
 
-    <div class="scenario-panel" id="panel-b" role="tabpanel" aria-labelledby="tab-b" hidden>
-      <h3 class="panel-label">Scenario B · Accelerated build, third senior engineer · 16 weeks</h3>
-      <p>A third senior engineer and a second QA engineer join through the core build and log module phases, compressing the build by roughly 20%, then roll off for pilot and handoff. Three weeks sooner to pilot and certification-ready.</p>
-      <div class="table-scroll"><table class="cost-table">
-        <thead>
-          <tr><th>Phase</th><th>Duration</th><th>Team</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1. Research and Assessment</td>
-            <td>Complete</td>
-            <td>Adam</td>
-          </tr>
-          <tr>
-            <td>2. <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> and Scope Lock</td>
-            <td>3 weeks</td>
-            <td>Adam</td>
-          </tr>
-          <tr>
-            <td>3. Core Build</td>
-            <td>7.5 weeks</td>
-            <td>3 senior eng + 2 QA</td>
-          </tr>
-          <tr>
-            <td>4. Log Module and Data Transfer</td>
-            <td>2.5 weeks</td>
-            <td>3 senior eng + 2 QA</td>
-          </tr>
-          <tr>
-            <td>5. Pilot, Certification Support, and Handoff</td>
-            <td>3 weeks</td>
-            <td>2 senior eng + 1 QA</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>Total, kickoff to piloting and certification-ready</td>
-            <td>16 wks</td>
-            <td>2 senior eng + QA, +1 eng +1 QA in build</td>
-          </tr>
-        </tfoot>
-      </table></div>
-      <div class="gantt" id="gantt-b"></div>
-    </div>
-
     <div class="mgmt-note">
-      <div class="lbl">Product and Project Management · Included in Both Scenarios</div>
+      <div class="lbl">Product and Project Management · Included</div>
       <h3>Adam runs product and project management throughout.</h3>
-      <p>Priorities and scope calls, the weekly showback cadence, and the working channel with Tenna's product and engineering teams all route through Adam for the length of the engagement. It is part of how the phases stay clean gates rather than handoffs, and it is built into both scenarios rather than billed as a separate line.</p>
+      <p>Priorities and scope calls, the weekly showback cadence, and the working channel with Tenna's product and engineering teams all route through Adam for the length of the engagement. It is part of how the phases stay clean gates rather than handoffs, and it is built into the plan rather than billed as a separate line.</p>
       <p>On engagements of similar shape, that workload has stayed light enough to carry well alongside the principal role. If it grows past what one person can carry at full quality, AppAxis asks for one thing now: the opportunity to add a dedicated management role to the team at that point, raised openly with Tenna before anyone is staffed.</p>
     </div>
 
@@ -1501,10 +1444,10 @@
     </ul>
 
     <div class="mgmt-note avail">
-      <div class="lbl">Team Availability · Kickoff Early July</div>
-      <h3>The build team is available at the beginning of July.</h3>
-      <p>AppAxis has team members rolling off current engagements at the end of June, which puts the full build team available for a Phase 3 start on July 6. Phase 2 needs only Adam, so scope lock begins mid-June and is signed before the engineers land.</p>
-      <p>On that calendar, Scenario B reaches pilot and certification-ready in early October, Scenario A in late October. The delivery schedule is drawn month by month on the Gantt charts above.</p>
+      <div class="lbl">Team Availability · Scope Lock Begins in August</div>
+      <h3>Scope lock starts in August; the build team follows in September.</h3>
+      <p>Phase 2 needs only Adam, so scope lock starts the week of August 24, right after the product session, and is signed before the engineers land. The full build team is available for a Phase 3 start on September 14.</p>
+      <p>On that calendar, the build reaches pilot and certification-ready in the first week of January. The delivery schedule is drawn month by month on the Gantt chart above.</p>
     </div>
 
   </div>
@@ -1920,16 +1863,6 @@
     document.body.style.overflow = '';
   }
 
-  function switchScenario(which) {
-    ['a', 'b'].forEach(function (k) {
-      var on = k === which;
-      var tab = document.getElementById('tab-' + k);
-      tab.classList.toggle('active', on);
-      tab.setAttribute('aria-selected', on ? 'true' : 'false');
-      document.getElementById('panel-' + k).hidden = !on;
-    });
-  }
-
   function monthSegments(kickoff, totalWeeks) {
     var start = new Date(kickoff + 'T00:00:00');
     var totalDays = totalWeeks * 7;
@@ -1956,7 +1889,9 @@
     if (!el) return;
     var months = '<div class="gantt-head"><div></div><div class="gantt-months">';
     monthSegments(kickoff, totalWeeks).forEach(function (m, i) {
-      months += '<div class="g-month' + (i % 2 ? ' alt' : '') + '" style="left:' + (m.start / totalWeeks * 100).toFixed(3) + '%;width:' + ((m.end - m.start) / totalWeeks * 100).toFixed(3) + '%">' + m.name + '</div>';
+      /* a sliver segment (a few days at either end) can't hold its label */
+      var label = (m.end - m.start) < 0.9 ? '' : m.name;
+      months += '<div class="g-month' + (i % 2 ? ' alt' : '') + '" style="left:' + (m.start / totalWeeks * 100).toFixed(3) + '%;width:' + ((m.end - m.start) / totalWeeks * 100).toFixed(3) + '%">' + label + '</div>';
     });
     months += '</div></div>';
     var axis = '<div class="gantt-head"><div></div><div class="gantt-axis">';
@@ -1976,19 +1911,12 @@
     el.innerHTML = axis + rows + cap;
   }
 
-  renderGantt('gantt-a', 19, '2026-06-15', [
+  renderGantt('gantt-a', 19, '2026-08-24', [
     { name: 'Phase 2 · Scope Lock', team: 'Adam', cls: 'p2', start: 0, dur: 3, label: '3 wks' },
     { name: 'Phase 3 · Core Build', team: '2 senior eng + 1 QA', cls: 'p3', start: 3, dur: 9, label: '9 wks' },
     { name: 'Phase 4 · Log Module and Transfer', team: '2 senior eng + 1 QA', cls: 'p4', start: 12, dur: 3, label: '3 wks' },
     { name: 'Phase 5 · Pilot and Handoff', team: '2 senior eng + 1 QA', cls: 'p5', start: 15, dur: 4, label: '4 wks' }
-  ], 'Scope lock runs ahead on Adam\'s calendar from mid-June; the build team lands July 6 for Phase 3. Week 19 lands late October.');
-
-  renderGantt('gantt-b', 16, '2026-06-15', [
-    { name: 'Phase 2 · Scope Lock', team: 'Adam', cls: 'p2', start: 0, dur: 3, label: '3 wks' },
-    { name: 'Phase 3 · Core Build', team: '3 senior eng + 2 QA', cls: 'p3', start: 3, dur: 7.5, label: '7.5 wks' },
-    { name: 'Phase 4 · Log Module and Transfer', team: '3 senior eng + 2 QA', cls: 'p4', start: 10.5, dur: 2.5, label: '2.5 wks' },
-    { name: 'Phase 5 · Pilot and Handoff', team: '2 senior eng + 1 QA', cls: 'p5', start: 13, dur: 3, label: '3 wks' }
-  ], 'Scope lock runs ahead on Adam\'s calendar from mid-June; the build team lands July 6 for Phase 3. Week 16 lands early October.');
+  ], 'Scope lock starts the week of August 24, right after the product session; the build team lands September 14 for Phase 3. Week 19 lands in the first week of January.');
 
   function closeModalIfBackdrop(event) {
     if (event.target.id === 'modal-backdrop') {
