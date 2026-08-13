@@ -1907,7 +1907,7 @@
         '<div class="g-bar ' + p.cls + '" style="left:' + (p.start / totalWeeks * 100).toFixed(3) + '%;width:' + (p.dur / totalWeeks * 100).toFixed(3) + '%">' + p.label + '</div>' +
         '</div></div>';
     }).join('');
-    var cap = '<div class="gantt-row"><div></div><div class="gantt-cap">' + caption + '</div></div>';
+    var cap = caption ? '<div class="gantt-row"><div></div><div class="gantt-cap">' + caption + '</div></div>' : '';
     el.innerHTML = axis + rows + cap;
   }
 
@@ -1916,7 +1916,7 @@
     { name: 'Phase 3 · Core Build', team: '2 senior eng + 1 QA', cls: 'p3', start: 3, dur: 9, label: '9 wks' },
     { name: 'Phase 4 · Log Module and Transfer', team: '2 senior eng + 1 QA', cls: 'p4', start: 12, dur: 3, label: '3 wks' },
     { name: 'Phase 5 · Pilot and Handoff', team: '2 senior eng + 1 QA', cls: 'p5', start: 15, dur: 4, label: '4 wks' }
-  ], 'Scope lock starts the week of August 24, right after the product session; the build team lands September 14 for Phase 3. Week 19 lands in the first week of January.');
+  ], '');
 
   function closeModalIfBackdrop(event) {
     if (event.target.id === 'modal-backdrop') {
