@@ -426,101 +426,101 @@
       <article class="pcard" id="pd1">
         <div class="p-head">
           <span class="p-id">P1</span>
-          <h3 class="p-title">Driver account model: full Tenna users, or a stripped-down driver credential?</h3>
+          <h3 class="p-title">Are drivers full Tenna users, or do they get a simpler ELD-only login?</h3>
         </div>
         <p class="p-quote">
-          Are ELD drivers full Tenna users, or a lighter-weight driver credential that exists mainly for the ELD? Luke's note: <i>"Most of the interface design hangs on this one."</i> It decides where the driver record lives, what D1 asks for, and whose profile D23 displays.
+          Luke called this the big one: most of the interface design depends on it. It decides where each driver's record lives, what the login screen (D1) asks for, and what the profile screen (D23) shows.
         </p>
         <div class="p-opts">
-          <div class="p-opt"><b>A · Full Tenna users</b> Driver identity, profile, and permissions live in Tenna; the ELD reads them through the purpose-built API. One roster, one admin surface.</div>
-          <div class="p-opt"><b>B · Stripped-down driver credential</b> The ELD owns a lightweight driver record; Tenna sees drivers only where a workflow needs them. Faster to stand up, second roster to manage.</div>
+          <div class="p-opt"><b>A · Full Tenna users</b> Drivers are regular Tenna users. Their identity, profile, and permissions live in Tenna, and the ELD reads them through the API. One list of people, managed in one place.</div>
+          <div class="p-opt"><b>B · ELD-only driver login</b> The ELD keeps its own simple driver records, and Tenna only sees drivers where it needs to. Quicker to build, but two lists of people to keep in sync.</div>
         </div>
         <div class="p-gates">
-          <span class="glabel">Gates</span>
-          <span class="gchip"><a href="#d1">D1</a></span><span class="gchip"><a href="#d2">D2</a></span><span class="gchip"><a href="#d3">D3</a></span><span class="gchip"><a href="#d23">D23</a></span><span class="gchip"><a href="#web">W-shell · user context</a></span>
+          <span class="glabel">Screens waiting on this</span>
+          <span class="gchip"><a href="#d1">D1</a></span><span class="gchip"><a href="#d2">D2</a></span><span class="gchip"><a href="#d3">D3</a></span><span class="gchip"><a href="#d23">D23</a></span><span class="gchip"><a href="#web">Web module access</a></span>
         </div>
         <p class="p-log">Recorded as <a href="/decisions#p1">P1 in the decision log ↗</a></p>
       </article>
 
-      <div class="pconn">Authentication follows from the account model</div>
+      <div class="pconn">Sign-in follows from the account decision</div>
 
       <article class="pcard" id="pd2">
         <div class="p-head">
           <span class="p-id">P2</span>
-          <h3 class="p-title">Authentication: Tenna Cognito/OIDC, or ELD-owned auth with a trusted-peer link?</h3>
+          <h3 class="p-title">How do drivers sign in: through Tenna's login, or a separate ELD login?</h3>
         </div>
         <p class="p-quote">
-          Follows directly from P1. If ELD users are Tenna users, the app integrates with Tenna's existing authentication (Cognito/OIDC). Alternatively, the ELD handles its own user authentication and the two systems communicate as trusted peers.
+          Follows directly from P1. If drivers are Tenna users, the app signs them in through Tenna's existing login (Cognito/OIDC). If not, the ELD runs its own login and the two systems trust each other behind the scenes.
         </p>
         <div class="p-opts">
-          <div class="p-opt"><b>A · Tenna Cognito / OIDC</b> D1 becomes an OIDC flow against Tenna's identity provider; sessions, MFA, and password policy are inherited.</div>
-          <div class="p-opt"><b>B · ELD-owned authentication</b> The ELD issues and validates its own credentials; a trusted system-to-system link carries identity claims between the two platforms.</div>
+          <div class="p-opt"><b>A · Sign in through Tenna</b> The app uses Tenna's existing login system. Passwords, sessions, and MFA work the way they already do for Tenna users.</div>
+          <div class="p-opt"><b>B · Separate ELD login</b> The ELD manages its own usernames and passwords, and shares identity with Tenna through a secure server-to-server connection.</div>
         </div>
         <div class="p-gates">
-          <span class="glabel">Gates</span>
+          <span class="glabel">Screens waiting on this</span>
           <span class="gchip"><a href="#d1">D1</a></span><span class="gchip"><a href="#d3">D3</a></span>
         </div>
         <p class="p-log">Recorded as <a href="/decisions#p2">P2 in the decision log ↗</a></p>
       </article>
 
-      <div class="pconn">Independent of identity: the data question</div>
+      <div class="pconn">Next, the data question. It stands on its own</div>
 
       <article class="pcard" id="pd3">
         <div class="p-head">
           <span class="p-id">P3</span>
-          <h3 class="p-title">Telematics point data: does Tenna retain it at all, and if so, where is it processed?</h3>
+          <h3 class="p-title">Does Tenna keep the raw tracker data, and if so, where?</h3>
         </div>
         <p class="p-quote">
-          ELD device data won't run through Tenna's existing ingestion pipeline. Two open questions from Luke's note: does Tenna need to retain the individual point data at all, and if it does, is it processed on the Tenna side or held within the ELD?
+          The second-by-second readings from the tracker (position, speed, odometer) won't go through Tenna's existing data pipeline. So: does Tenna need to keep those raw readings at all? And if yes, does Tenna store and process them, or does the ELD hold them?
         </p>
         <div class="p-opts">
-          <div class="p-opt"><b>A · ELD holds the points</b> The ELD keeps second-by-second telemetry; Tenna receives only derived events and summaries. Exports and audit bundles are served from the ELD.</div>
-          <div class="p-opt"><b>B · Tenna retains point data</b> Individual points flow to Tenna for processing and retention alongside its other asset data, through a new path rather than the existing pipeline.</div>
+          <div class="p-opt"><b>A · The ELD keeps the raw data</b> Tenna gets the results (events, daily summaries, alerts) but not the raw readings. Exports and audit files come from the ELD.</div>
+          <div class="p-opt"><b>B · Tenna keeps the raw data</b> The raw readings flow into Tenna and are stored alongside its other asset data, through a new connection built for this.</div>
         </div>
         <div class="p-gates">
-          <span class="glabel">Gates</span>
+          <span class="glabel">Waiting on this</span>
           <span class="gchip"><a href="#data">Master data table</a></span><span class="gchip"><a href="#w7">W7</a></span><span class="gchip"><a href="#w13">W13</a></span>
         </div>
         <p class="p-log">Recorded as <a href="/decisions#p3">P3 in the decision log ↗</a></p>
       </article>
 
-      <div class="pconn">Then: what crosses the boundary as events</div>
+      <div class="pconn">Then: which alerts show up inside Tenna</div>
 
       <article class="pcard" id="pd4">
         <div class="p-head">
           <span class="p-id">P4</span>
-          <h3 class="p-title">Which ELD-generated events (alarms, exceptions) surface inside Tenna?</h3>
+          <h3 class="p-title">Which ELD alerts should show up inside Tenna?</h3>
         </div>
         <p class="p-quote">
-          HOS violations, approaching-limit warnings, malfunctions, and diagnostics all originate in the ELD. Which of them cross into Tenna's own alarm and notification surfaces, and which live only in the ELD module? The answer decides whether W2 and W8–W10 are the primary surfaces or mirrors of something Tenna-side.
+          Violations, running-out-of-hours warnings, and device malfunctions all start in the ELD. Should they also appear in Tenna's own alerts and notifications, or only on the ELD pages? The answer decides whether the ELD's alert screens (W2, W8–W10) are the main place to look or a copy of something in Tenna.
         </p>
         <div class="p-opts">
-          <div class="p-opt"><b>A · ELD module only</b> Compliance events stay in the ELD web module; Tenna users come to it for anything HOS-related. Clean boundary, extra place to look.</div>
-          <div class="p-opt"><b>B · Push into Tenna alarms</b> A defined subset (violations, malfunctions) publishes into Tenna's existing alert surfaces. One inbox for fleet managers, contract to maintain.</div>
+          <div class="p-opt"><b>A · ELD pages only</b> Everything HOS-related lives in the ELD module, and Tenna users go there to see it. Simple to build, but one more place to check.</div>
+          <div class="p-opt"><b>B · Also push into Tenna alerts</b> The important ones (violations, malfunctions) also show up in Tenna's own alerts. One inbox for fleet managers, but a connection to build and maintain.</div>
         </div>
         <div class="p-gates">
-          <span class="glabel">Gates placement of</span>
+          <span class="glabel">Screens waiting on this</span>
           <span class="gchip"><a href="#w1">W1</a></span><span class="gchip"><a href="#w2">W2</a></span><span class="gchip"><a href="#w8">W8</a></span><span class="gchip"><a href="#w9">W9</a></span><span class="gchip"><a href="#w10">W10</a></span>
         </div>
         <p class="p-log">Recorded as <a href="/decisions#p4">P4 in the decision log ↗</a></p>
       </article>
 
-      <div class="pconn">Finally: where the web module physically lives</div>
+      <div class="pconn">Finally: where the web pages live</div>
 
       <article class="pcard" id="pd5">
         <div class="p-head">
           <span class="p-id">P5</span>
-          <h3 class="p-title">Front-end placement: microfrontend inside Tenna's auth boundary, or standalone?</h3>
+          <h3 class="p-title">Does the web module live inside the Tenna portal, or as its own site?</h3>
         </div>
         <p class="p-quote">
-          Luke's current thinking: <i>"a microfrontend hosted within our auth boundary rather than a fully standalone app, with seamless access for permissioned users as the requirement."</i> Every web wireframe on this page is drawn inside a Tenna portal shell to make that assumption visible. If the answer changes, the shell changes, not the screens.
+          Luke's current thinking is inside: the ELD pages appear within the Tenna portal, and anyone with permission gets to them without a second login. Every web wireframe on this page is drawn inside a Tenna portal frame to make that assumption visible. If the answer changes, the frame changes, not the screens.
         </p>
         <div class="p-opts">
-          <div class="p-opt"><b>A · Microfrontend in the Tenna portal</b> The ELD module renders inside Tenna's web app behind Tenna auth. Seamless for permissioned users; ties releases to an integration contract.</div>
-          <div class="p-opt"><b>B · Standalone web app</b> A separate ELD site with its own session (linked via P2). Independent releases; one more login unless SSO is built anyway.</div>
+          <div class="p-opt"><b>A · Inside the Tenna portal</b> The ELD pages render inside Tenna's web app, behind Tenna's login. Seamless for users; releases coordinate with Tenna.</div>
+          <div class="p-opt"><b>B · Its own site</b> A separate ELD website with its own sign-in (connected through P2). Ships on its own schedule; one more login unless single sign-on is built anyway.</div>
         </div>
         <div class="p-gates">
-          <span class="glabel">Gates</span>
+          <span class="glabel">Waiting on this</span>
           <span class="gchip"><a href="#w1">W1–W15 · all web screens</a></span>
         </div>
         <p class="p-log">Recorded as <a href="/decisions#p5">P5 in the decision log ↗</a></p>

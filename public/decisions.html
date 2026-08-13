@@ -292,9 +292,9 @@
 <section id="product" class="alt">
   <div class="container">
     <div class="eyebrow">Product decisions · from the Aug 13 platform kickoff</div>
-    <h2>Five decisions, in dependency order, that gate the interface design.</h2>
+    <h2>Five decisions that need answers before the screens can be final.</h2>
     <p class="lede">
-      From Luke's follow-up to the kickoff: the data guidelines fall out of a handful of product decisions, so the August 20 session points at them directly. Each is wireframed with candidate answers on the <a href="/wireframes">Wireframes page&nbsp;↗</a>. Anything not decided in the room leaves with a named owner and a date.
+      In his follow-up to the kickoff, Luke asked that the August 20 session focus on a short list of product decisions, because the data guidelines will come out of those answers. They are listed in order: each one builds on the one before it. Each is wireframed with candidate answers on the <a href="/wireframes">Wireframes page&nbsp;↗</a>. Anything not settled in the room gets an owner and a due date.
     </p>
 
     <div class="qlist">
@@ -302,7 +302,7 @@
       <article class="q blocking" id="p1">
         <div class="q-head">
           <span class="q-id">P1</span>
-          <h3 class="q-title">Driver account model: full Tenna users, or a stripped-down driver credential?</h3>
+          <h3 class="q-title">Are drivers full Tenna users, or do they get a simpler ELD-only login?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -310,23 +310,23 @@
         </div>
         <div class="q-body">
           <p>
-            Are ELD drivers full Tenna users, or a lighter-weight credential that exists mainly for the ELD? Luke: <i>"Most of the interface design hangs on this one."</i> It decides where the driver record lives, what login collects, who administers driver profiles, and whether the web module inherits Tenna's user context.
+            Luke called this the big one: most of the interface design depends on it. It decides where each driver's record lives, what the login screen asks for, who manages driver profiles, and who can open the web module.
           </p>
           <div class="q-ask">
             <span class="q-label">The candidates</span>
             <p>
-              A · Full Tenna users: identity, profile, and permissions live in Tenna; the ELD reads them via the purpose-built API. One roster, one admin surface.<br/>
-              B · Stripped-down driver credential: the ELD owns a lightweight driver record; Tenna sees drivers only where a workflow needs them.
+              A · Full Tenna users: drivers are regular Tenna users; their identity, profile, and permissions live in Tenna and the ELD reads them through the API. One list of people, managed in one place.<br/>
+              B · ELD-only driver login: the ELD keeps its own simple driver records, and Tenna only sees drivers where it needs to. Quicker to build, but two lists of people to keep in sync.
             </p>
           </div>
-          <div class="q-foot"><span>Gates <a href="/wireframes#d1">D1</a>–<a href="/wireframes#d3">D3</a>, <a href="/wireframes#d23">D23</a>, and the web shell's user context. P2 follows directly from this answer.</span></div>
+          <div class="q-foot"><span>Screens waiting on this: <a href="/wireframes#d1">D1</a>–<a href="/wireframes#d3">D3</a>, <a href="/wireframes#d23">D23</a>, and web module access. P2 follows directly from this answer.</span></div>
         </div>
       </article>
 
       <article class="q blocking" id="p2">
         <div class="q-head">
           <span class="q-id">P2</span>
-          <h3 class="q-title">Authentication: Tenna Cognito/OIDC, or ELD-owned auth with a trusted-peer link?</h3>
+          <h3 class="q-title">How do drivers sign in: through Tenna's login, or a separate ELD login?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -334,20 +334,20 @@
         </div>
         <div class="q-body">
           <p>
-            Follows from P1. If ELD users are Tenna users, the app integrates with Tenna's existing authentication (Cognito/OIDC) and inherits sessions, MFA, and password policy. Alternatively, the ELD handles its own user authentication and the two systems communicate as trusted peers, with identity claims carried over the system-to-system link.
+            Follows from P1. If drivers are Tenna users, the app signs them in through Tenna's existing login (Cognito/OIDC), and passwords, sessions, and MFA work the way they already do. If not, the ELD runs its own login, and the two systems share identity through a secure server-to-server connection.
           </p>
           <div class="q-ask">
             <span class="q-label">Also needs an answer</span>
-            <p>Offline session policy: a driver out of coverage must still reach their logs. How long may a cached session live before re-authentication?</p>
+            <p>How long can a driver stay signed in without cell coverage? Drivers must be able to reach their logs with no signal, so a session has to survive offline for some agreed amount of time.</p>
           </div>
-          <div class="q-foot"><span>Gates <a href="/wireframes#d1">D1</a> and <a href="/wireframes#d3">D3</a>; shapes the web module sign-in via P5.</span></div>
+          <div class="q-foot"><span>Screens waiting on this: <a href="/wireframes#d1">D1</a> and <a href="/wireframes#d3">D3</a>. Also shapes the web module sign-in (P5).</span></div>
         </div>
       </article>
 
       <article class="q blocking" id="p3">
         <div class="q-head">
           <span class="q-id">P3</span>
-          <h3 class="q-title">Telematics point data: does Tenna retain it at all, and where is it processed?</h3>
+          <h3 class="q-title">Does Tenna keep the raw tracker data, and if so, where?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -355,23 +355,23 @@
         </div>
         <div class="q-body">
           <p>
-            ELD device data won't run through Tenna's existing ingestion pipeline. Two questions from Luke's note: does Tenna need to retain the individual point data at all, and if so, is it processed on the Tenna side or held within the ELD? The answer draws the data boundary for exports, audit bundles, and any Tenna-side analytics on ELD telemetry.
+            The second-by-second readings from the tracker (position, speed, odometer) won't go through Tenna's existing data pipeline. So: does Tenna need to keep those raw readings at all? And if yes, does Tenna store and process them, or does the ELD hold them? The answer decides where exports, audit files, and any Tenna-side reporting on this data come from.
           </p>
           <div class="q-ask">
             <span class="q-label">The candidates</span>
             <p>
-              A · ELD holds the points: Tenna receives derived events and summaries only; exports serve from the ELD.<br/>
-              B · Tenna retains point data: points flow to Tenna for processing and retention through a new path.
+              A · The ELD keeps the raw data: Tenna gets the results (events, daily summaries, alerts) but not the raw readings; exports and audit files come from the ELD.<br/>
+              B · Tenna keeps the raw data: the raw readings flow into Tenna and are stored alongside its other asset data, through a new connection built for this.
             </p>
           </div>
-          <div class="q-foot"><span>Gates the <a href="/wireframes#data">master data-element table</a>, <a href="/wireframes#w7">W7</a>, and <a href="/wireframes#w13">W13</a>.</span></div>
+          <div class="q-foot"><span>Waiting on this: the <a href="/wireframes#data">master data table</a> and the export screens (<a href="/wireframes#w7">W7</a>, <a href="/wireframes#w13">W13</a>).</span></div>
         </div>
       </article>
 
       <article class="q blocking" id="p4">
         <div class="q-head">
           <span class="q-id">P4</span>
-          <h3 class="q-title">Which ELD-generated events (alarms, exceptions) surface inside Tenna?</h3>
+          <h3 class="q-title">Which ELD alerts should show up inside Tenna?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -379,16 +379,16 @@
         </div>
         <div class="q-body">
           <p>
-            HOS violations, approaching-limit warnings, malfunctions, and diagnostics all originate in the ELD. Which cross into Tenna's own alarm and notification surfaces, and which live only in the ELD module? The strongest candidate for pushing through: a §395.34 malfunction's 8-day remediation clock, which a fleet manager must not be able to miss.
+            Violations, running-out-of-hours warnings, and device malfunctions all start in the ELD. Should they also appear in Tenna's own alerts and notifications, or only on the ELD pages? The strongest case for pushing one through: a device malfunction starts an 8-day repair clock that a fleet manager must not be able to miss.
           </p>
-          <div class="q-foot"><span>Gates the placement of <a href="/wireframes#w1">W1</a>, <a href="/wireframes#w2">W2</a>, and <a href="/wireframes#w8">W8</a>–<a href="/wireframes#w10">W10</a>: primary surfaces, or mirrors of Tenna-side alarms.</span></div>
+          <div class="q-foot"><span>Waiting on this: whether <a href="/wireframes#w1">W1</a>, <a href="/wireframes#w2">W2</a>, and <a href="/wireframes#w8">W8</a>–<a href="/wireframes#w10">W10</a> are the main alert screens or copies of Tenna's.</span></div>
         </div>
       </article>
 
       <article class="q blocking" id="p5">
         <div class="q-head">
           <span class="q-id">P5</span>
-          <h3 class="q-title">Front-end placement: microfrontend inside Tenna's auth boundary, or standalone?</h3>
+          <h3 class="q-title">Does the web module live inside the Tenna portal, or as its own site?</h3>
           <div class="q-chips">
             <span class="chip st-session">Aug 20 session</span>
             <span class="chip st-open">Open</span>
@@ -396,9 +396,9 @@
         </div>
         <div class="q-body">
           <p>
-            Luke's current thinking: <i>a microfrontend hosted within Tenna's auth boundary rather than a fully standalone app, with seamless access for permissioned users as the requirement.</i> Every web wireframe is drawn inside a Tenna portal shell to make that assumption visible. If the decision lands the other way, the shell changes, not the screens.
+            Luke's current thinking is inside: the ELD pages appear within the Tenna portal, and anyone with permission gets to them without a second login. Every web wireframe is drawn inside a Tenna portal frame to make that assumption visible. If the decision lands the other way, the frame changes, not the screens.
           </p>
-          <div class="q-foot"><span>Gates all fifteen web screens (<a href="/wireframes#web">W1–W15</a>).</span></div>
+          <div class="q-foot"><span>Waiting on this: all fifteen web screens (<a href="/wireframes#web">W1–W15</a>).</span></div>
         </div>
       </article>
 
