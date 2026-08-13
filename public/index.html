@@ -573,7 +573,6 @@
       <a href="#architecture">Arch</a>
       <a href="#plan">Plan</a>
       <a href="#certification">Cert</a>
-      <a href="#estimate">Estimate</a>
       <a href="/wireframes">Wireframes ↗</a>
       <a href="/decisions">Decision Log ↗</a>
       <a href="/ecosystem">Ecosystem ↗</a>
@@ -590,7 +589,7 @@
       <span>Subject: Tenna ELD Application</span>
       <span>For: Jose Cueva, CPO</span>
     </div>
-    <h1>A Tenna-native ELD.<br/><span class="accent">What it takes. What it costs. What we'd do first.</span></h1>
+    <h1>A Tenna-native ELD.<br/><span class="accent">What it takes. What we'd do first.</span></h1>
     <p class="lede">
       A research package covering the FMCSA regulatory landscape, the capabilities of the major incumbent ELDs, a requirements view of the Tenna application, and a phased project plan with realistic level of effort. Revised after the June 4 working session with Jose: the ELD now leans on the Tenna ecosystem wherever a module already exists, Tenna owns FMCSA certification backed by a dedicated FMCSA compliance expert, and the plan compresses from 23 weeks to 19.
     </p>
@@ -673,7 +672,7 @@
       <div class="competitor">
         <h4>MARKET LEADER · IPO 2024</h4>
         <h3>Motive</h3>
-        <p>Formerly KeepTruckin. Most aggressive on pricing flexibility and AI dashcam. Strong with for-hire trucking.</p>
+        <p>Formerly KeepTruckin. Most aggressive on contract flexibility and AI dashcam. Strong with for-hire trucking.</p>
         <ul>
           <li>Driver app with ELD, DVIR, and messaging</li>
           <li>DRIVE risk score for driver coaching</li>
@@ -682,7 +681,6 @@
           <li>Two-way messaging</li>
           <li>Vehicle Gateway hardware (BYO option limited)</li>
         </ul>
-        <div class="price">~$25/vehicle/mo, 1-yr or monthly</div>
       </div>
 
       <div class="competitor">
@@ -697,7 +695,6 @@
           <li>Routing and dispatch integrations</li>
           <li>Required Samsara hardware</li>
         </ul>
-        <div class="price">~$27 to $33/vehicle/mo, 3-yr min</div>
       </div>
 
       <div class="competitor">
@@ -711,7 +708,6 @@
           <li>Strong fuel and IFTA tooling</li>
           <li>Workflow and forms platform</li>
         </ul>
-        <div class="price">Custom pricing, typically 2-3yr</div>
       </div>
     </div>
 
@@ -1255,7 +1251,7 @@
     <div class="eyebrow">Section 7 · Project Plan</div>
     <h2>Five phases. Roughly 19 weeks from kickoff to piloting and certification-ready.</h2>
     <p class="lede">
-      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Four weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management. An accelerated scenario in Section 9 adds a third senior engineer and a second QA engineer through the build phases and compresses them by roughly 20%, landing at 16 weeks.
+      AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Four weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management. An accelerated scenario adds a third senior engineer and a second QA engineer through the build phases and compresses them by roughly 20%, landing at 16 weeks.
     </p>
 
     <div class="timeline">
@@ -1308,8 +1304,8 @@
       </div>
     </div>
 
-    <h3>Why this is faster and less expensive than the industry estimate</h3>
-    <p>A traditional development shop would quote this engagement at 12 to 18 months and $2 to $4M with a team of 8 to 12 engineers. AppAxis delivers it with two senior engineers plus a QA engineer, for three reasons.</p>
+    <h3>Why this is faster and leaner than the industry norm</h3>
+    <p>A traditional development shop would quote this engagement at 12 to 18 months with a team of 8 to 12 engineers. AppAxis delivers it with two senior engineers plus a QA engineer, for three reasons.</p>
     <ul style="color: var(--ink-soft);">
       <li>The specification writes the scope. 49 CFR 395 Appendix A is one of the most rigorously defined specifications in commercial software. There is no requirements-discovery loop that drags on for months. The work translates specification directly to code.</li>
       <li>AI-assisted senior engineers move 2 to 3 times faster on specification-driven work. The HOS state machine, output file generator, and malfunction engine are exactly the kind of well-defined translation tasks where modern AI tooling earns its keep. AppAxis has shipped projects this way for 18 months.</li>
@@ -1380,57 +1376,52 @@
     <div class="eyebrow">Section 9 · Level of Effort</div>
     <h2>Phased delivery. Each phase a clean gate.</h2>
     <p class="lede">
-      AppAxis engages in fixed-outcome phases rather than hourly billing that incentivizes slow delivery. Two scenarios below: the core team, and an accelerated option that adds a third senior engineer and a second QA engineer through the build phases, compressing them by roughly 20%. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
+      AppAxis engages in fixed-outcome phases. Two scenarios below: the core team, and an accelerated option that adds a third senior engineer and a second QA engineer through the build phases, compressing them by roughly 20%. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
     </p>
 
-    <div class="scenario-tabs" role="tablist" aria-label="Pricing scenarios">
+    <div class="scenario-tabs" role="tablist" aria-label="Delivery scenarios">
       <button class="scenario-tab active" type="button" id="tab-a" role="tab" aria-selected="true" aria-controls="panel-a" onclick="switchScenario('a')">
         <span class="t">Scenario A · Core team</span>
-        <span class="m">19 weeks · $250,000</span>
+        <span class="m">19 weeks</span>
       </button>
       <button class="scenario-tab" type="button" id="tab-b" role="tab" aria-selected="false" aria-controls="panel-b" onclick="switchScenario('b')">
         <span class="t">Scenario B · Accelerated build</span>
-        <span class="m">16 weeks · $290,000</span>
+        <span class="m">16 weeks</span>
       </button>
     </div>
 
     <div class="scenario-panel" id="panel-a" role="tabpanel" aria-labelledby="tab-a">
-      <h3 class="panel-label">Scenario A · Core team · 19 weeks · $250,000</h3>
+      <h3 class="panel-label">Scenario A · Core team · 19 weeks</h3>
       <p>The baseline plan as structured in Section 7. Two senior engineers and QA through the build phases, Adam through research and scope lock.</p>
       <div class="table-scroll"><table class="cost-table">
         <thead>
-          <tr><th>Phase</th><th>Duration</th><th>Team</th><th style="text-align:right;">Fixed Price</th></tr>
+          <tr><th>Phase</th><th>Duration</th><th>Team</th></tr>
         </thead>
         <tbody>
           <tr>
             <td>1. Research and Assessment</td>
             <td>Complete</td>
             <td>Adam</td>
-            <td class="num-cell">$0</td>
           </tr>
           <tr>
             <td>2. <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> and Scope Lock</td>
             <td>3 weeks</td>
             <td>Adam</td>
-            <td class="num-cell">$10,000</td>
           </tr>
           <tr>
             <td>3. Core Build</td>
             <td>9 weeks</td>
             <td>2 senior eng + 1 QA</td>
-            <td class="num-cell">$135,000</td>
           </tr>
           <tr>
             <td>4. Log Module and Data Transfer</td>
             <td>3 weeks</td>
             <td>2 senior eng + 1 QA</td>
-            <td class="num-cell">$45,000</td>
           </tr>
           <tr>
             <td>5. Pilot, Certification Support, and Handoff</td>
             <td>4 weeks</td>
             <td>2 senior eng + 1 QA</td>
-            <td class="num-cell">$60,000</td>
           </tr>
         </tbody>
         <tfoot>
@@ -1438,7 +1429,6 @@
             <td>Total, kickoff to piloting and certification-ready</td>
             <td>19 wks</td>
             <td>2 senior eng + QA</td>
-            <td class="num-cell">$250,000</td>
           </tr>
         </tfoot>
       </table></div>
@@ -1446,42 +1436,37 @@
     </div>
 
     <div class="scenario-panel" id="panel-b" role="tabpanel" aria-labelledby="tab-b" hidden>
-      <h3 class="panel-label">Scenario B · Accelerated build, third senior engineer · 16 weeks · $290,000</h3>
-      <p>A third senior engineer and a second QA engineer join through the core build and log module phases, compressing the build by roughly 20%, then roll off for pilot and handoff. Three weeks sooner to pilot and certification-ready for roughly 16% more.</p>
+      <h3 class="panel-label">Scenario B · Accelerated build, third senior engineer · 16 weeks</h3>
+      <p>A third senior engineer and a second QA engineer join through the core build and log module phases, compressing the build by roughly 20%, then roll off for pilot and handoff. Three weeks sooner to pilot and certification-ready.</p>
       <div class="table-scroll"><table class="cost-table">
         <thead>
-          <tr><th>Phase</th><th>Duration</th><th>Team</th><th style="text-align:right;">Fixed Price</th></tr>
+          <tr><th>Phase</th><th>Duration</th><th>Team</th></tr>
         </thead>
         <tbody>
           <tr>
             <td>1. Research and Assessment</td>
             <td>Complete</td>
             <td>Adam</td>
-            <td class="num-cell">$0</td>
           </tr>
           <tr>
             <td>2. <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> and Scope Lock</td>
             <td>3 weeks</td>
             <td>Adam</td>
-            <td class="num-cell">$10,000</td>
           </tr>
           <tr>
             <td>3. Core Build</td>
             <td>7.5 weeks</td>
             <td>3 senior eng + 2 QA</td>
-            <td class="num-cell">$176,250</td>
           </tr>
           <tr>
             <td>4. Log Module and Data Transfer</td>
             <td>2.5 weeks</td>
             <td>3 senior eng + 2 QA</td>
-            <td class="num-cell">$58,750</td>
           </tr>
           <tr>
             <td>5. Pilot, Certification Support, and Handoff</td>
             <td>3 weeks</td>
             <td>2 senior eng + 1 QA</td>
-            <td class="num-cell">$45,000</td>
           </tr>
         </tbody>
         <tfoot>
@@ -1489,7 +1474,6 @@
             <td>Total, kickoff to piloting and certification-ready</td>
             <td>16 wks</td>
             <td>2 senior eng + QA, +1 eng +1 QA in build</td>
-            <td class="num-cell">$290,000</td>
           </tr>
         </tfoot>
       </table></div>
@@ -1503,11 +1487,11 @@
       <p>On engagements of similar shape, that workload has stayed light enough to carry well alongside the principal role. If it grows past what one person can carry at full quality, AppAxis asks for one thing now: the opportunity to add a dedicated management role to the team at that point, raised openly with Tenna before anyone is staffed.</p>
     </div>
 
-    <h3>Outside the estimate</h3>
+    <h3>Outside the engagement</h3>
     <ul style="color: var(--ink-soft);">
       <li>Ongoing compliance and maintenance after launch. With Tenna's FMCSA compliance expert owning the specification treadmill, the natural structure is a lightweight AppAxis engagement for the code changes it generates. Discussed separately.</li>
       <li>FMCSA registration and certification labor. Tenna-owned, driven by the FMCSA compliance expert. AppAxis support during the certification pass is included in Phase 5.</li>
-      <li>Cloud infrastructure costs. At Tenna's likely scale, $4,000 to $8,000 per month for AWS or GCP. Standard pass-through.</li>
+      <li>Cloud infrastructure costs. Standard pass-through for AWS or GCP.</li>
       <li>Backend platform operations. Day-to-day running of the ELD backend after launch: uptime monitoring, on-call incident response, security patching, database maintenance and backups, and capacity scaling as the device fleet grows.</li>
       <li>Mobile app telemetry and monitoring. Crash reporting, performance monitoring, and usage analytics across the driver app and fleet portal, with dashboards and alerting so regressions surface before drivers report them. Tooling subscriptions (crash reporting, APM, log aggregation) are a pass-through alongside cloud costs.</li>
       <li>Production support operations. Triage of driver-reported issues, escalation paths for roadside transfer failures, and the runbooks and staffing model behind them. Structure depends on how Tenna wants to split first-line support between its existing customer success team and an engineering escalation tier.</li>
@@ -1632,7 +1616,7 @@
       <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
     </div>
     <div class="disc">
-      Confidential discussion document. Prepared by AppAxis for the engagement discussion with Jose Cueva and revised after the June 4 working session. Estimates are working ranges, not contracts. All product names, modules, and trademarks are properties of their respective owners. Not affiliated with FMCSA. Regulatory citations are from publicly available FMCSA materials and the Code of Federal Regulations.
+      Confidential discussion document. Prepared by AppAxis for the engagement discussion with Jose Cueva and revised after the June 4 working session. All product names, modules, and trademarks are properties of their respective owners. Not affiliated with FMCSA. Regulatory citations are from publicly available FMCSA materials and the Code of Federal Regulations.
     </div>
     <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
   </div>
