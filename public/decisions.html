@@ -261,7 +261,7 @@
     <div class="kicker">Updated 13 August 2026 · Confidential</div>
     <h1>Decision Log.<br/><span class="accent">Open questions, settled answers, and how we got there.</span></h1>
     <p class="lede">
-      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2 — building against real Geometris WQ hardware surfaces things a specification cannot. Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.
+      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2: building against real Geometris WQ hardware surfaces things a specification cannot. Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.
     </p>
 
     <div class="score-row">
@@ -411,7 +411,7 @@
     <div class="eyebrow">Awaiting an answer</div>
     <h2>Ten questions, and who owns each.</h2>
     <p class="lede">
-      Filter by owner to see only what is on your plate. Nothing here is a blocker on Phase 2 delivery except where marked — but several shape Phase 3 architecture, and answering them early is cheaper than reworking around a guess.
+      Filter by owner to see only what is on your plate. Nothing here is a blocker on Phase 2 delivery except where marked, but several shape Phase 3 architecture, and answering them early is cheaper than reworking around a guess.
     </p>
 
     <div class="filters">
@@ -435,22 +435,22 @@
         </div>
         <div class="q-body">
           <p>
-            §4.4.1.2 requires that after <b>5 consecutive minutes stationary</b> while Driving, the ELD prompt the driver, and that 1 minute without a response switch duty status to On-duty not driving. Our state machine only counts stationary minutes it directly observes — it will not attest to time it could not see.
+            §4.4.1.2 requires that after 5 consecutive minutes stationary while Driving, the ELD prompt the driver, and that 1 minute without a response switch duty status to On-duty not driving. Our state machine only counts stationary minutes it directly observes; it will not attest to time it could not see.
           </p>
           <p>
-            The difficulty is that the most ordinary stop in real operation — the driver parks and walks away carrying the phone — <b>is itself the loss of the link</b>. The stationary window never completes, so duty status stays in Driving. The regulation assumes an ELD wired into the vehicle that never loses sight of it; a phone-based recorder does not have that property.
+            The difficulty is that the most ordinary stop in real operation, the driver parks and walks away carrying the phone, is itself the loss of the link. The stationary window never completes, so duty status stays in Driving. The regulation assumes an ELD wired into the vehicle that never loses sight of it; a phone-based recorder does not have that property.
           </p>
           <p>
-            What makes this tractable: <b>the tracker already records what we are missing.</b> It emits <span class="mono">BEGIN_STOP</span> / <span class="mono">END_STOP</span> with timestamp, odometer and position, and stores them while no phone is connected. The evidence exists and is attested by the device that stayed with the vehicle — it simply arrives later. That turns the problem from "we cannot know" into "may we act on the device's attestation after the fact," which is a compliance judgement rather than an engineering one.
+            What makes this tractable: the tracker already records what we are missing. It emits <span class="mono">BEGIN_STOP</span> / <span class="mono">END_STOP</span> with timestamp, odometer and position, and stores them while no phone is connected. The evidence exists and is attested by the device that stayed with the vehicle; it simply arrives later. That turns the problem from "we cannot know" into "may we act on the device's attestation after the fact," which is a compliance judgement rather than an engineering one.
           </p>
           <pre class="eq">Field evidence · 8 Aug · 87-minute session
-  entered Driving 09:43:41 — and never left it
+  entered Driving 09:43:41 and never left it
   3 engine shut-downs recorded while status stayed Driving
   10 connection losses, several exceeding ten minutes</pre>
           <div class="q-ask">
             <span class="q-label">What we need</span>
             <p>
-              1 · Which component is the <b>ELD of record</b> — the tracker, which stays with the vehicle and already logs stop/start, or the phone? Most deployments treat the hardware as the recorder and the phone as its display; if that is the intended model, it changes what the app owns.<br/>
+              1 · Which component is the ELD of record: the tracker, which stays with the vehicle and already logs stop/start, or the phone? Most deployments treat the hardware as the recorder and the phone as its display; if that is the intended model, it changes what the app owns.<br/>
               2 · May the tracker's stored <span class="mono">BEGIN_STOP</span> timestamp serve as attested stationary evidence, letting the 5-minute window be evaluated retroactively on reconnect and the On-duty switch recorded at its true time?<br/>
               3 · If retroactive duty-status changes are not permissible, what is the correct behaviour instead?<br/>
               4 · Does this fall under §4.6 malfunction and diagnostic reporting rather than being purely a duty-status question?
@@ -474,17 +474,17 @@
         </div>
         <div class="q-body">
           <p>
-            Item <span class="mono">0x11</span> behaves as a genuine monotonic engine-hour counter — it advanced 2.4&nbsp;h → 3.0&nbsp;h across 39.5 minutes of running time, 1:1 with actual run time, and carried across days and ignition cycles. But a 126,500-mile F-150 has thousands of engine hours, not three. The counter is evidently running from a device-local baseline.
+            Item <span class="mono">0x11</span> behaves as a genuine monotonic engine-hour counter: it advanced 2.4&nbsp;h → 3.0&nbsp;h across 39.5 minutes of running time, 1:1 with actual run time, and carried across days and ignition cycles. But a 126,500-mile F-150 has thousands of engine hours, not three. The counter is evidently running from a device-local baseline.
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
             <p>
               1 · Is <span class="mono">ENGINEHOURS</span> specified as the ECM lifetime total, or as a device-local accumulator? The protocol document states only the ×10 scaling.<br/>
-              2 · If device-local, what resets it — installation, configuration, firmware update, power loss? Does it survive a reboot? We need to know whether a value can silently restart at zero mid-service.<br/>
+              2 · If device-local, what resets it: installation, configuration, firmware update, power loss? Does it survive a reboot? We need to know whether a value can silently restart at zero mid-service.<br/>
               3 · Can the device report the ECM's true total (J1939 PGN 65253, or OBD-II Mode 01 PID <span class="mono">0x7F</span>) where the vehicle exposes it?
             </p>
           </div>
-          <div class="q-foot"><span>Engine hours is one of the four data elements named in SoW §3.1 and is required on FMCSA event records — this needs an answer before Phase 3. See also Q8; it may be specific to light-duty vehicles.</span></div>
+          <div class="q-foot"><span>Engine hours is one of the four data elements named in SoW §3.1 and is required on FMCSA event records; this needs an answer before Phase 3. See also Q8; it may be specific to light-duty vehicles.</span></div>
         </div>
       </article>
 
@@ -499,14 +499,14 @@
         </div>
         <div class="q-body">
           <p>
-            <span class="mono">ENGINEHOURS</span> returns <b><span class="mono">0</span></b> whenever the engine is off, rather than the <span class="mono">0xFFFFFFFF</span> unavailable sentinel that RPM uses in the same condition. The zero arrives precisely at engine shut-down — which is exactly when the §4.5.1 record is written.
+            <span class="mono">ENGINEHOURS</span> returns <span class="mono">0</span> whenever the engine is off, rather than the <span class="mono">0xFFFFFFFF</span> unavailable sentinel that RPM uses in the same condition. The zero arrives precisely at engine shut-down, which is exactly when the §4.5.1 record is written.
           </p>
           <pre class="eq">engine-power / code 3 (shut-down) · auto
   timestamp    17:37:07
   odometer     126,490.7 mi
   engineHours  0          ← indistinguishable from a real zero</pre>
           <p>
-            A wrong-but-plausible number in a compliance record is worse than a blank one: <span class="mono">0</span> cannot be distinguished downstream from a legitimate zero, so nothing can flag it. An unavailable sentinel would let us record honestly. The same pattern appears elsewhere — ignition off, <span class="mono">ODOMETER</span> reads <span class="mono">0</span> and <span class="mono">VIN</span> returns an empty string.
+            A wrong-but-plausible number in a compliance record is worse than a blank one: <span class="mono">0</span> cannot be distinguished downstream from a legitimate zero, so nothing can flag it. An unavailable sentinel would let us record honestly. The same pattern appears elsewhere: ignition off, <span class="mono">ODOMETER</span> reads <span class="mono">0</span> and <span class="mono">VIN</span> returns an empty string.
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
@@ -529,14 +529,14 @@
         </div>
         <div class="q-body">
           <p>
-            The device embeds <b>one stored event at a time</b> in the telemetry stream and repeats that event across 2–4 consecutive frames before advancing — <b>4–11 seconds per event</b>. With a backlog of 46 events on 8 August, draining took several minutes, and the device redelivered the whole backlog on every reconnection.
+            The device embeds one stored event at a time in the telemetry stream and repeats that event across 2–4 consecutive frames before advancing: 4–11 seconds per event. With a backlog of 46 events on 8 August, draining took several minutes, and the device redelivered the whole backlog on every reconnection.
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
             <p>
-              1 · Why is each event repeated across multiple frames rather than advancing immediately — is there an acknowledgement mechanism we are missing?<br/>
+              1 · Why is each event repeated across multiple frames rather than advancing immediately? Is there an acknowledgement mechanism we are missing?<br/>
               2 · Is a bulk-transfer mode available that the document does not describe?<br/>
-              3 · What is the storage capacity, and what happens on overflow — oldest discarded, or newest refused?<br/>
+              3 · What is the storage capacity, and what happens on overflow: oldest discarded, or newest refused?<br/>
               4 · How long are events retained if never purged?<br/>
               5 · Does the feature need explicit enablement per device, and is it enabled across Tenna's fleet?
             </p>
@@ -556,7 +556,7 @@
         </div>
         <div class="q-body">
           <p>
-            The protocol as documented has no pairing, bonding, or authentication. Any phone in range that knows the service UUID can connect, read VIN, odometer, position and engine data, and <b>issue the purge command that permanently deletes the device's stored unidentified-driving events</b>. We confirmed connection with no pairing prompt and no credential of any kind.
+            The protocol as documented has no pairing, bonding, or authentication. Any phone in range that knows the service UUID can connect, read VIN, odometer, position and engine data, and issue the purge command that permanently deletes the device's stored unidentified-driving events. We confirmed connection with no pairing prompt and no credential of any kind.
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
@@ -580,7 +580,7 @@
         </div>
         <div class="q-body">
           <p>
-            The device's odometer reads consistently <b>~2.8 miles below the vehicle dashboard</b> (126,488.8 vs 126,491.6). The gap is consistent with ordinary ECM-versus-dashboard calibration plus the protocol's whole-kilometre resolution — about 0.002% over 126,000 miles — and the value tracks distance correctly, advancing 16.16 mi over a measured drive.
+            The device's odometer reads consistently ~2.8 miles below the vehicle dashboard (126,488.8 vs 126,491.6). The gap is consistent with ordinary ECM-versus-dashboard calibration plus the protocol's whole-kilometre resolution (about 0.002% over 126,000 miles), and the value tracks distance correctly, advancing 16.16 mi over a measured drive.
           </p>
           <p>
             This is not an app defect, but the two sources will never agree exactly.
@@ -608,7 +608,7 @@
           <div class="q-evidence">
             <span class="q-label">Correction · 9 Aug · confirmed on the device</span>
             <p>
-              Addresses published before 9 August were byte-reversed — see Q14. <span class="mono">WQ-87X060680218</span> is <span class="mono">78:42:1C:12:16:66</span>, not the <span class="mono">66:16:12:1C:42:78</span> quoted earlier. Any lookup against the old value would have matched nothing, and would have looked like missing inventory rather than a formatting bug.
+              Addresses published before 9 August were byte-reversed; see Q14. <span class="mono">WQ-87X060680218</span> is <span class="mono">78:42:1C:12:16:66</span>, not the <span class="mono">66:16:12:1C:42:78</span> quoted earlier. Any lookup against the old value would have matched nothing, and would have looked like missing inventory rather than a formatting bug.
             </p>
             <p style="margin-top:10px;">
               Verified directly on that tracker the same day. Connecting it from Android puts both readings in one session record, and they agree:
@@ -622,7 +622,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
       <article class="q open reveal" data-owner="tenna" id="q8">
         <div class="q-head">
           <span class="q-id">Q8</span>
-          <h3 class="q-title">Fleet composition — light-duty OBD-II vs heavy-duty J1939</h3>
+          <h3 class="q-title">Fleet composition: light-duty OBD-II vs heavy-duty J1939</h3>
           <div class="q-chips">
             <span class="chip owner-tenna">Tenna</span>
             <span class="chip st-open">Open</span>
@@ -630,7 +630,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
         <div class="q-body">
           <p>
-            All testing so far has been on a light-duty Ford F-150 over OBD-II. Several observations — particularly the engine-hours behaviour in Q2 — may be specific to that vehicle class. Heavy-duty vehicles on J1939 typically expose total engine hours directly.
+            All testing so far has been on a light-duty Ford F-150 over OBD-II. Several observations, particularly the engine-hours behaviour in Q2, may be specific to that vehicle class. Heavy-duty vehicles on J1939 typically expose total engine hours directly.
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
@@ -685,7 +685,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
     <div class="eyebrow">Settled</div>
     <h2>Four answered by hardware, not by assumption.</h2>
     <p class="lede">
-      Each of these was an ambiguity in the protocol document that a literal reading would have resolved the wrong way — silently, with no error to signal it. They stay in the log with their evidence so the reasoning survives.
+      Each of these was an ambiguity in the protocol document that a literal reading would have resolved the wrong way: silently, with no error to signal it. They stay in the log with their evidence so the reasoning survives.
     </p>
 
     <div class="qlist">
@@ -706,7 +706,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           <div class="q-evidence">
             <span class="q-label">Answer</span>
             <p>
-              The device reads them <b>little-endian</b>: <span class="mono">0x0201</span> must be sent as bytes <span class="mono">01 02</span>. Sending the big-endian reading <span class="mono">02 01</span> is interpreted as <span class="mono">0x0102</span> and produces no ELD data — silence, with no error. Worth flagging for the document.
+              The device reads them little-endian: <span class="mono">0x0201</span> must be sent as bytes <span class="mono">01 02</span>. Sending the big-endian reading <span class="mono">02 01</span> is interpreted as <span class="mono">0x0102</span> and produces no ELD data: silence, with no error. Worth flagging for the document.
             </p>
           </div>
         </div>
@@ -725,7 +725,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           <p>The document's only worked example is east of Greenwich, leaving negative coordinates undefined.</p>
           <div class="q-evidence">
             <span class="q-label">Answer</span>
-            <p><b>Two's complement, confirmed.</b> A US fix decoded correctly as <span class="mono">39.29537, −84.59589</span>.</p>
+            <p>Two's complement, confirmed. A US fix decoded correctly as <span class="mono">39.29537, −84.59589</span>.</p>
           </div>
         </div>
       </article>
@@ -740,11 +740,11 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           </div>
         </div>
         <div class="q-body">
-          <p>Undocumented — and it determines whether the FMCSA engine-synchronisation requirement can be met at all.</p>
+          <p>Undocumented, and it determines whether the FMCSA engine-synchronisation requirement can be met at all.</p>
           <div class="q-evidence">
             <span class="q-label">Answer</span>
             <p>
-              Measured <b>~2.1 s while driving and ~2.8 s at idle</b> (p95 3.1 s) — roughly twice as fast as the FMCSA 5-second requirement, and unchanged while the app is backgrounded. No watchdog retuning was needed.
+              Measured ~2.1 s while driving and ~2.8 s at idle (p95 3.1 s): roughly twice as fast as the FMCSA 5-second requirement, and unchanged while the app is backgrounded. No watchdog retuning was needed.
             </p>
           </div>
           <div class="q-foot"><span>Remaining sub-question: is the cadence configurable, and is it guaranteed under conditions we have not exercised (poor GPS, heavy bus traffic)?</span></div>
@@ -762,7 +762,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
         <div class="q-body">
           <p>
-            Characteristic <span class="mono">0x2A59</span> carries the device address <b>least-significant octet first</b> — the order Bluetooth uses on the wire, but the reverse of how an address is written everywhere else. The document does not state the order, the same omission as the control words in Q11.
+            Characteristic <span class="mono">0x2A59</span> carries the device address least-significant octet first: the order Bluetooth uses on the wire, but the reverse of how an address is written everywhere else. The document does not state the order, the same omission as the control words in Q11.
           </p>
           <div class="q-evidence">
             <span class="q-label">Answer · found on Android</span>
@@ -772,10 +772,10 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
             <pre class="eq">advertised address (Android)   1C:C3:AB:87:DD:3A
 characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
             <p style="margin-top:10px;">
-              This was invisible for the whole iOS phase, and not for want of looking: iOS deliberately hides the hardware address behind a per-app UUID, so there was no second reading to compare against. The value looked well-formed and stayed stable — and was wrong the whole time. It matters because the address is a candidate key for tying a device to a Tenna asset record (Q7).
+              This was invisible for the whole iOS phase, and not for want of looking: iOS deliberately hides the hardware address behind a per-app UUID, so there was no second reading to compare against. The value looked well-formed and stayed stable, and was wrong the whole time. It matters because the address is a candidate key for tying a device to a Tenna asset record (Q7).
             </p>
             <p style="margin-top:10px;">
-              <b>Confirmed on a second device once the fix was in.</b> <span class="mono">WQ-87X060680218</span> — the tracker in the test vehicle, and the one whose address had been published backwards — now decodes to <span class="mono">78:42:1C:12:16:66</span>, matching the address Android advertises for it exactly. Two devices, both exact reversals: this is the encoding, not a quirk of one unit.
+              Confirmed on a second device once the fix was in. <span class="mono">WQ-87X060680218</span>, the tracker in the test vehicle and the one whose address had been published backwards, now decodes to <span class="mono">78:42:1C:12:16:66</span>, matching the address Android advertises for it exactly. Two devices, both exact reversals: this is the encoding, not a quirk of one unit.
             </p>
           </div>
         </div>
@@ -805,10 +805,10 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           </p>
           <div class="outcome">
             <span class="q-label">Outcome</span>
-            <p>Mark shipped <b>4 trackers and power supplies</b>.</p>
+            <p>Mark shipped 4 trackers and power supplies.</p>
           </div>
           <p style="margin-top:12px;">
-            The power supplies matter more than they sound: they allow a tracker to be driven from a desk rather than only from a vehicle's OBD port. Bench testing on desk power has since carried a large share of the protocol work — BLE pairing, TLV parsing, the store-and-forward drain, background capture, and the Android foreground service were all validated without a vehicle, reserving drive time for the things that genuinely need motion.
+            The power supplies matter more than they sound: they allow a tracker to be driven from a desk rather than only from a vehicle's OBD port. Bench testing on desk power has since carried a large share of the protocol work: BLE pairing, TLV parsing, the store-and-forward drain, background capture, and the Android foreground service were all validated without a vehicle, reserving drive time for the things that genuinely need motion.
           </p>
         </div>
       </div>
@@ -840,7 +840,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
 <footer>
   <div class="container">
     <div class="disc">
-      Maintained by AppAxis under SoW No. 1, Phase 2 hardware validation. Questions are raised by building and field-testing against real hardware; answered items remain in the log with their evidence so the reasoning behind a settled decision is not lost. Findings reflect testing on a Geometris WQ tracker in a light-duty vehicle and on the bench — see Q8 on how far they generalise to the wider fleet.
+      Maintained by AppAxis under SoW No. 1, Phase 2 hardware validation. Questions are raised by building and field-testing against real hardware; answered items remain in the log with their evidence so the reasoning behind a settled decision is not lost. Findings reflect testing on a Geometris WQ tracker in a light-duty vehicle and on the bench; see Q8 on how far they generalise to the wider fleet.
     </div>
     <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
   </div>
@@ -864,7 +864,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         if (match) {
           shown++;
           // Filtering pulls cards up into view without firing a scroll event,
-          // so the reveal observer never runs for them. Reveal on the spot —
+          // so the reveal observer never runs for them. Reveal on the spot;
           // otherwise filtering to an owner whose questions all sat below the
           // fold renders a blank page.
           card.classList.add('in');
@@ -883,13 +883,13 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
     });
   })();
 
-  /* Reveal on scroll — same implementation as the other three pages, kept
+  /* Reveal on scroll: same implementation as the other three pages, kept
      deliberately identical. An IntersectionObserver was tried here first and
      reverted: it is what b2ddb0f already replaced, because elements jumped
      past rather than scrolled through (anchor links, scroll restoration)
      stayed permanently invisible. The rect check reveals anything at or above
      the viewport, and the interval is the safety net for a hash jump that
-     lands after the first check has already run — without it, opening
+     lands after the first check has already run; without it, opening
      /decisions#answered cold renders a blank page. */
   (function () {
     var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
