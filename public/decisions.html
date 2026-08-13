@@ -32,7 +32,9 @@
   }
 
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  /* Instant anchor jumps on purpose: Chrome aborts smooth scrolling partway on a
+     page this tall, which left deep links (/decisions#p1 from the wireframes
+     page) stranded at the top. */
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
   img { max-width: 100%; display: block; }
   a { color: var(--orange); text-decoration: none; }
@@ -96,7 +98,7 @@
   section p { color: var(--ink-soft); }
 
   /* Scoreboard */
-  .score-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 26px; }
+  .score-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 26px; }
   @media (max-width: 820px) { .score-row { grid-template-columns: 1fr 1fr; } }
 
   /* Same topbar treatment as the other pages (b2ddb0f): stack the brand row
@@ -121,6 +123,8 @@
   .score.is-blocking .v { color: var(--amber); }
   .score.is-answered .v { color: var(--green); }
   .score.is-meetings .v { color: var(--blue); }
+  .score.is-decisions .v { color: var(--orange); }
+  .chip.st-session { background: var(--orange-soft); color: var(--orange-dark); border-color: var(--orange-line); }
 
   /* Filters */
   .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
@@ -239,10 +243,12 @@
       <span class="title">DECISION LOG</span>
     </div>
     <div class="nav">
+      <a href="#product">Product</a>
       <a href="#open">Open</a>
       <a href="#answered">Answered</a>
       <a href="#meetings">Meetings</a>
       <a href="/">← The Proposal</a>
+      <a href="/wireframes">Wireframes ↗</a>
       <a href="/ecosystem">Ecosystem ↗</a>
       <a href="/stack-research">Evidence ↗</a>
       <span class="field-guide">SHARED RECORD</span>
@@ -252,13 +258,17 @@
 
 <section class="hero">
   <div class="container">
-    <div class="kicker">Updated 9 August 2026 · Confidential</div>
+    <div class="kicker">Updated 13 August 2026 · Confidential</div>
     <h1>Decision Log.<br/><span class="accent">Open questions, settled answers, and how we got there.</span></h1>
     <p class="lede">
-      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2 — building against real Geometris WQ hardware surfaces things a specification cannot.
+      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2 — building against real Geometris WQ hardware surfaces things a specification cannot. Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.
     </p>
 
     <div class="score-row">
+      <div class="score is-decisions">
+        <div class="v">5</div>
+        <div class="l">Product decisions</div>
+      </div>
       <div class="score is-blocking">
         <div class="v">1</div>
         <div class="l">Blocking Phase&nbsp;3</div>
@@ -272,9 +282,126 @@
         <div class="l">Settled by test</div>
       </div>
       <div class="score is-meetings">
-        <div class="v">1</div>
+        <div class="v">2</div>
         <div class="l">Meetings logged</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="product" class="alt">
+  <div class="container">
+    <div class="eyebrow">Product decisions · from the Aug 13 platform kickoff</div>
+    <h2>Five decisions, in dependency order, that gate the interface design.</h2>
+    <p class="lede">
+      From Luke's follow-up to the kickoff: the data guidelines fall out of a handful of product decisions, so the August 20 session points at them directly. Each is wireframed with candidate answers on the <a href="/wireframes">Wireframes page&nbsp;↗</a>. Anything not decided in the room leaves with a named owner and a date.
+    </p>
+
+    <div class="qlist">
+
+      <article class="q blocking" id="p1">
+        <div class="q-head">
+          <span class="q-id">P1</span>
+          <h3 class="q-title">Driver account model — full Tenna users, or a stripped-down driver credential?</h3>
+          <div class="q-chips">
+            <span class="chip st-session">Aug 20 session</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            Are ELD drivers full Tenna users, or a lighter-weight credential that exists mainly for the ELD? Luke: <i>"Most of the interface design hangs on this one."</i> It decides where the driver record lives, what login collects, who administers driver profiles, and whether the web module inherits Tenna's user context.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">The candidates</span>
+            <p>
+              A · <b>Full Tenna users</b> — identity, profile, and permissions live in Tenna; the ELD reads them via the purpose-built API. One roster, one admin surface.<br/>
+              B · <b>Stripped-down driver credential</b> — the ELD owns a lightweight driver record; Tenna sees drivers only where a workflow needs them.
+            </p>
+          </div>
+          <div class="q-foot"><span>Gates <a href="/wireframes#d1">D1</a>–<a href="/wireframes#d3">D3</a>, <a href="/wireframes#d23">D23</a>, and the web shell's user context. P2 follows directly from this answer.</span></div>
+        </div>
+      </article>
+
+      <article class="q blocking" id="p2">
+        <div class="q-head">
+          <span class="q-id">P2</span>
+          <h3 class="q-title">Authentication — Tenna Cognito/OIDC, or ELD-owned auth with a trusted-peer link?</h3>
+          <div class="q-chips">
+            <span class="chip st-session">Aug 20 session</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            Follows from P1. If ELD users are Tenna users, the app integrates with Tenna's existing authentication (Cognito/OIDC) and inherits sessions, MFA, and password policy. Alternatively, the ELD handles its own user authentication and the two systems communicate as trusted peers, with identity claims carried over the system-to-system link.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">Also needs an answer</span>
+            <p>Offline session policy — a driver out of coverage must still reach their logs. How long may a cached session live before re-authentication?</p>
+          </div>
+          <div class="q-foot"><span>Gates <a href="/wireframes#d1">D1</a> and <a href="/wireframes#d3">D3</a>; shapes the web module sign-in via P5.</span></div>
+        </div>
+      </article>
+
+      <article class="q blocking" id="p3">
+        <div class="q-head">
+          <span class="q-id">P3</span>
+          <h3 class="q-title">Telematics point data — does Tenna retain it at all, and where is it processed?</h3>
+          <div class="q-chips">
+            <span class="chip st-session">Aug 20 session</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            ELD device data won't run through Tenna's existing ingestion pipeline. Two questions from Luke's note: does Tenna need to retain the individual point data at all — and if so, is it processed on the Tenna side or held within the ELD? The answer draws the data boundary for exports, audit bundles, and any Tenna-side analytics on ELD telemetry.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">The candidates</span>
+            <p>
+              A · <b>ELD holds the points</b> — Tenna receives derived events and summaries only; exports serve from the ELD.<br/>
+              B · <b>Tenna retains point data</b> — points flow to Tenna for processing and retention through a new path.
+            </p>
+          </div>
+          <div class="q-foot"><span>Gates the <a href="/wireframes#data">master data-element table</a>, <a href="/wireframes#w7">W7</a>, and <a href="/wireframes#w13">W13</a>.</span></div>
+        </div>
+      </article>
+
+      <article class="q blocking" id="p4">
+        <div class="q-head">
+          <span class="q-id">P4</span>
+          <h3 class="q-title">Which ELD-generated events — alarms, exceptions — surface inside Tenna?</h3>
+          <div class="q-chips">
+            <span class="chip st-session">Aug 20 session</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            HOS violations, approaching-limit warnings, malfunctions, and diagnostics all originate in the ELD. Which cross into Tenna's own alarm and notification surfaces, and which live only in the ELD module? The strongest candidate for pushing through: a §395.34 malfunction's 8-day remediation clock, which a fleet manager must not be able to miss.
+          </p>
+          <div class="q-foot"><span>Gates the placement of <a href="/wireframes#w1">W1</a>, <a href="/wireframes#w2">W2</a>, and <a href="/wireframes#w8">W8</a>–<a href="/wireframes#w10">W10</a> — primary surfaces, or mirrors of Tenna-side alarms.</span></div>
+        </div>
+      </article>
+
+      <article class="q blocking" id="p5">
+        <div class="q-head">
+          <span class="q-id">P5</span>
+          <h3 class="q-title">Front-end placement — microfrontend inside Tenna's auth boundary, or standalone?</h3>
+          <div class="q-chips">
+            <span class="chip st-session">Aug 20 session</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            Luke's current thinking: <i>a microfrontend hosted within Tenna's auth boundary rather than a fully standalone app, with seamless access for permissioned users as the requirement.</i> Every web wireframe is drawn inside a Tenna portal shell to make that assumption visible — if the decision lands the other way, the shell changes, not the screens.
+          </p>
+          <div class="q-foot"><span>Gates all fifteen web screens (<a href="/wireframes#web">W1–W15</a>).</span></div>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
@@ -297,7 +424,7 @@
 
     <div class="qlist" id="qlist">
 
-      <article class="q blocking reveal" data-owner="compliance">
+      <article class="q blocking reveal" data-owner="compliance" id="q1">
         <div class="q-head">
           <span class="q-id">Q1</span>
           <h3 class="q-title">Duty status when the phone loses its link to the vehicle</h3>
@@ -336,7 +463,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris">
+      <article class="q open reveal" data-owner="geometris" id="q2">
         <div class="q-head">
           <span class="q-id">Q2</span>
           <h3 class="q-title">Is <span class="mono">ENGINEHOURS</span> the ECM lifetime total?</h3>
@@ -361,7 +488,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris">
+      <article class="q open reveal" data-owner="geometris" id="q3">
         <div class="q-head">
           <span class="q-id">Q3</span>
           <h3 class="q-title"><span class="mono">0</span> versus the unavailable sentinel for missing data</h3>
@@ -391,7 +518,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris">
+      <article class="q open reveal" data-owner="geometris" id="q4">
         <div class="q-head">
           <span class="q-id">Q4</span>
           <h3 class="q-title">Unidentified-driving capacity, retention, and drain rate</h3>
@@ -417,7 +544,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris tenna">
+      <article class="q open reveal" data-owner="geometris tenna" id="q5">
         <div class="q-head">
           <span class="q-id">Q5</span>
           <h3 class="q-title">No authentication in the BLE protocol</h3>
@@ -442,7 +569,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna">
+      <article class="q open reveal" data-owner="tenna" id="q6">
         <div class="q-head">
           <span class="q-id">Q6</span>
           <h3 class="q-title">Which odometer is authoritative for compliance?</h3>
@@ -465,7 +592,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna">
+      <article class="q open reveal" data-owner="tenna" id="q7">
         <div class="q-head">
           <span class="q-id">Q7</span>
           <h3 class="q-title">Mapping a device serial to a Tenna asset ID</h3>
@@ -492,7 +619,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna">
+      <article class="q open reveal" data-owner="tenna" id="q8">
         <div class="q-head">
           <span class="q-id">Q8</span>
           <h3 class="q-title">Fleet composition — light-duty OBD-II vs heavy-duty J1939</h3>
@@ -512,7 +639,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris">
+      <article class="q open reveal" data-owner="geometris" id="q9">
         <div class="q-head">
           <span class="q-id">Q9</span>
           <h3 class="q-title">Two phones connected to one tracker</h3>
@@ -528,7 +655,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris">
+      <article class="q open reveal" data-owner="geometris" id="q10">
         <div class="q-head">
           <span class="q-id">Q10</span>
           <h3 class="q-title">Firmware predating the TLV format (protocol 0)</h3>
@@ -563,7 +690,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
 
     <div class="qlist">
 
-      <article class="q answered reveal">
+      <article class="q answered reveal" id="q11">
         <div class="q-head">
           <span class="q-id">Q11</span>
           <h3 class="q-title">Control-word byte order</h3>
@@ -585,7 +712,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q answered reveal">
+      <article class="q answered reveal" id="q12">
         <div class="q-head">
           <span class="q-id">Q12</span>
           <h3 class="q-title">Latitude / longitude sign encoding</h3>
@@ -603,7 +730,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q answered reveal">
+      <article class="q answered reveal" id="q13">
         <div class="q-head">
           <span class="q-id">Q13</span>
           <h3 class="q-title">Notification cadence</h3>
@@ -624,7 +751,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q answered reveal">
+      <article class="q answered reveal" id="q14">
         <div class="q-head">
           <span class="q-id">Q14</span>
           <h3 class="q-title">Byte order of the device-address characteristic</h3>
@@ -683,6 +810,26 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <p style="margin-top:12px;">
             The power supplies matter more than they sound: they allow a tracker to be driven from a desk rather than only from a vehicle's OBD port. Bench testing on desk power has since carried a large share of the protocol work — BLE pairing, TLV parsing, the store-and-forward drain, background capture, and the Android foreground service were all validated without a vehicle, reserving drive time for the things that genuinely need motion.
           </p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-date">Thursday · 13 August 2026</div>
+        <div class="tl-card">
+          <h3>ELD Solution API · Platform kickoff</h3>
+          <div class="tl-who">Adam Schaible (AppAxis) · Luke Douglas, Tamar Amit, Kyle Romero (Tenna)</div>
+          <p>
+            First platform-level session on the API and integration approach, followed by Luke's written recap so the working assumptions are captured in one place. The five product decisions above (P1–P5) come out of this meeting, queued in dependency order for the <b>Thursday August 20, 2 PM ET</b> product session.
+          </p>
+          <div class="outcome">
+            <span class="q-label">Settled in the room / in Luke's recap</span>
+            <p>
+              <b>Integration approach</b> — working assumption is net-new, purpose-built APIs for this integration rather than direct access to Tenna's existing ones, with on-demand access rather than bulk synchronization as the default pattern. To be confirmed once data requirements take shape; plan against it.<br/>
+              <b>Code &amp; accounts</b> — build-phase code lives in Tenna's GitHub; prototype work proceeds now through AppAxis's app store accounts for the POC phase.<br/>
+              <b>Contacts</b> — Kyle Romero is engineering's day-to-day point of contact, Tamar Amit the owning engineering manager; Luke copied for visibility.<br/>
+              <b>Mockups</b> — bring them: props for pulling out data elements. Screens are proposals to react to; requirements get recorded in this log, since the ELD flow is specified by the certifiable logic underneath rather than the UI. → <a href="/wireframes">Wireframes&nbsp;↗</a>
+            </p>
+          </div>
         </div>
       </div>
 
