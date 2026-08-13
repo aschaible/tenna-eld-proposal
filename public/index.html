@@ -591,7 +591,7 @@
     </div>
     <h1>A Tenna-native ELD.<br/><span class="accent">What it takes. What we'd do first.</span></h1>
     <p class="lede">
-      A research package covering the FMCSA regulatory landscape, the capabilities of the major incumbent ELDs, a requirements view of the Tenna application, and a phased project plan with realistic level of effort. Revised after the June 4 working session with Jose: the ELD now leans on the Tenna ecosystem wherever a module already exists, Tenna owns FMCSA certification backed by a dedicated FMCSA compliance expert, and the plan compresses from 23 weeks to 19.
+      A research package covering the FMCSA regulatory landscape, the capabilities of the major incumbent ELDs, a requirements view of the Tenna application, and a phased project plan with realistic level of effort. Revised after the June 4 working session with Jose: the ELD now leans on the Tenna ecosystem wherever a module already exists, Tenna owns FMCSA certification backed by a dedicated FMCSA compliance expert, and the plan compresses from 23 weeks to 20.
     </p>
     <p class="lede" style="font-size:15px; margin-top:14px;">
       New to Tenna's product surface? Start with the companion <a href="/ecosystem">Tenna Product Ecosystem field guide&nbsp;↗</a> for background on the platform, modules, and hardware this ELD would plug into. For the engineering read, the <a href="/stack-research">Mobile Stack Evidence Brief&nbsp;↗</a> documents how Samsara, Motive, Omnitracs, and Geotab build their driver apps, with primary sources behind every claim.
@@ -1249,7 +1249,7 @@
 <section id="plan">
   <div class="container">
     <div class="eyebrow">Section 7 · Project Plan</div>
-    <h2>Five phases. Roughly 19 weeks from kickoff to piloting and certification-ready.</h2>
+    <h2>Five phases. Roughly 20 weeks from kickoff to piloting and certification-ready.</h2>
     <p class="lede">
       AppAxis's standard engagement model. Each phase produces a deliverable Tenna evaluates before the next phase commits. Phase 1 is this document, delivered at no cost. Phase 2 stands alone, so if the <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> does not land, both parties walk away with a clean understanding of why and no further commitment. Four weeks shorter than the pre-call plan: certification moves to Tenna's FMCSA compliance expert, DVIR and driver management lean on existing Tenna modules, and the web surface narrows to log management.
     </p>
@@ -1376,7 +1376,7 @@
     <div class="eyebrow">Section 9 · Level of Effort</div>
     <h2>Phased delivery. Each phase a clean gate.</h2>
     <p class="lede">
-      AppAxis engages in fixed-outcome phases. The plan runs 19 weeks with the core team: two senior engineers and a QA engineer through the build, Adam through scope lock. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
+      AppAxis engages in fixed-outcome phases. The plan runs 20 weeks with the core team: two senior engineers and a QA engineer through the build, Adam through scope lock. The only material unknown that could shift the plan is the tracker's Bluetooth broadcast contract, which Phase 2 resolves before any production code is written.
     </p>
 
     <div>
@@ -1393,7 +1393,7 @@
           </tr>
           <tr>
             <td>2. <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a> and Scope Lock</td>
-            <td>3 weeks</td>
+            <td>4 weeks</td>
             <td>Adam</td>
           </tr>
           <tr>
@@ -1415,7 +1415,7 @@
         <tfoot>
           <tr>
             <td>Total, kickoff to piloting and certification-ready</td>
-            <td>19 wks</td>
+            <td>20 wks</td>
             <td>2 senior eng + QA</td>
           </tr>
         </tfoot>
@@ -1444,10 +1444,10 @@
     </ul>
 
     <div class="mgmt-note avail">
-      <div class="lbl">Team Availability · Scope Lock Begins in August</div>
-      <h3>Scope lock starts in August; the build team follows in September.</h3>
-      <p>Phase 2 needs only Adam, so scope lock starts the week of August 24, right after the product session, and is signed before the engineers land. The full build team is available for a Phase 3 start on September 14.</p>
-      <p>On that calendar, the build reaches pilot and certification-ready in the first week of January. The delivery schedule is drawn month by month on the Gantt chart above.</p>
+      <div class="lbl">Team Availability · Scope Lock Underway</div>
+      <h3>Scope lock started August 3; the build team follows August 31.</h3>
+      <p>Phase 2 needs only Adam, so scope lock is already underway: it began August 3 and runs four weeks, signed before the engineers land. The full build team is available for a Phase 3 start on August 31.</p>
+      <p>On that calendar, the build reaches pilot and certification-ready in mid-December, ahead of the holidays. The delivery schedule is drawn month by month on the Gantt chart above.</p>
     </div>
 
   </div>
@@ -1534,7 +1534,7 @@
       <li>Driver application strategy. Lean on the Tenna ecosystem wherever a module already exists. DVIR and safety and compliance run through Tenna's standard app, and the web surface narrows to a log management module inside the Tenna portal.</li>
       <li>Hardware and data path. The Tenna tracker is already deployed and feeding the existing ingestion service. The ELD app absorbs telemetry over Bluetooth on a vehicle tablet or the driver's personal device and transmits the distilled HOS record set back over cellular.</li>
       <li>Certification ownership. Tenna owns FMCSA registration and is bringing in a dedicated FMCSA compliance expert. AppAxis delivers certification readiness with a concrete exit criterion.</li>
-      <li>Duration. The plan compresses from 23 weeks to roughly 19, with an accelerated 16-week option.</li>
+      <li>Duration. The plan compresses from 23 weeks to roughly 20.</li>
     </ul>
 
     <h3>Still open, resolved in Phase 2</h3>
@@ -1911,11 +1911,11 @@
     el.innerHTML = axis + rows + cap;
   }
 
-  renderGantt('gantt-a', 19, '2026-08-24', [
-    { name: 'Phase 2 · Scope Lock', team: 'Adam', cls: 'p2', start: 0, dur: 3, label: '3 wks' },
-    { name: 'Phase 3 · Core Build', team: '2 senior eng + 1 QA', cls: 'p3', start: 3, dur: 9, label: '9 wks' },
-    { name: 'Phase 4 · Log Module and Transfer', team: '2 senior eng + 1 QA', cls: 'p4', start: 12, dur: 3, label: '3 wks' },
-    { name: 'Phase 5 · Pilot and Handoff', team: '2 senior eng + 1 QA', cls: 'p5', start: 15, dur: 4, label: '4 wks' }
+  renderGantt('gantt-a', 20, '2026-08-03', [
+    { name: 'Phase 2 · Scope Lock', team: 'Adam', cls: 'p2', start: 0, dur: 4, label: '4 wks' },
+    { name: 'Phase 3 · Core Build', team: '2 senior eng + 1 QA', cls: 'p3', start: 4, dur: 9, label: '9 wks' },
+    { name: 'Phase 4 · Log Module and Transfer', team: '2 senior eng + 1 QA', cls: 'p4', start: 13, dur: 3, label: '3 wks' },
+    { name: 'Phase 5 · Pilot and Handoff', team: '2 senior eng + 1 QA', cls: 'p5', start: 16, dur: 4, label: '4 wks' }
   ], '');
 
   function closeModalIfBackdrop(event) {
