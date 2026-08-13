@@ -400,8 +400,8 @@
     <div class="nav">
       <a href="#decisions">The 5 Decisions</a>
       <a href="#legend">Legend</a>
-      <a href="#driver">Driver App</a>
-      <a href="#web">Web Module</a>
+      <a href="#driver">Mobile App</a>
+      <a href="#web">Control Panel</a>
       <a href="#data">Data Elements</a>
       <a href="#flow">Flow Map</a>
       <a href="/">← The Proposal</a>
@@ -437,7 +437,7 @@
         </div>
         <div class="p-gates">
           <span class="glabel">Screens waiting on this</span>
-          <span class="gchip"><a href="#d1">D1</a></span><span class="gchip"><a href="#d2">D2</a></span><span class="gchip"><a href="#d3">D3</a></span><span class="gchip"><a href="#d23">D23</a></span><span class="gchip"><a href="#web">Web module access</a></span>
+          <span class="gchip"><a href="#d1">D1</a></span><span class="gchip"><a href="#d2">D2</a></span><span class="gchip"><a href="#d3">D3</a></span><span class="gchip"><a href="#d23">D23</a></span><span class="gchip"><a href="#web">Control panel access</a></span>
         </div>
         <p class="p-log">Recorded as <a href="/decisions#p1">P1 in the decision log ↗</a></p>
       </article>
@@ -510,7 +510,7 @@
       <article class="pcard" id="pd5">
         <div class="p-head">
           <span class="p-id">P5</span>
-          <h3 class="p-title">Does the web module live inside the Tenna portal, or as its own site?</h3>
+          <h3 class="p-title">Does the control panel live inside the Tenna portal, or as its own site?</h3>
         </div>
         <p class="p-quote">
           Luke's current thinking is inside: the ELD pages appear within the Tenna portal, and anyone with permission gets to them without a second login. Every web wireframe on this page is drawn inside a Tenna portal frame to make that assumption visible. If the answer changes, the frame changes, not the screens.
@@ -573,7 +573,7 @@
 
 <section id="driver" class="alt">
   <div class="container">
-    <div class="eyebrow">Driver mobile app · D1–D26</div>
+    <div class="eyebrow">Mobile App · D1–D26</div>
     <h2>Nine flows, one hub.</h2>
     <p class="lede">
       The driver experience centers on <a href="#d4">D4, the HOS dashboard</a>; almost everything is one tap away from it. Three flows deliberately break that pattern: roadside inspection (<a href="#d15">D15</a>) is PIN-gated so it cannot be entered by accident, the malfunction notice (<a href="#d18">D18</a>) interrupts everything when it fires, and carrier edit requests (<a href="#d20">D20–D21</a>) arrive by push from the back office.
@@ -1603,7 +1603,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#p1">P1</a> Where is this record administered? The web module deliberately has no driver-roster screen; the June plan assumes Tenna's existing surfaces own it. That only works if drivers are Tenna users.</li>
+              <li><a class="qref" href="/decisions#p1">P1</a> Where is this record administered? The control panel deliberately has no driver-roster screen; the June plan assumes Tenna's existing surfaces own it. That only works if drivers are Tenna users.</li>
             </ul>
           </div>
         </div>
@@ -1718,11 +1718,8 @@
 </section>
 <section id="web">
   <div class="container">
-    <div class="eyebrow">Log management module · Web · W1–W15</div>
-    <h2>Fifteen screens, drawn inside the Tenna portal.</h2>
-    <p class="lede">
-      Every frame below is rendered inside a Tenna portal shell, where the dashed outline is the ELD microfrontend, because that is the P5 working assumption: hosted within Tenna's auth boundary, seamless for permissioned users, rather than a standalone app. If P5 lands the other way, the shell changes and the screens survive. Consider every screen in this section implicitly <span class="tag t-gated">Gated · P5</span>. The web spine is W1 → W4: managers live on the dashboard and drill into log detail; driver rosters, user admin, and DVIR review stay in Tenna's existing surfaces.
-    </p>
+    <div class="eyebrow">Web Control Panel · W1–W15</div>
+    <h2>Fifteen screens inside the Tenna portal.</h2>
     <div class="jump">
       <a href="#g-wdash">Dashboard <span class="r">W1–W2</span></a>
       <a href="#g-wlogs">Logs <span class="r">W3–W7</span></a>
@@ -1747,7 +1744,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real on">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real">Violations</div>
@@ -1756,7 +1753,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Live fleet HOS <span class="sub">Thu Aug 20 · 2:41 PM ET · refreshed 12 s ago</span></div>
                   <div class="wb-kpis">
                     <div class="wb-kpi"><div class="v">12</div><div class="l">Driving now</div></div>
@@ -1814,7 +1811,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real on">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real">Violations</div>
@@ -1823,7 +1820,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Approaching limits <span class="sub">live · next 8 hours</span></div>
                   <div class="wb-filter"><span class="wb-fld">All limit types ▾</span><span class="wb-fld">All drivers ▾</span><span class="wb-fld">Within: 2 hours ▾</span></div>
                   <table class="wb-table">
@@ -1876,7 +1873,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real on">Logs</div>
                 <div class="real">Violations</div>
@@ -1885,7 +1882,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Logs review</div>
                   <div class="wb-filter"><span class="wb-fld">Driver: all ▾</span><span class="wb-fld">Aug 13 – Aug 20 ▾</span><span class="wb-fld">Status: uncertified ▾</span><span class="wb-btn">Apply</span></div>
                   <table class="wb-table">
@@ -1932,7 +1929,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real on">Logs</div>
                 <div class="real">Violations</div>
@@ -1941,7 +1938,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">M. Alvarez · Wed Aug 19 <span class="sub">✓ certified Aug 20, 7:14 AM · Unit 218</span></div>
                   <svg class="ph-grid-svg" viewBox="0 0 480 96" role="img" aria-label="24-hour duty grid, web view">
                     <g stroke="#E9EBEF" stroke-width="1">
@@ -1997,7 +1994,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real on">Logs</div>
                 <div class="real">Violations</div>
@@ -2006,7 +2003,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Propose edit · M. Alvarez · Tue Aug 18</div>
                   <div class="wb-two">
                     <div class="wb-box"><div class="h">Original entry</div>
@@ -2053,7 +2050,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real on">Logs</div>
                 <div class="real">Violations</div>
@@ -2062,7 +2059,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Edit requests <span class="sub">across the fleet</span></div>
                   <div class="wb-filter"><span class="wb-fld">Status: all ▾</span><span class="wb-fld">Proposed by: anyone ▾</span></div>
                   <table class="wb-table">
@@ -2108,7 +2105,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real on">Logs</div>
                 <div class="real">Violations</div>
@@ -2117,7 +2114,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Log export</div>
                   <div class="wb-filter"><span class="wb-fld">Drivers: M. Alvarez ▾</span><span class="wb-fld">Aug 1 – Aug 20 ▾</span><span class="wb-fld">Format: FMCSA output file ▾</span></div>
                   <div class="wb-box"><div class="h">Contents preview</div>
@@ -2170,7 +2167,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real on">Violations</div>
@@ -2179,7 +2176,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Violations <span class="sub">current + historical</span></div>
                   <div class="wb-filter"><span class="wb-fld">Severity: all ▾</span><span class="wb-fld">Type: all ▾</span><span class="wb-fld">Last 30 days ▾</span></div>
                   <table class="wb-table">
@@ -2225,7 +2222,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real on">Violations</div>
@@ -2234,7 +2231,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Violation #4213 <span class="sub">K. Burns · Mon Aug 17</span></div>
                   <div class="wb-two">
                     <div class="wb-box"><div class="h">What happened</div>
@@ -2280,7 +2277,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real on">Violations</div>
@@ -2289,7 +2286,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Malfunction tracker <span class="sub">8-day remediation clocks</span></div>
                   <table class="wb-table">
                     <thead><tr><th>Device / vehicle</th><th>Code</th><th>Raised</th><th>Clock</th><th>Driver on paper logs</th><th>Status</th></tr></thead>
@@ -2340,7 +2337,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real">Violations</div>
@@ -2349,7 +2346,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Vehicle roster <span class="sub">ELD-enabled assets</span></div>
                   <table class="wb-table">
                     <thead><tr><th>Unit</th><th>Vehicle</th><th>Bus</th><th>Tracker</th><th>Firmware</th><th>Last activity</th></tr></thead>
@@ -2396,7 +2393,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real">Violations</div>
@@ -2405,7 +2402,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Pair tracker to vehicle</div>
                   <div class="wb-two">
                     <div class="wb-box"><div class="h">Tenna asset</div>
@@ -2460,7 +2457,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real">Violations</div>
@@ -2469,7 +2466,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">DOT audit export <span class="sub">bulk package</span></div>
                   <div class="wb-filter"><span class="wb-fld">Audit period: Feb 20 – Aug 20 ▾</span><span class="wb-fld">Drivers: all (14) ▾</span></div>
                   <div class="wb-box"><div class="h">Include</div>
@@ -2514,7 +2511,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real">Violations</div>
@@ -2523,7 +2520,7 @@
                 <div class="real">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Roadside inspections <span class="sub">every transfer, success or not</span></div>
                   <table class="wb-table">
                     <thead><tr><th>When</th><th>Driver</th><th>Location</th><th>Method</th><th>Officer code</th><th>Result</th></tr></thead>
@@ -2573,7 +2570,7 @@
               <div class="wb-side">
                 <div class="cap">Tenna</div>
                 <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
-                <div class="cap">ELD module</div>
+                <div class="cap">ELD</div>
                 <div class="real">Dashboard</div>
                 <div class="real">Logs</div>
                 <div class="real">Violations</div>
@@ -2582,7 +2579,7 @@
                 <div class="real on">Settings</div>
               </div>
               <div class="wb-stage">
-                <div class="wb-mfe"><span class="wb-mfe-tag">ELD module · microfrontend</span>
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Carrier settings <span class="sub">Blue Ash Construction Co.</span></div>
                   <div class="wb-two">
                     <div class="wb-box"><div class="h">Hours of service</div>
@@ -2646,7 +2643,7 @@
           <tr><td class="el">CDL number &amp; licensing state</td><td><span class="tag t-gated">Gated · P1</span></td><td class="ap">On-demand read</td><td class="scr">D16 D23</td></tr>
           <tr><td class="el">Carrier name, USDOT, home terminal</td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D1 D16 D26 W15</td></tr>
           <tr><td class="el">Auth session &amp; tokens</td><td><span class="tag t-gated">Gated · P2</span></td><td class="ap">–</td><td class="scr">D1 D3 · W shell</td></tr>
-          <tr><td class="el">Module user permissions<small>who may open the web module</small></td><td><span class="tag t-gated">Gated · P1·P5</span></td><td class="ap">On-demand read</td><td class="scr">W shell</td></tr>
+          <tr><td class="el">Module user permissions<small>who may open the control panel</small></td><td><span class="tag t-gated">Gated · P1·P5</span></td><td class="ap">On-demand read</td><td class="scr">W shell</td></tr>
 
           <tr class="cat"><td colspan="4">Vehicle &amp; device</td></tr>
           <tr><td class="el">Asset / unit name &amp; type</td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D2 D4 W1 W11 W12</td></tr>
@@ -2706,7 +2703,7 @@
     </p>
 
     <div class="flow-wrap">
-      <svg viewBox="0 0 880 470" role="img" aria-label="Screen flow map: driver app and web module">
+      <svg viewBox="0 0 880 470" role="img" aria-label="Screen flow map: mobile app and web control panel">
         <defs>
           <marker id="mA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#565D6A"/></marker>
           <marker id="mD" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#9AA1AD"/></marker>
@@ -2715,8 +2712,8 @@
 
         <!-- boundary -->
         <line x1="550" y1="14" x2="550" y2="456" stroke="#C9CED8" stroke-width="1.5" stroke-dasharray="6 5"/>
-        <text x="20" y="22" font-family="Inter, sans-serif" font-size="10" font-weight="800" letter-spacing="2" fill="#9AA1AD">DRIVER APP · D1–D26</text>
-        <text x="566" y="22" font-family="Inter, sans-serif" font-size="10" font-weight="800" letter-spacing="2" fill="#9AA1AD">WEB MODULE · W1–W15</text>
+        <text x="20" y="22" font-family="Inter, sans-serif" font-size="10" font-weight="800" letter-spacing="2" fill="#9AA1AD">MOBILE APP · D1–D26</text>
+        <text x="566" y="22" font-family="Inter, sans-serif" font-size="10" font-weight="800" letter-spacing="2" fill="#9AA1AD">WEB CONTROL PANEL · W1–W15</text>
 
         <!-- driver: entry chain -->
         <rect x="20" y="40" width="110" height="36" rx="8" fill="#fff" stroke="#C9CED8"/>
