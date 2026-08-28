@@ -308,6 +308,7 @@
       <a href="#omnitracs">Omnitracs</a>
       <a href="#geotab">Geotab</a>
       <a href="#implication">The Take</a>
+      <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
       <a href="/#mobile-stack">← The Proposal</a>
       <a href="/wireframes">Wireframes ↗</a>
       <a href="/decisions">Decision Log ↗</a>
@@ -318,11 +319,35 @@
 
 <section class="hero">
   <div class="container">
-    <div class="kicker">Companion Brief · Primary Sources Only</div>
+    <div class="kicker" data-rev="v1">Companion Brief · Primary Sources Only</div>
+    <div class="kicker" data-rev="v2">Companion Brief · Primary Sources Only · Rev. 8/28/2026</div>
     <h1>How the big four ELDs<br/><span class="accent">actually build their driver apps.</span></h1>
     <p class="lede">
       The proposal recommends React Native with strategic native modules for the Tenna ELD driver app. This brief establishes what Samsara, Motive, Omnitracs, and Geotab run in production, from engineering blogs, live job listings, public SDK repositories, and published package sizes. Every claim links to its primary source. No analyst commentary, no inference without the receipts.
     </p>
+  </div>
+</section>
+
+<section id="whats-changed" style="padding:30px 0 6px 0;">
+  <div class="container">
+    <div data-rev="v1" class="rev-what" style="border-color:#E5E7EB; background:#F7F8FB;">
+      <span class="rev-what-h" style="color:#6B7484;">Original</span>
+      <p>You are reading the original evidence brief. A revision dated 8/28/2026 narrows the native-module
+      scope by one item, following the August 17 FMCSA compliance review. Switch versions with the control at the
+      bottom right.</p>
+    </div>
+    <div data-rev="v2" class="rev-what">
+      <span class="rev-what-h">Revision 8/28/2026 · one narrowing</span>
+      <p>The August 17 FMCSA compliance review established that an ELD certifies for one data-transfer family:
+      telematics (web services and email) or peer-to-peer (USB and Bluetooth to the inspector's device), never both.
+      The build elects telematics, so USB transfer leaves the native-module list. What remains needing native
+      code is Bluetooth pairing and background ECM polling.</p>
+      <p style="margin-top:8px;">That does not change this brief's conclusion; it slightly strengthens it. The
+      native surface the recommended approach has to carry gets smaller, which is the argument for React Native with
+      targeted native modules rather than against it. Every competitor finding below stands as documented; note that
+      Motive's job listings still place USB integration in native code, which is consistent with a different
+      transfer-family election, not with ours.</p>
+    </div>
   </div>
 </section>
 
@@ -650,7 +675,7 @@
 
     <div class="implication-card reveal">
       <h4>The Samsara parallel is the operative one</h4>
-      <p>AppAxis proposes this build with one dedicated mobile engineer alongside a backend engineer and QA, which makes the Motive model structurally inaccessible. The Samsara model, React Native with native modules for performance-critical paths, is the most directly comparable approach and the one this proposal recommends: native code precisely where Bluetooth pairing, background ECM polling, and USB transfer demand it, shared code everywhere else.</p>
+      <p>AppAxis proposes this build with one dedicated mobile engineer alongside a backend engineer and QA, which makes the Motive model structurally inaccessible. The Samsara model, React Native with native modules for performance-critical paths, is the most directly comparable approach and the one this proposal recommends: <span data-revi="v1">native code precisely where Bluetooth pairing, background ECM polling, and USB transfer demand it, shared code everywhere else.</span><span data-revi="v2">native code precisely where Bluetooth pairing and background ECM polling demand it, shared code everywhere else. As of the 8/28 revision USB transfer is no longer on that list: electing the telematics transfer family removes it from the build entirely.</span></p>
     </div>
     <div class="implication-card reveal">
       <h4>The Geotab precedent, noted and declined</h4>
@@ -698,6 +723,8 @@
   })();
 </script>
 <script src="/glossary.js" defer></script>
+
+<script src="/revisions.js" defer></script>
 
 </body>
 </html>

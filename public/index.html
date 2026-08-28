@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tenna ELD · Requirements and Project Plan · Revised June 4</title>
+<title>Tenna ELD · Requirements and Project Plan · Rev. 8/28/2026</title>
+<meta name="rev-title-v1" content="Tenna ELD · Requirements and Project Plan · Revised June 4" />
+<meta name="rev-title-v2" content="Tenna ELD · Requirements and Project Plan · Rev. 8/28/2026" />
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -573,6 +575,7 @@
       <a href="#architecture">Arch</a>
       <a href="#plan">Plan</a>
       <a href="#certification">Cert</a>
+      <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
       <a href="/wireframes">Wireframes ↗</a>
       <a href="/decisions">Decision Log ↗</a>
       <a href="/ecosystem">Ecosystem ↗</a>
@@ -583,7 +586,8 @@
 
 <section class="hero">
   <div class="container">
-    <div class="kicker">Revised After the June 4 Working Session · Confidential</div>
+    <div class="kicker" data-rev="v1">Revised After the June 4 Working Session · Confidential</div>
+    <div class="kicker" data-rev="v2">Revised 28 August 2026 · Host Reporting Review · Confidential</div>
     <div class="meta">
       <span>Prepared by AppAxis</span>
       <span>Subject: Tenna ELD Application</span>
@@ -596,6 +600,86 @@
     <p class="lede" style="font-size:15px; margin-top:14px;">
       New to Tenna's product surface? Start with the companion <a href="/ecosystem">Tenna Product Ecosystem field guide&nbsp;↗</a> for background on the platform, modules, and hardware this ELD would plug into. For the engineering read, the <a href="/stack-research">Mobile Stack Evidence Brief&nbsp;↗</a> documents how Samsara, Motive, Omnitracs, and Geotab build their driver apps, with primary sources behind every claim.
     </p>
+  </div>
+</section>
+
+<section id="whats-changed" class="alt" style="padding-top:36px;">
+  <div class="container">
+
+    <div data-rev="v1" class="rev-what" style="border-color:var(--line); background:white;">
+      <span class="rev-what-h" style="color:var(--muted);">Original · June 4 revision</span>
+      <p>You are reading the June 4 revision of the proposal. A later revision dated 8/28/2026 incorporates the
+      August 17 FMCSA compliance review of <i>host reporting</i>: it adds three host screens, cuts the peer-to-peer
+      transfer scope, and rescopes unidentified driving on the phone. Switch versions with the control at the bottom
+      right of the page.</p>
+    </div>
+
+    <div data-rev="v2">
+      <div class="eyebrow">Revision 8/28/2026</div>
+      <h2 style="margin-bottom:8px;">What the August 17 compliance review changed.</h2>
+      <p class="lede">
+        Tenna's FMCSA compliance advisor reviewed the package specifically for host reporting and returned a
+        memo on August 17. "Host," in the regulation's language, is the motor carrier's back-end system and the web
+        surfaces over it, as distinct from the in-vehicle ELD, which is the phone plus the tracker. Most of the memo is
+        about work that belongs on the host and had been drawn on the phone, or had not been drawn at all. Six changes
+        follow from it.
+      </p>
+
+      <div class="req-block" style="border-left:3px solid var(--orange);">
+        <div class="head"><h3>Six changes, in order of consequence</h3></div>
+        <div class="body">
+          <ul>
+            <li><b>New host unidentified-driving report (W16).</b> The memo's central ask, by name: a host-specific
+            report with suggested-reason pop-ups, worked two or three times a week, with 6-month retention. §395.32
+            makes reviewing and annotating unidentified driving the carrier's duty; the package had no surface for it.
+            This also closes the inventory gap the wireframes flagged for the August 20 session.</li>
+
+            <li><b>Unidentified driving shrinks on the phone (D22).</b> The in-vehicle ELD only has to carry the last
+            8 days of unaccepted records. D22 is now an 8-day claim/reject list with a reason picker (D28) and bulk
+            actions for the high-volume case; it is no longer the place the backlog gets resolved.</li>
+
+            <li><b>One transfer family, not both (D17).</b> A device certifies for telematics transfer (web services
+            or email) <i>or</i> peer-to-peer (Bluetooth / USB), never both. The proposal already said as much in its
+            requirement detail; the screen inventory and the wireframe did not. Telematics is elected, and the
+            USB / Bluetooth-to-inspector native module leaves the mobile scope.</li>
+
+            <li><b>New host eRODS transfer (W17).</b> FMCSA now requests eRODS transfers for named drivers days
+            before an on-site audit, up to 30 days per driver. W17 does that from the back office and hard-caps each
+            transfer at 30 days, because pushing six months at once fails at FMCSA's end and reads as a failure to
+            produce records.</li>
+
+            <li><b>Three fields added to the inspection display (D16), plus a new host inspector view (W18).</b>
+            Sequence number, elapsed engine hours, and accumulated vehicle miles per §4.5.1.1. FMCSA's own example
+            omits them; the advisor's experience is that including them is better received. W18 is the internal-audit
+            rendering of the same thing, shipped from the host.</li>
+
+            <li><b>New non-HOS move stamp (D27).</b> The memo lists the four ordinary causes of unidentified driving (mechanic road test, yard movement, yard relocation,
+            OEM warranty movement), and notes that the usual workaround, a shared "exempt driver" account, draws enforcement pushback. D27 lets the named mechanic or
+            yard hand stamp the move in two taps, upstream of the problem.</li>
+          </ul>
+
+          <p style="margin-top:14px;"><b>Effect on the numbers.</b> The screen inventory goes from 41 surfaces to 46:
+          two added on mobile (D27, D28), three on the host (W16, W17, W18). The data element table grows from 37
+          elements to 47. The 20-week plan and the phase structure are unchanged, and that is a judgement rather than
+          an accident: the three host reports land in Phase 4, and dropping the peer-to-peer transfer build releases
+          roughly the native-module effort they consume. It is close enough to call even, and it should be confirmed
+          in the Phase 2 scope lock rather than assumed. See <a href="#plan">Section 7</a>.</p>
+
+          <p><b>One item held, not resolved.</b> On the DOT audit export the memo says there seems to be too much
+          available for a DOT audit, and asks for further discussion to confirm the intent. That screen (W13) is
+          unchanged pending that conversation, with the concern recorded against it. The honest possibility is that
+          W13 narrows and W17 carries the real audit workflow.</p>
+        </div>
+      </div>
+
+      <p style="font-size:14px; color:var(--muted); margin-top:16px;">
+        Every change is marked in place across this package, outlined so it can be found. The control at the
+        bottom right switches between the original and this revision. Screen-by-screen detail is on the
+        <a href="/wireframes#whats-changed">Wireframes page ↗</a>; the memo itself and the questions it raises are
+        logged in the <a href="/decisions#meetings">Decision Log ↗</a>.
+      </p>
+    </div>
+
   </div>
 </section>
 
@@ -653,6 +737,7 @@
       <li>Local ELD type. USB 2.0 and Bluetooth direct to inspector's device.</li>
     </ul>
     <p>An ELD provider chooses one and self-certifies to that mode. Telematics is the modern default and what Motive, Samsara, and Omnitracs all use.</p>
+    <p data-rev="v2"><b>Elected 8/28: Telematics.</b> The August 17 compliance review was pointed about this: you do one family or the other, never both. The original screen inventory drifted into offering all three routes. This build certifies as a Telematics ELD: HTTPS POST to eRODS, email fallback, no USB and no Bluetooth-to-inspector path. It is a certification-time declaration rather than a runtime setting, so it needs Tenna's formal sign-off before Phase 3 begins.</p>
 
     <h3>The recent enforcement context</h3>
     <p>FMCSA revoked 12 ELDs from the Registered Devices List on May 20, 2026 for failing to meet Appendix A, bringing the total recent revocations to roughly 30 devices across the last few rounds. Carriers running revoked devices face an Out-of-Service order at the roadside after the 60-day grace period (July 20, 2026 for the latest batch). The list of registered providers exceeds 700, but it's a long tail. Motive, Samsara, Geotab, and Omnitracs hold the vast majority of vehicles.</p>
@@ -760,9 +845,12 @@
           <li onclick="openReq('pc-yard-move')">Personal Conveyance and Yard Move special duty modes</li>
           <li onclick="openReq('log-certification')">Daily log certification (signature, prior 7-day review)</li>
           <li onclick="openReq('duty-grid')">Graphical 24-hour duty grid view</li>
-          <li onclick="openReq('roadside-inspection')">Roadside inspection mode in a single tap; display 8-day record; transfer via web services or USB and Bluetooth</li>
+          <li onclick="openReq('roadside-inspection')" data-rev="v1">Roadside inspection mode in a single tap; display 8-day record; transfer via web services or USB and Bluetooth</li>
+          <li onclick="openReq('roadside-inspection')" data-rev="v2">Roadside inspection mode in a single tap; display 8-day record with sequence number, elapsed engine hours, and accumulated vehicle miles per §4.5.1.1; transfer via eRODS web services with email fallback</li>
           <li onclick="openReq('log-edits')">Edit log entries with required reason annotation (8+ chars)</li>
-          <li onclick="openReq('udr-driver')">Unidentified driving record review and claim or reject</li>
+          <li onclick="openReq('udr-driver')" data-rev="v1">Unidentified driving record review and claim or reject</li>
+          <li onclick="openReq('udr-driver')" data-rev="v2">Unidentified driving: last 8 days of unaccepted records, claim or reject with a suggested reason</li>
+          <li onclick="openReq('non-hos-move')" data-rev="v2">Non-HOS move stamp for mechanics and yard operators, so shop and yard movement is attributed when it happens</li>
           <li onclick="openReq('malfunction-display')">Malfunction and diagnostic notice display with on-device acknowledgment</li>
           <li onclick="openReq('dvir-handoff')">DVIR handoff to Tenna's standard app (launch or API), keeping §396.11 covered without a rebuild</li>
           <li onclick="openReq('offline-mode')">Offline mode with local persistence and sync</li>
@@ -798,7 +886,8 @@
           <li onclick="openReq('log-review')">Log review by driver and by day, graphical and tabular</li>
           <li onclick="openReq('edit-requests')">Edit requests workflow where carrier proposes and driver approves</li>
           <li onclick="openReq('log-export')">Log export, FMCSA-format file generation on demand</li>
-          <li onclick="openReq('udr-assignment')">Unidentified driving assignment to drivers</li>
+          <li onclick="openReq('udr-assignment')" data-rev="v1">Unidentified driving assignment to drivers</li>
+          <li onclick="openReq('udr-assignment')" data-rev="v2">Unidentified driving host report: annotate with a reason or assign to a driver, with review cadence and 6-month retention</li>
           <li onclick="openReq('malfunction-tracker')">Malfunction tracking with 8-day remediation clock per device</li>
           <li onclick="openReq('log-retention')">6-month log retention with audit-ready archive</li>
         </ul>
@@ -808,6 +897,8 @@
           <li onclick="openReq('ifta-feed')">IFTA-adjacent reporting (already in Tenna, this layer feeds it)</li>
           <li onclick="openReq('inspection-event-log')">Roadside inspection event log</li>
           <li onclick="openReq('bulk-audit-export')">Bulk export for DOT audits</li>
+          <li onclick="openReq('host-erods')" data-rev="v2">Host-initiated eRODS transfer for pre-audit requests, capped at 30-day increments per driver</li>
+          <li onclick="openReq('host-inspector')" data-rev="v2">Host inspector view of a driver's logs for internal audit, in the §4.5.1.1 detail format</li>
         </ul>
         <p style="margin-top:12px;"><span class="tag could">COULD</span></p>
         <ul>
@@ -828,7 +919,8 @@
           <li onclick="openReq('hos-state-machine')">HOS state machine covering all federal duty rules, exceptions, and edge cases</li>
           <li onclick="openReq('event-ingestion')">Event ingestion API that receives the distilled HOS record set from the in-cab app over its cellular link</li>
           <li onclick="openReq('output-generator')">ELD output file generator producing the FMCSA-format ASCII file with CRC line check</li>
-          <li onclick="openReq('data-transfer')">Data transfer service using web services to eRODS with email fallback (Telematics mode)</li>
+          <li onclick="openReq('data-transfer')" data-rev="v1">Data transfer service using web services to eRODS with email fallback (Telematics mode)</li>
+          <li onclick="openReq('data-transfer')" data-rev="v2">Data transfer service using web services to eRODS with email fallback (Telematics mode), callable from the driver app at roadside and from the host for pre-audit requests, with a 30-day cap per transfer</li>
           <li onclick="openReq('malfunction-engine')">Malfunction and diagnostic engine with continuous self-monitoring across the 8 categories</li>
           <li onclick="openReq('edit-versioning')">Edit and annotation versioning with full audit trail per event</li>
           <li onclick="openReq('time-sync')">Time synchronization with UTC drift detection below 10 min tolerance</li>
@@ -912,7 +1004,8 @@
       <div class="competitor">
         <h4>OPTION B · RECOMMENDED</h4>
         <h3>React Native + Native Modules</h3>
-        <p>One React Native codebase for UI and business logic. Small native modules in Swift and Kotlin for Bluetooth pairing, background ECM polling, and USB transfer. Best balance of speed and reliability.</p>
+        <p data-rev="v1">One React Native codebase for UI and business logic. Small native modules in Swift and Kotlin for Bluetooth pairing, background ECM polling, and USB transfer. Best balance of speed and reliability.</p>
+        <p data-rev="v2">One React Native codebase for UI and business logic. Small native modules in Swift and Kotlin for Bluetooth pairing and background ECM polling. Best balance of speed and reliability.</p>
         <ul>
           <li>About 80% of code shared across platforms</li>
           <li>Native modules where reliability is non-negotiable</li>
@@ -942,7 +1035,7 @@
       For most product applications, pure React Native is sufficient. ELDs carry a few specific failure modes that justify strategic native code. If Bluetooth pairing drops mid-trip and the application cannot reconnect within 30 minutes, that is an engine sync compliance malfunction under §395.34(a)(2). If iOS aggressively suspends the application and background polling stops, the same outcome. These are not failure modes to discover in production.
     </p>
     <p>
-      The parts that benefit from native code are small and well-bounded. Bluetooth pairing, background ECM polling, and USB transfer collectively represent roughly 10 to 15% of the mobile codebase. The remainder, including HOS clock, logs, DVIR, status flows, edit screens, and the roadside display, is standard React Native work that benefits from a single codebase.
+      <span data-revi="v1">The parts that benefit from native code are small and well-bounded. Bluetooth pairing, background ECM polling, and USB transfer collectively represent roughly 10 to 15% of the mobile codebase.</span><span data-revi="v2">The parts that benefit from native code are small and well-bounded. Bluetooth pairing and background ECM polling collectively represent roughly 8 to 12% of the mobile codebase, down from 10 to 15% in the original, because electing the Telematics transfer family in the 8/28 revision removes the USB and Bluetooth-to-inspector module entirely.</span> The remainder, including HOS clock, logs, DVIR, status flows, edit screens, and the roadside display, is standard React Native work that benefits from a single codebase.
     </p>
     <p>
       Pure native is marginally more reliable on paper. The day-to-day delta is small and the maintenance cost is roughly double. The marginal reliability gain does not justify the timeline and ongoing cost.
@@ -989,12 +1082,14 @@
 <section id="screens">
   <div class="container">
     <div class="eyebrow">Section 5 · Screen Inventory</div>
-    <h2>One driver app, one web module. Roughly 41 distinct screens between them.</h2>
+    <h2 data-rev="v1">One driver app, one web module. Roughly 41 distinct screens between them.</h2>
+    <h2 data-rev="v2">One driver app, one host module. Roughly 46 distinct screens between them.</h2>
     <p class="lede">
-      Not mockups. The inventory. Every surface the user touches, what it does, and how it links. This is the source material for the Phase 2 <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a>. Some of these surfaces are full screens, others are modals or sheets, but each is a distinct piece of UX to design, build, and test. Now mocked up: all 41 screens are wireframed with their data elements and open questions on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.
+      Not mockups. The inventory. Every surface the user touches, what it does, and how it links. This is the source material for the Phase 2 <a href="https://appaxis.com/how-we-work" target="_blank" rel="noopener">ProposalType</a>. Some of these surfaces are full screens, others are modals or sheets, but each is a distinct piece of UX to design, build, and test. Now mocked up: <span data-revi="v1">all 41 screens are</span><span data-revi="v2">all 46 screens are</span> wireframed with their data elements and open questions on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.<span data-revi="v2"> Five of them were added in the 8/28 revision.</span>
     </p>
 
-    <h3>Driver Mobile App · ~26 surfaces</h3>
+    <h3 data-rev="v1">Driver Mobile App · ~26 surfaces</h3>
+    <h3 data-rev="v2">Driver Mobile App · ~28 surfaces</h3>
 
     <div class="req-block">
       <div class="head"><h3>Authentication and Setup (3)</h3></div>
@@ -1008,13 +1103,14 @@
     </div>
 
     <div class="req-block">
-      <div class="head"><h3>HOS Main Loop (4)</h3></div>
+      <div class="head"><h3 data-rev="v1">HOS Main Loop (4)</h3><h3 data-rev="v2">HOS Main Loop (5)</h3></div>
       <div class="body">
         <ul>
           <li><b>D4. HOS Dashboard (home).</b> The home screen. Current duty status, drive-time remaining, break required, current truck, alerts. Entry point to everything.</li>
           <li><b>D5. Status Change Sheet.</b> Sheet to switch OFF / SB / D / ON. Triggered from D4. Leads to D7 if manual.</li>
           <li><b>D6. Special Duty.</b> Personal Conveyance or Yard Move toggle with required justification. Subset of D5.</li>
           <li><b>D7. Status Annotation.</b> Required 8+ character note when status is manually edited. Required by §395.32.</li>
+          <li data-rev="v2"><b>D27. Non-HOS Move (shop and yard).</b> <span class="rev-badge">new 8/28</span> Two-tap stamp for a mechanic road test, yard movement, yard relocation, or OEM/warranty move, attributed to the named person who made it. Prevents the unidentified-driving record rather than reconciling it later.</li>
         </ul>
       </div>
     </div>
@@ -1024,7 +1120,8 @@
       <div class="body">
         <ul>
           <li><b>D8. Today's Log.</b> Graphical 24-hour duty grid for the current day. Tap any segment for detail (D10).</li>
-          <li><b>D9. Past Logs List.</b> Last 8 days minimum (7-day review window plus today).</li>
+          <li data-rev="v1"><b>D9. Past Logs List.</b> Last 8 days minimum (7-day review window plus today).</li>
+          <li data-rev="v2"><b>D9. Past Logs List.</b> Last 8 days (7-day review window plus today), and no deeper. Longer history is a host function; settled in the 8/28 revision.</li>
           <li><b>D10. Log Detail.</b> Single-day expanded view, event list, edit history visible.</li>
           <li><b>D11. Certify Log.</b> Daily certification screen with signature and prior 7-day review confirmation.</li>
           <li><b>D12. Edit Log Entry.</b> Driver-initiated edit with required annotation.</li>
@@ -1047,8 +1144,10 @@
       <div class="body">
         <ul>
           <li><b>D15. Inspection Entry.</b> PIN-gated entry so a driver can't accidentally trigger it. Hands phone to officer.</li>
-          <li><b>D16. Inspection Display.</b> Full 8-day record on screen, FMCSA-required format. Officer can scroll.</li>
-          <li><b>D17. Transfer to Officer.</b> Initiate eRODS web service transfer or local USB / Bluetooth transfer. Success or failure confirmation.</li>
+          <li data-rev="v1"><b>D16. Inspection Display.</b> Full 8-day record on screen, FMCSA-required format. Officer can scroll.</li>
+          <li data-rev="v2"><b>D16. Inspection Display.</b> Full 8-day record on screen, FMCSA-required format, with sequence number, elapsed engine hours, and accumulated vehicle miles on every event row per §4.5.1.1. Officer can scroll.</li>
+          <li data-rev="v1"><b>D17. Transfer to Officer.</b> Initiate eRODS web service transfer or local USB / Bluetooth transfer. Success or failure confirmation.</li>
+          <li data-rev="v2"><b>D17. Transfer to Officer.</b> Initiate the eRODS transfer: web service, or email where there is no signal. Success or failure confirmation. No peer-to-peer path: a device certifies for one transfer family, not both.</li>
         </ul>
       </div>
     </div>
@@ -1074,10 +1173,12 @@
     </div>
 
     <div class="req-block">
-      <div class="head"><h3>Unidentified Driving (1)</h3></div>
+      <div class="head"><h3 data-rev="v1">Unidentified Driving (1)</h3><h3 data-rev="v2">Unidentified Driving (2)</h3></div>
       <div class="body">
         <ul>
-          <li><b>D22. UD Records.</b> Driving events with no logged-in driver. Driver claims or rejects each record. Required workflow.</li>
+          <li data-rev="v1"><b>D22. UD Records.</b> Driving events with no logged-in driver. Driver claims or rejects each record. Required workflow.</li>
+          <li data-rev="v2"><b>D22. UD Records.</b> The last 8 days of <i>unaccepted</i> driving events with no logged-in driver, grouped by day with bulk actions. Driver claims or rejects; the carrier reviews, annotates, and assigns on the host (W16). Required workflow.</li>
+          <li data-rev="v2"><b>D28. UD Reason Sheet.</b> <span class="rev-badge">new 8/28</span> One-tap reason when a driver says a record is not theirs, drawn from the ordinary causes. The driver's suggestion is the most useful single input to the host review.</li>
         </ul>
       </div>
     </div>
@@ -1094,7 +1195,9 @@
       </div>
     </div>
 
-    <h3>Log Management Module (Web) · ~15 surfaces</h3>
+    <h3 data-rev="v1">Log Management Module (Web) · ~15 surfaces</h3>
+    <h3 data-rev="v2">Log Management Module (Host, in the Tenna portal) · ~18 surfaces</h3>
+    <p class="muted-text small" data-rev="v2"><b>A note on "host."</b> The August 17 compliance memo uses the regulation's vocabulary, and it is worth adopting here. An ELD is two halves. The in-vehicle ELD is the phone plus the tracker: it records events, holds an 8-day working window, and shows the record at roadside. The host is the motor carrier's back-end system: the server that holds the full 6-month record and the web surfaces over it. So this module is the host, "host reporting" means reports the carrier runs against that server, and when the memo says something belongs on the host rather than the mobile it is assigning ownership of data and legal duty, not choosing a screen size.</p>
     <p class="muted-text small">The module ships inside the existing Tenna web portal, so login, SSO, and org context come from the shell. Handled by Tenna's existing surfaces: driver roster and onboarding, driver profiles, user management, notification preferences, DVIR review (the safety and compliance module), and IFTA reporting, which consumes the HOS event feed.</p>
 
     <div class="req-block">
@@ -1116,6 +1219,15 @@
           <li><b>W5. Propose Edit.</b> Carrier proposes a log edit. Sends to driver for approval (W6).</li>
           <li><b>W6. Edit Status Tracker.</b> Pending, approved, rejected edits across the fleet.</li>
           <li><b>W7. Log Export.</b> Generate FMCSA-format output file for any date range or driver.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req-block" data-rev="v2">
+      <div class="head"><h3>Unidentified Driving (1)</h3></div>
+      <div class="body">
+        <ul>
+          <li><b>W16. Unidentified Driving Report.</b> <span class="rev-badge">new 8/28</span> The carrier's working queue: every open record across the fleet, what the driver said about it, and the two dispositions §395.32(a) allows: annotate with a reason, or assign to a driver. Bulk-actionable, grouped by vehicle and day, with a review-cadence nudge and 6-month retention. The memo asks for this report by name.</li>
         </ul>
       </div>
     </div>
@@ -1142,11 +1254,15 @@
     </div>
 
     <div class="req-block">
-      <div class="head"><h3>Reports (2)</h3></div>
+      <div class="head"><h3 data-rev="v1">Reports (2)</h3><h3 data-rev="v2">Reports and Audit (4)</h3></div>
       <div class="body">
         <ul>
-          <li><b>W13. DOT Audit Export.</b> Bulk export of logs, events, edits, malfunctions for an audit period.</li>
-          <li><b>W14. Roadside Inspection Log.</b> Every roadside inspection event with transfer status.</li>
+          <li data-rev="v1"><b>W13. DOT Audit Export.</b> Bulk export of logs, events, edits, malfunctions for an audit period.</li>
+          <li data-rev="v2"><b>W13. DOT Audit Export.</b> Bulk export of logs, events, edits, malfunctions for an audit period. <i>Held for discussion:</i> the 8/28 review flags that this may make too much available for a DOT audit, and asks to confirm the intent before it is built.</li>
+          <li data-rev="v1"><b>W14. Roadside Inspection Log.</b> Every roadside inspection event with transfer status.</li>
+          <li data-rev="v2"><b>W14. Roadside Inspection Log.</b> Every transfer event with its method, officer code, and outcome, including failures and retries, now fed by both the roadside app and the host (W17).</li>
+          <li data-rev="v2"><b>W17. Host eRODS Transfer.</b> <span class="rev-badge">new 8/28</span> Sends a named driver's records to FMCSA for a pre-audit request, split into confirmed 30-day increments. Never sends six months at once.</li>
+          <li data-rev="v2"><b>W18. Host Inspector View.</b> <span class="rev-badge">new 8/28</span> An officer's-eye view of a driver's logs for internal audit, in the §4.5.1.1 detail format. Shares its renderer with D16.</li>
         </ul>
       </div>
     </div>
@@ -1155,13 +1271,15 @@
       <div class="head"><h3>Settings (1)</h3></div>
       <div class="body">
         <ul>
-          <li><b>W15. Carrier Settings.</b> Cycle defaults, special-duty permissions, geofence rules for Yard Move.</li>
+          <li data-rev="v1"><b>W15. Carrier Settings.</b> Cycle defaults, special-duty permissions, geofence rules for Yard Move.</li>
+          <li data-rev="v2"><b>W15. Carrier Settings.</b> Cycle defaults, special-duty permissions, geofence rules for Yard Move. Added 8/28: the unidentified-driving reason taxonomy, review-cadence threshold, and which non-driver roles may stamp a non-HOS move.</li>
         </ul>
       </div>
     </div>
 
     <h3>Flow logic in one paragraph</h3>
     <p>The driver experience centers on D4 (the HOS dashboard), with almost everything one tap away. Three exceptions break that pattern: D15 (roadside inspection) is PIN-gated to prevent accidental entry, D18 (malfunction notice) interrupts everything else when triggered, and D20-D21 (edit requests) are push-driven from the back office. The fleet manager experience centers on W1 (the live dashboard), drilling into W4 (log detail) for everything else, with driver records living in Tenna's existing surfaces.</p>
+    <p data-rev="v2"><b>Added 8/28.</b> Unidentified driving becomes the second round trip across the boundary, alongside edit requests: a driver rejects a record with a reason (D22 → D28), it lands on the carrier's queue (W16), and an assignment comes back to the driver for confirmation. D27 exists to make that loop rare, by attributing shop and yard movement before it can become unidentified. On the host side, W17 files into the same transfer record as the roadside app (W14), and W18 shares its renderer with the roadside display (D16) rather than being a second implementation of the same format.</p>
 
   </div>
 </section>
@@ -1289,7 +1407,18 @@
       <div class="phase-card">
         <h4>PHASE 4 · LOG MODULE AND DATA TRANSFER</h4>
         <h3>Log management module, eRODS transfer, construction exceptions</h3>
-        <p>Same two engineers. Backend engineer builds the data-transfer service (web services and email to eRODS) and hardens the Phase 3 telemetry intake against the edge cases a test fleet surfaces. Mobile engineer transitions to the log management module embedded in the Tenna portal, edit workflows, and unidentified-driving reconciliation. Construction-specific exception logic (yard moves via geofences, Personal Conveyance, short-haul) layered across both surfaces. Three weeks instead of the original four because the June 4 session narrowed the web surface to log management.</p>
+        <p data-rev="v1">Same two engineers. Backend engineer builds the data-transfer service (web services and email to eRODS) and hardens the Phase 3 telemetry intake against the edge cases a test fleet surfaces. Mobile engineer transitions to the log management module embedded in the Tenna portal, edit workflows, and unidentified-driving reconciliation. Construction-specific exception logic (yard moves via geofences, Personal Conveyance, short-haul) layered across both surfaces. Three weeks instead of the original four because the June 4 session narrowed the web surface to log management.</p>
+        <p data-rev="v2">Same two engineers. Backend engineer builds the data-transfer service (web services and email to eRODS) with both its callers (the driver app at roadside and the host for pre-audit requests, with the 30-day increment cap), and hardens the Phase 3 telemetry intake against the edge cases a test fleet surfaces. Mobile engineer transitions to the log management module embedded in the Tenna portal, edit workflows, and the three host reporting surfaces added on 8/28: the unidentified-driving report, the host eRODS transfer, and the host inspector view. Construction-specific exception logic (yard moves via geofences, Personal Conveyance, short-haul) layered across both surfaces. Three weeks instead of the original four because the June 4 session narrowed the web surface to log management.</p>
+        <div class="rev-what" data-rev="v2" style="margin-top:12px;">
+          <span class="rev-what-h">Scope note · 8/28</span>
+          <p>This phase absorbs the three new host screens without lengthening, and that is a judgement worth stating
+          plainly rather than burying. What pays for them: dropping the peer-to-peer transfer build (the USB and
+          Bluetooth-to-inspector native module) releases mobile effort, and W18 shares its renderer with the roadside
+          display rather than being a second implementation. W16 is the genuinely new build of the three.</p>
+          <p>It is close enough to call even at this distance, and it should be confirmed during the Phase 2 scope lock
+          rather than assumed here. If the DOT audit export (W13) narrows after the discussion the memo asks for, that
+          releases more than it costs.</p>
+        </div>
         <div class="deliv"><b>Deliverable:</b> End-to-end working system on a test fleet</div>
       </div>
     </div>
@@ -1344,7 +1473,8 @@
       <li>Malfunction handling gaps. Device fails to detect one of the 8 categories under §395.34(a), or fails to clear correctly when the underlying condition resolves.</li>
       <li>Engine sync failures. ECM data not polled at the right cadence, or device claims sync when it has lost ECM connection.</li>
       <li>Edit history gaps. Edits not properly annotated, edit attribution missing, original record not preserved.</li>
-      <li>Unidentified driving not handled. Driving with no driver logged in must be captured and assignable later.</li>
+      <li data-rev="v1">Unidentified driving not handled. Driving with no driver logged in must be captured and assignable later.</li>
+      <li data-rev="v2">Unidentified driving not handled. Driving with no driver logged in must be captured and assignable later. Per §395.32 it must also be reviewed by the carrier and either annotated with a reason or assigned to a driver, with records kept six months. That review needs a host report, which is W16.</li>
       <li>Driver complaints. Drivers report to FMCSA when an ELD generates impossible logs, drops events, or won't transfer at roadside.</li>
     </ul>
 
@@ -1480,6 +1610,16 @@
           <p>This is the section of the specification that gets ELDs revoked. Treated as a first-class engineering concern rather than an afterthought. Mitigated by specification-driven testing, though interpretation can vary across implementations.</p>
         </div>
 
+        <div class="risk-card" data-rev="v2">
+          <div class="top"><h4>Unidentified driving volume in short-haul operations</h4><span class="risk med">MEDIUM</span></div>
+          <p>Raised by the August 17 compliance review: operations where drivers never sign in, short-haul work in particular, can generate excessive unidentified-driving records, and a carrier that does not work the report two or three times a week loses control of it. That is an adoption and support risk more than an engineering one: the software can be correct and the customer still fails an audit. Mitigated on three fronts, all in the 8/28 revision: sticky vehicle pairing so signing in is nearly automatic (D2), a non-HOS move stamp for the people who move trucks without a log (D27), and a host report built for volume with grouping, bulk annotation, and a cadence nudge (W16). The residual question, whether pattern-matched records can be auto-annotated at a carrier level, is open with Tenna's compliance advisor, because blanket treatment is exactly what enforcement pushes back on.</p>
+        </div>
+
+        <div class="risk-card" data-rev="v2">
+          <div class="top"><h4>Transfer-family election is a one-way door</h4><span class="risk low">LOW</span></div>
+          <p>Certifying as a Telematics ELD means no USB or Bluetooth path to an inspector's device, ever, without a re-certification. The 8/28 revision makes that election explicit rather than leaving both families half-drawn. Low risk because it is the mode Motive, Samsara, and Omnitracs all use, but it needs Tenna's formal sign-off before Phase 3 rather than after, and the roadside-with-no-signal case should be walked through with the compliance advisor since email fallback is now the only alternative.</p>
+        </div>
+
         <div class="risk-card">
           <div class="top"><h4>iOS and Android certification cycles</h4><span class="risk low">LOW</span></div>
           <p>Apple and Google review for safety-critical applications can take 1 to 2 weeks. Submissions are filed early in Phase 5 to overlap with FMCSA registration.</p>
@@ -1559,7 +1699,7 @@
       <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
     </div>
     <div class="disc">
-      Confidential discussion document. Prepared by AppAxis for the engagement discussion with Jose Cueva and revised after the June 4 working session. All product names, modules, and trademarks are properties of their respective owners. Not affiliated with FMCSA. Regulatory citations are from publicly available FMCSA materials and the Code of Federal Regulations.
+      Confidential discussion document. Prepared by AppAxis for the engagement discussion with Jose Cueva and revised after the June 4 working session.<span data-revi="v2"> Further revised 28 August 2026 to incorporate the 17 August FMCSA compliance review of host reporting; the control at the bottom right switches between versions.</span> All product names, modules, and trademarks are properties of their respective owners. Not affiliated with FMCSA. Regulatory citations are from publicly available FMCSA materials and the Code of Federal Regulations.
     </div>
     <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
   </div>
@@ -1615,7 +1755,7 @@
     "roadside-inspection": {
       cite: "49 CFR §395.22, §395.32",
       title: "Roadside inspection mode",
-      body: "<p>When a DOT officer pulls over a driver for inspection, the driver activates Inspection Mode from a single button on the application's home screen. The 8-day record (current day plus seven prior days) renders in the FMCSA-mandated format. The driver hands the device to the officer for review.</p><p>A PIN gate at entry prevents drivers from accidentally tripping inspection mode or exiting prematurely. The mode supports two data-transfer mechanisms per FMCSA specification: Telematics mode (HTTPS POST to FMCSA's eRODS web service with email fallback) or Local mode (USB 2.0 file transfer or Bluetooth direct to the inspector's device). The provider self-certifies one mode. Telematics is the modern default used by Motive, Samsara, and Omnitracs.</p><p>Failed transfers at roadside result in immediate Out-of-Service orders, which makes this the highest-stakes feature in the application. The ELD output file must be FMCSA-format ASCII with correct section ordering and CRC line check.</p>"
+      body: "<p>When a DOT officer pulls over a driver for inspection, the driver activates Inspection Mode from a single button on the application's home screen. The 8-day record (current day plus seven prior days) renders in the FMCSA-mandated format. The driver hands the device to the officer for review.</p><p>A PIN gate at entry prevents drivers from accidentally tripping inspection mode or exiting prematurely. The mode supports two data-transfer mechanisms per FMCSA specification: Telematics mode (HTTPS POST to FMCSA's eRODS web service with email fallback) or Local mode (USB 2.0 file transfer or Bluetooth direct to the inspector's device). The provider self-certifies one mode. Telematics is the modern default used by Motive, Samsara, and Omnitracs.</p><span data-rev=\"v2\"><p><b>8/28 revision.</b> Telematics is elected. The two families are mutually exclusive at certification, so the driver screen offers web services and email only, and no peer-to-peer path is built. The 8-day display also carries the &sect;4.5.1.1 detail fields on every event row: sequence number, elapsed engine hours, and accumulated vehicle miles. FMCSA's illustrative example in the regulation omits these three; Tenna's compliance advisor reports they are better received when present.</p></span><p>Failed transfers at roadside result in immediate Out-of-Service orders, which makes this the highest-stakes feature in the application. The ELD output file must be FMCSA-format ASCII with correct section ordering and CRC line check.</p>"
     },
     "log-edits": {
       cite: "49 CFR §395.30",
@@ -1625,7 +1765,7 @@
     "udr-driver": {
       cite: "49 CFR §395.32(d)",
       title: "Unidentified driving record review",
-      body: "<p>When a vehicle moves while no driver is logged in, the resulting driving events are tagged as Unidentified Driving Records (UDR). The application surfaces these records to drivers for resolution.</p><p>The driver application shows pending UDR events for the driver's vehicle. The driver can claim the record (acknowledging the events were theirs, which adds them to the log) or reject (returning the record to the carrier for further investigation).</p><p>Accumulated UDR exceeding 30 minutes in a 24-hour window across a vehicle triggers a diagnostic event. Failure to handle UDR correctly is a common revocation trigger.</p>"
+      body: "<p>When a vehicle moves while no driver is logged in, the resulting driving events are tagged as Unidentified Driving Records (UDR). The application surfaces these records to drivers for resolution.</p><p>The driver application shows pending UDR events for the driver's vehicle. The driver can claim the record (acknowledging the events were theirs, which adds them to the log) or reject (returning the record to the carrier for further investigation).</p><p>Accumulated UDR exceeding 30 minutes in a 24-hour window across a vehicle triggers a diagnostic event. Failure to handle UDR correctly is a common revocation trigger.</p><span data-rev=\"v2\"><p><b>8/28 revision.</b> The in-vehicle ELD carries only the last 8 days of <i>unaccepted</i> records, not the full history. The driver answers two questions: is this mine, and if not, what do you think it was. Rejection is the expected path rather than a failure state, because &sect;395.32(a) puts review and annotation on the motor carrier. Rejecting opens a short reason picker drawn from the ordinary causes: mechanic road test or maintenance, yard movement, yard relocation, OEM or warranty movement, another driver, or unknown. Bulk selection and day grouping are required, not nice-to-have: short-haul operations where drivers never sign in can generate dozens of sub-mile records a day. The carrier-side working queue is the new host unidentified-driving report.</p></span>"
     },
     "malfunction-display": {
       cite: "49 CFR §395.34",
@@ -1702,7 +1842,7 @@
     },
     "udr-assignment": {
       title: "Unidentified driving assignment",
-      body: "<p>A queue of UDR events that the carrier administrator works through. For each unassigned record, the admin can assign the events to a known driver (which sends a notification to that driver for confirmation), or leave the record open while investigating further.</p><p>This is the carrier-side resolution surface for unidentified driving, complementing the driver-side claim and reject flow in the mobile application.</p>"
+      body: "<p>A queue of UDR events that the carrier administrator works through. For each unassigned record, the admin can assign the events to a known driver (which sends a notification to that driver for confirmation), or leave the record open while investigating further.</p><p>This is the carrier-side resolution surface for unidentified driving, complementing the driver-side claim and reject flow in the mobile application.</p><span data-rev=\"v2\"><p><b>8/28 revision &middot; expanded into a full host report.</b> The August 17 compliance memo asks for this by name: a host-specific report with pop-ups offering the suggested reasons, because carriers need to work it two or three times a week or it gets ahead of them and becomes unmanageable. &sect;395.32(a) allows two dispositions and requires one of them: annotate the record explaining why the time is unassigned, or assign it to the correct driver. Both are first-class actions here, both are bulk-applicable, and both are stamped with an author and a timestamp because an annotation is itself a compliance record. Records are retained six months from date of receipt per ELD. The screen also surfaces its own review cadence, and shows movements already stamped through the non-HOS move flow as accounted for.</p></span>"
     },
     "malfunction-tracker": {
       cite: "49 CFR §395.34",
@@ -1761,7 +1901,22 @@
     "data-transfer": {
       cite: "49 CFR §395.22(h)",
       title: "Data transfer service",
-      body: "<p>The mechanism for delivering ELD output files to FMCSA's eRODS system at roadside inspections or during audits. Two specified modes: Telematics (HTTPS POST to FMCSA's web service endpoint with email fallback) or Local (USB 2.0 or Bluetooth direct to the inspector's device). The provider self-certifies one mode.</p><p>Telematics is the modern default used by Motive, Samsara, and Omnitracs. Email fallback handles areas with poor cellular coverage at roadside.</p>"
+      body: "<p>The mechanism for delivering ELD output files to FMCSA's eRODS system at roadside inspections or during audits. Two specified modes: Telematics (HTTPS POST to FMCSA's web service endpoint with email fallback) or Local (USB 2.0 or Bluetooth direct to the inspector's device). The provider self-certifies one mode.</p><p>Telematics is the modern default used by Motive, Samsara, and Omnitracs. Email fallback handles areas with poor cellular coverage at roadside.</p><span data-rev=\"v2\"><p><b>8/28 revision.</b> Telematics is elected, and the service now has two callers rather than one. The driver app calls it at roadside. The host calls it for pre-audit requests: FMCSA asks for eRODS transfers days before an on-site audit, for a named list of drivers over up to 30 days each, and the work papers specify that window. Where a request covers a longer period, six months for instance, the service splits it into 30-day increments and confirms each before sending the next. A single six-month transfer is not sent at all: it fails at FMCSA's end, and a failed transfer reads as a failure to produce records.</p></span>"
+    },
+    "non-hos-move": {
+      cite: "49 CFR \u00a7395.32(b) \u00b7 8/28 revision",
+      title: "Non-HOS move stamp (shop and yard)",
+      body: "<p>A short flow for the people who move vehicles without running an hours-of-service log: mechanics, yard operators, and, where a carrier allows it, vendors. The person signs in, picks a reason, optionally attaches a work order, and the movement is attributed to them at the moment it happens rather than reconciled as unidentified driving a week later.</p><p>The reasons come from Tenna's FMCSA compliance advisor as the ordinary operating causes of unidentified driving: mechanic road test and maintenance, yard movement, OEM warranty work movement, and yard relocation, which may be a yard a mile away. Carriers commonly try to cover these with a shared \"exempt driver\" account; the advisor notes that those accounts draw enforcement pushback because they are difficult to enforce. Attributing the move to a named person with a reason and a work order is the same coverage without the shared credential.</p><p>Open with the compliance advisor before build: movement by a non-driver still produces engine and motion records the ELD must account for, so whether a stamped non-HOS move is an annotated unidentified-driving record under \u00a7395.32(b)(2) or a separately classified event needs a definitive answer. It also widens the driver-account decision, since mechanics already exist as Tenna users through the Maintenance module while drivers may not.</p>"
+    },
+    "host-erods": {
+      cite: "49 CFR \u00a7395.22(h) \u00b7 8/28 revision",
+      title: "Host-initiated eRODS transfer",
+      body: "<p>FMCSA requests eRODS transfers for internal audit purposes days before it arrives on site, naming the drivers and the date ranges it wants. The work papers specify up to 30 days for an individual driver. That request cannot be served from the driver's phone at roadside, and it is not the same thing as a file export: it is a transfer to FMCSA's servers, initiated from the carrier's back office.</p><p>The screen takes a driver list and a date range, plans the transfer as 30-day increments, and sends them one at a time with a confirmed receipt before the next. Where a request covers a full six months, the advisor is explicit that the carrier should limit transfers to 30-day increments rather than sending six months at once, because FMCSA's servers would most likely fail on it. The cap is designed in as a constraint rather than a warning: a rejected bulk transfer reads as a failure to produce records.</p><p>Every attempt, its increment, and its receipt file into the same record as roadside transfers, so the carrier can show precisely what was produced and when.</p>"
+    },
+    "host-inspector": {
+      cite: "49 CFR \u00a7395 App. A \u00a74.5.1.1 \u00b7 8/28 revision",
+      title: "Host inspector view",
+      body: "<p>An officer's-eye rendering of a driver's logs, available from the back office for internal audit: select a driver and a time frame and read exactly what an inspector reads. Sequence numbers, elapsed engine hours, and accumulated vehicle miles appear on every event row as defined in \u00a74.5.1.1. FMCSA's illustrative example in the regulation omits those three fields; Tenna's compliance advisor reports that including them is better received in practice.</p><p>Offered by the advisor as a strong recommendation rather than a hard requirement, with a condition attached: if it is not built, the host eRODS transfer must be verified as functioning. The two are alternatives for the same need, which is knowing what the regulator will see before the regulator sees it.</p><p>It shares its renderer with the driver app's roadside inspection display, so the marginal build cost is small once that display carries the same three fields. Recommended for the build on that basis.</p>"
     },
     "malfunction-engine": {
       cite: "49 CFR §395.34",
@@ -1929,6 +2084,8 @@
   });
 </script>
 <script src="/glossary.js" defer></script>
+
+<script src="/revisions.js" defer></script>
 
 </body>
 </html>

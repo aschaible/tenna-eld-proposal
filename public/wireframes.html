@@ -404,6 +404,7 @@
       <a href="#web">Control Panel</a>
       <a href="#data">Data Elements</a>
       <a href="#flow">Flow Map</a>
+      <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
       <a href="/">← The Proposal</a>
       <a href="/decisions">Decision Log ↗</a>
       <a href="/ecosystem">Ecosystem ↗</a>
@@ -412,6 +413,85 @@
     </div>
   </div>
 </div>
+
+<section id="whats-changed" style="padding-top:34px; padding-bottom:8px;">
+  <div class="container">
+
+    <div data-rev="v1" class="rev-what" style="border-color:var(--line); background:var(--bg-alt);">
+      <span class="rev-what-h" style="color:var(--muted);">Original · as presented for the August 20 session</span>
+      <p>You are reading the original wireframes. A later revision dated 8/28/2026 folds in the August 17 FMCSA
+      compliance review of <i>host reporting</i>, which changes the unidentified-driving flow, the roadside transfer
+      screen, the inspection display, and adds three host reports. Switch versions with the control at the bottom
+      right of the page.</p>
+    </div>
+
+    <div data-rev="v2">
+      <div class="eyebrow">Revision 8/28/2026</div>
+      <h2 style="margin-bottom:6px;">What changed, and why.</h2>
+      <p class="lede" style="margin-bottom:18px;">
+        On August 17 Tenna's FMCSA compliance advisor reviewed the package specifically for host reporting and
+        sent back a memo. Four of its points change screens; two add them. Everything below is marked in place and outlined, so
+        the edits can be found without hunting. The control at the bottom right switches between the original
+        and this revision. Nothing was deleted from the original; it is still readable in full.
+      </p>
+
+      <div class="legend-grid">
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D22</span>
+          <p><b>Unidentified driving shrinks on the phone.</b> The memo asked why D22 looked like it was "trying to do
+          it all at the mobile." The in-cab device only has to carry the last 8 days of unaccepted records; review,
+          annotation, and assignment are the carrier's legal duty. D22 is now an 8-day claim/reject list with a
+          reason picker (<a href="#d28">D28</a>), and the real work moves to a new host report
+          (<a href="#w16">W16</a>).</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge">W16</span>
+          <p><b>New: the host unidentified-driving report.</b> The memo's central ask. A working queue with the
+          suggested-reason pop-ups, 6-month retention, and a review-cadence nudge, because a carrier that does not
+          work it two or three times a week loses control of it. This also closes the inventory gap the original
+          page flagged for Thursday.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D17</span>
+          <p><b>One transfer family, not both.</b> Per the memo's note on D17 of the specification: a device does
+          telematics transfer (web services or email) <i>or</i> peer-to-peer (Bluetooth / USB), never both. The
+          Bluetooth·USB option is gone from the driver screen and from the native-module scope.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D16</span>
+          <p><b>Three fields added to the inspection display.</b> Sequence number, elapsed engine hours, and
+          accumulated vehicle miles, per §4.5.1.1. FMCSA's own example omits them; the memo's experience is that
+          including them is better received. The same fields drive the new host inspector view
+          (<a href="#w18">W18</a>).</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge">D27</span>
+          <p><b>New: a non-HOS move stamp.</b> The memo lists the four ordinary causes of unidentified driving (mechanic road test, yard movement, OEM warranty movement,
+          yard relocation), and notes that carriers try to cover them with a shared "exempt driver" account that is hard to enforce. D27 lets a named mechanic or yard
+          hand stamp the move in two taps, so the record never becomes unidentified in the first place.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge">W17 · W18</span>
+          <p><b>New: host eRODS transfer and host inspector mode.</b> FMCSA now requests eRODS transfers days before
+          an on-site audit, for named drivers over up to 30 days. W17 does that from the back office and refuses to
+          push six months at once. W18 is the internal-audit log view the memo recommends.</p>
+        </div>
+      </div>
+
+      <div class="anatomy" style="margin-top:16px;">
+        <p><b>Also changed:</b> <a href="#d2">D2</a> keeps pairing sticky so short-haul drivers stop generating
+        unidentified records by never signing in; <a href="#d6">D6</a> drops the shared-exempt-driver assumption;
+        <a href="#d9">D9</a> settles at 8 days on the phone with longer history staying on the host;
+        <a href="#w13">W13</a> carries a new open question about whether the audit package is over-scoped;
+        <a href="#w15">W15</a> gains the reason taxonomy, the review-cadence reminder, and non-HOS move roles.
+        The <a href="#data">data element table</a> and the <a href="#flow">flow map</a> pick up the new surfaces.</p>
+        <p><b>Not changed, deliberately:</b> the five product decisions. Nothing in the memo settles P1–P5, and the
+        new host screens do not depend on them except where tagged.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <section id="decisions" class="alt" style="border-top:0;">
   <div class="container">
@@ -566,6 +646,13 @@
 
     <div class="anatomy">
       <p><b>Reading an entry:</b> the frame on the left is the wireframe, grayscale on purpose, so we argue about content and data, not color and polish. The panel on the right is what the screen <i>needs</i>: its purpose, its data elements with source tags, and the open questions it raises. Screen IDs (D4, W7…) match the Section 5 inventory in the proposal, so the meeting can reference any screen unambiguously.</p>
+      <p data-rev="v2"><b>"Host" means the back end, not a screen.</b> The memo's language is the regulation's:
+      an ELD is two halves. The in-vehicle ELD is the phone plus the tracker: it records events, holds a short working window (8 days of logs, 8 days of unaccepted unidentified driving), and shows the record at
+      roadside. The host is the motor carrier's back-end system: the server that holds the full 6-month
+      record, and the web surfaces over it. So every W screen on this page is a host surface, and "host reporting"
+      means reports the carrier runs against that server. When the memo says something belongs on the host rather
+      than the mobile, it is a statement about which system owns the data and the legal duty, not about which
+      screen is prettier.</p>
       <p><b>Sample data is grounded, not lorem ipsum:</b> the vehicle is the Phase 2 test truck (Ford F-150, VIN <span class="mono" style="font-size:12px;">1FTFW1R63EFA84339</span>, ~126,500 mi), the tracker is the real unit on it (<span class="mono" style="font-size:12px;">WQ-87X060680218</span>), and the HOS clocks are a plausible mid-shift afternoon: 11-hour drive limit, 14-hour window, 70-hour/8-day cycle.</p>
     </div>
   </div>
@@ -580,13 +667,15 @@
     </p>
     <div class="jump">
       <a href="#g-auth">Auth &amp; Setup <span class="r">D1–D3</span></a>
-      <a href="#g-hos">HOS Main Loop <span class="r">D4–D7</span></a>
+      <a href="#g-hos" data-rev="v1">HOS Main Loop <span class="r">D4–D7</span></a>
+      <a href="#g-hos" data-rev="v2">HOS Main Loop <span class="r">D4–D7 · D27</span></a>
       <a href="#g-logs">Daily Logs <span class="r">D8–D13</span></a>
       <a href="#g-dvir">DVIR Handoff <span class="r">D14</span></a>
       <a href="#g-inspect">Roadside Inspection <span class="r">D15–D17</span></a>
       <a href="#g-malf">Malfunction &amp; Diagnostic <span class="r">D18–D19</span></a>
       <a href="#g-carrier">Carrier-Initiated <span class="r">D20–D21</span></a>
-      <a href="#g-ud">Unidentified Driving <span class="r">D22</span></a>
+      <a href="#g-ud" data-rev="v1">Unidentified Driving <span class="r">D22</span></a>
+      <a href="#g-ud" data-rev="v2">Unidentified Driving <span class="r">D22 · D28</span></a>
       <a href="#g-profile">Profile &amp; Settings <span class="r">D23–D26</span></a>
     </div>
 
@@ -649,6 +738,7 @@
               <div class="ph-note">Tracker serials resolve to unit names from Tenna asset records. Wrong truck at the top? Pull the list down to rescan.</div>
               <div class="ph-btn primary">Pair with Unit 218</div>
               <div class="ph-btn ghost">I don't see my vehicle</div>
+              <div data-rev="v2" class="ph-toggle" style="margin-top:2px;"><span>Stay paired to this truck<small style="display:block; font-weight:600; font-size:8px; color:var(--wf-mid);">reconnects on its own each morning</small></span><span class="sw on"></span></div>
             </div>
           </div></div>
         </div>
@@ -668,6 +758,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#q7">Q7</a> Which identifier is the stable production key for the serial → asset lookup: the serial or the BLE address? (Phase 2 found the address characteristic arrives byte-reversed; a naïve read matches nothing.)</li>
+              <li data-rev="v2"><b>New 8/28 ·</b> The memo names short-haul operations with no ELD login as a top source of excessive unidentified driving. Pairing friction is a compliance problem, not a UX preference: a remembered vehicle with silent reconnect is the cheapest lever on the <a href="#w16">W16</a> backlog. What is the correct default for a driver who legitimately changes trucks mid-day?</li>
               <li><a class="qref" href="/decisions#q5">Q5</a> The BLE protocol has no authentication; "pairing" here is an app-level concept, not a security boundary. Any phone in range can connect to the tracker.</li>
             </ul>
           </div>
@@ -715,7 +806,7 @@
 
     <!-- ============ HOS MAIN LOOP ============ -->
     <div class="wf-group" id="g-hos">
-      <div class="wf-group-head"><h3>HOS Main Loop</h3><span class="range">D4 – D7</span></div>
+      <div class="wf-group-head"><h3>HOS Main Loop</h3><span class="range" data-rev="v1">D4 – D7</span><span class="range" data-rev="v2">D4 – D7 · D27</span></div>
       <p class="wf-group-note">The screens a driver lives in all day. D4 is the hub; D5–D7 are the status-change path, drawn as sheets over it. The sample moment throughout: 2:41 PM, mid-shift, driving since noon.</p>
 
       <div class="wf-item" id="d4">
@@ -846,6 +937,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li>Tenna already knows its customers' yards and sites. Can the yard-move geofence come from Tenna site data over the API, or does the ELD maintain its own fences (W15)?</li>
+              <li data-rev="v2"><b>New 8/28 ·</b> The memo notes carriers try to cover mechanic road tests and yard shuffling with a shared "exempt driver" login, and that enforcement pushback on those accounts is common. Yard Move here only helps a driver who is already signed in; the movements that actually generate unidentified driving are made by people who never sign in at all. That is what <a href="#d27">D27</a> addresses. Does Tenna want the shared-exempt pattern supported at all, or explicitly designed out?</li>
             </ul>
           </div>
         </div>
@@ -882,6 +974,57 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li>Should carriers be able to define quick-pick annotation presets ("Fueling", "Jobsite arrival") in W15, or is free text always required?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-item" id="d27" data-rev="v2">
+        <div class="wf-frame-col">
+          <div class="wf-phone"><div class="wf-screen">
+            <div class="ph-status"><span>7:04 AM</span><span>▪▪▪ 5G · 91%</span></div>
+            <div class="ph-appbar"><span class="t">Move this vehicle</span><span class="r">non-HOS<br/>shop &amp; yard</span></div>
+            <div class="ph-body">
+              <div class="ph-banner">You are signed in as R. Duarte · Mechanic. This stamps the movement to you so it never lands in unidentified driving. It does not open a driver log or start an HOS clock.</div>
+              <div class="ph-label">Reason for the move</div>
+              <div class="ph-li"><span class="a">Mechanic road test<small>post-repair verification drive</small></span><span class="b">&#9673;</span></div>
+              <div class="ph-li"><span class="a">Yard movement<small>repositioning inside the yard</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">Yard relocation<small>moving to another yard nearby</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">OEM / warranty movement<small>vendor or dealer moving the unit</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-label">Note &middot; optional</div>
+              <div class="ph-field filled">Brake job 44821 &middot; road test</div>
+              <div class="ph-btn primary">Start non-HOS move</div>
+              <div class="ph-note">Ends automatically when the engine is off for 10 minutes. Every move is stamped with your name, the work order, odometer, and position, and appears on the carrier's unidentified-driving report as already accounted for.</div>
+            </div>
+          </div></div>
+        </div>
+        <div class="wf-annot">
+          <div class="wf-head"><span class="wf-id">D27</span><h4 class="wf-name">Non-HOS Move &middot; shop &amp; yard</h4><span class="rev-badge">new 8/28</span></div>
+          <p class="wf-purpose">A two-tap stamp for the four movements the memo names as ordinary causes of unidentified driving: mechanic road test, yard movement, yard relocation, and OEM/warranty movement. Used by mechanics and yard hands who are not running an HOS log, so the driving is attributed at the moment it happens instead of being reconciled a week later.</p>
+          <div class="rev-what">
+            <span class="rev-what-h">Why this screen exists &middot; 8/28</span>
+            <p>The memo lists the normal operating reasons unidentified driving occurs, then observes that the usual
+            workaround, a shared "exempt driver" account, draws enforcement pushback because it is
+            difficult to enforce. The cheapest fix is upstream: make it trivial for the actual person moving the
+            vehicle to say who they are and why. Every move stamped here is a record that never reaches
+            <a href="#w16">W16</a>.</p>
+          </div>
+          <div>
+            <span class="wf-label">Data elements</span>
+            <ul class="wf-elems">
+              <li><span>Non-HOS move event (person, reason, note)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Reason taxonomy (carrier-configurable, W15)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Non-driver personnel &amp; role (mechanic, yard)</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-gated">Gated &middot; P1</span></span></li>
+              <li><span>Work order reference</span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
+              <li><span>Odometer, position, engine state at stamp</span><span class="tags"><span class="tag t-ble">Tracker &middot; BLE</span></span></li>
+            </ul>
+          </div>
+          <div class="wf-qs">
+            <span class="wf-label">Open questions</span>
+            <ul>
+              <li><b>Compliance &middot;</b> Movement by a non-driver still produces engine and motion records the ELD must account for. Is a stamped non-HOS move an annotated unidentified-driving record under &sect;395.32(b)(2), or a separately classified event? This is a question for Tenna's FMCSA advisor before the screen is final.</li>
+              <li><b>P1 &middot;</b> Mechanics are already Tenna users through the Maintenance module; drivers may or may not be. If the ELD needs to authenticate a mechanic, that widens the P1 decision beyond drivers.</li>
+              <li>Tenna's Maintenance module owns work orders. Pulling the work-order number in makes the stamp self-documenting for an auditor. Is that API read in scope?</li>
             </ul>
           </div>
         </div>
@@ -980,7 +1123,8 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li>Drivers see 8 days here; the carrier keeps 6 months (W3). Should the driver be able to browse beyond 8 days read-only, or is that web-only?</li>
+              <li data-rev="v1">Drivers see 8 days here; the carrier keeps 6 months (W3). Should the driver be able to browse beyond 8 days read-only, or is that web-only?</li>
+              <li data-rev="v2"><b>Settled 8/28 · 8 days on the phone.</b> The August 17 memo draws the line the regulation draws: the in-vehicle device carries the working window, the host carries the 6-month record. Longer history stays web-only (<a href="#w3">W3</a>), and no deeper browse gets built into the app.</li>
             </ul>
           </div>
         </div>
@@ -1264,8 +1408,10 @@
                 Co-drv&nbsp;&nbsp;&nbsp;WHITFIELD, JAMES<br/>
                 Carrier&nbsp;&nbsp;BLUE ASH CONSTRUCTION · USDOT 3172584<br/>
                 Truck&nbsp;&nbsp;&nbsp;&nbsp;UNIT 218 · VIN 1FTFW1R63EFA84339<br/>
-                ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · odo 126,502.5 · eng-hrs –<br/>
-                Unident.&nbsp;2 unassigned driving records
+                <span data-revi="v1">ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · odo 126,502.5 · eng-hrs –<br/>
+                Unident.&nbsp;2 unassigned driving records</span><span data-revi="v2">ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · reg. TENNA01<br/>
+                Odo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;126,502.5 mi · eng 4,187.6 h <i style="font-style:normal; color:#9AA1AD;">last valid 2:35 PM</i><br/>
+                Unident.&nbsp;2 unaccepted records · last 8 days</span>
               </div>
               <svg class="ph-grid-svg" viewBox="0 0 272 96" role="img" aria-label="officer duty grid">
                 <g stroke="#E9EBEF" stroke-width="1">
@@ -1278,18 +1424,38 @@
                 </g>
                 <path d="M24,18 H79 V72 H84 V54 H136.5 V18 H144 V54 H189 V72 H196.5 V18 H264" fill="none" stroke="#2A303B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
               </svg>
-              <div class="ph-note">Full event list follows; officer scrolls. FMCSA-required display format, all 8 days.</div>
+              <div data-rev="v2" class="ph-card" style="font-family:'JetBrains Mono',monospace; font-size:7.5px; line-height:1.7; padding:8px 9px;">
+                <span style="color:#9AA1AD; font-weight:700;">SEQ&nbsp; TIME&nbsp;&nbsp;&nbsp; ST&nbsp; ENG-HRS&nbsp;&nbsp; VEH-MI&nbsp;&nbsp;&nbsp; ORIGIN</span><br/>
+                0141&nbsp; 06:00:12&nbsp; D&nbsp;&nbsp; 4,179.2&nbsp; 126,441.8&nbsp; auto<br/>
+                0142&nbsp; 11:15:40&nbsp; OFF&nbsp; 4,183.9&nbsp; 126,478.3&nbsp; driver<br/>
+                0143&nbsp; 12:00:03&nbsp; D&nbsp;&nbsp; 4,183.9&nbsp; 126,478.3&nbsp; auto<br/>
+                0144&nbsp; 14:41:55&nbsp; ON&nbsp;&nbsp; 4,187.6&nbsp; 126,502.5&nbsp; driver
+              </div>
+              <div data-rev="v1" class="ph-note">Full event list follows; officer scrolls. FMCSA-required display format, all 8 days.</div>
+              <div data-rev="v2" class="ph-note">Sequence number, elapsed engine hours, and accumulated vehicle miles on every row per §4.5.1.1. Full list follows; officer scrolls. All 8 days.</div>
               <div class="ph-btn primary">Transfer to officer →</div>
             </div>
           </div></div>
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D16</span><h4 class="wf-name">Inspection Display</h4></div>
-          <p class="wf-purpose">The full 8-day record in the FMCSA-required display format: header block, daily grid, and complete event list per day. Read-only, day-tabbed, formatted for an officer who reads dozens of these a week.</p>
+          <p class="wf-purpose" data-rev="v1">The full 8-day record in the FMCSA-required display format: header block, daily grid, and complete event list per day. Read-only, day-tabbed, formatted for an officer who reads dozens of these a week.</p>
+          <p class="wf-purpose" data-rev="v2">The full 8-day record in the FMCSA-required display format: header block, daily grid, and complete event list per day, each row carrying its sequence number, elapsed engine hours, and accumulated vehicle miles. Read-only, day-tabbed, formatted for an officer who reads dozens of these a week.</p>
+          <div class="rev-what" data-rev="v2">
+            <span class="rev-what-h">Changed 8/28 · three fields added</span>
+            <p>The memo's recommendation, taken directly: show sequence numbers, elapsed engine hours, and accumulated
+            vehicle miles as defined in §4.5.1.1. FMCSA's own illustrative example in the regulation leaves them out,
+            and the advisor's field experience is that officers and auditors receive the record better when they are
+            present. The header also stops showing an empty engine-hours field: it now carries the last valid reading
+            and says so, which is the answer to Q3 on this screen.</p>
+          </div>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>8-day event record in display format</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev="v2"><span>Event sequence number (§4.5.1.1)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev="v2"><span>Elapsed engine hours per event</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev="v2"><span>Accumulated vehicle miles per event</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>ELD identifier &amp; registration ID</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Carrier, driver, CDL header fields</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-gated">Gated · P1</span></span></li>
               <li><span>VIN, odometer, engine hours</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span></span></li>
@@ -1300,6 +1466,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#q3">Q3</a> With the ignition off (the normal state during an inspection), the tracker reports <span class="mono" style="font-size:11px;">0</span> for odometer and an empty VIN. The display must carry last-valid values and mark them as such; a plausible zero on this screen is worse than a blank.</li>
+              <li data-rev="v2"><b>New 8/28 ·</b> Elapsed engine hours and accumulated vehicle miles must be stamped <i>per event</i> at the moment it is recorded, not read live at display time. That makes <a class="qref" href="/decisions#q2">Q2</a> (the tracker's engine-hour counter runs from a device-local baseline, not the ECM lifetime total) a certification issue rather than a cosmetic one: the number printed on this row is the number an auditor checks.</li>
             </ul>
           </div>
         </div>
@@ -1311,9 +1478,12 @@
             <div class="ph-status"><span>2:41 PM</span><span>▪▪▪ 5G · 84%</span></div>
             <div class="ph-appbar"><span class="t">Transfer record</span><span class="r">eRODS</span></div>
             <div class="ph-body">
-              <div class="ph-li"><span class="a">Wireless web services<small>FMCSA eRODS · recommended</small></span><span class="b">◉ selected</span></div>
-              <div class="ph-li"><span class="a">Email<small>FMCSA transfer address</small></span><span class="b">○</span></div>
-              <div class="ph-li"><span class="a">Bluetooth · USB<small>local fallback</small></span><span class="b">○</span></div>
+              <div data-rev="v1" class="ph-li"><span class="a">Wireless web services<small>FMCSA eRODS · recommended</small></span><span class="b">◉ selected</span></div>
+              <div data-rev="v1" class="ph-li"><span class="a">Email<small>FMCSA transfer address</small></span><span class="b">○</span></div>
+              <div data-rev="v1" class="ph-li"><span class="a">Bluetooth · USB<small>local fallback</small></span><span class="b">○</span></div>
+              <div data-rev="v2" class="ph-banner" style="border-style:solid;"><b>Telematics ELD</b> · this device is certified for web-service and email transfer. Peer-to-peer transfer is not offered.</div>
+              <div data-rev="v2" class="ph-li"><span class="a">Wireless web services<small>FMCSA eRODS endpoint</small></span><span class="b">◉ selected</span></div>
+              <div data-rev="v2" class="ph-li"><span class="a">Email<small>FMCSA transfer address · use if no signal</small></span><span class="b">○</span></div>
               <div class="ph-label">Output file comment · officer code</div>
               <div class="ph-field filled">OH-3471</div>
               <div class="ph-btn primary">Send to FMCSA</div>
@@ -1323,7 +1493,19 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D17</span><h4 class="wf-name">Transfer to Officer</h4></div>
-          <p class="wf-purpose">Initiates the eRODS web-service transfer (or the local fallback), with the officer's code in the output file comment, and shows an unambiguous success or failure. Every attempt, including failures, is recorded and surfaces in W14.</p>
+          <p class="wf-purpose" data-rev="v1">Initiates the eRODS web-service transfer (or the local fallback), with the officer's code in the output file comment, and shows an unambiguous success or failure. Every attempt, including failures, is recorded and surfaces in W14.</p>
+          <p class="wf-purpose" data-rev="v2">Initiates the eRODS transfer, web service first and email if there is no signal, with the officer's code in the output file comment, and shows an unambiguous success or failure. Every attempt, including failures, is recorded and surfaces in W14.</p>
+          <div class="rev-what" data-rev="v2">
+            <span class="rev-what-h">Changed 8/28 · the Bluetooth · USB option is gone</span>
+            <p>From the memo, on specification item D17: <i>"You either do a telematics transfer (web or email) or you
+            do a peer-to-peer transfer (Bluetooth or USB thumb drive), not both."</i> The original screen offered all
+            three, which spans both families and is not a shape a device gets certified in. This revision elects
+            Telematics, the mode Samsara, Motive, and Omnitracs all use, and states it on the screen so an
+            officer who asks for a thumb drive gets a clear answer instead of a failed attempt.</p>
+            <p>Downstream: the USB / Bluetooth-to-inspector native module drops out of the mobile scope
+            (see the <a href="/#mobile-stack">stack section of the proposal</a>), and the election becomes a
+            certification-time commitment rather than a runtime choice.</p>
+          </div>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1336,6 +1518,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Should a roadside inspection ping the fleet manager in real time inside Tenna, or is the W14 record after the fact enough?</li>
+              <li data-rev="v2"><b>New 8/28 ·</b> Electing Telematics is a self-certification declaration, so it needs Tenna's formal sign-off before Phase 3, not after. Confirm with the FMCSA advisor that email fallback alone is an acceptable answer at a roadside with no cellular coverage, since the alternative in that scenario used to be the thumb drive.</li>
             </ul>
           </div>
         </div>
@@ -1516,15 +1699,16 @@
 
     <!-- ============ UNIDENTIFIED DRIVING ============ -->
     <div class="wf-group" id="g-ud">
-      <div class="wf-group-head"><h3>Unidentified Driving</h3><span class="range">D22</span></div>
-      <p class="wf-group-note">The tracker records driving even when no phone is connected, then hands those records over on reconnect. Phase 2 measured exactly how, and raised more questions than any other flow.</p>
+      <div class="wf-group-head"><h3>Unidentified Driving</h3><span class="range" data-rev="v1">D22</span><span class="range" data-rev="v2">D22 · D28 &nbsp;·&nbsp; host: W16</span></div>
+      <p class="wf-group-note" data-rev="v1">The tracker records driving even when no phone is connected, then hands those records over on reconnect. Phase 2 measured exactly how, and raised more questions than any other flow.</p>
+      <p class="wf-group-note" data-rev="v2">The tracker records driving even when no phone is connected, then hands those records over on reconnect. Phase 2 measured exactly how, and raised more questions than any other flow. <b>Rescoped 8/28:</b> the phone now carries only the last 8 days of unaccepted records and asks two questions: is this yours, and if not, what was it. Review, annotation, and assignment are the carrier's duty under §395.32(b), and they live on the host in <a href="#w16">W16</a>.</p>
 
       <div class="wf-item" id="d22">
         <div class="wf-frame-col">
           <div class="wf-phone"><div class="wf-screen">
             <div class="ph-status"><span>2:41 PM</span><span>▪▪▪ 5G · 84%</span></div>
-            <div class="ph-appbar"><span class="t">Unidentified driving</span><span class="r">2 to review</span></div>
-            <div class="ph-body">
+            <div data-rev="v1" class="ph-appbar"><span class="t">Unidentified driving</span><span class="r">2 to review</span></div>
+            <div data-rev="v1" class="ph-body">
               <div class="ph-banner">Retrieved from Unit 218's tracker on reconnect · Aug 20, 12:04 PM. These trips were driven with no one signed in.</div>
               <div class="ph-card"><div class="h">Tue Aug 18 · 7:02 → 7:31 PM</div>
                 <div class="ph-note">12.4 mi · Blue Ash → Loveland, OH<br/>odo 126,462.1 → 126,474.5</div>
@@ -1542,17 +1726,58 @@
               </div>
               <div class="ph-note">Claiming adds the driving time to your log. Rejected records go to your carrier for assignment.</div>
             </div>
+            <div data-rev="v2" class="ph-appbar"><span class="t">Unidentified driving</span><span class="r">last 8 days<br/>11 unaccepted</span></div>
+            <div data-rev="v2" class="ph-body" style="gap:8px;">
+              <div class="ph-banner">From Unit 218's tracker · last 8 days of unaccepted records only. Anything older, and anything you say is not yours, is handled by your carrier.</div>
+              <div class="ph-row2">
+                <div class="ph-btn" style="padding:6px;">Select all</div>
+                <div class="ph-btn ghost" style="padding:6px;">None of these are mine</div>
+              </div>
+              <div class="ph-label">Wed Aug 19 · 3 records</div>
+              <div class="ph-card"><div class="h">6:12 → 6:20 AM &nbsp;·&nbsp; 2.1 mi</div>
+                <div class="ph-note">Blue Ash yard · odo 126,474.5 → 126,476.6</div>
+                <div class="ph-row2" style="margin-top:7px;">
+                  <div class="ph-btn" style="padding:6px;">This was me</div>
+                  <div class="ph-btn ghost" style="padding:6px;">Not mine →</div>
+                </div>
+              </div>
+              <div class="ph-li"><span class="a">6:41 → 6:44 AM · 0.4 mi<small>Blue Ash yard</small></span><span class="b">☐</span></div>
+              <div class="ph-li"><span class="a">7:58 → 8:02 AM · 0.6 mi<small>Blue Ash yard</small></span><span class="b">☐</span></div>
+              <div class="ph-label">Tue Aug 18 · 8 records</div>
+              <div class="ph-li"><span class="a">7:02 → 7:31 PM · 12.4 mi<small>Blue Ash → Loveland, OH</small></span><span class="b">☐</span></div>
+              <div class="ph-li"><span class="a">+ 7 more, all under 1 mi<small>Blue Ash yard · 6:04 – 6:52 AM</small></span><span class="b">expand</span></div>
+              <div class="ph-note">Claiming adds the driving time to your log. Saying a record is not yours asks you one quick question about why, then sends it to your carrier. You are not responsible for clearing this list.</div>
+            </div>
           </div></div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">D22</span><h4 class="wf-name">UD Records · claim or reject</h4></div>
-          <p class="wf-purpose">Driving events with no logged-in driver, drained from the tracker's store-and-forward queue on reconnect. The driver claims what's theirs; rejections route to the carrier. A required workflow; unassigned driving is a top audit finding.</p>
+          <div class="wf-head"><span class="wf-id">D22</span><h4 class="wf-name">UD Records · claim or reject</h4><span class="rev-badge rev-changed" data-rev="v2">rescoped 8/28</span></div>
+          <p class="wf-purpose" data-rev="v1">Driving events with no logged-in driver, drained from the tracker's store-and-forward queue on reconnect. The driver claims what's theirs; rejections route to the carrier. A required workflow; unassigned driving is a top audit finding.</p>
+          <p class="wf-purpose" data-rev="v2">The last 8 days of <i>unaccepted</i> driving events with no logged-in driver, grouped by day, with bulk actions for the high-volume case. The driver answers two questions and nothing more: is this mine, and if not, what was it. Review, annotation, assignment, and the 6-month record are the carrier's duty on the host (<a href="#w16">W16</a>).</p>
+          <div class="rev-what" data-rev="v2">
+            <span class="rev-what-h">Changed 8/28 · four changes</span>
+            <ul>
+              <li><b>Scoped to 8 days of unaccepted records.</b> The memo: <i>"The ELD in the vehicle is only to have
+              the last 8 days of unaccepted UDS events. D22 seems to look like trying to do it all at the
+              mobile?"</i> It did. The in-cab window is now explicit on the screen and in the data contract.</li>
+              <li><b>Rejection is the cheap path, not the exception.</b> §395.32(a) puts review and annotation on the
+              motor carrier. The driver's job is attribution, so "not mine" no longer reads as a failure to resolve
+              something.</li>
+              <li><b>A reason comes with the rejection.</b> <a href="#d28">D28</a>, using the memo's own list of
+              ordinary causes. The driver's guess is the most useful single input to the host review.</li>
+              <li><b>Bulk actions and day grouping.</b> The memo flags short-haul operations with no ELD login as
+              generating excessive volume. Dozens of one-mile yard shuffles cannot be worked as individual cards.</li>
+            </ul>
+            <p>The 8-day cap also takes most of the pressure off Q4: a smaller queue is a shorter drain.</p>
+          </div>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Stored UDRV events (time, odo, position)</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span></span></li>
               <li><span>Claim / reject decision</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Drain state &amp; backlog depth</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span></span></li>
+              <li data-rev="v2"><span>Accepted / unaccepted state<small style="display:block; font-weight:400; color:var(--muted); font-size:11.5px;">what bounds the 8-day in-cab window</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev="v2"><span>Driver-suggested reason (from D28)</span><span class="tags"><span class="tag t-eld">ELD-owned</span><span class="tag t-push">→ Tenna</span></span></li>
             </ul>
           </div>
           <div class="wf-qs">
@@ -1561,7 +1786,66 @@
               <li><a class="qref" href="/decisions#q4">Q4</a> The tracker drains one stored event per 4–11 s and redelivers the whole backlog on every reconnect (46 events took minutes in the field). Capacity, retention, and a bulk-transfer mode are all open with Geometris.</li>
               <li><a class="qref" href="/decisions#q9">Q9</a> Two phones on one tracker: can both drain the queue? Can one purge it out from under the other?</li>
               <li><a class="qref" href="/decisions#q5">Q5</a> The purge command is destructive, unacknowledged, and currently unauthenticated.</li>
-              <li><b>Inventory gap for Thursday:</b> rejected records need a carrier surface to reassign them, but no W screen owns unidentified driving. Fold into W3, or add one?</li>
+              <li data-rev="v1"><b>Inventory gap for Thursday:</b> rejected records need a carrier surface to reassign them, but no W screen owns unidentified driving. Fold into W3, or add one?</li>
+              <li data-rev="v2"><b>Inventory gap · closed 8/28.</b> The original page flagged that no W screen owned unidentified driving. The August 17 memo answers it: add one. That is <a href="#w16">W16</a>, and it is the host report the memo asks for by name.</li>
+              <li data-rev="v2"><b>New 8/28 ·</b> "Unaccepted" needs a precise definition before build. A record the driver rejected is resolved from the phone's point of view but unresolved from the carrier's. Proposal: it leaves the in-cab 8-day list once the driver has answered it, and stays open on <a href="#w16">W16</a> until the carrier annotates or assigns it. Confirm with the FMCSA advisor.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-item" id="d28" data-rev="v2">
+        <div class="wf-frame-col">
+          <div class="wf-phone"><div class="wf-screen">
+            <div class="ph-status"><span>12:06 PM</span><span>&#9642;&#9642;&#9642; 5G &middot; 84%</span></div>
+            <div class="ph-sheet-scrim"></div>
+            <div class="ph-sheet">
+              <div class="ph-grip"></div>
+              <div class="ph-label">Not yours &middot; what do you think it was?</div>
+              <div class="ph-note" style="margin-top:-3px;">Wed Aug 19 &middot; 6:12 &rarr; 6:20 AM &middot; 2.1 mi &middot; Blue Ash yard</div>
+              <div class="ph-li"><span class="a">Mechanic road test<small>shop had the truck that morning</small></span><span class="b">&#9673;</span></div>
+              <div class="ph-li"><span class="a">Yard movement<small>someone repositioned it in the yard</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">Yard relocation<small>moved to another yard</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">OEM / warranty movement<small>vendor or dealer had it</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">Another driver<small>I know who, I'll say below</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">I don't know<small>never seen this trip</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-field">Anything else your carrier should know? &middot; optional</div>
+              <div class="ph-btn primary">Send to carrier</div>
+              <div class="ph-note">Your answer is a suggestion, not a determination. Your carrier reviews and annotates every record either way.</div>
+            </div>
+          </div></div>
+        </div>
+        <div class="wf-annot">
+          <div class="wf-head"><span class="wf-id">D28</span><h4 class="wf-name">UD Reason Sheet</h4><span class="rev-badge">new 8/28</span></div>
+          <p class="wf-purpose">The pop-up the memo asks for, on the driver side: when a driver says a record is not theirs, one tap of context before it leaves for the host. The same reason list appears on <a href="#w16">W16</a>, so the driver's guess and the carrier's annotation speak the same vocabulary.</p>
+          <div class="rev-what">
+            <span class="rev-what-h">Why this screen exists &middot; 8/28</span>
+            <p>From the memo: <i>"There needs to be a host specific report that would have pop ups with the reasons
+            suggested for ease of identification of the UDS."</i> The reasons it lists, mechanic road test and maintenance, yard movement, OEM warranty
+            work movement, and yard relocation, are the taxonomy, and they
+            are worth capturing at both ends. A driver who says "the shop had it Tuesday morning" turns a five-minute
+            investigation into a five-second annotation.</p>
+            <p>Deliberately worded as a suggestion. The determination is the carrier's under &sect;395.32(a), and a
+            driver-side pick list must not read as one.</p>
+          </div>
+          <div>
+            <span class="wf-label">Data elements</span>
+            <ul class="wf-elems">
+              <li><span>Reason taxonomy (shared with W16, D27)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Driver suggestion + free-text note</span><span class="tags"><span class="tag t-eld">ELD-owned</span><span class="tag t-push">&rarr; Tenna</span></span></li>
+              <li><span>Named-driver referral, where offered</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-gated">Gated &middot; P1</span></span></li>
+            </ul>
+          </div>
+          <div class="wf-qs">
+            <span class="wf-label">Open questions</span>
+            <ul>
+              <li>Is the reason mandatory or skippable? Mandatory produces better host data; skippable keeps a
+              20-record bulk rejection from becoming 20 sheets. Proposal: mandatory for a single record, one reason
+              applied to the whole set for a bulk rejection.</li>
+              <li>Should "another driver" let the driver name a colleague from the roster? It is the single most useful
+              answer for the host, and it is also an accusation captured in a compliance record. Carrier policy switch
+              in <a href="#w15">W15</a>, defaulted off.</li>
+              <li>Is the taxonomy carrier-editable, or fixed so reporting stays comparable across the customer base?</li>
             </ul>
           </div>
         </div>
@@ -1718,14 +2002,24 @@
 </section>
 <section id="web">
   <div class="container">
-    <div class="eyebrow">Web Control Panel · W1–W15</div>
-    <h2>Fifteen screens inside the Tenna portal.</h2>
+    <div class="eyebrow" data-rev="v1">Web Control Panel · W1–W15</div>
+    <div class="eyebrow" data-rev="v2">Host Control Panel · W1–W18</div>
+    <h2 data-rev="v1">Fifteen screens inside the Tenna portal.</h2>
+    <h2 data-rev="v2">Eighteen screens inside the Tenna portal.</h2>
+    <p class="lede" data-rev="v2" style="margin-bottom:18px;">
+      Everything in this section is the host: in the regulation's language, the motor carrier's back-end system
+      and the surfaces over it, as distinct from the in-vehicle ELD (the phone plus the tracker). The host holds the
+      full 6-month record; the in-vehicle ELD holds an 8-day working window. That division is what the August 17 memo
+      is about, and it is why three screens were added here and one was cut back on the phone.
+    </p>
     <div class="jump">
       <a href="#g-wdash">Dashboard <span class="r">W1–W2</span></a>
       <a href="#g-wlogs">Logs <span class="r">W3–W7</span></a>
+      <a href="#g-wud" data-rev="v2">Unidentified Driving <span class="r">W16</span></a>
       <a href="#g-wviol">Violations &amp; Compliance <span class="r">W8–W10</span></a>
       <a href="#g-wveh">Vehicles <span class="r">W11–W12</span></a>
-      <a href="#g-wrep">Reports <span class="r">W13–W14</span></a>
+      <a href="#g-wrep" data-rev="v1">Reports <span class="r">W13–W14</span></a>
+      <a href="#g-wrep" data-rev="v2">Reports &amp; Audit <span class="r">W13–W14 · W17–W18</span></a>
       <a href="#g-wset">Settings <span class="r">W15</span></a>
     </div>
 
@@ -2153,6 +2447,121 @@
         </div>
       </div>
     </div>
+    <!-- ============ HOST · UNIDENTIFIED DRIVING (new 8/28) ============ -->
+    <div class="wf-group" id="g-wud" data-rev="v2">
+      <div class="wf-group-head"><h3>Unidentified Driving &middot; host report</h3><span class="range">W16 &nbsp;<span class="rev-badge">new 8/28</span></span></div>
+      <p class="wf-group-note">The central ask of the August 17 memo, and the answer to the inventory gap the original page flagged. &sect;395.32 makes reviewing unidentified driving the motor carrier's duty: annotate it with a reason, or assign it to the right driver, and keep the records six months. This is the surface where that work actually happens.</p>
+
+      <div class="wf-item web" id="w16">
+        <div class="wf-frame-col">
+          <div class="wf-web">
+            <div class="wb-chrome"><div class="wb-dots"><i></i><i></i><i></i></div><div class="wb-url">app.tenna.com/eld/unidentified</div></div>
+            <div class="wb-portal-top"><div class="plogo"></div><div class="pnav"><span>Assets</span><span>Maintenance</span><span class="on">ELD</span><span>Reports</span></div><div class="avatar"></div></div>
+            <div class="wb-shell">
+              <div class="wb-side">
+                <div class="cap">Tenna</div>
+                <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
+                <div class="cap">ELD</div>
+                <div class="real">Dashboard</div>
+                <div class="real">Logs</div>
+                <div class="real on">Unidentified</div>
+                <div class="real">Violations</div>
+                <div class="real">Vehicles</div>
+                <div class="real">Reports</div>
+                <div class="real">Settings</div>
+              </div>
+              <div class="wb-stage">
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
+                  <div class="wb-h">Unidentified driving <span class="sub">last reviewed 3 days ago &middot; review 2&ndash;3&times; a week</span></div>
+                  <div class="wb-box" style="border-color:#C9CED8; background:#F4F5F7; margin-bottom:9px;">
+                    <div class="h">&#9888; 3 days since last review &middot; 46 records have accumulated</div>
+                    <span style="font-size:8px;">Two of your vehicles are past the &sect;395.34(b) 30-minute-in-24-hour diagnostic threshold. Records older than 6 months from receipt drop off automatically.</span>
+                  </div>
+                  <div class="wb-kpis">
+                    <div class="wb-kpi"><div class="v">46</div><div class="l">Open records</div></div>
+                    <div class="wb-kpi"><div class="v">31</div><div class="l">Driver-suggested</div></div>
+                    <div class="wb-kpi"><div class="v">2</div><div class="l">Over diagnostic</div></div>
+                    <div class="wb-kpi"><div class="v">6 mo</div><div class="l">Retention</div></div>
+                  </div>
+                  <div class="wb-filter">
+                    <span class="wb-fld">Vehicle: all &#9662;</span>
+                    <span class="wb-fld">Aug 13 &ndash; Aug 20 &#9662;</span>
+                    <span class="wb-fld">Suggestion: any &#9662;</span>
+                    <span class="wb-fld">Group: by vehicle + day &#9662;</span>
+                    <span class="wb-btn">Annotate 8 selected</span>
+                    <span class="wb-btn primary">Assign to driver</span>
+                  </div>
+                  <table class="wb-table">
+                    <thead><tr><th>&#9744;</th><th>When</th><th>Vehicle</th><th>Dist</th><th>Driver said</th><th>Status</th></tr></thead>
+                    <tbody>
+                      <tr><td>&#9745;</td><td>Aug 19 &middot; 6:12a</td><td><b>218</b></td><td>2.1 mi</td><td><span class="wb-pill">Mechanic road test</span></td><td>needs annotation</td></tr>
+                      <tr><td>&#9745;</td><td>Aug 19 &middot; 6:41a</td><td><b>218</b></td><td>0.4 mi</td><td><span class="wb-pill">Yard movement</span></td><td>needs annotation</td></tr>
+                      <tr><td>&#9744;</td><td>Aug 18 &middot; 7:02p</td><td><b>218</b></td><td>12.4 mi</td><td><span class="wb-pill out">I don't know</span></td><td>investigate</td></tr>
+                      <tr><td>&#9744;</td><td>Aug 18 &middot; 6:04a</td><td><b>231</b></td><td>0.3 mi</td><td>&ndash;</td><td>never claimed</td></tr>
+                      <tr><td>&#9744;</td><td>Aug 17 &middot; 5:48a</td><td><b>224</b></td><td>0.6 mi</td><td><span class="wb-pill dark">Stamped &middot; D27</span></td><td>accounted for</td></tr>
+                      <tr><td>&#9744;</td><td>Aug 16 &middot; 2:11p</td><td><b>231</b></td><td>8.9 mi</td><td><span class="wb-pill out">Another driver</span></td><td>assign &rarr; K. Burns</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="wb-box" style="margin-top:9px;">
+                    <div class="h">Annotate 8 records &middot; suggested reasons</div>
+                    <span style="font-size:8px;">&#9673; Mechanic road test / maintenance &nbsp; &#9675; Yard movement &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM / warranty movement &nbsp; &#9675; Other &middot; explain<br/>
+                    Applies one annotation to all 8 with your name and timestamp. Assigning instead notifies the driver for confirmation.</span>
+                  </div>
+                  <div class="wb-note">Annotating explains why the time is unassigned; assigning routes it to the driver to accept. &sect;395.32(a) accepts either, and requires one of them.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-annot">
+          <div class="wf-head"><span class="wf-id">W16</span><h4 class="wf-name">Unidentified Driving Report</h4><span class="rev-badge">new 8/28</span></div>
+          <p class="wf-purpose">The carrier's working queue for unidentified driving: every open record across the fleet, what the driver said about it, and the two dispositions the rule allows: annotate with a reason, or assign to a driver. Grouped and bulk-actionable because volume is the whole problem, and paced by a review-cadence nudge because a carrier that lets it slide loses control of it.</p>
+          <div class="rev-what">
+            <span class="rev-what-h">Why this screen exists &middot; 8/28</span>
+            <p>The memo, nearly verbatim: <i>"There needs to be a host specific report that would have pop ups with the
+            reasons suggested for ease of identification of the UDS. Carriers need to maintain the report 2&ndash;3 times
+            a week or it gets ahead of them and is unmanageable."</i> Both halves are designed in: the reason pop-up is
+            the bulk-annotate control, and the cadence is a first-class element of the screen rather than a nag email.</p>
+            <p>It also closes the gap the original page raised for Thursday: rejected records had nowhere to go
+            on the carrier side. Folding this into <a href="#w3">W3</a> was the alternative; it does not survive
+            contact with a 46-record backlog that needs grouping, bulk annotation, and its own retention clock.</p>
+          </div>
+          <div>
+            <span class="wf-label">Data elements</span>
+            <ul class="wf-elems">
+              <li><span>Unidentified driving records, full 6-month set<small style="display:block; font-weight:400; color:var(--muted); font-size:11.5px;">host retention; the phone holds 8 days of unaccepted</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Driver suggestion from <a href="#d28">D28</a></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Carrier annotation (reason, author, timestamp)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Assignment &rarr; driver, and the driver's acceptance</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Non-HOS move stamps from <a href="#d27">D27</a><small style="display:block; font-weight:400; color:var(--muted); font-size:11.5px;">shown as already accounted for</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Review cadence &amp; last-reviewed state</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>30-min / 24-hour diagnostic threshold (&sect;395.34(b))</span><span class="tags"><span class="tag t-eld">ELD-owned</span><span class="tag t-push">&rarr; Tenna</span></span></li>
+              <li><span>6-month retention clock, per ELD, from receipt</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Vehicle &amp; driver roster for grouping and assignment</span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
+            </ul>
+          </div>
+          <div class="wf-qs">
+            <span class="wf-label">Open questions</span>
+            <ul>
+              <li><b>Cadence, how hard?</b> The memo's 2&ndash;3 times a week is operational advice, not a rule. Options: a
+              passive last-reviewed stamp, a Tenna alarm at N days (<a class="qref" href="/decisions#p4">P4</a>), or a
+              hard nudge on the ELD dashboard. Drawn here as a banner on the screen plus a candidate P4 alarm.</li>
+              <li><b>Who may annotate?</b> An annotation is a compliance record with a name on it. Does this need a
+              distinct permission from ordinary log review, and does that permission live in Tenna
+              (<a class="qref" href="/decisions#p1">P1</a>) or the ELD?</li>
+              <li><b>The excessive-volume case.</b> The memo names short-haul operations with no ELD login. A yard with
+              200 sub-mile records a week is a different product than one with six. Is there a carrier-level rule that
+              auto-annotates records matching a pattern, inside a yard geofence or under a distance
+              threshold, or does every record need a human? Auto-annotation is efficient and is also exactly the kind of blanket
+              treatment enforcement pushes back on.</li>
+              <li><b>Retention.</b> Six months from date of receipt, per ELD, is the rule. "Per ELD" is device-scoped
+              language in a screen that is fleet-scoped; confirm the retention unit with the FMCSA advisor before the
+              data model is fixed.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- ============ WEB · VIOLATIONS & COMPLIANCE ============ -->
     <div class="wf-group" id="g-wviol">
       <div class="wf-group-head"><h3>Violations &amp; Compliance</h3><span class="range">W8 – W10</span></div>
@@ -2445,8 +2854,9 @@
 
     <!-- ============ WEB · REPORTS ============ -->
     <div class="wf-group" id="g-wrep">
-      <div class="wf-group-head"><h3>Reports</h3><span class="range">W13 – W14</span></div>
-      <p class="wf-group-note">The two screens built for the worst day: a DOT audit and the inspection paper trail.</p>
+      <div class="wf-group-head"><h3 data-rev="v1">Reports</h3><h3 data-rev="v2">Reports &amp; Audit</h3><span class="range" data-rev="v1">W13 – W14</span><span class="range" data-rev="v2">W13 – W14 · W17 – W18</span></div>
+      <p class="wf-group-note" data-rev="v1">The two screens built for the worst day: a DOT audit and the inspection paper trail.</p>
+      <p class="wf-group-note" data-rev="v2">The screens built for the worst day: a DOT audit and the inspection paper trail. <b>Added 8/28:</b> the memo points out that the worst day now starts earlier, because FMCSA requests eRODS transfers for named drivers days <i>before</i> it arrives on site, so the host needs its own transfer surface (<a href="#w17">W17</a>) and, ideally, an internal-audit log view (<a href="#w18">W18</a>) to see what the auditor will see.</p>
 
       <div class="wf-item web" id="w13">
         <div class="wf-frame-col">
@@ -2497,6 +2907,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p3">P3</a> The grayed checkbox is the decision in miniature: can an audit package include point data, and which system serves it?</li>
+              <li data-rev="v2"><b>New 8/28 · is this screen over-scoped?</b> On specification item W13 the memo says: <i>"Seems that there is too much to have available for DOT audit. Further discussion on this to confirm understanding of the intent."</i> Fair reading of the concern: a bundle that ships everything the system holds invites an auditor into material they did not ask for, and a 2,341-log-day package is not what a work-paper request looks like. Held unchanged pending that conversation. The checkbox list is the thing to walk through line by line, and the honest answer may be that W13 becomes narrower and <a href="#w17">W17</a> carries the real audit workflow.</li>
             </ul>
           </div>
         </div>
@@ -2554,6 +2965,173 @@
           </div>
         </div>
       </div>
+
+      <div class="wf-item web" id="w17" data-rev="v2">
+        <div class="wf-frame-col">
+          <div class="wf-web">
+            <div class="wb-chrome"><div class="wb-dots"><i></i><i></i><i></i></div><div class="wb-url">app.tenna.com/eld/reports/erods</div></div>
+            <div class="wb-portal-top"><div class="plogo"></div><div class="pnav"><span>Assets</span><span>Maintenance</span><span class="on">ELD</span><span>Reports</span></div><div class="avatar"></div></div>
+            <div class="wb-shell">
+              <div class="wb-side">
+                <div class="cap">Tenna</div>
+                <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
+                <div class="cap">ELD</div>
+                <div class="real">Dashboard</div>
+                <div class="real">Logs</div>
+                <div class="real">Unidentified</div>
+                <div class="real">Violations</div>
+                <div class="real">Vehicles</div>
+                <div class="real on">Reports</div>
+                <div class="real">Settings</div>
+              </div>
+              <div class="wb-stage">
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
+                  <div class="wb-h">eRODS transfer to FMCSA <span class="sub">pre-audit request &middot; not a roadside inspection</span></div>
+                  <div class="wb-filter">
+                    <span class="wb-fld">Drivers: M. Alvarez, K. Burns &#9662;</span>
+                    <span class="wb-fld">Feb 20 &ndash; Aug 20 (182 d) &#9662;</span>
+                    <span class="wb-fld">Comment: audit BA-2026-114 &#9662;</span>
+                  </div>
+                  <div class="wb-box" style="border-color:#C9CED8; background:#F4F5F7;">
+                    <div class="h">&#9888; 182 days requested &middot; will be sent as 7 transfers of 30 days or less</div>
+                    <span style="font-size:8px;">Six months in a single transfer is not sent. FMCSA's servers are the constraint, and a rejected bulk transfer reads as a failure to produce records. Each increment is confirmed before the next is sent.</span>
+                  </div>
+                  <table class="wb-table" style="margin-top:9px;">
+                    <thead><tr><th>Increment</th><th>Driver</th><th>Log days</th><th>Status</th><th>Receipt</th></tr></thead>
+                    <tbody>
+                      <tr><td>Feb 20 &ndash; Mar 21</td><td>M. Alvarez</td><td>26</td><td><span class="wb-pill dark">Sent</span></td><td>C41B08</td></tr>
+                      <tr><td>Mar 22 &ndash; Apr 20</td><td>M. Alvarez</td><td>28</td><td><span class="wb-pill dark">Sent</span></td><td>D9772A</td></tr>
+                      <tr><td>Apr 21 &ndash; May 20</td><td>M. Alvarez</td><td>27</td><td><span class="wb-pill">Sending&hellip;</span></td><td>&ndash;</td></tr>
+                      <tr><td>May 21 &ndash; Jun 19</td><td>M. Alvarez</td><td>25</td><td><span class="wb-pill out">Queued</span></td><td>&ndash;</td></tr>
+                      <tr><td>&hellip; 3 more increments</td><td>+ K. Burns</td><td>78</td><td><span class="wb-pill out">Queued</span></td><td>&ndash;</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="wb-filter" style="margin-top:9px;"><span class="wb-btn primary">Send next increment</span><span class="wb-btn">Pause</span><span class="wb-btn">Export the same set as files</span></div>
+                  <div class="wb-note">Every attempt, its increment, and its receipt land in the same record as roadside transfers (<a href="#w14">W14</a>), so the carrier can show exactly what was produced and when.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-annot">
+          <div class="wf-head"><span class="wf-id">W17</span><h4 class="wf-name">Host eRODS Transfer</h4><span class="rev-badge">new 8/28</span></div>
+          <p class="wf-purpose">Sends a named driver's records to FMCSA's eRODS from the back office, in response to a pre-audit request, and refuses to send more than 30 days in one transfer. Automatically splits a long request into confirmed increments and files every receipt alongside the roadside transfer record.</p>
+          <div class="rev-what">
+            <span class="rev-what-h">Why this screen exists &middot; 8/28</span>
+            <p>From the memo: <i>"eRODS will be requested&hellip; for internal audits days before on-site audits. This
+            requirement is in the FMCSA work papers for up to 30 days of an individual driver. FMCSA has targeted which
+            drivers they will want to see&hellip; If there is a request for a full 6 months the carrier should limit the
+            transfers to 30-day increments and not transfer all 6 months at once – FMCSA servers would most likely crash."</i></p>
+            <p>The original package only had a roadside transfer (<a href="#d17">D17</a>, from the driver's phone) and a
+            file export (<a href="#w7">W7</a>). Neither is what this request asks for. The 30-day cap is designed in as
+            a constraint the user cannot override, not a warning they can click past: the failure mode is a rejected
+            transfer that looks like non-production of records.</p>
+          </div>
+          <div>
+            <span class="wf-label">Data elements</span>
+            <ul class="wf-elems">
+              <li><span>FMCSA output file, per driver per increment</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Requested driver list &amp; date ranges<small style="display:block; font-weight:400; color:var(--muted); font-size:11.5px;">supplied by FMCSA in the work papers</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Increment plan &amp; per-increment confirmation</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Transfer receipts &rarr; W14 record</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Audit / case reference in the output file comment</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+            </ul>
+          </div>
+          <div class="wf-qs">
+            <span class="wf-label">Open questions</span>
+            <ul>
+              <li>Does a host-initiated transfer use the same eRODS endpoint and the same output-file comment
+              convention as a roadside transfer, or does FMCSA treat a pre-audit submission differently? A question for
+              the FMCSA advisor; it decides whether this is a new service or a second caller of an existing one.</li>
+              <li>What is the right increment size and pacing? 30 days is the memo's ceiling, but is one at a time
+              with confirmation the right rhythm, or is a slower drip safer?</li>
+              <li>If an increment fails, does the operator retry that one and continue, or restart the set? Drawn as
+              retry-in-place, since partial production with a clean receipt trail is better than none.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-item web" id="w18" data-rev="v2">
+        <div class="wf-frame-col">
+          <div class="wf-web">
+            <div class="wb-chrome"><div class="wb-dots"><i></i><i></i><i></i></div><div class="wb-url">app.tenna.com/eld/reports/inspector-view</div></div>
+            <div class="wb-portal-top"><div class="plogo"></div><div class="pnav"><span>Assets</span><span>Maintenance</span><span class="on">ELD</span><span>Reports</span></div><div class="avatar"></div></div>
+            <div class="wb-shell">
+              <div class="wb-side">
+                <div class="cap">Tenna</div>
+                <div class="item w75"></div><div class="item w60"></div><div class="item"></div>
+                <div class="cap">ELD</div>
+                <div class="real">Dashboard</div>
+                <div class="real">Logs</div>
+                <div class="real">Unidentified</div>
+                <div class="real">Violations</div>
+                <div class="real">Vehicles</div>
+                <div class="real on">Reports</div>
+                <div class="real">Settings</div>
+              </div>
+              <div class="wb-stage">
+                <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
+                  <div class="wb-h">Inspector view <span class="sub">internal audit &middot; what an officer would see</span></div>
+                  <div class="wb-filter"><span class="wb-fld">Driver: M. Alvarez &#9662;</span><span class="wb-fld">Aug 13 &ndash; Aug 20 &#9662;</span><span class="wb-fld">Format: &sect;4.5.1.1 detail &#9662;</span><span class="wb-btn">Print / PDF</span></div>
+                  <div class="wb-box" style="font-size:8px; line-height:1.75;">
+                    ALVAREZ, MARCUS &middot; OH CDL D1184-72219 &middot; BLUE ASH CONSTRUCTION &middot; USDOT 3172584<br/>
+                    UNIT 218 &middot; VIN 1FTFW1R63EFA84339 &middot; ELD ID TENNA01 &middot; reg. TENNA01<br/>
+                    Wed Aug 19 &middot; 24-hr period starting 00:00 ET &middot; certified 8:12 PM
+                  </div>
+                  <table class="wb-table" style="margin-top:9px;">
+                    <thead><tr><th>Seq</th><th>Time</th><th>Status</th><th>Eng hrs</th><th>Veh mi</th><th>Location</th><th>Origin</th></tr></thead>
+                    <tbody>
+                      <tr><td><b>0141</b></td><td>06:00:12</td><td>D</td><td>4,179.2</td><td>126,441.8</td><td>Blue Ash, OH</td><td>auto</td></tr>
+                      <tr><td><b>0142</b></td><td>11:15:40</td><td>OFF</td><td>4,183.9</td><td>126,478.3</td><td>Sharonville, OH</td><td>driver</td></tr>
+                      <tr><td><b>0143</b></td><td>12:00:03</td><td>D</td><td>4,183.9</td><td>126,478.3</td><td>Sharonville, OH</td><td>auto</td></tr>
+                      <tr><td><b>0144</b></td><td>14:41:55</td><td>ON</td><td>4,187.6</td><td>126,502.5</td><td>Kenwood, OH</td><td>driver</td></tr>
+                      <tr><td><b>0145</b></td><td>16:30:00</td><td>ON</td><td>4,187.6</td><td>126,502.5</td><td>Kenwood, OH</td><td><span class="wb-pill out">edited</span></td></tr>
+                    </tbody>
+                  </table>
+                  <div class="wb-note">Sequence number, elapsed engine hours, and accumulated vehicle miles on every row. FMCSA's illustrative example in the regulation omits these three; the advisor's experience is that including them is better received. Edited rows link to the original values and the annotation.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-annot">
+          <div class="wf-head"><span class="wf-id">W18</span><h4 class="wf-name">Host Inspector View</h4><span class="rev-badge">new 8/28</span></div>
+          <p class="wf-purpose">The officer's-eye view of a driver's logs, from the back office, for an internal audit: pick a driver and a date range and read exactly what an inspector reads, with the &sect;4.5.1.1 detail fields present. A rehearsal surface, so the first time anyone sees the record the way FMCSA sees it is not during the audit.</p>
+          <div class="rev-what">
+            <span class="rev-what-h">Why this screen exists &middot; 8/28</span>
+            <p>From the memo: <i>"This is not a hard fast requirement, but I would have the ability to have a host
+            Inspector Mode access of the logs for an internal audit. Selection of driver and time frame&hellip; Showing
+            sequence numbers and elapsed engine hours and accumulated vehicle miles as defined in 4.5.1.1&hellip; If you
+            decide not to do this be sure that the host eRODS transfer is functioning."</i></p>
+            <p>Taken at the weight it was offered: valuable, not mandatory. It shares its renderer with
+            <a href="#d16">D16</a>, so the marginal build cost is low once D16 carries the same three fields. The memo's conditional matters though: if this is cut for scope, <a href="#w17">W17</a> is not optional,
+            and that is the trade to make consciously rather than by omission.</p>
+          </div>
+          <div>
+            <span class="wf-label">Data elements</span>
+            <ul class="wf-elems">
+              <li><span>Event record in &sect;4.5.1.1 detail<small style="display:block; font-weight:400; color:var(--muted); font-size:11.5px;">same renderer as D16</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Sequence number, elapsed engine hours, accumulated vehicle miles</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Edit history inline (originals preserved)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Driver &amp; carrier header fields</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-gated">Gated &middot; P1</span></span></li>
+              <li><span>Print / PDF rendering for work papers</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+            </ul>
+          </div>
+          <div class="wf-qs">
+            <span class="wf-label">Open questions</span>
+            <ul>
+              <li><b>Scope call for Thursday.</b> The memo calls this optional. Recommendation: build it, because it
+              shares D16's renderer and it is the cheapest insurance against discovering a display defect during an
+              audit rather than before one.</li>
+              <li>Does an internal-audit view need its own access log, showing who looked at whose logs and when? For a
+              compliance surface inside a customer's own portal, probably yes.</li>
+              <li>How does this differ from <a href="#w4">W4</a> (log detail)? Drawn as a deliberately different
+              rendering: W4 is a fleet manager's working view, W18 is the regulator's format with nothing added.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ============ WEB · SETTINGS ============ -->
@@ -2594,6 +3172,11 @@
                     Kenwood jobsite · drawn polygon <span class="wb-pill out">ELD-defined</span><br/>
                     <span class="wb-pill">+ Add geofence</span>
                   </div>
+                  <div data-rev="v2" class="wb-box" style="margin-top:9px;"><div class="h">Unidentified driving <span class="wb-pill dark">new</span></div>
+                    Suggested reasons: <span class="wb-pill out">Mechanic road test</span> <span class="wb-pill out">Yard movement</span> <span class="wb-pill out">Yard relocation</span> <span class="wb-pill out">OEM / warranty</span> <span class="wb-pill">+ add</span><br/>
+                    Review reminder: every 3 days &#9662; &nbsp;·&nbsp; Let drivers name another driver: &#9744; off<br/>
+                    Non-HOS move roles: &#9745; Mechanics &nbsp; &#9745; Yard operators &nbsp; &#9744; Vendors
+                  </div>
                   <div class="wb-note">Compliance rules are not configurable; these settings choose among legal behaviors, never around them.</div>
                 </div>
               </div>
@@ -2602,19 +3185,24 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W15</span><h4 class="wf-name">Carrier Settings</h4></div>
-          <p class="wf-purpose">Cycle defaults, special-duty permissions, warning thresholds, and the yard geofences that bound Yard Move. Everything here parameterizes screens the drivers already saw (D4, D5, D6, D24).</p>
+          <p class="wf-purpose" data-rev="v1">Cycle defaults, special-duty permissions, warning thresholds, and the yard geofences that bound Yard Move. Everything here parameterizes screens the drivers already saw (D4, D5, D6, D24).</p>
+          <p class="wf-purpose" data-rev="v2">Cycle defaults, special-duty permissions, warning thresholds, the yard geofences that bound Yard Move. Added 8/28: the unidentified-driving reason taxonomy, review cadence, and which non-driver roles may stamp a non-HOS move. Everything here parameterizes screens the drivers already saw (D4, D5, D6, D24, D27, D28).</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Carrier HOS policy (cycles, permissions, thresholds)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Yard geofences</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Org identity &amp; terminal time zones</span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
+              <li data-rev="v2"><span>UD reason taxonomy (shared by D27, D28, W16)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev="v2"><span>UD review cadence &amp; reminder threshold</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev="v2"><span>Non-HOS move roles &amp; permissions</span><span class="tags"><span class="tag t-eld">ELD-owned</span><span class="tag t-gated">Gated · P1</span></span></li>
             </ul>
           </div>
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
               <li>Tenna already models sites and geofences. Do yard-move fences reference Tenna sites over the API (one source of truth) or get drawn here? The wireframe shows both to force the choice.</li>
+              <li data-rev="v2"><b>New 8/28 ·</b> Is the reason taxonomy carrier-editable, as drawn, or fixed across the customer base? Editable serves the individual carrier; fixed keeps unidentified-driving reporting comparable and makes any future benchmarking possible. Recommendation: fixed core list from the memo, with one carrier-defined "other" slot.</li>
             </ul>
           </div>
         </div>
@@ -2628,7 +3216,7 @@
     <div class="eyebrow">The aggregation</div>
     <h2>Every data element, by source and access pattern.</h2>
     <p class="lede">
-      This table is what the wireframes exist to produce: every distinct data element across all 41 screens, the system of record that supplies it, how it moves (on-demand read, BLE stream, event push, or ELD-internal), and the screens that consume it. It is the draft input for the data guidelines Luke expects to fall out of the five decisions; the gated rows are exactly where those decisions bite.
+      This table is what the wireframes exist to produce: every distinct data element across <span data-revi="v1">all 41 screens</span><span data-revi="v2">all 46 screens</span>, the system of record that supplies it, how it moves (on-demand read, BLE stream, event push, or ELD-internal), and the screens that consume it. It is the draft input for the data guidelines Luke expects to fall out of the five decisions; the gated rows are exactly where those decisions bite.
     </p>
 
     <div class="table-scroll">
@@ -2671,11 +3259,23 @@
           <tr><td class="el">Edits &amp; edit history<small>originals preserved, every version</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D12 D13 D20 D21 W4 W5 W6</td></tr>
           <tr><td class="el">HOS violations</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · push gated P4</td><td class="scr">D4 W2 W8 W9</td></tr>
           <tr><td class="el">Malfunctions &amp; diagnostics (§395.34)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · push gated P4</td><td class="scr">D18 D19 W10</td></tr>
-          <tr><td class="el">Unidentified-driving records<small>carrier surface unresolved · see D22</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stored</td><td class="scr">D16 D22</td></tr>
+          <tr data-rev="v1"><td class="el">Unidentified-driving records<small>carrier surface unresolved · see D22</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stored</td><td class="scr">D16 D22</td></tr>
+          <tr data-rev="v2"><td class="el">Unidentified-driving records<small>8 days unaccepted in-cab · 6 months on the host</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stored</td><td class="scr">D16 D22 W16</td></tr>
+          <tr data-rev="v2"><td class="el">UD reason taxonomy &amp; driver suggestion<small>the memo's four ordinary causes, plus "unknown"</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · push gated P4</td><td class="scr">D27 D28 W15 W16</td></tr>
+          <tr data-rev="v2"><td class="el">Carrier annotation &amp; assignment on a UD record<small>the §395.32(a) disposition, with author and timestamp</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">W16</td></tr>
+          <tr data-rev="v2"><td class="el">Non-HOS move stamps<small>mechanic / yard movement attributed at the time it happens</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D27 W16</td></tr>
+          <tr data-rev="v2"><td class="el">Non-driver personnel &amp; role<small>who may stamp a non-HOS move</small></td><td><span class="tag t-api">Tenna API</span> <span class="tag t-gated">Gated · P1</span></td><td class="ap">On-demand read</td><td class="scr">D27 W15</td></tr>
+          <tr data-rev="v2"><td class="el">Work order reference<small>makes a shop road test self-documenting</small></td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D27</td></tr>
+          <tr data-rev="v2"><td class="el">Event sequence number<small>§4.5.1.1 · required on the detail display</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D16 W18</td></tr>
+          <tr data-rev="v2"><td class="el">Elapsed engine hours per event<small>stamped at record time, not read live · Q2</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stamped</td><td class="scr">D16 W18</td></tr>
+          <tr data-rev="v2"><td class="el">Accumulated vehicle miles per event<small>stamped at record time · Q6</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stamped</td><td class="scr">D16 W18</td></tr>
 
           <tr class="cat"><td colspan="4">Compliance outputs</td></tr>
           <tr><td class="el">FMCSA output file (Appendix A)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">Generated on demand</td><td class="scr">D17 W7 W13</td></tr>
-          <tr><td class="el">Roadside transfer records<small>every attempt, incl. failures</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D17 W14</td></tr>
+          <tr data-rev="v1"><td class="el">Roadside transfer records<small>every attempt, incl. failures</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D17 W14</td></tr>
+          <tr data-rev="v2"><td class="el">Transfer records<small>roadside and host-initiated · every attempt, incl. failures</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D17 W14 W17</td></tr>
+          <tr data-rev="v2"><td class="el">Pre-audit request &amp; increment plan<small>FMCSA work-paper driver list; 30-day cap</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">W17</td></tr>
+          <tr data-rev="v2"><td class="el">Transfer family election<small>Telematics · a certification-time declaration, not a runtime choice</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">Fixed at certification</td><td class="scr">D17 D26 W17</td></tr>
           <tr><td class="el">DOT audit bundle</td><td><span class="tag t-eld">ELD-owned</span> <span class="tag t-gated">Gated · P3</span></td><td class="ap">Generated on demand</td><td class="scr">W13</td></tr>
           <tr><td class="el">8-day inspection record (display format)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D15 D16</td></tr>
 
@@ -2689,7 +3289,7 @@
       </table>
     </div>
     <p style="font-size:13px; color:var(--muted); margin-top:12px;">
-      37 distinct elements. Counting rule: an element appears once even when several screens consume it; screens listed are where it is <i>displayed or captured</i>, not every internal use. Rows tagged <span class="tag t-gated">Gated</span> cannot be specified until their decision lands; that is the Thursday agenda in table form.
+      <span data-revi="v1">37 distinct elements.</span><span data-revi="v2">47 distinct elements, 10 of them added in the 8/28 revision.</span> Counting rule: an element appears once even when several screens consume it; screens listed are where it is <i>displayed or captured</i>, not every internal use. Rows tagged <span class="tag t-gated">Gated</span> cannot be specified until their decision lands; that is the Thursday agenda in table form.
     </p>
   </div>
 </section>
@@ -2820,6 +3420,24 @@
         <span><i class="orange"></i> crosses the driver ↔ web boundary</span>
         <span><span class="mono" style="font-size:10px; border:1px dashed var(--wf-mid); border-radius:5px; padding:1px 6px;">dashed box</span> exception to the one-tap pattern</span>
       </div>
+      <div class="rev-what" data-rev="v2" style="margin-top:16px;">
+        <span class="rev-what-h">Added 8/28 · five surfaces the map does not yet draw</span>
+        <p>The diagram above is the original. The 8/28 revision adds these links; the map gets redrawn once the
+        Thursday scope call on <a href="#w18">W18</a> lands, so it is described rather than half-drawn:</p>
+        <ul>
+          <li><b>D22 → D28 → W16.</b> The one flow that now crosses the boundary in both directions on a schedule: a
+          driver rejects with a reason, the record lands on the host queue, and an assignment comes back to the driver
+          for confirmation. It joins the edit-proposal loop as the second push-driven round trip.</li>
+          <li><b>D27 → W16.</b> A non-HOS move stamp arrives on the host queue pre-accounted-for, which is the flow
+          that is supposed to make the other flows rare.</li>
+          <li><b>W17 → W14.</b> Host eRODS transfers file into the same inspection record as roadside transfers, so
+          W14 stops being purely driver-fed.</li>
+          <li><b>D16 ↔ W18.</b> Not a navigation link but a shared renderer: the same §4.5.1.1 detail format,
+          drawn once and shown in two places.</li>
+          <li><b>D17 loses an edge.</b> The peer-to-peer transfer path is gone; the roadside transfer has exactly one
+          destination, FMCSA, by two routes (web service, email).</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -2827,11 +3445,13 @@
 <footer>
   <div class="container">
     <div class="disc">
-      Prepared by AppAxis for the August 20 product session with Tenna. Wireframes are mid-fidelity proposals to react to, not visual designs or specifications; requirements agreed in session are recorded in the shared decision log. Sample data derives from Phase 2 hardware testing of a Geometris WQ tracker on a light-duty vehicle. Screen IDs match Section 5 of the June 4 proposal.
+      Prepared by AppAxis for the August 20 product session with Tenna.<span data-revi="v2"> Revised 28 August 2026 to incorporate the 17 August FMCSA compliance review of host reporting; use the control at the bottom right to read either version.</span> Wireframes are mid-fidelity proposals to react to, not visual designs or specifications; requirements agreed in session are recorded in the shared decision log. Sample data derives from Phase 2 hardware testing of a Geometris WQ tracker on a light-duty vehicle. Screen IDs match Section 5 of the June 4 proposal.
     </div>
     <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
   </div>
 </footer>
+
+<script src="/revisions.js" defer></script>
 
 </body>
 </html>

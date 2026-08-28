@@ -247,6 +247,7 @@
       <a href="#open">Open</a>
       <a href="#answered">Answered</a>
       <a href="#meetings">Meetings</a>
+      <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
       <a href="/">← The Proposal</a>
       <a href="/wireframes">Wireframes ↗</a>
       <a href="/ecosystem">Ecosystem ↗</a>
@@ -258,10 +259,11 @@
 
 <section class="hero">
   <div class="container">
-    <div class="kicker">Updated 13 August 2026 · Confidential</div>
+    <div class="kicker" data-rev="v1">Updated 13 August 2026 · Confidential</div>
+    <div class="kicker" data-rev="v2">Updated 28 August 2026 · Confidential</div>
     <h1>Decision Log.<br/><span class="accent">Open questions, settled answers, and how we got there.</span></h1>
     <p class="lede">
-      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2: building against real Geometris WQ hardware surfaces things a specification cannot. Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.
+      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2: building against real Geometris WQ hardware surfaces things a specification cannot. <span data-revi="v1">Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.</span><span data-revi="v2">Newest group: six questions (Q15–Q20) out of the <a href="#meetings">August 17 FMCSA compliance review of host reporting</a>, most of them for Tenna's compliance advisor, plus two long-standing questions the same memo settled. The five <a href="#product">product decisions</a> from the August 13 kickoff are unchanged and still queued.</span>
     </p>
 
     <div class="score-row">
@@ -273,18 +275,55 @@
         <div class="v">1</div>
         <div class="l">Blocking Phase&nbsp;3</div>
       </div>
-      <div class="score is-open">
+      <div class="score is-open" data-rev="v1">
         <div class="v">10</div>
         <div class="l">Awaiting an answer</div>
       </div>
-      <div class="score is-answered">
+      <div class="score is-open" data-rev="v2">
+        <div class="v">16</div>
+        <div class="l">Awaiting an answer</div>
+      </div>
+      <div class="score is-answered" data-rev="v1">
         <div class="v">4</div>
         <div class="l">Settled by test</div>
       </div>
-      <div class="score is-meetings">
+      <div class="score is-answered" data-rev="v2">
+        <div class="v">6</div>
+        <div class="l">Settled</div>
+      </div>
+      <div class="score is-meetings" data-rev="v1">
         <div class="v">2</div>
         <div class="l">Meetings logged</div>
       </div>
+      <div class="score is-meetings" data-rev="v2">
+        <div class="v">3</div>
+        <div class="l">Meetings logged</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="whats-changed" style="padding:30px 0 4px 0;">
+  <div class="container">
+    <div data-rev="v1" class="rev-what" style="border-color:var(--line); background:var(--bg-alt);">
+      <span class="rev-what-h" style="color:var(--muted);">Original · as of 13 August 2026</span>
+      <p>You are reading the log as it stood before the August 17 FMCSA compliance review of host reporting. The
+      8/28/2026 revision adds six questions (Q15–Q20), records two answers that review supplied, and logs
+      the meeting itself. Switch versions with the control at the bottom right.</p>
+    </div>
+    <div data-rev="v2" class="rev-what">
+      <span class="rev-what-h">Revision 8/28/2026 · what this log gained</span>
+      <p><b>Six new questions, Q15–Q20.</b> Four for Tenna's FMCSA compliance advisor: how a non-driver vehicle
+      movement is classified (Q15), whether pattern-matched unidentified driving may be auto-annotated (Q16), what
+      "unaccepted" means and how the 6-month retention clock is scoped (Q17), and formal sign-off on the Telematics
+      transfer election (Q18). Two are scope calls for Tenna: whether the DOT audit export is over-scoped (Q19) and
+      whether to build the host inspector view (Q20).</p>
+      <p><b>Two answered outright.</b> Q21, who owns the carrier-side surface for unidentified driving, was the inventory gap the wireframes flagged for the August 20 session; the review answers it. Q22 settles how much
+      history belongs on the phone, which turns out to be a useful general principle rather than a one-screen
+      decision.</p>
+      <p><b>One meeting logged.</b> The <a href="#meetings">17 August review</a> itself, with what each of its points
+      changed. The five product decisions from the August 13 kickoff are untouched: nothing in the memo settles
+      P1–P5.</p>
     </div>
   </div>
 </section>
@@ -409,17 +448,18 @@
 <section id="open">
   <div class="container">
     <div class="eyebrow">Awaiting an answer</div>
-    <h2>Ten questions, and who owns each.</h2>
+    <h2 data-rev="v1">Ten questions, and who owns each.</h2>
+    <h2 data-rev="v2">Sixteen questions, and who owns each.</h2>
     <p class="lede">
       Filter by owner to see only what is on your plate. Nothing here is a blocker on Phase 2 delivery except where marked, but several shape Phase 3 architecture, and answering them early is cheaper than reworking around a guess.
     </p>
 
     <div class="filters">
       <span class="flabel">Owner</span>
-      <button class="fbtn" type="button" data-filter="all" aria-pressed="true">All <span class="fcount">10</span></button>
-      <button class="fbtn" type="button" data-filter="compliance" aria-pressed="false">ELD Compliance <span class="fcount">1</span></button>
+      <button class="fbtn" type="button" data-filter="all" aria-pressed="true">All <span class="fcount" data-rev="v1">10</span><span class="fcount" data-rev="v2">16</span></button>
+      <button class="fbtn" type="button" data-filter="compliance" aria-pressed="false">ELD Compliance <span class="fcount" data-rev="v1">1</span><span class="fcount" data-rev="v2">5</span></button>
       <button class="fbtn" type="button" data-filter="geometris" aria-pressed="false">Geometris <span class="fcount">6</span></button>
-      <button class="fbtn" type="button" data-filter="tenna" aria-pressed="false">Tenna <span class="fcount">4</span></button>
+      <button class="fbtn" type="button" data-filter="tenna" aria-pressed="false">Tenna <span class="fcount" data-rev="v1">4</span><span class="fcount" data-rev="v2">7</span></button>
     </div>
 
     <div class="qlist" id="qlist">
@@ -675,6 +715,182 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
+
+      <article class="q open reveal" data-owner="compliance" data-rev="v2" id="q15">
+        <div class="q-head">
+          <span class="q-id">Q15</span>
+          <h3 class="q-title">How is a non-driver vehicle movement classified?</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">ELD Compliance</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The 17 August review lists the ordinary operating reasons unidentified driving occurs: mechanic road test and maintenance, yard movement, OEM warranty work movement, and yard relocation, which may be a yard a mile away. It then notes that carriers try to cover these with an exempt-driver account, and that those accounts draw pushback because they are difficult to enforce.
+          </p>
+          <p>
+            The proposed answer is upstream attribution: a two-tap stamp (<a href="/wireframes#d27">D27</a>) that a named mechanic or yard operator applies before moving the vehicle, carrying a reason and, where Tenna's Maintenance module can supply it, a work order number. What that produces in the event record is the open question. The movement still generates engine and motion data the ELD must account for.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Is a stamped non-HOS move properly recorded as an unidentified-driving record that arrives pre-annotated under §395.32(b)(2), or as a distinct event class?<br/>
+              2 · If it is a pre-annotated unidentified-driving record, does the carrier still owe it a review, or does the stamp discharge that duty at the moment it is made?<br/>
+              3 · Does a named-person stamp with a work order carry more enforcement weight than the shared exempt-driver account it replaces? The design assumes yes; that assumption is worth testing before it is built.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="compliance" data-rev="v2" id="q16">
+        <div class="q-head">
+          <span class="q-id">Q16</span>
+          <h3 class="q-title">May a carrier auto-annotate unidentified driving that matches a pattern?</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">ELD Compliance</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            From the review: <i>"There can be operations that have excessive UDS transactions due to operational issues. Specifically Short Haul Operations with no login to ELD."</i> A yard that produces two hundred sub-mile records a week is a materially different product problem than one producing six, and no amount of screen design makes two hundred individual human reviews happen.
+          </p>
+          <p>
+            The obvious lever is a carrier-level rule: records inside a yard geofence, under a distance threshold, auto-annotated with a standing reason. Tenna is unusually well placed to do this, because it already maps its customers' yards and sites. The obvious objection is that blanket treatment of unidentified driving is exactly what enforcement pushes back on, which is the same objection the review raises against exempt-driver accounts.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Is a rules-based auto-annotation defensible at all, or must every record carry a human disposition?<br/>
+              2 · If it is defensible, what makes it defensible: a tight geofence, a distance ceiling, a named approver on the rule itself, an audit trail showing the rule that fired?<br/>
+              3 · If it is not, what does a compliant workflow look like for a carrier generating hundreds of records a week? That answer may be "fix the login problem," in which case sticky pairing (<a href="/wireframes#d2">D2</a>) and the non-HOS move stamp are the whole remedy and the report is only for the residue.
+            </p>
+          </div>
+          <p style="margin-top:12px;">
+            <span class="q-label">Our position pending an answer</span>
+            <a href="/wireframes#w16">W16</a> is drawn with bulk annotation, which requires a human to select and apply, and without any automatic rule. Manual bulk action is the conservative floor; the rule engine is additive if it is permitted.
+          </p>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="compliance" data-rev="v2" id="q17">
+        <div class="q-head">
+          <span class="q-id">Q17</span>
+          <h3 class="q-title">What counts as "unaccepted," and what is the retention unit?</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">ELD Compliance</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            Two definitional questions that decide the data model, both raised by the same sentence in the review: the in-vehicle ELD is only to hold the last 8 days of <i>unaccepted</i> unidentified-driving events, and the carrier must retain unidentified driving records for each ELD for a minimum of 6 months from the date of receipt.
+          </p>
+          <p>
+            "Unaccepted" is doing real work in that sentence. A record the driver rejected is resolved from the phone's point of view and unresolved from the carrier's. If rejection makes a record accepted, the in-cab list stays short and the host queue carries everything. If it does not, a driver who rejects a record keeps seeing it for eight days with nothing to do about it.
+          </p>
+          <p>
+            "For each ELD" is device-scoped language, and the host report (<a href="/wireframes#w16">W16</a>) is fleet-scoped. Retention measured per device, per vehicle, and per carrier produce three different purge behaviors, and purging a record early is the failure that cannot be undone.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Does a driver's rejection move a record out of the in-cab 8-day window, or only a claim?<br/>
+              2 · Is the 6-month retention clock scoped per ELD device, per vehicle, or per carrier, and does "date of receipt" mean receipt by the host, or by the in-vehicle ELD from the tracker?<br/>
+              3 · Does the 8-day in-cab window run on the same calendar as the 8-day log window, or from date of receipt?
+            </p>
+          </div>
+          <p style="margin-top:12px;">
+            <span class="q-label">Our position pending an answer</span>
+            Drawn as: a record leaves the in-cab list once the driver has answered it either way, and stays open on the host until the carrier annotates or assigns it. Retention is modelled at the record level with the source device stamped on it, which satisfies a per-ELD reading without foreclosing the others.
+          </p>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="compliance tenna" data-rev="v2" id="q18">
+        <div class="q-head">
+          <span class="q-id">Q18</span>
+          <h3 class="q-title">Formal sign-off on the Telematics transfer election</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">ELD Compliance</span>
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            On specification item D17 the review is unambiguous: <i>"You either do a telematics transfer (WEB or Email) or you do a Peer to Peer transfer (Bluetooth of USB thumb drive) not both."</i> The original wireframe offered all three routes, which spans both families and is not a shape a device certifies in. The 8/28 revision elects Telematics and removes the peer-to-peer path from the driver screen and from the native-module scope.
+          </p>
+          <p>
+            This is a self-certification declaration rather than an engineering preference, and it is effectively one-way: adding a USB or Bluetooth path later means re-certifying. It should be signed off before Phase 3 starts, not discovered during Phase 5.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              1 · Tenna's formal election of the Telematics ELD type, on the record, before build.<br/>
+              2 · A walk-through of the roadside-with-no-cellular-coverage case. Email fallback is now the only alternative to the web service; the thumb drive used to be the answer to that scenario. Is email alone acceptable, and what does the driver do if neither route completes?<br/>
+              3 · Confirmation that a host-initiated transfer (<a href="/wireframes#w17">W17</a>) uses the same eRODS endpoint and output-file-comment convention as a roadside transfer, or a description of how a pre-audit submission differs.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="tenna" data-rev="v2" id="q19">
+        <div class="q-head">
+          <span class="q-id">Q19</span>
+          <h3 class="q-title">Is the DOT audit export over-scoped?</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The review's note on specification item W13, in full: <i>"Seems that there is too much to have available for DOT audit. Further discussion on this to confirm understanding of the intent."</i>
+          </p>
+          <p>
+            Reading the concern generously, it has two parts. A bundle that ships everything the system holds invites an auditor into material they did not request, and a 2,341-log-day package across fourteen drivers is not the shape of an FMCSA work-paper request, which, per the same review, targets named drivers over periods of up to 30 days. If that is right, the audit workflow lives in <a href="/wireframes#w17">W17</a> and W13 becomes a narrower, more deliberate export rather than a one-click everything bundle.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>
+              A walk-through of the W13 contents list, line by line, with the compliance advisor: which of daily logs, full event records, edit histories, malfunctions, unidentified driving, and transfer records belong in a bundle a carrier can generate in one click, and which should be produced only against a specific request. Also whether "too much" is about audit exposure, about package size, or about both.
+            </p>
+          </div>
+          <p style="margin-top:12px;">
+            <span class="q-label">Our position pending an answer</span>
+            W13 is unchanged in the 8/28 revision, with the concern recorded against it. Narrowing it on a guess would be worse than leaving it drawn and discussing it.
+          </p>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="tenna" data-rev="v2" id="q20">
+        <div class="q-head">
+          <span class="q-id">Q20</span>
+          <h3 class="q-title">Build or cut the host inspector view?</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The review offers this one with its own weight attached: <i>"This is not a hard fast requirement, but I would have the ability to have a host Inspector Mode access of the logs for an internal audit. Selection of driver and time frame&hellip; If you decide not to do this be sure that the host eRODS transfer is functioning."</i>
+          </p>
+          <p>
+            It is a scope call rather than a compliance question, and the conditional in the last sentence is the important half: the two are alternative answers to the same need, which is knowing what the regulator will see before the regulator sees it. Cutting <a href="/wireframes#w18">W18</a> makes <a href="/wireframes#w17">W17</a> non-optional.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">What we need</span>
+            <p>A decision in the next scope session, with an owner. The marginal cost is low: W18 shares its renderer with the roadside inspection display (<a href="/wireframes#d16">D16</a>), which now carries the same §4.5.1.1 detail fields either way.</p>
+          </div>
+          <p style="margin-top:12px;">
+            <span class="q-label">Our recommendation</span>
+            Build it. It is the cheapest insurance against finding a display defect during an audit rather than before one, and it costs a renderer that already has to exist.
+          </p>
+        </div>
+      </article>
     </div>
     <p class="empty-note" id="emptyNote">No open questions for that owner.</p>
   </div>
@@ -683,9 +899,13 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
 <section class="alt" id="answered">
   <div class="container">
     <div class="eyebrow">Settled</div>
-    <h2>Four answered by hardware, not by assumption.</h2>
-    <p class="lede">
+    <h2 data-rev="v1">Four answered by hardware, not by assumption.</h2>
+    <h2 data-rev="v2">Six settled: four by hardware, two by the compliance review.</h2>
+    <p class="lede" data-rev="v1">
       Each of these was an ambiguity in the protocol document that a literal reading would have resolved the wrong way: silently, with no error to signal it. They stay in the log with their evidence so the reasoning survives.
+    </p>
+    <p class="lede" data-rev="v2">
+      The first four were ambiguities in the protocol document that a literal reading would have resolved the wrong way: silently, with no error to signal it. The last two were open design questions the 17 August host reporting review answered outright. All stay in the log with their evidence so the reasoning survives.
     </p>
 
     <div class="qlist">
@@ -781,6 +1001,50 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         </div>
       </article>
 
+
+      <article class="q answered reveal" data-rev="v2" id="q21">
+        <div class="q-head">
+          <span class="q-id">Q21</span>
+          <h3 class="q-title">Who owns the carrier-side surface for unidentified driving?</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">ELD Compliance</span>
+            <span class="chip st-answered">Answered 17 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The August 20 wireframes flagged this as an inventory gap for the session: rejected unidentified-driving records needed a carrier surface to reassign them, but no W screen owned unidentified driving. The choice on the table was to fold it into the logs review screen or add a screen for it.
+          </p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p>
+              Add one, and make it a report rather than a list. From the review: <i>"There needs to be a host specific report that would have pop ups with the reasons suggested for ease of identification of the UDS. Carriers need to maintain the report 2-3 times a week or it gets ahead of them and is unmanageable."</i> That is <a href="/wireframes#w16">W16</a>. Folding it into logs review does not survive contact with a 46-record backlog needing grouping, bulk annotation, a reason taxonomy, and its own 6-month retention clock. The review cadence is designed into the screen for the same reason: it is the thing that actually fails in practice.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q answered reveal" data-rev="v2" id="q22">
+        <div class="q-head">
+          <span class="q-id">Q22</span>
+          <h3 class="q-title">How much log history belongs on the phone?</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">ELD Compliance</span>
+            <span class="chip st-answered">Answered 17 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The wireframes asked whether a driver should be able to browse past logs beyond the 8-day review window read-only, or whether longer history is web-only. The same question applied, more consequentially, to unidentified driving: the original D22 was drawn as though the phone were where the whole backlog got worked.
+          </p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p>
+              The regulation already draws the line, and the review draws attention to it: the in-vehicle ELD carries the working window, 8 days of logs plus the last 8 days of <i>unaccepted</i> unidentified driving, while the host carries the 6-month record. <i>"D22 seems to look like trying to do it all at the mobile?"</i> It did. So no deeper log browse gets built into the app, D22 is capped at 8 days of unaccepted records, and everything past that is a host surface. This is a useful general principle for the rest of the build, not just these two screens: if the question is "should the phone hold more of this," the answer is almost certainly no.
+            </p>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -833,6 +1097,51 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         </div>
       </div>
 
+
+      <div class="tl-item reveal" data-rev="v2">
+        <div class="tl-date">Monday · 17 August 2026</div>
+        <div class="tl-card">
+          <h3>FMCSA compliance review · host reporting</h3>
+          <div class="tl-who">Tenna's FMCSA compliance advisor · written memo to AppAxis</div>
+          <p>
+            A written review of the proposal package aimed specifically at host reporting: in the regulation's vocabulary, the motor carrier's back-end system and the surfaces over it, as distinct from the in-vehicle
+            ELD, which is the phone plus the tracker. The memo works through unidentified driving, eRODS transfer for
+            audits, an internal-audit log view, and two specification items by number. It is the first review of this
+            package by someone reading it as a compliance document rather than a product document, and it changed the
+            shape of the work.
+          </p>
+          <div class="outcome">
+            <span class="q-label">What it changed</span>
+            <p>
+              <b>Unidentified driving moved to the host.</b> The in-vehicle ELD carries the last 8 days of unaccepted
+              records; review, annotation, and assignment are the carrier's duty under §395.32 and belong on a
+              host-specific report worked two or three times a week. New screen <a href="/wireframes#w16">W16</a>;
+              <a href="/wireframes#d22">D22</a> rescoped; new reason picker <a href="/wireframes#d28">D28</a>. Closes
+              Q21 and Q22.<br/>
+              <b>One transfer family.</b> Telematics (web services or email) or peer-to-peer (Bluetooth or USB), never
+              both. The Bluetooth·USB route leaves <a href="/wireframes#d17">D17</a> and the native-module scope.
+              Election needs Tenna's formal sign-off → Q18.<br/>
+              <b>Host eRODS transfer added.</b> FMCSA requests transfers for named drivers days before an on-site
+              audit, up to 30 days each, and a six-month bulk transfer should not be attempted. New screen
+              <a href="/wireframes#w17">W17</a>.<br/>
+              <b>Inspection display gains three fields.</b> Sequence number, elapsed engine hours, accumulated vehicle miles per §4.5.1.1, omitted from FMCSA's own example and better received when present. Applied to
+              <a href="/wireframes#d16">D16</a>; new host view <a href="/wireframes#w18">W18</a> shares the renderer →
+              scope call in Q20.<br/>
+              <b>Non-HOS movement addressed upstream.</b> Mechanic road tests, yard movement, yard relocation, and OEM
+              warranty moves are the ordinary causes of unidentified driving, and shared exempt-driver accounts draw
+              enforcement pushback. New stamp <a href="/wireframes#d27">D27</a> → classification question in Q15.<br/>
+              <b>DOT audit export questioned, not changed.</b> "Too much to have available for DOT audit," pending
+              further discussion → Q19.
+            </p>
+          </div>
+          <p style="margin-top:12px;">
+            Six new questions (Q15–Q20) come out of this memo, four of them for the compliance advisor. The package was
+            revised on 28 August to incorporate all of it; both versions remain readable via the control at the bottom
+            right of any page, and the wireframes carry a
+            <a href="/wireframes#whats-changed">screen-by-screen account of the changes ↗</a>.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -840,7 +1149,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
 <footer>
   <div class="container">
     <div class="disc">
-      Maintained by AppAxis under SoW No. 1, Phase 2 hardware validation. Questions are raised by building and field-testing against real hardware; answered items remain in the log with their evidence so the reasoning behind a settled decision is not lost. Findings reflect testing on a Geometris WQ tracker in a light-duty vehicle and on the bench; see Q8 on how far they generalise to the wider fleet.
+      Maintained by AppAxis under SoW No. 1, Phase 2 hardware validation.<span data-revi="v2"> Updated 28 August 2026 with the six questions and two answers arising from the 17 August FMCSA compliance review of host reporting.</span> Questions are raised by building and field-testing against real hardware; answered items remain in the log with their evidence so the reasoning behind a settled decision is not lost. Findings reflect testing on a Geometris WQ tracker in a light-duty vehicle and on the bench; see Q8 on how far they generalise to the wider fleet.
     </div>
     <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
   </div>
@@ -915,6 +1224,8 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
     check();
   })();
 </script>
+
+<script src="/revisions.js" defer></script>
 
 </body>
 </html>

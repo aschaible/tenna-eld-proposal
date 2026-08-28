@@ -300,6 +300,7 @@
       <a href="#modules">Modules</a>
       <a href="#hardware">Hardware</a>
       <a href="#connections">How It Connects</a>
+      <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
       <a href="/">← The Proposal</a>
       <a href="/wireframes">Wireframes ↗</a>
       <a href="/decisions">Decision Log ↗</a>
@@ -311,7 +312,8 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="kicker">A Field Guide · Compiled From tenna.com</div>
+    <div class="kicker" data-rev="v1">A Field Guide · Compiled From tenna.com</div>
+    <div class="kicker" data-rev="v2">A Field Guide · Compiled From tenna.com · Rev. 8/28/2026</div>
     <h1>Tenna isn't an ELD vendor.<br/>It's an <span class="accent">equipment operating system</span><br/>for construction contractors.</h1>
     <p class="lede">
       Tenna sells one platform, TennaCORE, that consolidates everything
@@ -322,6 +324,29 @@
       rather than a tab inside it. Understanding the rest is how you
       understand what a new ELD product would actually plug into.
     </p>
+  </div>
+</section>
+
+<section id="whats-changed" style="padding:30px 0 6px 0;">
+  <div class="container">
+    <div data-rev="v1" class="rev-what" style="border-color:#E5E7EB; background:#F7F8FB;">
+      <span class="rev-what-h" style="color:#6B7484;">Original</span>
+      <p>You are reading the original field guide. A revision dated 8/28/2026 adds one clarification, what "host" means in ELD terminology and which half of the ELD is which, following the August 17 FMCSA compliance review. Switch versions with the control at the bottom right.</p>
+    </div>
+    <div data-rev="v2" class="rev-what">
+      <span class="rev-what-h">Revision 8/28/2026 · one addition</span>
+      <p>The August 17 FMCSA compliance review of host reporting used the regulation's vocabulary throughout, and
+      the term is worth pinning down because it decides where work belongs. An ELD has two halves. The
+      in-vehicle ELD is the recorder in the truck: here, the driver's phone plus the Geometris tracker. It
+      records events, holds a short working window, and shows the record at roadside. The host is the motor
+      carrier's back-end system: the server holding the full six-month record, and the web surfaces over it. So
+      "host reporting" means the reports a carrier runs against that server, and unidentified-driving review and
+      audit production legally belong there, not on the phone.</p>
+      <p style="margin-top:8px;">In Tenna's terms, the ELD's host is the box drawn below as <i>ELD (Hours of
+      Service) · own backend, driver app, and fleet portal</i>. Nothing else in this guide changed; the
+      <a href="/#whats-changed">proposal</a> and <a href="/wireframes#whats-changed">wireframes</a> carry the
+      changes that followed from the review.</p>
+    </div>
   </div>
 </section>
 
@@ -391,7 +416,8 @@
       <div class="arch-layer eld">
         <div class="layer-label">Tenna ELD · A Separate Product</div>
         <div class="arch-row two">
-          <div class="arch-pill"><b>ELD (Hours of Service)</b><span>Own backend, driver app, and fleet portal. Today white-labeled from a partner; the product this proposal brings in-house</span></div>
+          <div class="arch-pill" data-rev="v1"><b>ELD (Hours of Service)</b><span>Own backend, driver app, and fleet portal. Today white-labeled from a partner; the product this proposal brings in-house</span></div>
+          <div class="arch-pill" data-rev="v2"><b>ELD (Hours of Service)</b><span>Own backend (the <i>host</i>), driver app, and fleet portal. Today white-labeled from a partner; the product this proposal brings in-house</span></div>
           <div class="arch-pill"><b>Integration Surface</b><span>Asset &amp; User APIs · SSO · TennaFLEET ECM feed · HOS events back to Scorecard &amp; Dispatch</span></div>
         </div>
       </div>
@@ -695,5 +721,7 @@
 </footer>
 
 <script src="/glossary.js" defer></script>
+<script src="/revisions.js" defer></script>
+
 </body>
 </html>
