@@ -1,30 +1,49 @@
 /*
  * Revision toggle. Shared by every page in the package.
  *
- * Two versions of this document set exist:
+ * Three versions of this document set exist:
  *   v1  "Original"    - as presented for the August 20 product session
  *   v2  "8/28/2026"   - revised after the August 17 FMCSA compliance
- *                       review memo on host reporting
+ *                       review memo on host reporting; the snapshot sent
+ *                       to Tenna on 28 August
+ *   v3  "9/2/2026"    - data ownership split and API surfaces, after the
+ *                       28 August huddle settled P1, P2 and P5
  *
- * Content that differs between them is marked up in place:
- *   data-rev="v1"  / data-rev="v2"    block-level swap
- *   data-revi="v1" / data-revi="v2"   inline swap (a phrase inside a sentence)
+ * Content that differs between them is marked up in place, as a range
+ * rather than as a single version, so a fourth revision costs one entry in
+ * VERSIONS and nothing else:
  *
- * Only one side is ever visible, and in the revised version every edit is
- * outlined so it can be found. The choice persists across pages via
- * localStorage and can be forced with ?v=original or ?v=8-28, so a link
- * can open the package in a known state.
+ *   data-rev-from="v2"    block-level  · visible in v2 and every later revision
+ *   data-rev-until="v1"   block-level  · visible in v1 and earlier
+ *   data-revi-from="v2"   inline       · same, for a phrase inside a sentence
+ *   data-revi-until="v1"  inline
+ *
+ * A swap is a pair: the outgoing side carries -until="vN", the incoming side
+ * -from="vN+1". An element with neither attribute is present in every version.
+ * Content introduced in one revision and replaced in the next carries both.
+ *
+ * Only one side is ever visible, and whatever is new in the revision being
+ * read is outlined so it can be found. The choice persists across pages via
+ * localStorage and can be forced with ?v=original, ?v=8-28 or ?v=9-2, so a
+ * link can open the package in a known state.
  */
 (function () {
   'use strict';
 
   var KEY = 'tenna-eld-revision';
-  var DEFAULT = 'v2';
 
   var VERSIONS = [
     { id: 'v1', label: 'Original', sub: 'Aug 20 session', slug: 'original' },
-    { id: 'v2', label: '8/28/2026', sub: 'host reporting review', slug: '8-28' }
+    { id: 'v2', label: '8/28/2026', sub: 'host reporting', slug: '8-28' },
+    { id: 'v3', label: '9/2/2026', sub: 'data ownership', slug: '9-2' }
   ];
+
+  var DEFAULT = VERSIONS[VERSIONS.length - 1].id;
+
+  function known(id) {
+    for (var i = 0; i < VERSIONS.length; i++) if (VERSIONS[i].id === id) return true;
+    return false;
+  }
 
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -39,32 +58,90 @@
     return null;
   }
 
+  /* Hide anything not yet introduced in the version being read, and anything
+     superseded before it. Generated from VERSIONS rather than written out as
+     pair rules, which is what makes a new revision a one-line change. */
+  function visibilityRules() {
+    var out = [];
+    VERSIONS.forEach(function (view, vi) {
+      var sels = [];
+      VERSIONS.forEach(function (other, oi) {
+        var body = 'body[data-version="' + view.id + '"] ';
+        if (oi > vi) {
+          sels.push(body + '[data-rev-from="' + other.id + '"]');
+          sels.push(body + '[data-revi-from="' + other.id + '"]');
+        } else if (oi < vi) {
+          sels.push(body + '[data-rev-until="' + other.id + '"]');
+          sels.push(body + '[data-revi-until="' + other.id + '"]');
+        }
+      });
+      if (sels.length) out.push(sels.join(',\n') + ' { display: none !important; }');
+    });
+    return out.join('\n');
+  }
+
+  /* Change marking, opt-in and on by default. Orange means new in the revision
+     on screen; gray means this is the side about to be replaced. An element
+     that is both (introduced in one revision, superseded in the next) reads as
+     new, which is the more useful signal while that revision is the one open.
+
+     A mark repaints what it marks, which is right for a phrase inside a
+     sentence and wrong for a badge. A tag carries its own fill and its own pill
+     shape, and repainting it makes two identical tags read as two different
+     kinds of tag: an orange square and a blue pill both saying "Tenna API".
+     Badges keep their own colours and take a ring instead. */
+  var BADGE = ['.tag', '.chip', '.o-chip', '.src-chip', '.rev-badge', '.gchip', '.qref'];
+  var NOT_BADGE = BADGE.map(function (c) { return ':not(' + c + ')'; }).join('');
+
+  function markRules() {
+    var out = [];
+    VERSIONS.forEach(function (v) {
+      var b = 'body.rev-marks[data-version="' + v.id + '"] ';
+      function badges(attr, extra) {
+        return BADGE.map(function (c) {
+          return b + c + '[' + attr + '="' + v.id + '"]' + (extra || '');
+        }).join(',\n');
+      }
+      var notFrom = ':not([data-rev-from="' + v.id + '"])';
+      var notIFrom = ':not([data-revi-from="' + v.id + '"])';
+      out.push(
+        /* new in this revision, block level */
+        b + '[data-rev-from="' + v.id + '"]' + NOT_BADGE + ' {',
+        '  border-left: 3px solid #F37021;',
+        '  padding-left: 14px;',
+        '  background-image: linear-gradient(90deg, rgba(243,112,33,0.055), rgba(243,112,33,0) 340px);',
+        '  border-radius: 0 8px 8px 0;',
+        '}',
+        /* new in this revision, inline */
+        b + '[data-revi-from="' + v.id + '"]' + NOT_BADGE + ' {',
+        '  background-color: rgba(243,112,33,0.13);',
+        '  box-shadow: 0 0 0 2px rgba(243,112,33,0.13);',
+        '  border-radius: 3px;',
+        '}',
+        /* new in this revision, badge: ring only, so the badge stays itself */
+        badges('data-rev-from') + ',',
+        badges('data-revi-from') + ' { box-shadow: 0 0 0 2px rgba(243,112,33,0.34); }',
+        /* replaced after this revision */
+        b + '[data-rev-until="' + v.id + '"]' + NOT_BADGE + notFrom + ',',
+        b + '[data-revi-until="' + v.id + '"]' + NOT_BADGE + notIFrom + ' {',
+        '  background-color: rgba(107,116,132,0.10); border-radius: 3px;',
+        '}',
+        badges('data-rev-until', notFrom) + ',',
+        badges('data-revi-until', notIFrom) + ' { box-shadow: 0 0 0 2px rgba(107,116,132,0.24); }'
+      );
+    });
+    return out.join('\n');
+  }
+
   function injectStyles() {
     var css = [
-      /* ---- version swap ---- */
-      'body[data-version="v1"] [data-rev="v2"],',
-      'body[data-version="v1"] [data-revi="v2"],',
-      'body[data-version="v2"] [data-rev="v1"],',
-      'body[data-version="v2"] [data-revi="v1"] { display: none !important; }',
+      /* ---- version range visibility ---- */
+      visibilityRules(),
 
-      /* ---- change marking (opt-in, on by default in v2) ---- */
-      'body.rev-marks[data-version="v2"] [data-rev="v2"] {',
-      '  border-left: 3px solid #F37021;',
-      '  padding-left: 14px;',
-      '  background: linear-gradient(90deg, rgba(243,112,33,0.055), rgba(243,112,33,0) 340px);',
-      '  border-radius: 0 8px 8px 0;',
-      '}',
-      'body.rev-marks[data-version="v2"] [data-revi="v2"] {',
-      '  background: rgba(243,112,33,0.13);',
-      '  box-shadow: 0 0 0 2px rgba(243,112,33,0.13);',
-      '  border-radius: 3px;',
-      '}',
-      'body.rev-marks[data-version="v1"] [data-rev="v1"],',
-      'body.rev-marks[data-version="v1"] [data-revi="v1"] {',
-      '  background: rgba(107,116,132,0.10); border-radius: 3px;',
-      '}',
+      /* ---- change marking ---- */
+      markRules(),
 
-      /* ---- "changed on 8/28" annotation block, used inside wireframe panels ---- */
+      /* ---- revision annotation block, used inside wireframe panels ---- */
       '.rev-what {',
       '  border: 1px solid #F8D3B7; background: #FFF8F3; border-radius: 10px;',
       '  padding: 12px 15px; font-size: 13px; color: #3D4654; line-height: 1.6;',
@@ -94,7 +171,7 @@
       '  background: rgba(26,31,42,0.96); color: #fff;',
       '  border-radius: 14px; box-shadow: 0 12px 36px rgba(26,31,42,0.34);',
       '  padding: 10px 12px; font-family: inherit;',
-      '  display: flex; flex-direction: column; gap: 8px; max-width: 320px;',
+      '  display: flex; flex-direction: column; gap: 8px; max-width: 384px;',
       '  backdrop-filter: blur(8px);',
       '}',
       '.revbar .rb-cap {',
@@ -104,7 +181,7 @@
       '.revbar .rb-cap b { color: #F8A05F; letter-spacing: 1.2px; }',
       '.revbar .rb-opts { display: flex; gap: 6px; }',
       '.revbar button.rb-opt {',
-      '  flex: 1; text-align: left; cursor: pointer; font: inherit;',
+      '  flex: 1 1 0; min-width: 0; text-align: left; cursor: pointer; font: inherit;',
       '  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);',
       '  color: rgba(255,255,255,0.72); border-radius: 9px; padding: 6px 10px;',
       '  line-height: 1.25; transition: background 0.12s, border-color 0.12s;',
@@ -129,6 +206,10 @@
       '.revbar.collapsed .rb-cap { cursor: pointer; color: rgba(255,255,255,0.72); }',
       '@media (max-width: 700px) {',
       '  .revbar { right: 10px; left: 10px; bottom: 10px; max-width: none; }',
+      '}',
+      /* three buttons stop fitting side by side on the narrowest phones */
+      '@media (max-width: 360px) {',
+      '  .revbar .rb-opts { flex-direction: column; }',
       '}',
       '@media print { .revbar { display: none; } }'
     ].join('\n');
@@ -187,8 +268,9 @@
 
   var barEl = null;
 
-  /* A page whose <title> carries a revision date declares both spellings as
-     <meta name="rev-title-v1|v2" content="..."> so the tab label stays honest. */
+  /* A page whose <title> carries a revision date declares one spelling per
+     version as <meta name="rev-title-vN" content="..."> so the tab label
+     stays honest. A version with no meta keeps the title it was served with. */
   function applyTitle(id) {
     var m = document.querySelector('meta[name="rev-title-' + id + '"]');
     if (m && m.getAttribute('content')) document.title = m.getAttribute('content');
@@ -211,7 +293,7 @@
   function init() {
     injectStyles();
     var current = fromQuery() || read(KEY) || DEFAULT;
-    if (current !== 'v1' && current !== 'v2') current = DEFAULT;
+    if (!known(current)) current = DEFAULT;
     document.body.classList.add('rev-marks');
     barEl = build(current);
     document.body.appendChild(barEl);

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mobile App Compliance Audit</title>
+<style>
+  :root { --ink:#1a1f2a; --soft:#3d4654; --muted:#6b7484; --line:#e3e6ec; --bg:#fff;
+          --high:#c24038; --med:#d98315; --low:#6b7484; --ok:#1f8a56; --wash:#f7f8fb; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:0; background:var(--bg); color:var(--ink); font-size:16px; line-height:1.65;
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 24px 80px; }
+  h1 { font-size:30px; line-height:1.2; margin:0 0 6px; letter-spacing:-0.4px; }
+  h2 { font-size:21px; margin:44px 0 12px; padding-bottom:7px; border-bottom:2px solid var(--ink); letter-spacing:-0.2px; }
+  h3 { font-size:17px; margin:30px 0 6px; }
+  p, li { color:var(--soft); }
+  .sub { color:var(--muted); font-size:14px; margin:0 0 26px; }
+  .box { background:var(--wash); border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin:20px 0; }
+  .box p:first-child { margin-top:0; } .box p:last-child { margin-bottom:0; }
+  .finding { border-left:4px solid var(--line); padding:2px 0 2px 18px; margin:28px 0; }
+  .finding.high { border-left-color:var(--high); }
+  .finding.med  { border-left-color:var(--med); }
+  .finding.low  { border-left-color:var(--low); }
+  .finding h3 { margin-top:0; }
+  .tag { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase;
+         padding:2px 8px; border-radius:20px; vertical-align:middle; margin-left:6px; }
+  .tag.high { background:#fbeded; color:var(--high); }
+  .tag.med  { background:#fdf3e3; color:#a9640c; }
+  .tag.low  { background:#eef0f4; color:#4a5261; }
+  .tag.verify { background:#eaf0fd; color:#2e6be6; }
+  .rule { font-size:14px; color:var(--muted); margin:0 0 10px; }
+  table { border-collapse:collapse; width:100%; font-size:14.5px; margin:16px 0; }
+  th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:12px; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  td.no { color:var(--high); font-weight:600; } td.yes { color:var(--ok); font-weight:600; }
+  code { background:var(--wash); padding:1px 5px; border-radius:4px; font-size:14px; }
+  ul { padding-left:20px; } li { margin:5px 0; }
+  .foot { margin-top:52px; padding-top:18px; border-top:1px solid var(--line); font-size:13.5px; color:var(--muted); }
+  a { color:#d9591a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Mobile App Compliance Audit</h1>
+<p class="sub">Tenna ELD driver app, screens D1 to D34 &middot; 29 August 2026 &middot; prepared by AppAxis</p>
+
+<div class="box">
+  <p><strong>What this is.</strong> A check of the documented driver app against the federal ELD rules, looking for
+  anything the rules require that the design does not yet cover.</p>
+  <p><strong>What was compared.</strong> All 34 driver screens at the 9/2 revision, their data elements and their
+  drawn content, against 49 CFR Part 395 and Appendix A to Subpart B. Section 3 of the proposal was checked
+  alongside, so that a thing listed as a requirement but never drawn reads differently from a thing nobody has
+  thought about.</p>
+  <p><strong>What this is not.</strong> This reviews the documents, not code. It is also not a substitute for
+  Tenna's FMCSA compliance advisor. Where a section number is marked <span class="tag verify">verify</span> we are
+  confident about the requirement but not the exact citation, and we would rather say so than guess.</p>
+</div>
+
+<h2>Findings that matter most</h2>
+
+<div class="finding high">
+  <h3>1. Hourly driving logs are required, and no screen shows them <span class="tag high">High</span></h3>
+  <p class="rule">Appendix A, event type 2</p>
+  <p>When a truck is moving and the driver has not changed duty status for an hour, the ELD has to write a log entry
+  on its own. These are called intermediate logs, and an inspector expects to see them in the record.</p>
+  <p>Section 3 of the proposal scopes them correctly: "Intermediate logs every 60 min while driving." They then
+  appear nowhere else. No screen draws one, the data element table does not list them, and the ownership split does
+  not say where they come from. The daily log (D8), the day detail (D10) and the officer view (D16) all show duty
+  status changes only.</p>
+  <p>This is the single largest gap found: a whole required record type with no surface and no data element.</p>
+</div>
+
+<div class="finding high">
+  <h3>2. Trailer number and shipping document number are missing entirely <span class="tag high">High</span></h3>
+  <p class="rule">Appendix A, required on the record and on the inspection display</p>
+  <p>The rules ask for the trailer number and the shipping document number, both on the log the officer reads and on
+  the individual events. The driver has to be able to type them in.</p>
+  <p>Neither appears anywhere in the package. Not on a screen, not in the data element table, not in the ownership
+  split. There is no entry surface for them and no place they are displayed.</p>
+</div>
+
+<div class="finding high">
+  <h3>3. The help screen tells drivers to use transfer methods the device will not have <span class="tag high">High</span></h3>
+  <p class="rule">&sect;395.22, carrier must supply a data transfer instruction sheet</p>
+  <p>The 8/28 revision settled that this ELD certifies as Telematics only: web services to eRODS with email as the
+  fallback, and no USB or Bluetooth transfer to an inspector. D17 was changed to match and the peer to peer work was
+  cut from the build.</p>
+  <p>The help screen (D25) was not changed. It still offers "Data transfer instructions &middot; eRODS &middot;
+  email &middot; Bluetooth &middot; USB."</p>
+  <p>The carrier is required to give every driver an instruction sheet describing how this ELD transfers data. If
+  that sheet describes two methods the device cannot perform, it is wrong, and a driver following it at the roadside
+  would try something that cannot work. This is the cheapest fix on the list and the one with the most direct
+  consequence.</p>
+</div>
+
+<div class="finding high">
+  <h3>4. Nothing handles the case where the app cannot get a location <span class="tag high">High</span></h3>
+  <p class="rule">Appendix A, manual location entry <span class="tag verify">verify</span></p>
+  <p>When the ELD cannot work out where the truck is, it has to ask the driver to type the location in, and it has to
+  record how far the truck has travelled since the last good position reading.</p>
+  <p>Neither exists in the package. There is no manual location entry, no mention of a location description field
+  being entered by hand, and no "distance since last valid coordinates."</p>
+  <p>This is not a theoretical gap here. The app's only source of position is the tracker over Bluetooth, and the
+  package already documents two states where that gives nothing: Q3 records that the tracker returns an empty VIN and
+  a zero odometer with the ignition off, and Q1 and D19 cover the link dropping while the driver walks away with the
+  phone. Those are exactly the conditions this requirement exists for.</p>
+</div>
+
+<div class="finding high">
+  <h3>5. The annotation rule is cited to the wrong section, and the number looks wrong too <span class="tag high">High</span> <span class="tag verify">verify</span></h3>
+  <p class="rule">Edits and annotations sit under &sect;395.30, not &sect;395.32</p>
+  <p>Five places in the package state that a note of at least 8 characters is required when a driver sets or edits a
+  status by hand. Three of them attribute it to &sect;395.32:</p>
+  <ul>
+    <li>D7: "The note of 8 characters or more that &sect;395.32 requires&hellip;"</li>
+    <li>Section 3: "8+ character note when status is manually edited. Required by &sect;395.32."</li>
+  </ul>
+  <p>Two separate problems. First, &sect;395.32 is the section about unidentified driving records. Edits,
+  certification and annotations are &sect;395.30, which D12's own screen cites correctly, so the package contradicts
+  itself. Second, our understanding is that the minimum length in Appendix A is 4 characters, not 8, with a separate
+  5 character minimum for a location typed in by hand.</p>
+  <p>Asking for 8 is allowed and is arguably better practice. Describing 8 as what the regulation requires is a
+  factual error in the document that gates certification. Both the section number and the number of characters need
+  the advisor to confirm them. We would fix this one first: it is quick, and it is wrong in the direction that looks
+  careless rather than cautious.</p>
+</div>
+
+<h2>The officer's screen</h2>
+
+<p>D16 correctly picked up the per event fields added in the 8/28 revision: sequence number, elapsed engine hours and
+accumulated vehicle miles. The gaps are in the header block at the top of that screen, which is the part an inspector
+reads first.</p>
+
+<table>
+  <thead><tr><th>Required on the display</th><th>D16</th></tr></thead>
+  <tbody>
+    <tr><td>Carrier name and USDOT number</td><td class="yes">Present</td></tr>
+    <tr><td>Driver name, ID, CDL and state</td><td class="yes">Present</td></tr>
+    <tr><td>Co-driver</td><td class="yes">Present</td></tr>
+    <tr><td>Truck number and VIN</td><td class="yes">Present</td></tr>
+    <tr><td>ELD identifier and registration ID</td><td class="yes">Present</td></tr>
+    <tr><td>Current odometer and engine hours</td><td class="yes">Present</td></tr>
+    <tr><td>Unidentified driving indicator</td><td class="yes">Present</td></tr>
+    <tr><td>24 hour grid and event list</td><td class="yes">Present</td></tr>
+    <tr><td>Trailer number</td><td class="no">Missing</td></tr>
+    <tr><td>Shipping document number</td><td class="no">Missing</td></tr>
+    <tr><td>Exempt driver status</td><td class="no">Missing</td></tr>
+    <tr><td>Start of the 24 hour period, and time zone</td><td class="no">Missing</td></tr>
+    <tr><td>Miles driven today</td><td class="no">Missing (D8 has it, the officer view does not)</td></tr>
+    <tr><td>Total hours today</td><td class="no">Missing</td></tr>
+    <tr><td>Malfunction and diagnostic indicator</td><td class="no">Missing from the header</td></tr>
+  </tbody>
+</table>
+
+<div class="finding med">
+  <h3>6. Event rows on the officer's screen have no location <span class="tag med">Medium</span></h3>
+  <p>D16 lists each event as sequence, time, status, engine hours, vehicle miles and origin. The driver's own screens
+  (D8 and D10) show a place name such as "Blue Ash, OH" but the officer's screen does not. Location belongs on every
+  event.</p>
+</div>
+
+<div class="finding med">
+  <h3>7. The malfunction indicator does not reach the inspector <span class="tag med">Medium</span></h3>
+  <p>D18 interrupts the driver and D19 shows a banner, so the driver always knows. An inspector reading D16 sees
+  nothing. The indicator has to be visible on the screen handed over at the roadside.</p>
+</div>
+
+<h2>Other gaps</h2>
+
+<div class="finding med">
+  <h3>8. A driver cannot claim an hours of service exception <span class="tag med">Medium</span></h3>
+  <p class="rule">&sect;395.1, adverse driving conditions and the short haul exception</p>
+  <p>Section 3 scopes the engine to handle "adverse driving conditions, the short-haul air-mile exemption,
+  agricultural" exemptions. No screen lets a driver say they are using one. D6 offers Personal Conveyance and Yard
+  Move and nothing else. Every other use of the word "exception" in the wireframes is about screen navigation.</p>
+  <p>A driver taking the two extra hours for bad weather has to be able to say so, and it has to land on the record.</p>
+</div>
+
+<div class="finding med">
+  <h3>9. The app stays fully usable while the truck is moving <span class="tag med">Medium</span></h3>
+  <p class="rule">&sect;392.80 and &sect;392.82, texting and handheld phone use while driving</p>
+  <p>D5 says automatic driving detection cannot be overridden while the vehicle is moving, but that is an anti fraud
+  control rather than a safety one. Nothing anywhere locks the interface down at speed.</p>
+  <p>Handheld phone use and texting while driving a commercial vehicle are prohibited, and can disqualify the driver
+  and penalise the carrier. Commercial ELD apps normally disable most of the interface above a few miles an hour.
+  D29, the stationary prompt, is fine by design because it only appears when stopped. Nothing else is constrained.</p>
+</div>
+
+<div class="finding med">
+  <h3>10. Personal Conveyance location precision is not addressed <span class="tag med">Medium</span> <span class="tag verify">verify</span></h3>
+  <p>Position is recorded less precisely during Personal Conveyance, roughly to the nearest ten miles, so that a
+  driver's personal trips are not tracked in detail. Nothing in the package mentions reduced precision. D6 records
+  Personal Conveyance with no note that its position handling differs.</p>
+</div>
+
+<div class="finding med">
+  <h3>11. Special duty modes may need to reset when the engine cycles <span class="tag med">Medium</span> <span class="tag verify">verify</span></h3>
+  <p>D6 says "Personal conveyance ends automatically if the vehicle re-enters commercial use." Our understanding is
+  that the rule is stricter: the special mode clears when the engine is switched off and on, and the driver has to
+  choose it again. As drawn, the screen may be more permissive than the rule allows.</p>
+</div>
+
+<div class="finding low">
+  <h3>12. A driver cannot get a copy of their own logs <span class="tag low">Low</span> <span class="tag verify">verify</span></h3>
+  <p>D17 sends records to FMCSA at the roadside. W7 and W13 export for the carrier. Nothing lets a driver take a copy
+  of their own record away with them, which the carrier is obliged to provide on request.</p>
+</div>
+
+<h2>What is already right</h2>
+
+<p>Most of the app holds up, and the parts that are hardest to get right are the parts that are right.</p>
+<ul>
+  <li>The four duty statuses, the note required on a manual change, and the automatic switch after five minutes
+  stopped with sixty seconds to answer (D29), including recording whether the change was automatic or the driver's.
+  That last detail is what auditors actually check.</li>
+  <li>Automatic driving time cannot be edited, originals are kept, and a carrier cannot change a log without the
+  driver agreeing (D12, D13, D20, D21). The edit history faults FMCSA cites most often are designed out.</li>
+  <li>Daily certification using the regulation's own wording, and re-certification after an edit (D11).</li>
+  <li>Unidentified driving: eight days on the phone, six months on the host, annotate or assign, and the assignment
+  coming back to the driver to accept (D22, D28, D34).</li>
+  <li>Malfunctions separated from diagnostics by severity, the eight day clock, paper logs starting and stopping
+  (D18, D19, D32).</li>
+  <li>One transfer family only, with no peer to peer path in the build (D17).</li>
+  <li>The PIN in and out of inspection mode (D15, D31).</li>
+</ul>
+
+<h2>Order we would fix them</h2>
+
+<table>
+  <thead><tr><th>#</th><th>Finding</th><th>Why this order</th></tr></thead>
+  <tbody>
+    <tr><td>3</td><td>Help screen lists USB and Bluetooth</td><td>Wrong today, one screen to fix, and it misleads a driver at the roadside</td></tr>
+    <tr><td>5</td><td>Annotation citation and character count</td><td>A factual error in the document that gates certification</td></tr>
+    <tr><td>1</td><td>Hourly driving logs</td><td>A whole required record type with nowhere to live</td></tr>
+    <tr><td>2</td><td>Trailer and shipping document</td><td>Required fields with no entry surface and no display</td></tr>
+    <tr><td>4</td><td>Manual location entry</td><td>Triggered by failure modes the package already documents</td></tr>
+    <tr><td>6, 7</td><td>Officer screen header and event location</td><td>Same screen, one pass</td></tr>
+    <tr><td>8, 9</td><td>Exceptions, and locking the screen while moving</td><td>New surfaces, worth scoping together</td></tr>
+    <tr><td>10, 11, 12</td><td>Personal Conveyance precision, reset on ignition, driver's own copy</td><td>Confirm the rule first</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <p><strong>Four of these are the same shape.</strong> Findings 1, 2, 4 and 8 all follow the pattern the walkthrough
+  already found five times: the requirement is written down in Section 3 or in the regulation, and no screen receives
+  it. That is a documentation habit worth naming, not a series of unrelated oversights.</p>
+</div>
+
+<p class="foot">
+  Prepared by AppAxis against 49 CFR Part 395 and Appendix A to Subpart B, as an analysis of the wireframe package at
+  the 9/2/2026 revision. Items marked "verify" describe a requirement we are confident about and a citation we are
+  not; those belong with Tenna's FMCSA compliance advisor before anything is built. Companion audit:
+  <a href="control-panel-audit.html">Control Panel Compliance Audit</a>.
+</p>
+
+</div>
+</body>
+</html>

@@ -303,6 +303,7 @@
       <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
       <a href="/">← The Proposal</a>
       <a href="/wireframes">Wireframes ↗</a>
+      <a href="/walkthrough" data-rev-from="v3">Walkthrough ↗</a>
       <a href="/decisions">Decision Log ↗</a>
       <span class="field-guide">RESEARCH NOTE</span>
     </div>
@@ -312,8 +313,8 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="kicker" data-rev="v1">A Field Guide · Compiled From tenna.com</div>
-    <div class="kicker" data-rev="v2">A Field Guide · Compiled From tenna.com · Rev. 8/28/2026</div>
+    <div class="kicker" data-rev-until="v1">A Field Guide · Compiled From tenna.com</div>
+    <div class="kicker" data-rev-from="v2">A Field Guide · Compiled From tenna.com · Rev. 8/28/2026</div>
     <h1>Tenna isn't an ELD vendor.<br/>It's an <span class="accent">equipment operating system</span><br/>for construction contractors.</h1>
     <p class="lede">
       Tenna sells one platform, TennaCORE, that consolidates everything
@@ -329,11 +330,11 @@
 
 <section id="whats-changed" style="padding:30px 0 6px 0;">
   <div class="container">
-    <div data-rev="v1" class="rev-what" style="border-color:#E5E7EB; background:#F7F8FB;">
+    <div data-rev-until="v1" class="rev-what" style="border-color:#E5E7EB; background:#F7F8FB;">
       <span class="rev-what-h" style="color:#6B7484;">Original</span>
-      <p>You are reading the original field guide. A revision dated 8/28/2026 adds one clarification, what "host" means in ELD terminology and which half of the ELD is which, following the August 17 FMCSA compliance review. Switch versions with the control at the bottom right.</p>
+      <p>You are reading the original field guide. A revision dated 8/28/2026 adds one clarification, what "host" means in ELD terminology and which half of the ELD is which, following the August 17 FMCSA compliance review. A further revision dated 9/2/2026 notes where the ELD sits relative to Tenna's own platform now that the account and portal decisions have landed. Switch versions with the control at the bottom right.</p>
     </div>
-    <div data-rev="v2" class="rev-what">
+    <div data-rev-from="v2" class="rev-what">
       <span class="rev-what-h">Revision 8/28/2026 · one addition</span>
       <p>The August 17 FMCSA compliance review of host reporting used the regulation's vocabulary throughout, and
       the term is worth pinning down because it decides where work belongs. An ELD has two halves. The
@@ -344,8 +345,16 @@
       audit production legally belong there, not on the phone.</p>
       <p style="margin-top:8px;">In Tenna's terms, the ELD's host is the box drawn below as <i>ELD (Hours of
       Service) · own backend, driver app, and fleet portal</i>. Nothing else in this guide changed; the
-      <a href="/#whats-changed">proposal</a> and <a href="/wireframes#whats-changed">wireframes</a> carry the
+      <a href="/#whats-changed">proposal</a> and <a href="/wireframes#whats-changed">wireframes</a> <span data-revi-until="v2">carry</span><span data-revi-from="v3">have</span> the
       changes that followed from the review.</p>
+    </div>
+    <div data-rev-from="v3" class="rev-what" style="margin-top:10px;">
+      <span class="rev-what-h">Revision 9/2/2026 · one note</span>
+      <p>The 28 August huddle settled where the ELD sits relative to everything drawn below. It runs on its own
+      schema and its own APIs, in a lane parallel to Tenna's data pipeline rather than inside it, joined to the
+      platform on Tenna user and asset IDs. Its host surfaces are a micro-frontend inside the Tenna portal. The one
+      genuinely shared thing is people: one credential store, one list of users. The
+      <a href="/wireframes#sources">ownership split ↗</a> works through every data element on that basis.</p>
     </div>
   </div>
 </section>
@@ -416,8 +425,8 @@
       <div class="arch-layer eld">
         <div class="layer-label">Tenna ELD · A Separate Product</div>
         <div class="arch-row two">
-          <div class="arch-pill" data-rev="v1"><b>ELD (Hours of Service)</b><span>Own backend, driver app, and fleet portal. Today white-labeled from a partner; the product this proposal brings in-house</span></div>
-          <div class="arch-pill" data-rev="v2"><b>ELD (Hours of Service)</b><span>Own backend (the <i>host</i>), driver app, and fleet portal. Today white-labeled from a partner; the product this proposal brings in-house</span></div>
+          <div class="arch-pill" data-rev-until="v1"><b>ELD (Hours of Service)</b><span>Own backend, driver app, and fleet portal. Today white-labeled from a partner; the product this proposal brings in-house</span></div>
+          <div class="arch-pill" data-rev-from="v2"><b>ELD (Hours of Service)</b><span>Own backend (the <i>host</i>), driver app, and fleet portal. Today white-labeled from a partner; the product this proposal brings in-house</span></div>
           <div class="arch-pill"><b>Integration Surface</b><span>Asset &amp; User APIs · SSO · TennaFLEET ECM feed · HOS events back to Scorecard &amp; Dispatch</span></div>
         </div>
       </div>
@@ -568,7 +577,7 @@
             <div class="module-tag premium">PREMIUM MODULE</div>
           </div>
         </div>
-        <p>The connectors that keep Tenna from becoming a 13th system to reconcile every Monday. Tenna's API + named integrations.</p>
+        <p>The connectors to the contractor's other systems: Tenna's API plus named integrations.</p>
         <ul>
           <li><b>Accounting / ERP</b>: push asset costs, labor, parts to the books.</li>
           <li><b>Project Management / Construction Software</b>: link assets to projects in the systems estimators already use.</li>
@@ -585,7 +594,7 @@
             <div class="module-tag core">UTILITY MODULE</div>
           </div>
         </div>
-        <p>The fleet-of-trackers admin view: provisioning, replacement, inventory of Tenna devices themselves. Boring but load-bearing for any contractor with 500+ trackers.</p>
+        <p>The fleet-of-trackers admin view: provisioning, replacement, inventory of Tenna devices themselves. Unglamorous but essential for any contractor with 500+ trackers.</p>
         <ul>
           <li>Per-device status, firmware, install location.</li>
           <li>Bulk assign / reassign trackers to assets.</li>
@@ -662,10 +671,9 @@
 <section id="connections" class="alt">
   <div class="container">
     <div class="eyebrow">How It All Connects</div>
-    <h2>The mental model that ties it together.</h2>
+    <h2>How the pieces fit together.</h2>
     <p class="lede">
-      None of these modules are interesting in isolation. The reason
-      contractors actually buy Tenna is because of the joins between them:
+      Contractors buy Tenna for the joins between the modules:
       what happens when a tracker, an asset record, a maintenance trigger,
       and a job schedule are all on the same backend. Four examples:
     </p>
@@ -704,7 +712,7 @@
           The single most important thing to understand about Tenna's product surface is how much every module shares: the same asset records, the same map, the same mobile app, the same user permissions, the same ECM data feed from the same trackers. The ELD is the deliberate exception. Tenna has been clear that it's a separate product, with its own backend, its own driver app, and its own fleet portal, not a tab inside the platform.
         </p>
         <p style="margin-top:16px;">
-          That separation is what makes bringing it in-house interesting. Built generically, an ELD is a commodity; Motive and Samsara already do it well. Built as a standalone product integrated at the core, consuming the TennaFLEET ECM feed, the asset record, the driver profile, and Tenna SSO, and pushing HOS events back to the scorecard and dispatch board, it becomes something the big general-purpose ELDs structurally cannot match. The ecosystem above isn't the container the ELD lives in. It's the integration surface that makes a Tenna ELD worth building.
+          That separation is what makes an in-house ELD viable. Built generically, an ELD is a commodity; Motive and Samsara already do it well. Built as a standalone product integrated at the core, consuming the TennaFLEET ECM feed, the asset record, the driver profile, and Tenna SSO, and pushing HOS events back to the scorecard and dispatch board, it becomes something the big general-purpose ELDs structurally cannot match. The ecosystem above isn't the container the ELD lives in. It's the integration surface that makes a Tenna ELD worth building.
         </p>
       </div>
     </div>

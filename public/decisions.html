@@ -250,6 +250,7 @@
       <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
       <a href="/">← The Proposal</a>
       <a href="/wireframes">Wireframes ↗</a>
+      <a href="/walkthrough" data-rev-from="v3">Walkthrough ↗</a>
       <a href="/ecosystem">Ecosystem ↗</a>
       <a href="/stack-research">Evidence ↗</a>
       <span class="field-guide">SHARED RECORD</span>
@@ -259,44 +260,57 @@
 
 <section class="hero">
   <div class="container">
-    <div class="kicker" data-rev="v1">Updated 13 August 2026 · Confidential</div>
-    <div class="kicker" data-rev="v2">Updated 28 August 2026 · Confidential</div>
+    <div class="kicker" data-rev-until="v1">Updated 13 August 2026 · Confidential</div>
+    <div class="kicker" data-rev-from="v2" data-rev-until="v2">Updated 28 August 2026 · Confidential</div>
+    <div class="kicker" data-rev-from="v3">Updated 2 September 2026 · Confidential</div>
     <h1>Decision Log.<br/><span class="accent">Open questions, settled answers, and how we got there.</span></h1>
     <p class="lede">
-      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2: building against real Geometris WQ hardware surfaces things a specification cannot. <span data-revi="v1">Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.</span><span data-revi="v2">Newest group: six questions (Q15–Q20) out of the <a href="#meetings">August 17 FMCSA compliance review of host reporting</a>, most of them for Tenna's compliance advisor, plus two long-standing questions the same memo settled. The five <a href="#product">product decisions</a> from the August 13 kickoff are unchanged and still queued.</span>
+      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2: building against real Geometris WQ hardware surfaces things a specification cannot. <span data-revi-until="v1">Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.</span><span data-revi-from="v2" data-revi-until="v2">Newest group: six questions (Q15–Q20) out of the <a href="#meetings">August 17 FMCSA compliance review of host reporting</a>, most of them for Tenna's compliance advisor, plus two long-standing questions the same memo settled. The five <a href="#product">product decisions</a> from the August 13 kickoff are unchanged and still queued.</span><span data-revi-from="v3">Newest entry: the <a href="#meetings">28 August huddle</a>, which settled three of the five <a href="#product">product decisions</a> in the room. P3 and P4 stay open, and the sixteen questions below are unchanged.</span>
     </p>
 
     <div class="score-row">
-      <div class="score is-decisions">
+      <div class="score is-decisions" data-rev-until="v2">
         <div class="v">5</div>
         <div class="l">Product decisions</div>
+      </div>
+      <div class="score is-decisions" data-rev-from="v3">
+        <div class="v">3 / 5</div>
+        <div class="l">Product decisions settled</div>
       </div>
       <div class="score is-blocking">
         <div class="v">1</div>
         <div class="l">Blocking Phase&nbsp;3</div>
       </div>
-      <div class="score is-open" data-rev="v1">
+      <div class="score is-open" data-rev-until="v1">
         <div class="v">10</div>
         <div class="l">Awaiting an answer</div>
       </div>
-      <div class="score is-open" data-rev="v2">
+      <div class="score is-open" data-rev-from="v2" data-rev-until="v2">
         <div class="v">16</div>
         <div class="l">Awaiting an answer</div>
       </div>
-      <div class="score is-answered" data-rev="v1">
+      <div class="score is-open" data-rev-from="v3">
+        <div class="v">17</div>
+        <div class="l">Awaiting an answer</div>
+      </div>
+      <div class="score is-answered" data-rev-until="v1">
         <div class="v">4</div>
         <div class="l">Settled by test</div>
       </div>
-      <div class="score is-answered" data-rev="v2">
+      <div class="score is-answered" data-rev-from="v2">
         <div class="v">6</div>
         <div class="l">Settled</div>
       </div>
-      <div class="score is-meetings" data-rev="v1">
+      <div class="score is-meetings" data-rev-until="v1">
         <div class="v">2</div>
         <div class="l">Meetings logged</div>
       </div>
-      <div class="score is-meetings" data-rev="v2">
+      <div class="score is-meetings" data-rev-from="v2" data-rev-until="v2">
         <div class="v">3</div>
+        <div class="l">Meetings logged</div>
+      </div>
+      <div class="score is-meetings" data-rev-from="v3">
+        <div class="v">4</div>
         <div class="l">Meetings logged</div>
       </div>
     </div>
@@ -305,13 +319,13 @@
 
 <section id="whats-changed" style="padding:30px 0 4px 0;">
   <div class="container">
-    <div data-rev="v1" class="rev-what" style="border-color:var(--line); background:var(--bg-alt);">
+    <div data-rev-until="v1" class="rev-what" style="border-color:var(--line); background:var(--bg-alt);">
       <span class="rev-what-h" style="color:var(--muted);">Original · as of 13 August 2026</span>
       <p>You are reading the log as it stood before the August 17 FMCSA compliance review of host reporting. The
       8/28/2026 revision adds six questions (Q15–Q20), records two answers that review supplied, and logs
       the meeting itself. Switch versions with the control at the bottom right.</p>
     </div>
-    <div data-rev="v2" class="rev-what">
+    <div data-rev-from="v2" data-rev-until="v2" class="rev-what">
       <span class="rev-what-h">Revision 8/28/2026 · what this log gained</span>
       <p><b>Six new questions, Q15–Q20.</b> Four for Tenna's FMCSA compliance advisor: how a non-driver vehicle
       movement is classified (Q15), whether pattern-matched unidentified driving may be auto-annotated (Q16), what
@@ -325,20 +339,45 @@
       changed. The five product decisions from the August 13 kickoff are untouched: nothing in the memo settles
       P1–P5.</p>
     </div>
+    <div data-rev-from="v3" class="rev-what">
+      <span class="rev-what-h">Revision 9/2/2026 · what this log gained</span>
+      <p><b>Three product decisions settled.</b> The 28 August huddle answered P1, P2 and P5 in the room. Drivers are
+      Tenna users on the one shared credential store; sign-in is embedded in the app against the same Cognito pool,
+      not a browser redirect; the control panel is a micro-frontend inside the Tenna portal, in a new Tenna repository.
+      Each card below carries the exchange that settled it.</p>
+      <p><b>P4 partly answered, and still gated.</b> The routing is agreed: notifications the driver needs about
+      their own device and their own log stay local to the ELD app, and anything aimed at someone other than the
+      driver goes out as an event on Tenna's existing infrastructure. Which events cross is still open, so P4 stays
+      on the list.</p>
+      <p><b>P3 unchanged, and it is Adam's to move.</b> Tenna asked for the compliance consultant's answer on how
+      long raw tracker data has to be retained and by whom. Until that lands, the ownership split marks position and
+      raw telemetry as unresolved rather than guessing.</p>
+      <p><b>One new question, and one asked of a second field.</b> <a href="#q23">Q23</a> asks which VIN is authoritative when the
+      vehicle and the asset record disagree, the same question <a href="#q6">Q6</a> asks of the odometer and nobody had
+      asked of the VIN. It surfaced from drawing the pairing screen honestly. <a href="#q7">Q7</a> gains the constraint
+      that decides it: only the serial is readable before a connection is open, because CoreBluetooth hides the MAC
+      address behind a per-app UUID, so a pairing list that names trucks cannot be keyed on the address.</p>
+      <p><b>One meeting logged.</b> The <a href="#meetings">28 August huddle</a>, the first of the weekly series, with
+      the governance structure and the three decisions it produced. The wireframes hold the
+      <a href="/wireframes#sources">data ownership split ↗</a> that came out of it. The 8/28 revision, with the six
+      questions and two answers from the compliance review, is still readable in full through the control at the
+      bottom right.</p>
+    </div>
   </div>
 </section>
 
 <section id="product" class="alt">
   <div class="container">
     <div class="eyebrow">Product decisions · from the Aug 13 platform kickoff</div>
-    <h2>Five decisions that need answers before the screens can be final.</h2>
+    <h2 data-rev-until="v2">Five decisions that need answers before the screens can be final.</h2>
+    <h2 data-rev-from="v3">Three settled on 28 August. Two still need answers.</h2>
     <p class="lede">
-      In his follow-up to the kickoff, Luke asked that the August 20 session focus on a short list of product decisions, because the data guidelines will come out of those answers. They are listed in order: each one builds on the one before it. Each is wireframed with candidate answers on the <a href="/wireframes">Wireframes page&nbsp;↗</a>. Anything not settled in the room gets an owner and a due date.
+      In his follow-up to the kickoff, Luke asked that the August 20 session focus on a short list of product decisions, because the data guidelines will come out of those answers. They are listed in order: each one builds on the one before it. Each is wireframed with candidate answers on the <a href="/wireframes">Wireframes page&nbsp;↗</a>.<span data-revi-until="v2"> Anything not settled in the room gets an owner and a due date.</span><span data-revi-from="v3"> Three were settled in the 28 August huddle, and the ownership split on the <a href="/wireframes#sources">Wireframes page ↗</a> is what those answers made possible. P3 and P4 are still live.</span>
     </p>
 
     <div class="qlist">
 
-      <article class="q blocking" id="p1">
+      <article class="q blocking" id="p1" data-rev-until="v2">
         <div class="q-head">
           <span class="q-id">P1</span>
           <h3 class="q-title">Are drivers full Tenna users, or do they get a simpler ELD-only login?</h3>
@@ -361,8 +400,26 @@
           <div class="q-foot"><span>Screens waiting on this: <a href="/wireframes#d1">D1</a>–<a href="/wireframes#d3">D3</a>, <a href="/wireframes#d23">D23</a>, and control panel access. P2 follows directly from this answer.</span></div>
         </div>
       </article>
+      <article class="q answered" id="p1s" data-rev-from="v3">
+        <div class="q-head">
+          <span class="q-id">P1</span>
+          <h3 class="q-title">Are drivers full Tenna users, or do they get a simpler ELD-only login?</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-answered">Settled 28 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>Candidate A, full Tenna users. Sunil opened the item by saying the two apps stay separate but Tenna users are a requirement for the ELD app as well, the same way the Tenna application works today. Asked directly whether that meant a separate credential store or the shared one, he was unambiguous: it is shared, the same set of login credentials used for the platform, and they drive capability and authorization inside the ELD app too.</p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p>One credential store, with new attributes introduced to tell an actual driver apart from any other user. Nothing else about user setup changes. Tamar asked that it be recorded as covering the web app as well as the mobile app, and Sunil confirmed. Jose added the shape of what comes back on login: who the user is, what they may do, and which products the account has licensed, universal across the Tenna apps. So the ELD stores a reference to the Tenna user and reads the record when it needs to display it, and there is no second list of people to keep in sync. What is still to specify is which attributes mark a user as a driver, and what the ELD may rely on being present.</p>
+          </div>
+          <div class="q-foot"><span>Unblocks <a href="/wireframes#d1">D1</a>, <a href="/wireframes#d3">D3</a>, <a href="/wireframes#d23">D23</a>, <a href="/wireframes#d27">D27</a>, <a href="/wireframes#w5">W5</a>, <a href="/wireframes#w9">W9</a> and <a href="/wireframes#w15">W15</a>. Drawn out as surface T2 in the <a href="/wireframes#sources">ownership split ↗</a>.</span></div>
+        </div>
+      </article>
 
-      <article class="q blocking" id="p2">
+      <article class="q blocking" id="p2" data-rev-until="v2">
         <div class="q-head">
           <span class="q-id">P2</span>
           <h3 class="q-title">How do drivers sign in: through Tenna's login, or a separate ELD login?</h3>
@@ -380,6 +437,24 @@
             <p>How long can a driver stay signed in without cell coverage? Drivers must be able to reach their logs with no signal, so a session has to survive offline for some agreed amount of time.</p>
           </div>
           <div class="q-foot"><span>Screens waiting on this: <a href="/wireframes#d1">D1</a> and <a href="/wireframes#d3">D3</a>. Also shapes the control panel sign-in (P5).</span></div>
+        </div>
+      </article>
+      <article class="q answered" id="p2s" data-rev-from="v3">
+        <div class="q-head">
+          <span class="q-id">P2</span>
+          <h3 class="q-title">How do drivers sign in: through Tenna's login, or a separate ELD login?</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-answered">Settled 28 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>Through Tenna, and embedded rather than bounced. Two ways of doing that were put side by side in the room: the app opens a browser to the Tenna login page and gets bounced back, or the form stays native and authenticates against the same Cognito user store every other Tenna app uses.</p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p>The embedded form. Jose set the requirement in user terms: "I punch in my tenant credentials onto the app and I click log in and it works," with Face ID for the next time. Adam confirmed there is no material scope change either way, and that Cognito is well-trodden ground. Kumaran has a written flow for the Amplify SDK against the existing pool and offered to send it. Tamar asked that the same be recorded for the web app. What is still open is offline grace: a driver at a rural jobsite has to reach their logs with no signal, so a cached session needs an agreed lifetime, and nothing about the credential store answers that on its own.</p>
+          </div>
+          <div class="q-foot"><span>Unblocks <a href="/wireframes#d1">D1</a>, <a href="/wireframes#d3">D3</a> and the control panel sign-in. Drawn out as surface T1 in the <a href="/wireframes#sources">ownership split ↗</a>.</span></div>
         </div>
       </article>
 
@@ -403,6 +478,10 @@
               B · Tenna keeps the raw data: the raw readings flow into Tenna and are stored alongside its other asset data, through a new connection built for this.
             </p>
           </div>
+          <div class="q-ask" data-rev-from="v3">
+            <span class="q-label">Where it stands, 28 August</span>
+            <p>Still open, and it is Adam's to move. Jose framed the useful version of the question in the huddle: the distilled ELD records are what Tenna needs and will store, and the raw second-by-second tracker stream would be a copy kept in case anyone ever needs to pull it up, since Tenna will not use it for telematics or any other offering. Tamar said that makes sense to her subject to Luke, and raised the governance angle. Adam flagged the practical constraint, that a packet every three seconds through a driver's personal phone is a real data cost over a month, and the regulatory one, that an audit may require the raw data to prove the ELD events were recorded properly. Tenna asked for the compliance consultant's answer before finalising. Until it lands, the <a href="/wireframes#sources">ownership split ↗</a> marks position and raw telemetry as unresolved rather than guessing.</p>
+          </div>
           <div class="q-foot"><span>Waiting on this: the <a href="/wireframes#data">master data table</a> and the export screens (<a href="/wireframes#w7">W7</a>, <a href="/wireframes#w13">W13</a>).</span></div>
         </div>
       </article>
@@ -420,11 +499,15 @@
           <p>
             Violations, running-out-of-hours warnings, and device malfunctions all start in the ELD. Should they also appear in Tenna's own alerts and notifications, or only on the ELD pages? The strongest case for pushing one through: a device malfunction starts an 8-day repair clock that a fleet manager must not be able to miss.
           </p>
-          <div class="q-foot"><span>Waiting on this: whether <a href="/wireframes#w1">W1</a>, <a href="/wireframes#w2">W2</a>, and <a href="/wireframes#w8">W8</a>–<a href="/wireframes#w10">W10</a> are the main alert screens or copies of Tenna's.</span></div>
+          <div class="q-evidence" data-rev-from="v3">
+            <span class="q-label">Partly answered, 28 August</span>
+            <p>The routing is agreed and the set is not. Sunil drew the line first: anything meaningful to the driver about their own device and their own log has to show up in the ELD app rather than the Tenna app. Jose put the other half of it: notifications for people outside the driver, a supervisor hearing that a record was submitted for instance, go out as an event on Tenna's existing infrastructure, and Tenna's notification engine resolves the recipient list from the org chart and renders the template. Adam noted that a good share of the driver-facing pushes are locally triggered on the device anyway, because drivers work in places with no signal. Kumaran confirmed the mobile app already handles push, and that the two pipelines need to be reconciled at design time. So the shape is settled. Which ELD events cross the boundary is not, and that list is what P4 still needs.</p>
+          </div>
+          <div class="q-foot"><span>Waiting on this: whether <a href="/wireframes#w1">W1</a>, <a href="/wireframes#w2">W2</a>, and <a href="/wireframes#w8">W8</a>–<a href="/wireframes#w10">W10</a> are the main alert screens or copies of Tenna's.<span data-revi-from="v3"> Routing is drawn out as surfaces E2 and E3 in the <a href="/wireframes#sources">ownership split ↗</a>.</span></span></div>
         </div>
       </article>
 
-      <article class="q blocking" id="p5">
+      <article class="q blocking" id="p5" data-rev-until="v2">
         <div class="q-head">
           <span class="q-id">P5</span>
           <h3 class="q-title">Does the control panel live inside the Tenna portal, or as its own site?</h3>
@@ -440,6 +523,24 @@
           <div class="q-foot"><span>Waiting on this: all fifteen web screens (<a href="/wireframes#web">W1–W15</a>).</span></div>
         </div>
       </article>
+      <article class="q answered" id="p5s" data-rev-from="v3">
+        <div class="q-head">
+          <span class="q-id">P5</span>
+          <h3 class="q-title">Does the control panel live inside the Tenna portal, or as its own site?</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-answered">Settled 28 Aug</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>Inside, as a micro-frontend. Jose was specific about the experience he wants: log in to Tenna, find ELD management on the left-hand nav, click it, and be in that experience, in the same construct Tenna’s other micro-frontend apps already use. He was equally specific that this is a supervisor permission and not a driver surface, and that it sits downstream of the tracker rather than next to it.</p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p>A new repository in Tenna’s GitHub, which AppAxis builds in freely and Tenna does not review, with Tenna hosting the result and both sides aligning on one component base so a user cannot feel the seam. Tamar set those terms and offered help on the injection point, which is the part Tenna owns. The account also needs its ELD license adjusted, since the current one is scoped to the incumbent vendor. Adam asked that the team be able to run the whole portal locally for testing and review, and Tamar agreed that is the plan. Sunil added a naming correction worth keeping: it is an admin panel, not a control panel in the literal sense, since nobody sets a duty status from it. Supervisory edit proposals are the one control it does carry.</p>
+          </div>
+          <div class="q-foot"><span>Unblocks every host screen, <a href="/wireframes#w1">W1–W18</a>. The permission itself is surface T8 in the <a href="/wireframes#sources">ownership split ↗</a>.</span></div>
+        </div>
+      </article>
 
     </div>
   </div>
@@ -448,18 +549,19 @@
 <section id="open">
   <div class="container">
     <div class="eyebrow">Awaiting an answer</div>
-    <h2 data-rev="v1">Ten questions, and who owns each.</h2>
-    <h2 data-rev="v2">Sixteen questions, and who owns each.</h2>
+    <h2 data-rev-until="v1">Ten questions, and who owns each.</h2>
+    <h2 data-rev-from="v2" data-rev-until="v2">Sixteen questions, and who owns each.</h2>
+    <h2 data-rev-from="v3">Seventeen questions, and who owns each.</h2>
     <p class="lede">
       Filter by owner to see only what is on your plate. Nothing here is a blocker on Phase 2 delivery except where marked, but several shape Phase 3 architecture, and answering them early is cheaper than reworking around a guess.
     </p>
 
     <div class="filters">
       <span class="flabel">Owner</span>
-      <button class="fbtn" type="button" data-filter="all" aria-pressed="true">All <span class="fcount" data-rev="v1">10</span><span class="fcount" data-rev="v2">16</span></button>
-      <button class="fbtn" type="button" data-filter="compliance" aria-pressed="false">ELD Compliance <span class="fcount" data-rev="v1">1</span><span class="fcount" data-rev="v2">5</span></button>
+      <button class="fbtn" type="button" data-filter="all" aria-pressed="true">All <span class="fcount" data-rev-until="v1">10</span><span class="fcount" data-rev-from="v2" data-rev-until="v2">16</span><span class="fcount" data-rev-from="v3">18</span></button>
+      <button class="fbtn" type="button" data-filter="compliance" aria-pressed="false">ELD Compliance <span class="fcount" data-rev-until="v1">1</span><span class="fcount" data-rev-from="v2" data-rev-until="v2">5</span><span class="fcount" data-rev-from="v3">7</span></button>
       <button class="fbtn" type="button" data-filter="geometris" aria-pressed="false">Geometris <span class="fcount">6</span></button>
-      <button class="fbtn" type="button" data-filter="tenna" aria-pressed="false">Tenna <span class="fcount" data-rev="v1">4</span><span class="fcount" data-rev="v2">7</span></button>
+      <button class="fbtn" type="button" data-filter="tenna" aria-pressed="false">Tenna <span class="fcount" data-rev-until="v1">4</span><span class="fcount" data-rev-from="v2" data-rev-until="v2">7</span><span class="fcount" data-rev-from="v3">9</span></button>
     </div>
 
     <div class="qlist" id="qlist">
@@ -514,7 +616,7 @@
         </div>
         <div class="q-body">
           <p>
-            Item <span class="mono">0x11</span> behaves as a genuine monotonic engine-hour counter: it advanced 2.4&nbsp;h → 3.0&nbsp;h across 39.5 minutes of running time, 1:1 with actual run time, and carried across days and ignition cycles. But a 126,500-mile F-150 has thousands of engine hours, not three. The counter is evidently running from a device-local baseline.
+            Item <span class="mono">0x11</span> behaves as a genuine monotonic engine-hour counter: it advanced 2.4&nbsp;h → 3.0&nbsp;h across 39.5 minutes of running time, 1:1 with actual run time, and persisted across days and ignition cycles. But a 126,500-mile F-150 has thousands of engine hours, not three. The counter is evidently running from a device-local baseline.
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
@@ -656,6 +758,65 @@
             <pre class="eq">advertised address (Android)   78:42:1C:12:16:66
 characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           </div>
+          <div class="q-ask" data-rev-from="v3">
+            <span class="q-label">The answer is more constrained than it looks &middot; 2 Sep</span>
+            <p>
+              This reads as a data-modelling question and is really a user-experience one. The pairing list has to name trucks before the driver picks one, and only the serial is available at that point: it rides in the advertised BLE name, on both platforms. The MAC address does not. Q14 records why, and it cost this project a month of reversed addresses: CoreBluetooth hides the hardware address behind a per-app UUID, so on iPhone there is nothing to read until a connection is open. Answering "the MAC is the production key" would mean connecting to every tracker in range just to draw the list, which is not a viable pairing screen. Unless there is a reason we have not seen, the serial is the only workable answer. What still needs confirming is cheap: that the advertised name carries the whole serial rather than just the <span class="mono">WQ-</span> prefix. The build matches on the prefix and reads the real serial from item <span class="mono">0x0F</span> after connecting, so it has never had to rely on the name.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="q open reveal" data-owner="compliance tenna" id="q24" data-rev-from="v3">
+        <div class="q-head">
+          <span class="q-id">Q24</span>
+          <h3 class="q-title">What a Face ID sign-in proves about who produced the record</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">Compliance</span>
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            Jose asked for the credential form &ldquo;with Face ID for the next time&rdquo;, and <a href="#p2">P2</a> settled on that sentence. The ordinary way to build it is the way Motive and Samsara do: after a password sign-in, keep the refresh token in the device keystore behind a biometric gate. The operating system does the matching in hardware and hands the app a yes or a no. No face or fingerprint ever reaches the app, and none is stored or transmitted, which is what keeps this clear of Illinois BIPA and the state laws modelled on it.
+          </p>
+          <p>
+            The consequence is the part worth deciding in advance: Cognito sees a token refresh, not a person. A biometric unlock is evidence about who is holding the device, and only as good as whose face the device has enrolled.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">Why it has to be decided rather than discovered</span>
+            <p>
+              &sect;395.32 puts a driver ID on every event, and &sect;395.22(b) makes the carrier responsible for drivers using their own accounts. A phone enrols one face. On a driver&rsquo;s personal phone that is good evidence. On a shared cab tablet, which the inventory has assumed since the June session, the enrolled face belongs to whoever set the tablet up, and one look would open any driver&rsquo;s session. Team driving makes it plainer still: two drivers, one device, one enrolled face, so the co-driver types a password on <a href="/wireframes#d3">D3</a> whatever <a href="/wireframes#d1">D1</a> offers.
+            </p>
+            <p>
+              Our position is that biometric sign-in ships for personal devices and is locked off by carrier policy for shared ones, drawn that way on <a href="/wireframes#w15">W15</a>, and that the ELD records which sign-ins were biometric so an audit can tell them apart. The stronger alternative is passkeys, where the biometric releases a device-bound key that signs a server challenge and Cognito gets cryptographic proof of the device and the user rather than a refreshed token. Whether the pool can do that today is a question for Kumaran, who already has the Amplify flow written.
+            </p>
+          </div>
+          <div class="q-foot"><span>Raised from <a href="/wireframes#d1">D1</a>, where the promise was made and never drawn. Bears on <a href="/wireframes#d3">D3</a>, <a href="/wireframes#d24">D24</a>, <a href="/wireframes#d30">D30</a> and <a href="/wireframes#w15">W15</a>, and on the offline grace <a href="#p2">P2</a> leaves open.</span></div>
+        </div>
+      </article>
+      <article class="q open reveal" data-owner="compliance tenna" id="q23" data-rev-from="v3">
+        <div class="q-head">
+          <span class="q-id">Q23</span>
+          <h3 class="q-title">Which VIN is authoritative when the vehicle and the asset record disagree</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">Compliance</span>
+            <span class="chip owner-tenna">Tenna</span>
+            <span class="chip st-open">Open</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>
+            The same question as <a href="#q6">Q6</a>, which asks it of the odometer; nobody had asked it of the VIN. Pairing resolves a tracker serial to a Tenna asset record, and that record lists a VIN. Once the engine starts, the tracker reports the VIN it reads from the vehicle. The two can disagree: a tracker moved between trucks and not re-provisioned, a record entered by hand, a replacement engine or ECM.
+          </p>
+          <div class="q-ask">
+            <span class="q-label">Why it has to be decided rather than discovered</span>
+            <p>
+              The VIN goes on the ELD record, so this is not a display preference. Our position is that the observed VIN wins, because it is the only one describing what actually moved, with the disagreement raised to the carrier as an exception rather than silently resolved. But that has a cost worth stating: a mis-provisioned tracker then produces a compliance record against a VIN that no Tenna asset claims, and something has to reconcile it. The alternative, trusting the asset record, produces a clean record that is quietly wrong, which is worse.
+            </p>
+          </div>
+          <div class="q-foot"><span>Raised from <a href="/wireframes#d2">D2</a>, where the confirmation state makes the disagreement visible for the first time. Bears on <a href="/wireframes#d16">D16</a> and every output file.</span></div>
         </div>
       </article>
 
@@ -716,7 +877,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
       </article>
 
 
-      <article class="q open reveal" data-owner="compliance" data-rev="v2" id="q15">
+      <article class="q open reveal" data-owner="compliance" data-rev-from="v2" id="q15">
         <div class="q-head">
           <span class="q-id">Q15</span>
           <h3 class="q-title">How is a non-driver vehicle movement classified?</h3>
@@ -743,7 +904,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="compliance" data-rev="v2" id="q16">
+      <article class="q open reveal" data-owner="compliance" data-rev-from="v2" id="q16">
         <div class="q-head">
           <span class="q-id">Q16</span>
           <h3 class="q-title">May a carrier auto-annotate unidentified driving that matches a pattern?</h3>
@@ -757,7 +918,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
             From the review: <i>"There can be operations that have excessive UDS transactions due to operational issues. Specifically Short Haul Operations with no login to ELD."</i> A yard that produces two hundred sub-mile records a week is a materially different product problem than one producing six, and no amount of screen design makes two hundred individual human reviews happen.
           </p>
           <p>
-            The obvious lever is a carrier-level rule: records inside a yard geofence, under a distance threshold, auto-annotated with a standing reason. Tenna is unusually well placed to do this, because it already maps its customers' yards and sites. The obvious objection is that blanket treatment of unidentified driving is exactly what enforcement pushes back on, which is the same objection the review raises against exempt-driver accounts.
+            The obvious mechanism is a carrier-level rule: records inside a yard geofence, under a distance threshold, auto-annotated with a standing reason. Tenna is unusually well placed to do this, because it already maps its customers' yards and sites. The obvious objection is that blanket treatment of unidentified driving is exactly what enforcement pushes back on, which is the same objection the review raises against exempt-driver accounts.
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
@@ -774,7 +935,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="compliance" data-rev="v2" id="q17">
+      <article class="q open reveal" data-owner="compliance" data-rev-from="v2" id="q17">
         <div class="q-head">
           <span class="q-id">Q17</span>
           <h3 class="q-title">What counts as "unaccepted," and what is the retention unit?</h3>
@@ -788,7 +949,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
             Two definitional questions that decide the data model, both raised by the same sentence in the review: the in-vehicle ELD is only to hold the last 8 days of <i>unaccepted</i> unidentified-driving events, and the carrier must retain unidentified driving records for each ELD for a minimum of 6 months from the date of receipt.
           </p>
           <p>
-            "Unaccepted" is doing real work in that sentence. A record the driver rejected is resolved from the phone's point of view and unresolved from the carrier's. If rejection makes a record accepted, the in-cab list stays short and the host queue carries everything. If it does not, a driver who rejects a record keeps seeing it for eight days with nothing to do about it.
+            The word "unaccepted" decides the design. A record the driver rejected is resolved from the phone's point of view and unresolved from the carrier's. If rejection makes a record accepted, the in-cab list stays short and the host queue holds everything. If it does not, a driver who rejects a record keeps seeing it for eight days with nothing to do about it.
           </p>
           <p>
             "For each ELD" is device-scoped language, and the host report (<a href="/wireframes#w16">W16</a>) is fleet-scoped. Retention measured per device, per vehicle, and per carrier produce three different purge behaviors, and purging a record early is the failure that cannot be undone.
@@ -808,7 +969,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="compliance tenna" data-rev="v2" id="q18">
+      <article class="q open reveal" data-owner="compliance tenna" data-rev-from="v2" id="q18">
         <div class="q-head">
           <span class="q-id">Q18</span>
           <h3 class="q-title">Formal sign-off on the Telematics transfer election</h3>
@@ -836,7 +997,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna" data-rev="v2" id="q19">
+      <article class="q open reveal" data-owner="tenna" data-rev-from="v2" id="q19">
         <div class="q-head">
           <span class="q-id">Q19</span>
           <h3 class="q-title">Is the DOT audit export over-scoped?</h3>
@@ -850,7 +1011,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
             The review's note on specification item W13, in full: <i>"Seems that there is too much to have available for DOT audit. Further discussion on this to confirm understanding of the intent."</i>
           </p>
           <p>
-            Reading the concern generously, it has two parts. A bundle that ships everything the system holds invites an auditor into material they did not request, and a 2,341-log-day package across fourteen drivers is not the shape of an FMCSA work-paper request, which, per the same review, targets named drivers over periods of up to 30 days. If that is right, the audit workflow lives in <a href="/wireframes#w17">W17</a> and W13 becomes a narrower, more deliberate export rather than a one-click everything bundle.
+            As we read it, the concern has two parts. A bundle that ships everything the system holds invites an auditor into material they did not request, and a 2,341-log-day package across fourteen drivers is not the shape of an FMCSA work-paper request, which, per the same review, targets named drivers over periods of up to 30 days. If that is right, the audit workflow lives in <a href="/wireframes#w17">W17</a> and W13 becomes a narrower, more deliberate export rather than a one-click everything bundle.
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
@@ -865,7 +1026,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna" data-rev="v2" id="q20">
+      <article class="q open reveal" data-owner="tenna" data-rev-from="v2" id="q20">
         <div class="q-head">
           <span class="q-id">Q20</span>
           <h3 class="q-title">Build or cut the host inspector view?</h3>
@@ -883,11 +1044,11 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           </p>
           <div class="q-ask">
             <span class="q-label">What we need</span>
-            <p>A decision in the next scope session, with an owner. The marginal cost is low: W18 shares its renderer with the roadside inspection display (<a href="/wireframes#d16">D16</a>), which now carries the same §4.5.1.1 detail fields either way.</p>
+            <p>A decision in the next scope session, with an owner. The marginal cost is low: W18 shares its renderer with the roadside inspection display (<a href="/wireframes#d16">D16</a>), which now shows the same §4.5.1.1 detail fields either way.</p>
           </div>
           <p style="margin-top:12px;">
             <span class="q-label">Our recommendation</span>
-            Build it. It is the cheapest insurance against finding a display defect during an audit rather than before one, and it costs a renderer that already has to exist.
+            Build it. It is the cheapest insurance against finding a display defect during an audit rather than before one, and the only cost is a renderer that already has to exist.
           </p>
         </div>
       </article>
@@ -899,12 +1060,12 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
 <section class="alt" id="answered">
   <div class="container">
     <div class="eyebrow">Settled</div>
-    <h2 data-rev="v1">Four answered by hardware, not by assumption.</h2>
-    <h2 data-rev="v2">Six settled: four by hardware, two by the compliance review.</h2>
-    <p class="lede" data-rev="v1">
+    <h2 data-rev-until="v1">Four answered by hardware, not by assumption.</h2>
+    <h2 data-rev-from="v2">Six settled: four by hardware, two by the compliance review.</h2>
+    <p class="lede" data-rev-until="v1">
       Each of these was an ambiguity in the protocol document that a literal reading would have resolved the wrong way: silently, with no error to signal it. They stay in the log with their evidence so the reasoning survives.
     </p>
-    <p class="lede" data-rev="v2">
+    <p class="lede" data-rev-from="v2">
       The first four were ambiguities in the protocol document that a literal reading would have resolved the wrong way: silently, with no error to signal it. The last two were open design questions the 17 August host reporting review answered outright. All stay in the log with their evidence so the reasoning survives.
     </p>
 
@@ -960,7 +1121,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           </div>
         </div>
         <div class="q-body">
-          <p>Undocumented, and it determines whether the FMCSA engine-synchronisation requirement can be met at all.</p>
+          <p>Undocumented, and it determines whether the FMCSA engine-synchronization requirement can be met at all.</p>
           <div class="q-evidence">
             <span class="q-label">Answer</span>
             <p>
@@ -1002,7 +1163,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
       </article>
 
 
-      <article class="q answered reveal" data-rev="v2" id="q21">
+      <article class="q answered reveal" data-rev-from="v2" id="q21">
         <div class="q-head">
           <span class="q-id">Q21</span>
           <h3 class="q-title">Who owns the carrier-side surface for unidentified driving?</h3>
@@ -1013,7 +1174,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         </div>
         <div class="q-body">
           <p>
-            The August 20 wireframes flagged this as an inventory gap for the session: rejected unidentified-driving records needed a carrier surface to reassign them, but no W screen owned unidentified driving. The choice on the table was to fold it into the logs review screen or add a screen for it.
+            The August 20 wireframes flagged this as an inventory gap<span data-revi-until="v2"> for the session</span>: rejected unidentified-driving records needed a carrier surface to reassign them, but no W screen owned unidentified driving. The choice on the table was to fold it into the logs review screen or add a screen for it.
           </p>
           <div class="q-evidence">
             <span class="q-label">Answer</span>
@@ -1024,7 +1185,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         </div>
       </article>
 
-      <article class="q answered reveal" data-rev="v2" id="q22">
+      <article class="q answered reveal" data-rev-from="v2" id="q22">
         <div class="q-head">
           <span class="q-id">Q22</span>
           <h3 class="q-title">How much log history belongs on the phone?</h3>
@@ -1040,7 +1201,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <div class="q-evidence">
             <span class="q-label">Answer</span>
             <p>
-              The regulation already draws the line, and the review draws attention to it: the in-vehicle ELD carries the working window, 8 days of logs plus the last 8 days of <i>unaccepted</i> unidentified driving, while the host carries the 6-month record. <i>"D22 seems to look like trying to do it all at the mobile?"</i> It did. So no deeper log browse gets built into the app, D22 is capped at 8 days of unaccepted records, and everything past that is a host surface. This is a useful general principle for the rest of the build, not just these two screens: if the question is "should the phone hold more of this," the answer is almost certainly no.
+              The regulation already draws the line, and the review draws attention to it: the in-vehicle ELD holds the working window, 8 days of logs plus the last 8 days of <i>unaccepted</i> unidentified driving, while the host holds the 6-month record. <i>"D22 seems to look like trying to do it all at the mobile?"</i> It did. So no deeper log browse gets built into the app, D22 is capped at 8 days of unaccepted records, and everything past that is a host surface. This is a useful general principle for the rest of the build, not just these two screens: if the question is "should the phone hold more of this," the answer is almost certainly no.
             </p>
           </div>
         </div>
@@ -1072,7 +1233,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
             <p>Mark shipped 4 trackers and power supplies.</p>
           </div>
           <p style="margin-top:12px;">
-            The power supplies matter more than they sound: they allow a tracker to be driven from a desk rather than only from a vehicle's OBD port. Bench testing on desk power has since carried a large share of the protocol work: BLE pairing, TLV parsing, the store-and-forward drain, background capture, and the Android foreground service were all validated without a vehicle, reserving drive time for the things that genuinely need motion.
+            The power supplies proved important: they let a tracker run on desk power instead of only from a vehicle's OBD port. Bench testing has since covered a large share of the protocol work: BLE pairing, TLV parsing, the store-and-forward drain, background capture, and the Android foreground service were all validated without a vehicle, reserving drive time for the things that genuinely need motion.
           </p>
         </div>
       </div>
@@ -1098,7 +1259,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
       </div>
 
 
-      <div class="tl-item reveal" data-rev="v2">
+      <div class="tl-item reveal" data-rev-from="v2">
         <div class="tl-date">Monday · 17 August 2026</div>
         <div class="tl-card">
           <h3>FMCSA compliance review · host reporting</h3>
@@ -1137,8 +1298,59 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <p style="margin-top:12px;">
             Six new questions (Q15–Q20) come out of this memo, four of them for the compliance advisor. The package was
             revised on 28 August to incorporate all of it; both versions remain readable via the control at the bottom
-            right of any page, and the wireframes carry a
+            right of any page, and the wireframes <span data-revi-until="v2">carry</span><span data-revi-from="v3">have</span> a
             <a href="/wireframes#whats-changed">screen-by-screen account of the changes ↗</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal" data-rev-from="v3">
+        <div class="tl-date">Friday · 28 August 2026</div>
+        <div class="tl-card">
+          <h3>Weekly huddle · first session</h3>
+          <div class="tl-who">Adam Schaible (AppAxis) · Tamar Amit, Jose Cueva, Sunil Puranik, Kyle Romero, Kumaran Subramanian, Ross Porter (Tenna)</div>
+          <p>
+            The first of the standing weekly huddles, and the widest Tenna attendance so far. Structure and governance
+            first, then a pass down the five product decisions, then the data pipeline. Three of the five were settled
+            in the room. The session also set where requirements live and who signs them off, which had come across by
+            email the day before and needed confirming out loud.
+          </p>
+          <div class="outcome">
+            <span class="q-label">Settled in the room</span>
+            <p>
+              <b>P1, drivers are Tenna users.</b> One shared credential store, with new attributes to tell a driver
+              apart from any other user. Web and mobile both, at Tamar's request. → <a href="#p1s">P1</a><br/>
+              <b>P2, sign-in is embedded.</b> Native form in the app against the same Cognito pool, not a browser
+              bounce. Kumaran has a written Amplify flow to share. → <a href="#p2s">P2</a><br/>
+              <b>P5, a micro-frontend in the Tenna portal.</b> New repository in Tenna's GitHub, AppAxis builds in it,
+              Tenna hosts, shared component base, supervisor permission and an account license. → <a href="#p5s">P5</a><br/>
+              <b>P4, routing only.</b> Driver-local notifications stay in the ELD app; cross-user notifications route
+              through Tenna's event infrastructure. The event list itself is still open. → <a href="#p4">P4</a><br/>
+              <b>P3, unchanged.</b> Tenna wants the compliance consultant's answer on raw-telemetry retention before
+              finalising. → <a href="#p3">P3</a>
+            </p>
+          </div>
+          <div class="outcome" style="margin-top:12px;">
+            <span class="q-label">Also agreed</span>
+            <p>
+              <b>Data pipeline runs in parallel with requirements.</b> Tamar's point, and Kyle agreed: most of the
+              pipeline work does not depend on how the management surfaces look, and waiting on the full design wastes
+              weeks the scope does not have. Adam committed to a draft of what data comes from where by the middle of
+              the following week.<br/>
+              <b>Separate schemas, joined on Tenna IDs.</b> Tamar: "you'll have your own schema in the database, your
+              own APIs, and you'll structure them separately." Users are the shared exception, and the Tenna ID is
+              what identifies them; Tenna exposes an API for those. Tenna runs Postgres.<br/>
+              <b>Governance.</b> Requirements land in Tenna's Confluence ELD space, and only signed-off content enters
+              the Phase 2 scope baseline; Sunil signs product and functional, Tenna engineering signs technical and
+              architecture. Sections come through the huddle before sign-off. Compliance questions go direct to the
+              consultant with Tenna copied.<br/>
+              <b>Four weeks, restarted.</b> The Phase 2 clock is reset to run four weeks from 28 August rather than
+              from the original start.
+            </p>
+          </div>
+          <p style="margin-top:12px;">
+            The draft Adam committed to is the <a href="/wireframes#sources">data ownership split ↗</a> on the
+            wireframes page: every element on two axes, origin and system of record, with the API surfaces named so a screen can reference them. It has this form because P1, P2 and P5 were settled here.
           </p>
         </div>
       </div>
@@ -1149,7 +1361,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
 <footer>
   <div class="container">
     <div class="disc">
-      Maintained by AppAxis under SoW No. 1, Phase 2 hardware validation.<span data-revi="v2"> Updated 28 August 2026 with the six questions and two answers arising from the 17 August FMCSA compliance review of host reporting.</span> Questions are raised by building and field-testing against real hardware; answered items remain in the log with their evidence so the reasoning behind a settled decision is not lost. Findings reflect testing on a Geometris WQ tracker in a light-duty vehicle and on the bench; see Q8 on how far they generalise to the wider fleet.
+      Maintained by AppAxis under SoW No. 1, Phase 2 hardware validation.<span data-revi-from="v2" data-revi-until="v2"> Updated 28 August 2026 with the six questions and two answers arising from the 17 August FMCSA compliance review of host reporting.</span><span data-revi-from="v3"> Updated 2 September 2026: the 28 August huddle settled P1, P2 and P5, and the data ownership split those answers make possible is on the wireframes page.</span> Questions are raised by building and field-testing against real hardware; answered items remain in the log with their evidence so the reasoning behind a settled decision is not lost. Findings reflect testing on a Geometris WQ tracker in a light-duty vehicle and on the bench; see Q8 on how far they generalise to the wider fleet.
     </div>
     <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
   </div>

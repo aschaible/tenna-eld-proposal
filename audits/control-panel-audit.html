@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Control Panel Compliance Audit</title>
+<style>
+  :root { --ink:#1a1f2a; --soft:#3d4654; --muted:#6b7484; --line:#e3e6ec; --bg:#fff;
+          --high:#c24038; --med:#d98315; --low:#6b7484; --ok:#1f8a56; --wash:#f7f8fb; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:0; background:var(--bg); color:var(--ink); font-size:16px; line-height:1.65;
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 24px 80px; }
+  h1 { font-size:30px; line-height:1.2; margin:0 0 6px; letter-spacing:-0.4px; }
+  h2 { font-size:21px; margin:44px 0 12px; padding-bottom:7px; border-bottom:2px solid var(--ink); letter-spacing:-0.2px; }
+  h3 { font-size:17px; margin:30px 0 6px; }
+  p, li { color:var(--soft); }
+  .sub { color:var(--muted); font-size:14px; margin:0 0 26px; }
+  .box { background:var(--wash); border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin:20px 0; }
+  .box p:first-child { margin-top:0; } .box p:last-child { margin-bottom:0; }
+  .finding { border-left:4px solid var(--line); padding:2px 0 2px 18px; margin:28px 0; }
+  .finding.high { border-left-color:var(--high); }
+  .finding.med  { border-left-color:var(--med); }
+  .finding.low  { border-left-color:var(--low); }
+  .finding h3 { margin-top:0; }
+  .tag { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase;
+         padding:2px 8px; border-radius:20px; vertical-align:middle; margin-left:6px; }
+  .tag.high { background:#fbeded; color:var(--high); }
+  .tag.med  { background:#fdf3e3; color:#a9640c; }
+  .tag.low  { background:#eef0f4; color:#4a5261; }
+  .tag.verify { background:#eaf0fd; color:#2e6be6; }
+  .rule { font-size:14px; color:var(--muted); margin:0 0 10px; }
+  table { border-collapse:collapse; width:100%; font-size:14.5px; margin:16px 0; }
+  th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:12px; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  td.no { color:var(--high); font-weight:600; } td.yes { color:var(--ok); font-weight:600; }
+  code { background:var(--wash); padding:1px 5px; border-radius:4px; font-size:14px; }
+  ul { padding-left:20px; } li { margin:5px 0; }
+  .foot { margin-top:52px; padding-top:18px; border-top:1px solid var(--line); font-size:13.5px; color:var(--muted); }
+  a { color:#d9591a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Control Panel Compliance Audit</h1>
+<p class="sub">Tenna ELD web control panel, screens W1 to W18 &middot; 29 August 2026 &middot; prepared by AppAxis</p>
+
+<div class="box">
+  <p><strong>What this is.</strong> The companion to the
+  <a href="mobile-app-audit.html">mobile app audit</a>. It checks the documented control panel against the duties the
+  rules put on the motor carrier rather than on the driver.</p>
+  <p><strong>What was compared.</strong> All 18 control panel screens at the 9/2 revision, their data elements and
+  their drawn content, against 49 CFR Part 395 and Appendix A to Subpart B, with Section 3 of the proposal checked
+  alongside.</p>
+  <p><strong>The short version.</strong> The control panel is in better shape than the driver app. Every screen the
+  rules ask a carrier to have is drawn, and the four duties that are easiest to fail are covered properly. What is
+  missing is mostly around the edges of the ELD rule: obligations that sit in Part 395 next to the ELD sections, and
+  one storage requirement that is an architecture decision rather than a screen.</p>
+</div>
+
+<h2>Findings</h2>
+
+<div class="finding high">
+  <h3>1. Supporting documents have no home <span class="tag high">High</span></h3>
+  <p class="rule">&sect;395.11</p>
+  <p>Separately from the electronic logs, a carrier has to collect and keep up to eight supporting documents for each
+  driver for each day worked: things like bills of lading, fuel receipts, dispatch records and payroll. Drivers have
+  to hand them in within thirteen days. Auditors ask for them in the same breath as the logs, and they are used to
+  check the logs are honest.</p>
+  <p>The words "supporting document" do not appear anywhere in the package. No screen collects them, none stores
+  them, and the DOT audit export (W13) does not include them even though it claims to bundle "everything in the
+  compliance record."</p>
+  <p>This may be a deliberate scope decision, since supporting documents are a Part 395 duty rather than an ELD
+  function. If so it should be written down as one. As it stands, W13 promises an auditor something it cannot
+  deliver.</p>
+</div>
+
+<div class="finding high">
+  <h3>2. No second copy of the records on separate storage <span class="tag high">High</span> <span class="tag verify">verify</span></h3>
+  <p class="rule">&sect;395.22, back-up copy requirement</p>
+  <p>A carrier has to keep a back-up copy of its ELD records on a device separate from the one holding the originals,
+  and keep it for six months alongside them.</p>
+  <p>Nothing in the package acknowledges this. Section 3's backend requirements cover "6-month log retention with
+  audit-ready archive," which is the retention but not the separate copy. The ownership split does not mention it
+  either.</p>
+  <p>This is an architecture and operations requirement rather than a screen, which is probably why it was missed.
+  It still has to be designed, and it affects where the data lives, which is exactly what the ownership split exists
+  to answer.</p>
+</div>
+
+<div class="finding med">
+  <h3>3. Nothing tracks that drivers were given the materials the carrier owes them <span class="tag med">Medium</span></h3>
+  <p class="rule">&sect;395.22</p>
+  <p>A carrier has to supply every driver with four things: the ELD user guide, a malfunction instruction sheet, a
+  data transfer instruction sheet, and enough blank paper log sheets to cover eight days.</p>
+  <p>The driver app delivers the first three, on D25, which is good. The fourth is physical paper and cannot be. No
+  control panel screen records that a driver received any of it. In an audit the carrier is asked to show it
+  happened.</p>
+  <p>Note that the mobile audit found the data transfer instruction sheet on D25 is currently wrong, because it still
+  lists USB and Bluetooth. That is finding 3 in the companion audit and it matters here too, since supplying it is
+  the carrier's duty.</p>
+</div>
+
+<div class="finding med">
+  <h3>4. Nothing detects one driver account in use on two devices <span class="tag med">Medium</span></h3>
+  <p class="rule">&sect;395.22, drivers must use their own accounts</p>
+  <p>The carrier is responsible for making sure each driver logs in as themselves. The package handles the version of
+  this problem it already knew about: the shared "exempt driver" account is called out in D6, D27 and W15, and D27
+  exists specifically to remove the reason people create one.</p>
+  <p>What no screen does is notice the pattern. If one driver's credentials appear on two devices at once, or on a
+  truck they are not assigned to, nothing surfaces it. Q9 asks a related hardware question, about two phones draining
+  one tracker, but not this one.</p>
+  <p>Q24, raised in this revision, makes it sharper: on a shared cab tablet one enrolled face opens any driver's
+  saved session. That is an account sharing risk created by a feature, and the control panel has no way to see it.</p>
+</div>
+
+<div class="finding med">
+  <h3>5. No path for a malfunction that cannot be fixed in eight days <span class="tag med">Medium</span> <span class="tag verify">verify</span></h3>
+  <p class="rule">&sect;395.34</p>
+  <p>W10 tracks the eight day clock properly and is one of the better screens in the module. What it does not cover
+  is what happens when the clock runs out. A carrier that needs longer has to ask FMCSA for an extension in writing.
+  Nothing in the package mentions that path, so the screen counts down to a deadline it has no answer for.</p>
+</div>
+
+<div class="finding low">
+  <h3>6. The inspector view inherits the mobile app's header gaps <span class="tag low">Low</span></h3>
+  <p>W18 is described as using "the same renderer as D16," which is the right decision and saves work. It means the
+  missing header fields found in the mobile audit are missing here too: trailer number, shipping document number,
+  exempt driver status, the start of the 24 hour period and time zone, miles and hours today, and the malfunction
+  indicator.</p>
+  <p>No separate work. Fixing D16 fixes this, which is the point of sharing the renderer. It is listed so the count
+  is honest.</p>
+</div>
+
+<div class="finding low">
+  <h3>7. Nothing addresses using the ELD to harass drivers <span class="tag low">Low</span> <span class="tag verify">verify</span></h3>
+  <p>The ELD rule includes protections against a carrier using the device to harass a driver, together with a
+  complaint route for drivers. The word does not appear in the package.</p>
+  <p>The screens where this normally comes up are the ones that exist here: W1 shows live driver locations, and W5
+  lets a manager propose changes to somebody's log. The package already handles the adjacent question well, since P3
+  holds how long raw position data is kept as an open decision rather than assuming an answer. Worth a sentence
+  saying the protection exists and where it lands.</p>
+</div>
+
+<div class="finding low">
+  <h3>8. Carrier settings could weaken compliance and nothing stops them <span class="tag low">Low</span></h3>
+  <p>W15 is described as "the settings that shape the compliance engine without ever weakening it," which is the
+  right intention. No screen shows how that is enforced. If a carrier can set a warning threshold, someone should
+  establish which settings have floors and which do not. This is a build concern more than a design gap, and it is
+  cheap to settle now.</p>
+</div>
+
+<h2>What is already right</h2>
+
+<p>The four carrier duties that most often fail an audit are all covered, and covered properly.</p>
+<ul>
+  <li><strong>Log edits.</strong> W5 proposes and never changes. The driver decides on D21 and the result comes back
+  to W6. A carrier cannot alter a driver's log on its own, and the design makes that structural rather than a
+  policy.</li>
+  <li><strong>Unidentified driving.</strong> W16 is thorough: the full six month set, what the driver said, the two
+  things a carrier is allowed to do, the author and timestamp on every annotation, the thirty minute daily threshold,
+  the retention clock, and a nudge when the queue has not been worked. The assignment now returns to the driver on
+  D34 for them to accept, which closes the loop.</li>
+  <li><strong>Malfunctions.</strong> W10 tracks the eight day clock per device, with the driver's paper log
+  acknowledgment beside it.</li>
+  <li><strong>Retention and audit.</strong> Six months on W3, a bulk package on W13, per driver export on W7 with a
+  record of who exported what, and eRODS transfers from the back office on W17 capped at thirty days per transfer.</li>
+</ul>
+<p>W18 deserves a specific mention. Building a screen that shows a carrier exactly what an inspector will see, before
+the inspector arrives, is not required by anything. It is the cheapest way to find a display fault before it costs
+something, and the 8/28 memo was right to suggest it.</p>
+
+<h2>Order we would fix them</h2>
+
+<table>
+  <thead><tr><th>#</th><th>Finding</th><th>Why this order</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Supporting documents</td><td>Either scope it or write down that it is out of scope. W13 currently over-promises.</td></tr>
+    <tr><td>2</td><td>Back-up copy on separate storage</td><td>Affects where data lives, so it belongs in the ownership split rather than being retrofitted</td></tr>
+    <tr><td>3, 4</td><td>Driver materials, and account sharing</td><td>Both are carrier duties with no surface; one small screen may cover both</td></tr>
+    <tr><td>5</td><td>Malfunction extension path</td><td>Confirm the rule, then decide if it is a screen or a runbook</td></tr>
+    <tr><td>6</td><td>Inspector view header</td><td>No separate work, fixed by the mobile app change</td></tr>
+    <tr><td>7, 8</td><td>Harassment protections, settings floors</td><td>A sentence each, worth settling before build</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <p><strong>How the two audits compare.</strong> The driver app had twelve findings, four of them high, including a
+  whole missing record type. The control panel has eight, two of them high, and neither is a missing screen. The
+  pattern is worth noting: the control panel was designed against the memo's list of host reports and follows it
+  closely, while the driver app grew screen by screen and picked up gaps between them.</p>
+</div>
+
+<p class="foot">
+  Prepared by AppAxis against 49 CFR Part 395 and Appendix A to Subpart B, as an analysis of the wireframe package at
+  the 9/2/2026 revision. Items marked "verify" describe a requirement we are confident about and a citation we are
+  not; those belong with Tenna's FMCSA compliance advisor before anything is built. Companion audit:
+  <a href="mobile-app-audit.html">Mobile App Compliance Audit</a>.
+</p>
+
+</div>
+</body>
+</html>
