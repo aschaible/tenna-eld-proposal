@@ -5,650 +5,433 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Certification Roadmap · Tenna ELD</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --orange: #F37021;
-    --orange-dark: #D9591A;
-    --orange-soft: #FFF1E8;
-    --orange-line: #F8D3B7;
-    --ink: #1A1F2A;
-    --ink-soft: #3D4654;
-    --muted: #6B7484;
-    --line: #E5E7EB;
-    --line-soft: #F1F3F6;
-    --bg: #FFFFFF;
-    --bg-alt: #F7F8FB;
-    --green: #1F8A56;
-    --green-soft: #E9F5EF;
-    --red: #C24038;
-    --red-soft: #FBEDEC;
-    --amber: #D98315;
-    --amber-soft: #FDF3E3;
-    --blue: #2E6BE6;
-    --blue-soft: #EAF0FD;
-  }
-
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
-  img { max-width: 100%; display: block; }
-  a { color: var(--orange); text-decoration: none; }
-  a:hover { color: var(--orange-dark); }
-  code, .mono { font-family: 'JetBrains Mono', Menlo, Consolas, monospace; }
+  html, body {
+    margin: 0; padding: 0; background: #ffffff; color: #1a1a1a;
+    font-family: Georgia, "Times New Roman", Cambria, serif;
+    line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased;
+  }
+  a { color: #14459c; }
+  a:hover { color: #0d2f6e; }
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+  /* Simple navigation strip — text only. */
+  .nav {
+    border-bottom: 1px solid #ccc; padding: 10px 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+  }
+  .nav .inner { max-width: 780px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; }
+  .nav .who { color: #555; font-weight: 600; margin-right: auto; }
+  .nav a { color: #555; text-decoration: none; }
+  .nav a:hover { color: #14459c; text-decoration: underline; }
 
-  /* Top bar */
-  .topbar {
-    border-bottom: 1px solid var(--line);
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(8px);
-    position: sticky; top: 0; z-index: 50;
-  }
-  .topbar-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 28px; max-width: 1240px; margin: 0 auto;
-  }
-  .brand-row { display: flex; align-items: center; gap: 14px; }
-  .brand-row img.appaxis { height: 24px; width: auto; }
-  .brand-row .title { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
-  .topbar .nav { display: flex; gap: 18px; color: var(--ink-soft); font-size: 13px; font-weight: 500; align-items: center; flex-wrap: wrap; }
-  .topbar .nav a { color: var(--ink-soft); }
-  .topbar .nav a:hover { color: var(--orange); }
-  .field-guide {
-    border: 1px solid var(--red); color: var(--red);
-    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 1.5px; font-weight: 800;
-    background: var(--red-soft);
-  }
-  @media (max-width: 860px) {
-    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 16px; }
-    .topbar .nav {
-      width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 16px;
-      white-space: nowrap; padding-bottom: 2px; scrollbar-width: none;
-    }
-    .topbar .nav::-webkit-scrollbar { display: none; }
-    .topbar .nav > * { flex: none; }
-  }
+  .doc { max-width: 780px; margin: 0 auto; padding: 40px 24px 72px; }
 
-  /* Hero */
-  .hero { padding: 60px 0 36px 0; position: relative; overflow: hidden; }
-  .hero::after {
-    content: ""; position: absolute; top: 0; right: -10%; width: 70%; height: 100%;
-    background: radial-gradient(700px 500px at 50% 30%, rgba(243,112,33,0.10), transparent 60%);
-    pointer-events: none;
-  }
-  .hero .container { position: relative; z-index: 1; }
-  .hero .kicker {
-    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px;
-    font-size: 11px; text-transform: uppercase; margin-bottom: 16px;
-    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
-  }
-  .hero h1 { font-size: clamp(32px, 4.6vw, 50px); line-height: 1.08; margin: 0 0 16px 0; letter-spacing: -1.2px; font-weight: 800; }
-  .hero h1 .accent { color: var(--orange); }
-  .hero .lede { color: var(--ink-soft); font-size: 17px; max-width: 960px; }
+  h1 { font-size: 26px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.2px; }
+  .subtitle { font-size: 15px; color: #333; margin: 0 0 4px; }
+  .docmeta { font-size: 13px; color: #666; margin: 0 0 24px; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
-  section { padding: 48px 0; }
-  section.alt { background: var(--bg-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  section h2 { font-size: clamp(24px, 3vw, 34px); margin: 0 0 10px 0; letter-spacing: -0.4px; font-weight: 800; }
-  section .eyebrow {
-    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
-    font-size: 10.5px; margin-bottom: 12px; background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
-  }
-  section .lede { color: var(--ink-soft); font-size: 16px; max-width: 940px; margin-bottom: 28px; }
-  section p { color: var(--ink-soft); }
+  h2 { font-size: 19px; font-weight: 700; margin: 34px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #ddd; }
+  h3 { font-size: 16px; font-weight: 700; margin: 22px 0 4px; }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 0 0 12px; padding-left: 24px; }
+  li { margin-bottom: 5px; }
 
-  /* Draft banner */
-  .draft-note {
-    border: 1px solid var(--red); background: var(--red-soft); border-radius: 10px;
-    padding: 12px 15px; font-size: 13px; color: var(--ink-soft); line-height: 1.6; margin: 26px 0 0 0;
+  .draft {
+    border: 1px solid #b0b0b0; background: #f6f6f6; padding: 12px 15px; margin: 0 0 26px;
+    font-size: 14px; color: #333;
   }
-  .draft-note .h {
-    display: block; font-size: 9.5px; font-weight: 800; letter-spacing: 1.4px;
-    text-transform: uppercase; color: var(--red); margin-bottom: 7px;
-  }
-  .draft-note p { margin: 0; font-size: 13px; }
+  .draft b { display: block; margin-bottom: 4px; }
 
-  /* Stage cards */
-  .stage-list { display: flex; flex-direction: column; gap: 16px; }
-  .stage {
-    background: white; border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-  }
-  .stage-head {
-    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
-    padding: 16px 22px 0 22px;
-  }
-  .stage-id {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
-    color: white; background: var(--ink); border-radius: 6px; padding: 4px 10px; white-space: nowrap;
-  }
-  .stage.now .stage-id { background: var(--orange); }
-  .stage-head h3 { font-size: 18px; font-weight: 800; margin: 0; letter-spacing: -0.2px; flex: 1 1 300px; }
-  .stage-meta { display: flex; gap: 8px; flex-wrap: wrap; }
-  .schip {
-    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-    padding: 3px 9px; border-radius: 999px; white-space: nowrap;
-    background: var(--bg-alt); color: var(--muted); border: 1px solid var(--line);
-  }
-  .schip.owner-ax { background: var(--orange-soft); color: var(--orange-dark); border-color: var(--orange-line); }
-  .schip.owner-tn { background: var(--blue-soft); color: var(--blue); border-color: #C7D8F8; }
-  .schip.owner-jt { background: var(--amber-soft); color: var(--amber); border-color: #F3DCB4; }
-  .schip.now { background: var(--green-soft); color: var(--green); border-color: #BFE3CF; }
-  .stage-body { padding: 12px 22px 18px 22px; }
-  .stage-body p { margin: 0 0 10px 0; font-size: 14px; }
-  .stage-body ul { margin: 0 0 10px 0; padding-left: 20px; color: var(--ink-soft); font-size: 14px; display: flex; flex-direction: column; gap: 5px; }
-  .gate {
-    border-top: 1px dashed var(--line); margin-top: 12px; padding-top: 12px;
-    display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13.5px; color: var(--ink-soft);
-  }
-  .gate .g-label {
-    font-size: 9.5px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--green);
-    white-space: nowrap;
-  }
-  .gate .g-text { flex: 1 1 400px; }
+  .stage { margin: 0 0 26px; }
+  .stage .who { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; color: #555; margin: 0 0 8px; }
+  .stage .who b { color: #1a1a1a; }
+  .gate { border-left: 3px solid #999; padding: 4px 0 4px 14px; margin: 12px 0 0; font-size: 15px; }
 
-  /* Gate table */
-  table.gates { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 13.5px; }
-  table.gates th, table.gates td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
-  table.gates th { font-size: 10.5px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); }
-  table.gates tr:last-child td { border-bottom: 0; }
-  table.gates td.mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; white-space: nowrap; }
-  .tbl-wrap { overflow-x: auto; border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0 18px; font-size: 14px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  th, td { border: 1px solid #bbb; padding: 7px 9px; text-align: left; vertical-align: top; }
+  th { background: #f0f0f0; font-weight: 700; }
+  .tbl-wrap { overflow-x: auto; }
 
-  /* Ask cards */
-  .ask-list { display: flex; flex-direction: column; gap: 13px; }
-  .ask {
-    background: white; border: 1px solid var(--line); border-left: 3px solid var(--amber);
-    border-radius: 12px; padding: 16px 20px;
-  }
-  .ask .a-head { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; margin-bottom: 6px; }
-  .ask .a-id {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-    color: var(--muted); background: var(--bg-alt); border: 1px solid var(--line);
-    border-radius: 6px; padding: 3px 8px; white-space: nowrap;
-  }
-  .ask h4 { margin: 0; font-size: 15.5px; font-weight: 800; flex: 1 1 300px; }
-  .ask p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+  .q { margin: 0 0 14px; }
+  .q .qh { font-weight: 700; }
+  .q .qtag { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; color: #666; font-weight: 400; }
 
-  /* Risk map */
-  .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  @media (max-width: 820px) { .risk-grid { grid-template-columns: 1fr; } }
-  .risk { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; }
-  .risk .r-name { font-weight: 800; font-size: 14.5px; margin: 0 0 5px 0; color: var(--red); }
-  .risk p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
-  .risk p b { color: var(--ink); }
-
-  footer { background: var(--ink); color: rgba(255,255,255,0.7); padding: 40px 0; text-align: center; font-size: 13px; margin-top: 20px; }
-  footer .disc { max-width: 760px; margin: 0 auto; line-height: 1.7; color: rgba(255,255,255,0.55); font-style: italic; }
-  footer .copy { margin-top: 14px; color: rgba(255,255,255,0.4); }
+  footer { max-width: 780px; margin: 0 auto; padding: 20px 24px 48px; border-top: 1px solid #ddd;
+    font-size: 13px; color: #666; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand-row">
-      <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
-      <span class="title">CERTIFICATION ROADMAP</span>
-    </div>
-    <div class="nav">
-      <a href="#stages">The six stages</a>
-      <a href="#gates">Gate table</a>
-      <a href="#confirm">For the advisors</a>
-      <a href="#risks">Revocation map</a>
-      <a href="/">&larr; The Proposal</a>
-      <a href="/wireframes">Wireframes &#8599;</a>
-      <a href="/walkthrough">Walkthrough &#8599;</a>
-      <a href="/decisions">Decision Log &#8599;</a>
-      <span class="field-guide">DRAFT</span>
-    </div>
+<div class="nav">
+  <div class="inner">
+    <span class="who">AppAxis · Tenna ELD</span>
+    <a href="/">The Proposal</a>
+    <a href="/wireframes">Wireframes</a>
+    <a href="/walkthrough">Walkthrough</a>
+    <a href="/decisions">Decision Log</a>
   </div>
 </div>
 
-<section class="hero">
-  <div class="container">
-    <span class="kicker">Phase 2 Deliverable · Certification Readiness</span>
-    <h1>The road to a <span class="accent">defensible</span> self-certification.</h1>
-    <p class="lede">
-      Luke asked for this at the close of Phase 2: a certification-readiness roadmap that defines what has to be
-      decided, what has to be tested, and what evidence has to exist so that Tenna's self-certification signature is
-      safe — and stays safe under audit. This page is that roadmap: six stages, each with an owner, an exit gate, and
-      the artifact that proves the gate was passed. It extends
-      <a href="/#certification">Section 8 of the proposal</a>, which explains how FMCSA registration actually works.
-    </p>
-    <div class="draft-note">
-      <span class="h">Draft · 3 September 2026 · for review with Tenna's FMCSA compliance advisors</span>
-      <p>Nothing on this page is agreed yet. It exists to be corrected in the room: the stages, the gate criteria,
-      and especially the registration mechanics in Stage F are AppAxis's reading of the regulation and of the
-      advisors' 17 August memo, written down so the experts have something concrete to mark up. Items that need
-      their answer are collected <a href="#confirm">at the bottom</a>.</p>
-    </div>
+<div class="doc">
+
+  <h1>Certification Roadmap</h1>
+  <p class="subtitle">Tenna ELD — Phase 2 certification-readiness deliverable</p>
+  <p class="docmeta">Prepared by AppAxis under SoW No. 1, Phase 2 · Draft of 3 September 2026</p>
+
+  <div class="draft">
+    <b>Draft for review with Tenna's FMCSA compliance advisors.</b>
+    Nothing here is agreed yet. This document is written down so the advisors have something concrete to correct.
+    The stages, the exit criteria, and especially the registration mechanics in Stage F are AppAxis's reading of the
+    regulation and of the advisors' 17 August memo. The items that need an answer from the advisors are collected in
+    Section 4.
   </div>
-</section>
 
-<section class="alt">
-  <div class="container">
-    <div class="eyebrow">The Shape of It</div>
-    <h2>Self-certification is easy. Staying certified is the work.</h2>
-    <p class="lede" style="margin-bottom:14px;">
-      FMCSA's ELD registration has no third-party lab and no gatekeeper: a provider self-certifies on a web form and
-      the device appears on the public list within days. The discipline is surviving what comes later — an audit
-      triggered by a complaint or a random pull, sometimes months out. Roughly forty devices have been revoked to
-      date, twelve in May 2026 alone, and the failure modes repeat (<a href="#risks">mapped below</a>).
+  <h2>1. Purpose and scope</h2>
+  <p>
+    At the close of Phase 2, Luke asked for a certification-readiness roadmap: a plan that states what has to be
+    decided, what has to be tested, and what evidence has to exist so that Tenna's self-certification of the ELD is
+    defensible and stays defensible under audit. This document is that plan. It is also a named Phase 2 deliverable
+    — the certification-readiness plan that both sides sign before any production code is written.
+  </p>
+  <p>
+    It extends Section 8 of the proposal, which explains how FMCSA registration works. This document does not repeat
+    that; it lays out the work, stage by stage, with an owner and an exit criterion for each.
+  </p>
+
+  <h2>2. How ELD certification works, in brief</h2>
+  <p>
+    FMCSA registration is a self-certification. There is no third-party lab, no pre-market approval, and no waiting
+    list. A provider fills in a web form, certifies that the device meets the regulation, and the device appears on
+    the public list within a few business days. There is no fee and no test administered by FMCSA.
+  </p>
+  <p>
+    The real work is staying listed. FMCSA audits a device after it is registered — often triggered by a driver
+    complaint or a random review, sometimes months after listing. About forty devices have been removed from the
+    list to date, twelve of them in May 2026. The known reasons devices are removed are listed in Section 5, and the
+    stages below are organized around preventing them.
+  </p>
+  <p>
+    The division of labor was set in the June 4 session and holds throughout. Tenna's FMCSA compliance expert owns
+    the documentation package, the public user guide, the registration submission, and the relationship with FMCSA.
+    AppAxis owns certification readiness: a device, a test suite, and an evidence trail that make the signature
+    defensible. Each stage below states which side owns it.
+  </p>
+
+  <h2>3. The six stages</h2>
+  <p>
+    Stages A and B run now, inside Phase 2. Stages C through F follow the phase plan in Section 7 of the proposal:
+    build in Phase 3, transfer and host reporting in Phase 4, verification and registration in Phase 5, and ongoing
+    maintenance after the device is listed. A stage is complete when its exit criterion is true and its evidence
+    exists — not before.
+  </p>
+
+  <div class="stage">
+    <h3>Stage A — Hardware validation</h3>
+    <p class="who">Owner: <b>AppAxis</b> · Phase 2, in progress</p>
+    <p>
+      Everything downstream assumes the tracker's Bluetooth broadcast can carry the four required data elements
+      (engine power, motion, miles, engine hours) reliably — through backgrounding, signal loss, process death, and
+      multi-day operation. The Phase 2 prototype and the bench and drive test protocol prove this on real hardware.
+      Every test run leaves an append-only session log on the device as evidence.
     </p>
-    <p style="max-width:940px;">
-      The division of labor was set in the June 4 session and holds throughout: <b>Tenna's FMCSA compliance expert
-      owns</b> the documentation package, the public user guide, the Equipment Registration submission, and the
-      relationship with FMCSA. <b>AppAxis owns certification readiness</b>: a device, a test suite, and an evidence
-      trail that make the signature defensible. Every stage below carries that split explicitly.
+    <ul>
+      <li>The test inventory is Tenna's original 15 connectivity cases (Mark's sheet, unchanged) plus AppAxis-added
+        scenarios 16–31: clock integrity, airplane-mode drives, a 24-hour soak, stored-event drain and purge,
+        process death and gap coverage, the 30-minute §395.34 malfunction escalation, and automatic duty-status
+        transitions on the road.</li>
+      <li>The acceptance criteria for those tests are written against 49 CFR Part 395 and Appendix A, and are still
+        AppAxis proposals, not agreed criteria. Ratifying them is on the advisor agenda (Section 4).</li>
+      <li>Status: the Android re-certification pass currently stands at 25 of 26 protocol steps, with the interrupted
+        stored-event drain the one item left to stage. The iOS pass follows the same protocol.</li>
+    </ul>
+    <p class="gate">
+      <b>Exit criterion.</b> Every protocol step passes against advisor-ratified acceptance criteria, on both
+      platforms, and the findings write-up is delivered. Evidence: the completed test workbooks and the per-test
+      session logs pulled from the devices.
     </p>
   </div>
-</section>
 
-<section id="stages">
-  <div class="container">
-    <div class="eyebrow">The Roadmap</div>
-    <h2>Six stages, each with a gate you can point at.</h2>
-    <p class="lede">
-      Stages A and B run now, inside Phase 2. Stages C through F track the phase plan
-      (<a href="/#plan">Section 7</a>): build in Phase 3, transfer and host surfaces in Phase 4, verification and
-      registration in Phase 5, and the treadmill after listing. A stage is done when its gate statement is true and
-      its evidence artifact exists — not before.
+  <div class="stage">
+    <h3>Stage B — Compliance requirements freeze</h3>
+    <p class="who">Owner: <b>Joint</b> — the advisors decide, AppAxis drafts, Tenna ratifies · Phase 2 exit</p>
+    <p>
+      The wireframes now cover all 37 requirements marked MUST (see the coverage table on the Walkthrough page), and
+      the 17 August compliance review is folded in. What remains are interpretation questions only the advisors can
+      settle. Each one currently blocks either a data model or a screen from being final. This stage is the
+      scope-lock deliverable the contract names, and it is most of the 3 September session.
     </p>
-
-    <div class="stage-list">
-
-      <div class="stage now">
-        <div class="stage-head">
-          <span class="stage-id">STAGE A</span>
-          <h3>Hardware validation — prove the telemetry the ELD will be built on</h3>
-          <div class="stage-meta">
-            <span class="schip now">In flight · Phase 2</span>
-            <span class="schip owner-ax">AppAxis</span>
-          </div>
-        </div>
-        <div class="stage-body">
-          <p>
-            Everything downstream assumes the tracker's Bluetooth broadcast can carry the four contract elements
-            (engine power, motion, miles, engine hours) reliably: through backgrounding, signal loss, process death,
-            and multi-day operation. That is what the Phase 2 prototype and the bench/drive protocol exist to prove
-            — on real hardware, with every run leaving an append-only on-device session log as evidence.
-          </p>
-          <ul>
-            <li>Test inventory: Tenna's original 15 connectivity cases (Mark's sheet, wording unchanged) plus the
-              AppAxis-added scenarios 16–31 — clock integrity, airplane-mode drives, 24-hour soak, stored-event
-              drain/purge semantics, process death and gap coverage, the 30-minute §395.34 malfunction escalation,
-              and automatic duty-status transitions on the road.</li>
-            <li>Acceptance criteria are written against 49 CFR Part 395 and Appendix A — and are still
-              <b>AppAxis proposals, not agreed criteria</b>. Ratifying them is on the advisor agenda.</li>
-            <li>Status: the Android re-certification pass stands at 23 of 26 protocol steps fully green, with the
-              remainder staged to close on one scheduled drive. The iOS pass follows the same protocol.</li>
-          </ul>
-          <div class="gate">
-            <span class="g-label">Gate A</span>
-            <span class="g-text">Every protocol step green against advisor-ratified acceptance criteria, on both
-            platforms, with the findings write-up delivered. <b>Evidence:</b> the completed test workbooks and the
-            per-test session logs pulled from the devices.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stage now">
-        <div class="stage-head">
-          <span class="stage-id">STAGE B</span>
-          <h3>Compliance requirements freeze — settle what the regulation means before building to it</h3>
-          <div class="stage-meta">
-            <span class="schip now">In flight · Phase 2 exit</span>
-            <span class="schip owner-jt">Joint · advisors decide, AppAxis drafts, Tenna ratifies</span>
-          </div>
-        </div>
-        <div class="stage-body">
-          <p>
-            The wireframes now cover all 37 <i>MUST</i> requirements (<a href="/walkthrough#coverage">the coverage
-            table</a>), and the 17 August compliance review is folded in. What remains are the interpretation calls
-            that only the advisors can make — each one currently blocks either a data model or a screen from being
-            final. This stage is the scope-lock deliverable the contract names: <i>"the certification-readiness plan
-            with Tenna's FMCSA compliance expert. Both sides sign before any production code is written."</i>
-          </p>
-          <ul>
-            <li><b>P3 — raw telemetry retention</b> (<a href="/decisions#p3">decision log</a>): what an audit
-              actually requires, and whether device-local retention satisfies it.</li>
-            <li><b>Q1 — duty status when the phone loses the vehicle link</b> (<a href="/decisions#q1">the four
-              sub-questions</a>): the deepest open behavior question, blocking the Phase 3 HOS engine spec.</li>
-            <li><b>Q15–Q17 — unidentified driving rulings</b>: the non-HOS move stamp's event class, whether
-              rules-based auto-annotation is defensible, and what "unaccepted" and the 6-month retention unit mean.</li>
-            <li><b>Q18 — the Telematics transfer election</b>, formally signed: it is a one-way self-certification
-              declaration.</li>
-            <li><b>Q19 / Q20 — audit export scope and the host inspector view</b>: scope calls with compliance
-              consequences.</li>
-            <li><b>D29 — stationary prompt parameters</b> confirmed (window, timeout, recorded origin) before the
-              production state machine is specified.</li>
-          </ul>
-          <div class="gate">
-            <span class="g-label">Gate B</span>
-            <span class="g-text">Scope lock signed: every item above carries a written advisor answer in the decision
-            log, the final HOS engine spec and data-retention design reflect them, and acceptance criteria are
-            ratified. <b>Evidence:</b> the signed scope-lock package and the updated decision log.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stage">
-        <div class="stage-head">
-          <span class="stage-id">STAGE C</span>
-          <h3>Build to Appendix A — with the test harness growing alongside the code</h3>
-          <div class="stage-meta">
-            <span class="schip">Phase 3 · weeks 4–12</span>
-            <span class="schip owner-ax">AppAxis</span>
-          </div>
-        </div>
-        <div class="stage-body">
-          <p>
-            The core build: the HOS state machine covering every duty rule and exception, the malfunction and
-            diagnostic engine across all 8 categories of §395.34(a), the FMCSA-format output file generator with its
-            line check, and the driver application on real hardware. The certification-critical discipline is that
-            the QA engineer builds the specification-driven test harness <i>in the same weeks</i> — every Appendix A
-            behavior carries a test from the day it is implemented, because that harness is the backbone of the
-            readiness dossier in Stage E.
-          </p>
-          <ul>
-            <li>Every event type in Appendix A's Table 6, every malfunction/diagnostic trigger and clear condition,
-              every auto-transition (including the D29 stationary prompt) — implemented and tested together.</li>
-            <li>Output files validated continuously against FMCSA's published file specification and reference
-              validator, not once at the end.</li>
-            <li>Weekly Friday showbacks so interpretation drift is caught in days, not phases.</li>
-          </ul>
-          <div class="gate">
-            <span class="g-label">Gate C</span>
-            <span class="g-text">The Appendix A harness is green for every section implemented, and an output file
-            generated from live test data validates clean. <b>Evidence:</b> the harness run report per release.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stage">
-        <div class="stage-head">
-          <span class="stage-id">STAGE D</span>
-          <h3>Transfer and host surfaces — the parts an inspector and an auditor actually touch</h3>
-          <div class="stage-meta">
-            <span class="schip">Phase 4 · weeks 13–15</span>
-            <span class="schip owner-ax">AppAxis</span>
-          </div>
-        </div>
-        <div class="stage-body">
-          <p>
-            The data-transfer service to eRODS (web services with email fallback, per the Q18 election) with both of
-            its callers — the driver at roadside (D17) and the back office for pre-audit requests (W17, with the
-            30-day-per-transfer cap) — plus the host reporting surfaces the 17 August review asked for: the
-            unidentified-driving report (W16) and, pending Q20, the host inspector view (W18).
-          </p>
-          <ul>
-            <li>Transfer verified against FMCSA's eRODS test environment before any pilot driver meets an officer.</li>
-            <li>The unidentified-driving loop closed end to end: tracker capture → 8-day in-cab list → host review →
-              annotate or assign → driver confirmation (D34) → 6-month retention.</li>
-            <li>Edit-and-annotation versioning demonstrated: original preserved, attribution complete, trail
-              rendering in both the driver and host views.</li>
-          </ul>
-          <div class="gate">
-            <span class="g-label">Gate D</span>
-            <span class="g-text">End-to-end system on a test fleet; a roadside transfer and a host-initiated transfer
-            both accepted by the eRODS test endpoint. <b>Evidence:</b> transfer confirmations and the test-fleet
-            session record.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stage">
-        <div class="stage-head">
-          <span class="stage-id">STAGE E</span>
-          <h3>Certification-readiness verification — assemble the dossier that survives an audit</h3>
-          <div class="stage-meta">
-            <span class="schip">Phase 5 · weeks 16–17</span>
-            <span class="schip owner-jt">AppAxis assembles · advisors accept</span>
-          </div>
-        </div>
-        <div class="stage-body">
-          <p>
-            Before Tenna signs anything, the whole case is put in one place and reviewed by the compliance expert as
-            if they were the auditor. This is the concrete exit criterion for AppAxis's side of the engagement.
-          </p>
-          <ul>
-            <li>Full Appendix A test suite passing on the integrated system — every event type, every malfunction
-              trigger, every diagnostic threshold — with results archived per release.</li>
-            <li>Output-file validation results, including the edge cases that most often revoke devices: edit
-              history, driver–vehicle pairings, multi-driver scenarios.</li>
-            <li>The malfunction and diagnostic evidence set: each of the 8 categories provoked, detected, displayed,
-              and cleared on record.</li>
-            <li>The on-road scenario protocol re-run on the customer device matrix Ross provided, on release builds.</li>
-            <li>The in-cab documentation §395.22(g)–(h) requires the driver to carry: user's manual, data-transfer
-              instruction sheet, malfunction instruction sheet, and a supply of blank paper logs — drafted by
-              AppAxis, owned and published by Tenna.</li>
-            <li>The public user-instructions page (required by the registration form, accessible without login) —
-              content ready for Tenna's URL.</li>
-          </ul>
-          <div class="gate">
-            <span class="g-label">Gate E</span>
-            <span class="g-text">Tenna's compliance expert accepts the dossier as sufficient to sign.
-            <b>Evidence:</b> the dossier itself and the expert's written acceptance.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stage">
-        <div class="stage-head">
-          <span class="stage-id">STAGE F</span>
-          <h3>Registration, listing, and the treadmill after</h3>
-          <div class="stage-meta">
-            <span class="schip">Phase 5 · weeks 17–19, then ongoing</span>
-            <span class="schip owner-tn">Tenna · AppAxis supporting</span>
-          </div>
-        </div>
-        <div class="stage-body">
-          <p>
-            Tenna's compliance expert files the Equipment Registration: provider info, the unique 4-character ELD
-            identifier, model name and software version, the operating-systems list (each OS bundle registers
-            separately, on our current reading — a specific item to verify with the advisors), the Telematics
-            election from Q18, the self-certification statement, the public instructions URL, and the public contact.
-            Devices typically appear on the list within 1–5 business days. AppAxis supports the pilot in parallel and
-            fixes anything the certification pass surfaces.
-          </p>
-          <ul>
-            <li>After listing, the risk window opens: audits arrive via complaint or random pull, sometimes months
-              out. The Stage E dossier is what answers them.</li>
-            <li>The ongoing treadmill, Tenna-owned with AppAxis available for the code it generates: FMCSA
-              interpretation updates, re-submission on major versions, app-store re-reviews, driver-reported edge
-              cases, the annual user-guide refresh.</li>
-          </ul>
-          <div class="gate">
-            <span class="g-label">Gate F</span>
-            <span class="g-text">Device listed on the FMCSA registry; the stay-listed runbook (who watches what, who
-            responds to what, on what clock) handed to Tenna and staffed. <b>Evidence:</b> the public listing and the
-            runbook.</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="alt" id="gates">
-  <div class="container">
-    <div class="eyebrow">At a Glance</div>
-    <h2>The gate table.</h2>
-    <p class="lede">One row per gate: what must be true, what proves it, who owns it, where it stands today.</p>
-    <div class="tbl-wrap">
-      <table class="gates">
-        <thead>
-          <tr><th>Gate</th><th>Must be true</th><th>Evidence artifact</th><th>Owner</th><th>Today</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="mono">A</td>
-            <td>Full bench + drive protocol green on both platforms, against ratified acceptance criteria</td>
-            <td>Test workbooks + per-test device session logs</td>
-            <td>AppAxis</td>
-            <td>Android 23/26 green; criteria ratification pending (this review)</td>
-          </tr>
-          <tr>
-            <td class="mono">B</td>
-            <td>P3, Q1, Q15–Q20, D29 answered in writing; HOS spec, retention design, and criteria reflect them; scope lock signed</td>
-            <td>Signed scope-lock package + updated decision log</td>
-            <td>Joint</td>
-            <td>Open — the subject of the 3 Sep advisor session</td>
-          </tr>
-          <tr>
-            <td class="mono">C</td>
-            <td>Appendix A harness green on every implemented section; output file validates clean from live data</td>
-            <td>Harness run report, per release</td>
-            <td>AppAxis</td>
-            <td>Not started (Phase 3)</td>
-          </tr>
-          <tr>
-            <td class="mono">D</td>
-            <td>Roadside and host-initiated transfers accepted by the eRODS test endpoint; UDS loop closed end to end</td>
-            <td>Transfer confirmations + test-fleet record</td>
-            <td>AppAxis</td>
-            <td>Not started (Phase 4)</td>
-          </tr>
-          <tr>
-            <td class="mono">E</td>
-            <td>Readiness dossier complete and accepted by Tenna's compliance expert</td>
-            <td>The dossier + written acceptance</td>
-            <td>AppAxis → advisors</td>
-            <td>Not started (Phase 5)</td>
-          </tr>
-          <tr>
-            <td class="mono">F</td>
-            <td>Registration filed and listed; stay-listed runbook staffed</td>
-            <td>FMCSA public listing + runbook</td>
-            <td>Tenna</td>
-            <td>Not started (Phase 5)</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section id="confirm">
-  <div class="container">
-    <div class="eyebrow">For the Advisors</div>
-    <h2>What this draft needs from the compliance review.</h2>
-    <p class="lede">
-      Each item below either blocks a gate or shapes one. The full background for the numbered questions lives in the
-      <a href="/decisions">decision log</a>; they are gathered here so the review can walk the list top to bottom.
+    <ul>
+      <li>P3 — raw telemetry retention: what an audit actually requires, and whether device-local retention is
+        enough.</li>
+      <li>Q1 — duty status when the phone loses its link to the vehicle; the deepest open question, and it blocks the
+        Phase 3 HOS engine specification.</li>
+      <li>Q15–Q17 — the unidentified-driving rulings: the non-HOS move stamp's event class, whether rules-based
+        auto-annotation is allowed, and what "unaccepted" and the 6-month retention unit mean.</li>
+      <li>Q18 — the Telematics transfer election, signed. It cannot be reversed later without re-certifying.</li>
+      <li>Q19 and Q20 — the scope of the audit export and whether to build the host inspector view.</li>
+      <li>D29 — the stationary-prompt parameters (window, timeout, recorded origin), confirmed before the production
+        state machine is written.</li>
+    </ul>
+    <p class="gate">
+      <b>Exit criterion.</b> The scope lock is signed: every item above has a written advisor answer in the decision
+      log, the HOS engine specification and the data-retention design reflect those answers, and the acceptance
+      criteria are ratified. Evidence: the signed scope-lock package and the updated decision log.
     </p>
-    <div class="ask-list">
-      <div class="ask">
-        <div class="a-head"><span class="a-id">P3</span><h4>Raw telemetry retention — what does an audit actually require?</h4></div>
-        <p>Does an FMCSA audit require the raw pre-processing telemetry to substantiate ELD events, or only the
-        distilled event records? If raw data must be kept: which elements, at what granularity, for how long, and is
-        device-local retention acceptable? The answer decides the data pipeline (<a href="/decisions#p3">P3</a>) and
-        goes to Tamar for Luke's decision.</p>
-      </div>
-      <div class="ask">
-        <div class="a-head"><span class="a-id">Q1</span><h4>Duty status when the phone loses the vehicle link.</h4></div>
-        <p>The four sub-questions on record (<a href="/decisions#q1">Q1</a>): which component is the ELD of record;
-        may the tracker's stored stop/start attestations be applied retroactively on reconnect; if not, what is the
-        correct behavior; and is this a §4.6 malfunction matter rather than a duty-status one. Blocks the Phase 3
-        HOS engine spec.</p>
-      </div>
-      <div class="ask">
-        <div class="a-head"><span class="a-id">Q15–Q17</span><h4>The unidentified-driving rulings.</h4></div>
-        <p>The non-HOS move stamp's event class and whether it discharges the review duty
-        (<a href="/decisions#q15">Q15</a>); whether rules-based auto-annotation is defensible at all
-        (<a href="/decisions#q16">Q16</a>); what "unaccepted" means and how the 6-month retention clock is scoped
-        (<a href="/decisions#q17">Q17</a>). These decide the W16/D22/D28/D34 data model.</p>
-      </div>
-      <div class="ask">
-        <div class="a-head"><span class="a-id">Q18</span><h4>The Telematics election, formally.</h4></div>
-        <p>Confirmation that Telematics (web services + email) is the right election for this fleet, a walk-through of
-        the no-coverage roadside case now that the thumb drive is gone, and the election signed before Phase 3
-        (<a href="/decisions#q18">Q18</a>). One-way door.</p>
-      </div>
-      <div class="ask">
-        <div class="a-head"><span class="a-id">Q19 · Q20</span><h4>Audit export scope, and the host inspector view.</h4></div>
-        <p>The W13 line-by-line walk-through the memo asked for (<a href="/decisions#q19">Q19</a>), and the build/cut
-        call on W18 with our recommendation to build it (<a href="/decisions#q20">Q20</a>).</p>
-      </div>
-      <div class="ask">
-        <div class="a-head"><span class="a-id">AC</span><h4>Ratify the acceptance criteria.</h4></div>
-        <p>The bench and drive protocol's acceptance criteria are AppAxis proposals inferred from Part 395 and
-        Appendix A, marked as such on the sheet. Gate A cannot close on self-graded criteria: the advisors ratify,
-        correct, or extend them — including naming any scenario the inventory still lacks.</p>
-      </div>
-      <div class="ask">
-        <div class="a-head"><span class="a-id">Stage F</span><h4>Verify the registration mechanics.</h4></div>
-        <p>Specific claims to confirm or correct with the people who have filed these: per-OS registration bundles,
-        the 4-character ELD identifier's constraints, what version-string discipline avoids needless re-submission,
-        what the public instructions URL must contain, and who inside Tenna signs the self-certification statement
-        with what diligence behind it.</p>
-      </div>
-      <div class="ask">
-        <div class="a-head"><span class="a-id">Roadmap</span><h4>Mark up the roadmap itself.</h4></div>
-        <p>Are six stages the right cut? Are the gates the ones an auditor would recognize? What is missing —
-        state-level programs, Canadian ELD divergence if it is in scope, anything the last revocation rounds
-        taught that this page does not reflect?</p>
-      </div>
-    </div>
   </div>
-</section>
 
-<section class="alt" id="risks">
-  <div class="container">
-    <div class="eyebrow">Why These Gates</div>
-    <h2>Every known revocation trigger, mapped to the stage that answers it.</h2>
-    <p class="lede">
-      The roadmap is shaped backwards from how devices actually get revoked. Each failure mode from the recent
-      revocation rounds pairs with the stage and artifact built to prevent it.
+  <div class="stage">
+    <h3>Stage C — Build to Appendix A</h3>
+    <p class="who">Owner: <b>AppAxis</b> · Phase 3, weeks 4–12</p>
+    <p>
+      The core build: the HOS state machine covering every duty rule and exception, the malfunction and diagnostic
+      engine across all eight categories of §395.34(a), the FMCSA-format output file generator with its line check,
+      and the driver application on real hardware. The QA engineer builds the test harness in the same weeks the code
+      is written, so every Appendix A behavior carries a test from the day it is implemented. That harness is the
+      basis of the readiness dossier in Stage E.
     </p>
-    <div class="risk-grid">
-      <div class="risk">
-        <p class="r-name">Output file format errors</p>
-        <p>Missing fields, wrong line check, wrong ordering, encoding mistakes. <b>Answered by:</b> Stage C's
-        continuous validation and Stage E's per-release validation results — never a one-time check.</p>
-      </div>
-      <div class="risk">
-        <p class="r-name">Malfunction handling gaps</p>
-        <p>A missed §395.34(a) category, or a clear that never happens. <b>Answered by:</b> Stage C's engine built
-        with its tests, D32 making the clear visible, and Stage E's provoked-and-cleared evidence set.</p>
-      </div>
-      <div class="risk">
-        <p class="r-name">Engine sync failures</p>
-        <p>ECM data not polled at cadence, or sync claimed after it was lost. <b>Answered by:</b> Stage A — the
-        cadence watchdog, loss detection, and the 30-minute escalation are already tested on hardware.</p>
-      </div>
-      <div class="risk">
-        <p class="r-name">Edit history gaps</p>
-        <p>Edits unannotated, attribution missing, originals lost. <b>Answered by:</b> Stage C/D versioning with the
-        original preserved permanently, and the edit-history edge cases in Stage E's validation set.</p>
-      </div>
-      <div class="risk">
-        <p class="r-name">Unidentified driving not handled</p>
-        <p>Unlogged driving not captured, or captured and never reviewed. <b>Answered by:</b> the tracker's
-        store-and-forward (Stage A), the W16 review loop (Stage D), and the Q15–Q17 rulings (Stage B) so the model
-        is right before it is built.</p>
-      </div>
-      <div class="risk">
-        <p class="r-name">Driver complaints</p>
-        <p>Impossible logs, dropped events, transfers that fail at roadside. <b>Answered by:</b> Stage D's eRODS
-        test-environment verification and Stage F's pilot, where real drivers hit it before the public does.</p>
-      </div>
-    </div>
+    <ul>
+      <li>Every event type in Appendix A, every malfunction and diagnostic trigger and its clear condition, and every
+        automatic transition (including the D29 stationary prompt) is implemented and tested together.</li>
+      <li>Output files are validated against FMCSA's published file specification continuously, not once at the end.</li>
+      <li>Weekly Friday show-backs so any misreading of the specification is caught in days.</li>
+    </ul>
+    <p class="gate">
+      <b>Exit criterion.</b> The Appendix A harness passes for every section implemented, and an output file
+      generated from live test data validates clean. Evidence: the harness run report for each release.
+    </p>
   </div>
-</section>
+
+  <div class="stage">
+    <h3>Stage D — Transfer and host reporting</h3>
+    <p class="who">Owner: <b>AppAxis</b> · Phase 4, weeks 13–15</p>
+    <p>
+      The data-transfer service to eRODS (web services with email fallback, per the Q18 election), with both of its
+      callers: the driver at roadside (D17) and the back office for pre-audit requests (W17, with the 30-day cap per
+      transfer). Plus the host reporting screens the 17 August review asked for: the unidentified-driving report
+      (W16) and, if Q20 lands that way, the host inspector view (W18).
+    </p>
+    <ul>
+      <li>Transfer is verified against FMCSA's eRODS test environment before any pilot driver meets an officer.</li>
+      <li>The unidentified-driving loop is closed end to end: tracker capture, the 8-day in-cab list, host review,
+        annotate or assign, driver confirmation (D34), and 6-month retention.</li>
+      <li>Edit and annotation versioning is demonstrated: the original is preserved, attribution is complete, and the
+        trail renders in both the driver and host views.</li>
+    </ul>
+    <p class="gate">
+      <b>Exit criterion.</b> An end-to-end system runs on a test fleet, and both a roadside transfer and a
+      host-initiated transfer are accepted by the eRODS test endpoint. Evidence: the transfer confirmations and the
+      test-fleet session record.
+    </p>
+  </div>
+
+  <div class="stage">
+    <h3>Stage E — Certification-readiness verification</h3>
+    <p class="who">Owner: <b>AppAxis assembles, the advisors accept</b> · Phase 5, weeks 16–17</p>
+    <p>
+      Before Tenna signs anything, the whole case is put in one place and reviewed by the compliance expert as if
+      they were the auditor. This is the exit criterion for AppAxis's side of the engagement.
+    </p>
+    <ul>
+      <li>The full Appendix A test suite passing on the integrated system — every event type, every malfunction
+        trigger, every diagnostic threshold — with results archived per release.</li>
+      <li>Output-file validation results, including the edge cases that most often remove devices from the list: edit
+        history, driver-vehicle pairings, and multi-driver scenarios.</li>
+      <li>The malfunction and diagnostic evidence set: each of the eight categories triggered, detected, displayed,
+        and cleared, on record.</li>
+      <li>The on-road test protocol re-run on the customer device matrix Ross provided, on release builds.</li>
+      <li>The in-cab documents §395.22(g)–(h) requires the driver to carry: the user's manual, the data-transfer
+        instruction sheet, the malfunction instruction sheet, and blank paper logs. Drafted by AppAxis, owned and
+        published by Tenna.</li>
+      <li>The public user-instructions page (required by the registration form, and reachable without a login), ready
+        for Tenna's URL.</li>
+    </ul>
+    <p class="gate">
+      <b>Exit criterion.</b> Tenna's compliance expert accepts the dossier as sufficient to sign. Evidence: the
+      dossier itself and the expert's written acceptance.
+    </p>
+  </div>
+
+  <div class="stage">
+    <h3>Stage F — Registration, listing, and maintenance</h3>
+    <p class="who">Owner: <b>Tenna</b>, with AppAxis supporting · Phase 5, weeks 17–19, then ongoing</p>
+    <p>
+      Tenna's compliance expert files the registration: provider information, the four-character ELD identifier, the
+      model name and software version, the operating-systems list (each operating system registers separately, on
+      our current reading — an item to verify with the advisors), the Telematics election from Q18, the
+      self-certification statement, the public instructions URL, and the public contact. Devices typically appear on
+      the list within one to five business days. AppAxis supports the pilot in parallel and fixes anything the
+      certification pass surfaces.
+    </p>
+    <ul>
+      <li>After the device is listed, the audit window opens. An audit can arrive by complaint or random review,
+        sometimes months later. The Stage E dossier is what answers it.</li>
+      <li>Ongoing maintenance, owned by Tenna with AppAxis available for the code it requires: FMCSA interpretation
+        updates, re-submission when a major version ships, app-store re-reviews, driver-reported edge cases, and the
+        annual refresh of the user guide.</li>
+    </ul>
+    <p class="gate">
+      <b>Exit criterion.</b> The device is listed on the FMCSA registry, and a maintenance runbook — who watches
+      what, who responds to what, and on what schedule — is handed to Tenna and staffed. Evidence: the public listing
+      and the runbook.
+    </p>
+  </div>
+
+  <h2>Summary of stages and exit criteria</h2>
+  <div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr><th>Stage</th><th>Must be true</th><th>Evidence</th><th>Owner</th><th>Where it stands</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>A</td>
+        <td>Full bench and drive protocol passes on both platforms, against ratified acceptance criteria</td>
+        <td>Test workbooks and per-test device session logs</td>
+        <td>AppAxis</td>
+        <td>Android 25 of 26; criteria ratification pending this review</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td>P3, Q1, Q15–Q20, and D29 answered in writing; HOS spec, retention design, and criteria reflect them; scope lock signed</td>
+        <td>Signed scope-lock package and updated decision log</td>
+        <td>Joint</td>
+        <td>Open — the subject of the 3 September session</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>Appendix A harness passes for every implemented section; output file validates clean from live data</td>
+        <td>Harness run report, per release</td>
+        <td>AppAxis</td>
+        <td>Not started (Phase 3)</td>
+      </tr>
+      <tr>
+        <td>D</td>
+        <td>Roadside and host-initiated transfers accepted by the eRODS test endpoint; unidentified-driving loop closed end to end</td>
+        <td>Transfer confirmations and test-fleet record</td>
+        <td>AppAxis</td>
+        <td>Not started (Phase 4)</td>
+      </tr>
+      <tr>
+        <td>E</td>
+        <td>Readiness dossier complete and accepted by Tenna's compliance expert</td>
+        <td>The dossier and written acceptance</td>
+        <td>AppAxis, then advisors</td>
+        <td>Not started (Phase 5)</td>
+      </tr>
+      <tr>
+        <td>F</td>
+        <td>Registration filed and device listed; maintenance runbook staffed</td>
+        <td>FMCSA public listing and the runbook</td>
+        <td>Tenna</td>
+        <td>Not started (Phase 5)</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>4. What this draft needs from the compliance review</h2>
+  <p>
+    Each item below either blocks a stage or shapes one. The full background for the numbered questions is in the
+    decision log; they are gathered here so the review can work through them in order.
+  </p>
+
+  <div class="q">
+    <p class="qh">P3 — Raw telemetry retention. <span class="qtag">Blocks Stage B; answer goes to Tamar, then Luke.</span></p>
+    <p>Does an FMCSA audit require the raw pre-processing telemetry to substantiate ELD events, or only the distilled
+    event records? If raw data must be kept: which elements, at what granularity, for how long, and is device-local
+    retention acceptable? The answer decides the data pipeline.</p>
+  </div>
+  <div class="q">
+    <p class="qh">Q1 — Duty status when the phone loses the vehicle link. <span class="qtag">Blocks the Phase 3 HOS engine.</span></p>
+    <p>The four sub-questions on record: which component is the ELD of record; whether the tracker's stored stop and
+    start records may be applied retroactively on reconnect; if not, what the correct behavior is; and whether this
+    is a §4.6 malfunction matter rather than a duty-status one.</p>
+  </div>
+  <div class="q">
+    <p class="qh">Q15–Q17 — The unidentified-driving rulings.</p>
+    <p>The non-HOS move stamp's event class and whether it discharges the review duty (Q15); whether rules-based
+    auto-annotation is allowed at all (Q16); what "unaccepted" means and how the 6-month retention clock is scoped
+    (Q17). These decide the W16, D22, D28, and D34 data model.</p>
+  </div>
+  <div class="q">
+    <p class="qh">Q18 — The Telematics election, formally.</p>
+    <p>Confirmation that Telematics (web services and email) is the right election for this fleet, a walk-through of
+    the no-coverage roadside case now that the thumb drive is gone, and the election signed before Phase 3. It cannot
+    be reversed without re-certifying.</p>
+  </div>
+  <div class="q">
+    <p class="qh">Q19 and Q20 — Audit export scope, and the host inspector view.</p>
+    <p>The line-by-line walk-through of the W13 audit export the memo asked for (Q19), and the decision to build or
+    cut the host inspector view, W18, where our recommendation is to build it (Q20).</p>
+  </div>
+  <div class="q">
+    <p class="qh">Acceptance criteria — ratify them.</p>
+    <p>The bench and drive protocol's acceptance criteria are AppAxis proposals inferred from Part 395 and Appendix A,
+    marked as such on the sheet. Stage A cannot close on self-graded criteria. The advisors ratify, correct, or
+    extend them, including naming any scenario the inventory still lacks.</p>
+  </div>
+  <div class="q">
+    <p class="qh">Stage F — Verify the registration mechanics.</p>
+    <p>Confirm or correct: whether each operating system registers as a separate device bundle; the constraints on
+    the four-character ELD identifier; the version-string discipline that avoids needless re-submission; what the
+    public instructions URL must contain; and who inside Tenna signs the self-certification statement, and with what
+    diligence behind it.</p>
+  </div>
+  <div class="q">
+    <p class="qh">The roadmap itself — mark it up.</p>
+    <p>Are six stages the right cut? Are the exit criteria the ones an auditor would recognize? What is missing —
+    state-level programs, Canadian ELD differences if they are in scope, anything the recent removals taught that
+    this document does not reflect?</p>
+  </div>
+
+  <h2>5. Why these stages — the known reasons devices are removed from the list</h2>
+  <p>
+    The stages are organized around how devices actually lose their registration. Each known reason pairs with the
+    stage and the evidence built to prevent it.
+  </p>
+  <div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr><th>Reason a device is removed</th><th>How the roadmap prevents it</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Output file format errors — missing fields, wrong line check, wrong ordering, encoding mistakes</td>
+        <td>Stage C validates continuously and Stage E validates per release, so this is never a one-time check.</td>
+      </tr>
+      <tr>
+        <td>Malfunction handling gaps — a missed §395.34(a) category, or a condition that never clears</td>
+        <td>Stage C builds the engine with its tests; D32 makes the clear visible; Stage E provides the triggered-and-cleared evidence set.</td>
+      </tr>
+      <tr>
+        <td>Engine sync failures — ECM data not read at the right cadence, or sync claimed after it was lost</td>
+        <td>Stage A already tests the cadence watchdog, loss detection, and the 30-minute escalation on hardware.</td>
+      </tr>
+      <tr>
+        <td>Edit history gaps — edits unannotated, attribution missing, originals lost</td>
+        <td>Stage C and D versioning preserves the original permanently; Stage E covers the edit-history edge cases in validation.</td>
+      </tr>
+      <tr>
+        <td>Unidentified driving not handled — unlogged driving not captured, or captured and never reviewed</td>
+        <td>The tracker's store-and-forward (Stage A), the W16 review loop (Stage D), and the Q15–Q17 rulings (Stage B) settle the model before it is built.</td>
+      </tr>
+      <tr>
+        <td>Driver complaints — impossible logs, dropped events, transfers that fail at roadside</td>
+        <td>Stage D verifies transfer against the eRODS test environment; Stage F's pilot puts it in front of real drivers before the public sees it.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
 
 <footer>
-  <div class="container">
-    <div class="disc">
-      Draft prepared by AppAxis under SoW No. 1, Phase 2, for review with Tenna's FMCSA compliance advisors on
-      3 September 2026 — the certification-readiness roadmap requested in Luke's end-of-phase expectations. It
-      becomes part of the scope-lock package once the advisors' corrections are folded in.
-    </div>
-    <div class="copy">© 2026 · Prepared by AppAxis · Cincinnati, Ohio · hello@appaxis.com</div>
-  </div>
+  Draft prepared by AppAxis under SoW No. 1, Phase 2, for review with Tenna's FMCSA compliance advisors on
+  3 September 2026. It becomes part of the scope-lock package once the advisors' corrections are folded in.
+  © 2026 AppAxis · hello@appaxis.com
 </footer>
 
 </body>
