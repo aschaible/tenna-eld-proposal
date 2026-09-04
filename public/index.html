@@ -51,39 +51,27 @@
 
   .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
 
-  /* Top bar */
-  .topbar {
-    border-bottom: 1px solid var(--line);
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(8px);
-    position: sticky; top: 0; z-index: 50;
+  /* Site strip — the same one the decision log and certification roadmap
+     use, widened to this page's column. Site links only; the section jump
+     links live in the page header below. */
+  .nav {
+    border-bottom: 1px solid #ccc; padding: 10px 0; background: #fff;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
   }
-  .topbar-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 28px; max-width: 1240px; margin: 0 auto;
-  }
-  .brand-row { display: flex; align-items: center; gap: 14px; }
-  .brand-row img.appaxis { height: 24px; width: auto; }
-  .brand-row .title { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
-  .topbar .nav { display: flex; gap: 18px; color: var(--ink-soft); font-size: 13px; font-weight: 500; align-items: center; flex-wrap: wrap; }
-  .topbar .nav a { color: var(--ink-soft); }
-  .topbar .nav a:hover { color: var(--orange); }
-  .field-guide {
-    border: 1px solid var(--orange);
-    color: var(--orange);
-    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 1.5px; font-weight: 800;
-    background: var(--orange-soft);
-  }
-  @media (max-width: 860px) {
-    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 16px; }
-    .topbar .nav {
-      width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 16px;
-      white-space: nowrap; padding-bottom: 2px;
-      scrollbar-width: none;
-    }
-    .topbar .nav::-webkit-scrollbar { display: none; }
-    .topbar .nav > * { flex: none; }
-  }
+  .nav .inner { max-width: 1100px; margin: 0 auto; padding: 0 28px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; }
+  .nav .who { color: #555; font-weight: 600; margin-right: auto; }
+  .nav a { color: #555; text-decoration: none; }
+  .nav a:hover { color: #14459c; text-decoration: underline; }
+
+  /* Page header — carries what the old topbar held: the page name, its
+     role label, and the section jump links. */
+  .pagehead { padding: 34px 0 0; }
+  .pagehead h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.2; margin: 0 0 2px; }
+  .pagehead .role { color: var(--muted); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; margin: 0 0 12px; }
+  .pagehead .onpage { font-size: 13px; font-weight: 500; color: var(--ink-soft); margin: 0; }
+  .pagehead .onpage a { color: var(--ink-soft); }
+  .pagehead .onpage a:hover { color: var(--orange); }
 
   /* Hero */
   .hero { padding: 70px 0 42px 0; position: relative; overflow: hidden; }
@@ -467,28 +455,22 @@
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand-row">
-      <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
-      <span class="title">WIREFRAMES</span>
-    </div>
-    <div class="nav">
-      <a href="#decisions">The 5 Decisions</a>
-      <a href="#legend">Legend</a>
-      <a href="#driver">Mobile App</a>
-      <a href="#web">Control Panel</a>
-      <a href="#data">Data Elements</a>
-      <a href="#sources" data-rev-from="v3">Ownership &amp; APIs</a>
-      <a href="#flow">Flow Map</a>
-      <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
-      <a href="/certification">Cert Roadmap ↗</a>
-      <a href="/decisions">Decision Log ↗</a>
-      <a href="/stack-research">Evidence ↗</a>
-      <span class="field-guide">PROPOSALS TO REACT TO</span>
-    </div>
+<div class="nav">
+  <div class="inner">
+    <span class="who">AppAxis · Tenna ELD</span>
+    <a href="/decisions">Decision Log</a>
+    <a href="/certification">Certification Roadmap</a>
+    <a href="/stack-research">Evidence</a>
   </div>
 </div>
+
+<header class="pagehead">
+  <div class="container">
+    <h1>Wireframes</h1>
+    <div class="role">Proposals to react to</div>
+    <p class="onpage">On this page: <a href="#decisions">The 5 Decisions</a> · <a href="#legend">Legend</a> · <a href="#driver">Mobile App</a> · <a href="#web">Control Panel</a> · <a href="#data">Data Elements</a><span data-revi-from="v3"> · <a href="#sources">Ownership &amp; APIs</a></span> · <a href="#flow">Flow Map</a> · <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a></p>
+  </div>
+</header>
 
 <section id="whats-changed" style="padding-top:34px; padding-bottom:8px;">
   <div class="container">
