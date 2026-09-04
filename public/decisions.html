@@ -5,320 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Decision Log · Tenna ELD</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --orange: #F37021;
-    --orange-dark: #D9591A;
-    --orange-soft: #FFF1E8;
-    --orange-line: #F8D3B7;
-    --ink: #1A1F2A;
-    --ink-soft: #3D4654;
-    --muted: #6B7484;
-    --line: #E5E7EB;
-    --line-soft: #F1F3F6;
-    --bg: #FFFFFF;
-    --bg-alt: #F7F8FB;
-    --green: #1F8A56;
-    --green-soft: #E9F5EF;
-    --red: #C24038;
-    --red-soft: #FBEDEC;
-    --amber: #D98315;
-    --amber-soft: #FDF3E3;
-    --blue: #2E6BE6;
-    --blue-soft: #EAF0FD;
-  }
-
   * { box-sizing: border-box; }
   /* Instant anchor jumps on purpose: Chrome aborts smooth scrolling partway on a
      page this tall, which left deep links (/decisions#p1 from the wireframes
      page) stranded at the top. */
-  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
-  img { max-width: 100%; display: block; }
-  a { color: var(--orange); text-decoration: none; }
-  a:hover { color: var(--orange-dark); }
-  code, .mono { font-family: 'JetBrains Mono', Menlo, Consolas, monospace; }
+  html, body {
+    margin: 0; padding: 0; background: #ffffff; color: #1a1a1a;
+    font-family: Georgia, "Times New Roman", Cambria, serif;
+    line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased;
+  }
+  a { color: #14459c; }
+  a:hover { color: #0d2f6e; }
+  code, .mono { font-family: Menlo, Consolas, monospace; font-size: 0.88em; }
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+  /* Simple navigation strip — text only. */
+  .nav {
+    border-bottom: 1px solid #ccc; padding: 10px 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+  }
+  .nav .inner { max-width: 780px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; }
+  .nav .who { color: #555; font-weight: 600; margin-right: auto; }
+  .nav a { color: #555; text-decoration: none; }
+  .nav a:hover { color: #14459c; text-decoration: underline; }
 
-  /* Top bar */
-  .topbar {
-    border-bottom: 1px solid var(--line);
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(8px);
-    position: sticky; top: 0; z-index: 50;
-  }
-  .topbar-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 28px; max-width: 1240px; margin: 0 auto;
-  }
-  .brand-row { display: flex; align-items: center; gap: 14px; }
-  .brand-row img.appaxis { height: 24px; width: auto; }
-  .brand-row .title { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
-  .topbar .nav { display: flex; gap: 18px; color: var(--ink-soft); font-size: 13px; font-weight: 500; align-items: center; flex-wrap: wrap; }
-  .topbar .nav a { color: var(--ink-soft); }
-  .topbar .nav a:hover { color: var(--orange); }
-  .field-guide {
-    border: 1px solid var(--orange);
-    color: var(--orange);
-    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 1.5px; font-weight: 800;
-    background: var(--orange-soft);
-  }
+  .container { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+  .hero { padding: 40px 0 0; }
+  #whats-changed { padding: 26px 0 0; }
 
-  /* Hero */
-  .hero { padding: 70px 0 42px 0; position: relative; overflow: hidden; }
-  .hero::after {
-    content: ""; position: absolute; top: 0; right: -10%; width: 70%; height: 100%;
-    background: radial-gradient(700px 500px at 50% 30%, rgba(243,112,33,0.10), transparent 60%);
-    pointer-events: none;
+  h1 { font-size: 26px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.2px; }
+  .subtitle { font-size: 15px; color: #333; margin: 0 0 4px; }
+  .docmeta, .statline {
+    font-size: 13px; color: #666; margin: 0 0 4px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  .hero .container { position: relative; z-index: 1; }
-  .hero .kicker {
-    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px;
-    font-size: 11px; text-transform: uppercase; margin-bottom: 16px;
-    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
-  }
-  .hero h1 {
-    font-size: clamp(34px, 4.8vw, 54px);
-    line-height: 1.08; margin: 0 0 16px 0; letter-spacing: -1.2px; font-weight: 800;
-  }
-  .hero h1 .accent { color: var(--orange); }
-  .hero .lede { color: var(--ink-soft); font-size: 17px; max-width: 900px; }
+  .lede { margin: 16px 0 14px; }
+  p { margin: 0 0 12px; }
 
-  section { padding: 52px 0; }
-  section.alt { background: var(--bg-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  section h2 { font-size: clamp(24px, 3vw, 34px); margin: 0 0 10px 0; letter-spacing: -0.4px; font-weight: 800; }
-  section .eyebrow {
-    display: inline-block; color: var(--orange); font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-size: 10.5px; margin-bottom: 12px;
-    background: var(--orange-soft); padding: 5px 11px; border-radius: 999px;
+  .eyebrow {
+    display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #666; margin: 36px 0 2px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  section .lede { color: var(--ink-soft); font-size: 16px; max-width: 940px; margin-bottom: 28px; }
-  section p { color: var(--ink-soft); }
+  h2 { font-size: 19px; font-weight: 700; margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px solid #ddd; }
 
-  /* Scoreboard */
-  .score-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 26px; }
-  @media (max-width: 820px) { .score-row { grid-template-columns: 1fr 1fr; } }
-
-  /* Same topbar treatment as the other pages (b2ddb0f): stack the brand row
-     above the nav and make the nav a horizontally swipeable strip, rather than
-     letting it wrap into stacked rows that push the content down. */
-  @media (max-width: 860px) {
-    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 16px; }
-    .topbar .nav {
-      width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 16px;
-      white-space: nowrap; padding-bottom: 2px;
-      scrollbar-width: none;
-    }
-    .topbar .nav::-webkit-scrollbar { display: none; }
-    .topbar .nav > * { flex: none; }
-  }
-  .score {
-    background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
-  }
-  .score .v { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
-  .score .l { font-size: 10.5px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
-  .score.is-open .v { color: var(--red); }
-  .score.is-blocking .v { color: var(--amber); }
-  .score.is-answered .v { color: var(--green); }
-  .score.is-meetings .v { color: var(--blue); }
-  .score.is-decisions .v { color: var(--orange); }
-  .chip.st-session { background: var(--orange-soft); color: var(--orange-dark); border-color: var(--orange-line); }
-
-  /* Filters */
-  .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
-  .filters .flabel { font-size: 10.5px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
-  .fbtn {
-    font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
-    border: 1px solid var(--line); background: white; color: var(--ink-soft);
-    padding: 6px 13px; border-radius: 999px; transition: all 0.15s;
-  }
-  .fbtn:hover { border-color: var(--orange-line); color: var(--orange); }
-  .fbtn[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: white; }
-  .fcount { color: var(--muted); font-size: 12.5px; margin-left: 2px; }
-
-  /* Question cards */
-  .qlist { display: flex; flex-direction: column; gap: 14px; }
-  .q {
-    background: white; border: 1px solid var(--line); border-left: 3px solid var(--line);
-    border-radius: 12px; padding: 20px 24px;
-  }
-  .q.open { border-left-color: var(--red); }
-  .q.blocking { border-left-color: var(--amber); }
-  .q.answered { border-left-color: var(--green); }
+  /* Log entries — plain blocks, certification-roadmap style. */
+  .qlist { margin-top: 4px; }
+  .q { margin: 0 0 28px; }
   .q[hidden] { display: none; }
-  .q-head { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
-  .q-id {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-    color: var(--muted); background: var(--bg-alt); border: 1px solid var(--line);
-    border-radius: 6px; padding: 3px 8px; white-space: nowrap; margin-top: 2px;
+  .q-id { font-family: Menlo, Consolas, monospace; font-size: 13px; font-weight: 700; color: #666; margin-right: 4px; }
+  .q-title { display: inline; font-size: 16px; font-weight: 700; margin: 0; }
+  .q-chips {
+    font-size: 12.5px; color: #666; margin-top: 1px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  .q-title { font-size: 17px; font-weight: 800; color: var(--ink); margin: 0; flex: 1 1 320px; letter-spacing: -0.2px; }
-  .q-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip {
-    font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
-    padding: 4px 9px; border-radius: 999px; white-space: nowrap; border: 1px solid transparent;
-  }
-  .chip.owner-compliance { background: var(--blue-soft); color: var(--blue); border-color: #C9D8FA; }
-  .chip.owner-geometris { background: var(--orange-soft); color: var(--orange-dark); border-color: var(--orange-line); }
-  .chip.owner-tenna { background: #EDE9FB; color: #5B3FBF; border-color: #D7CEF5; }
-  .chip.st-open { background: var(--red-soft); color: var(--red); border-color: #F2CFCC; }
-  .chip.st-blocking { background: var(--amber-soft); color: #A9640C; border-color: #F3DDB6; }
-  .chip.st-answered { background: var(--green-soft); color: var(--green); border-color: #C4E5D5; }
-  .q-body { margin-top: 12px; }
-  .q-body p { margin: 0 0 10px 0; font-size: 14.5px; }
+  .chip { white-space: nowrap; }
+  .chip + .chip::before { content: "· "; }
+  .q-body { margin-top: 8px; }
+  .q-body p { margin: 0 0 10px; }
   .q-body p:last-child { margin-bottom: 0; }
-  .q-label { font-size: 10.5px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 3px; }
-  .q-ask { margin-top: 12px; padding: 13px 16px; background: var(--bg-alt); border-radius: 9px; border: 1px solid var(--line-soft); }
-  .q-ask p { font-size: 14px; color: var(--ink); }
-  .q-evidence {
-    margin-top: 12px; padding: 12px 16px; border-radius: 9px;
-    background: var(--green-soft); border: 1px solid #C4E5D5;
+  .q-label {
+    display: block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: #555; margin-bottom: 3px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  .q-evidence p { font-size: 14px; color: #14603B; }
-  .q-evidence .mono, .q-ask .mono { font-size: 12.5px; }
+  .q-ask { border-left: 3px solid #999; padding: 4px 0 4px 14px; margin: 12px 0; font-size: 15px; }
+  .q-ask p { margin: 0 0 10px; }
+  .q-ask p:last-child { margin-bottom: 0; }
+  .q-evidence { border: 1px solid #b0b0b0; background: #f6f6f6; padding: 12px 15px; margin: 12px 0; font-size: 15px; }
+  .q-evidence p { margin: 0 0 10px; }
+  .q-evidence p:last-child { margin-bottom: 0; }
   pre.eq {
-    margin: 8px 0 0 0; padding: 11px 13px; background: white; border: 1px solid var(--line);
-    border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--ink-soft); line-height: 1.7;
+    margin: 10px 0; padding: 10px 13px; background: #ffffff; border: 1px solid #bbb;
+    overflow-x: auto; font-family: Menlo, Consolas, monospace; font-size: 12.5px;
+    color: #333; line-height: 1.7;
   }
-  .q-foot { margin-top: 12px; font-size: 12px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+  .q-foot {
+    margin-top: 10px; font-size: 12.5px; color: #666;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
 
-  .empty-note { display: none; color: var(--muted); font-size: 14px; font-style: italic; padding: 18px 0; }
+  /* Owner filter — plain text controls. */
+  .filters {
+    display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; margin: 0 0 22px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px;
+  }
+  .flabel { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #555; }
+  .fbtn { font: inherit; cursor: pointer; border: 0; background: none; padding: 0; color: #14459c; text-decoration: underline; }
+  .fbtn:hover { color: #0d2f6e; }
+  .fbtn[aria-pressed="true"] { color: #1a1a1a; font-weight: 700; text-decoration: none; cursor: default; }
+  .fcount { color: #666; }
+  .empty-note { display: none; color: #666; font-style: italic; padding: 10px 0; }
   .empty-note.on { display: block; }
 
-  /* Timeline */
-  .timeline { position: relative; margin-top: 8px; padding-left: 26px; }
-  .timeline::before {
-    content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: var(--line);
+  /* Meetings — plain entries, no timeline chrome. */
+  .tl-item { margin: 0 0 28px; }
+  .tl-date {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #666;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  .tl-item { position: relative; padding-bottom: 26px; }
-  .tl-item:last-child { padding-bottom: 0; }
-  .tl-item::before {
-    content: ""; position: absolute; left: -23px; top: 5px; width: 12px; height: 12px;
-    border-radius: 50%; background: white; border: 3px solid var(--orange);
+  .tl-card { margin-top: 3px; }
+  .tl-card h3 { font-size: 16px; font-weight: 700; margin: 0 0 2px; }
+  .tl-who {
+    font-size: 12.5px; color: #666; margin-bottom: 8px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  .tl-date { font-size: 11px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--orange); }
-  .tl-card {
-    background: white; border: 1px solid var(--line); border-radius: 12px;
-    padding: 18px 22px; margin-top: 8px;
-  }
-  .tl-card h3 { margin: 0 0 4px 0; font-size: 16.5px; font-weight: 800; letter-spacing: -0.2px; }
-  .tl-who { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
-  .tl-card p { font-size: 14.5px; margin: 0 0 10px 0; }
-  .tl-card p:last-child { margin-bottom: 0; }
-  .outcome {
-    margin-top: 12px; padding: 12px 16px; border-radius: 9px;
-    background: var(--green-soft); border: 1px solid #C4E5D5;
-  }
-  .outcome p { font-size: 14px; color: #14603B; margin: 0; }
-  .outcome .q-label { color: #2E7D57; }
+  .outcome { border: 1px solid #b0b0b0; background: #f6f6f6; padding: 12px 15px; margin: 12px 0; font-size: 15px; }
+  .outcome p { margin: 0; }
 
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
-  .reveal.in { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+  footer {
+    max-width: 780px; margin: 44px auto 0; padding: 20px 24px 48px;
+    border-top: 1px solid #ddd; font-size: 13px; color: #666;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  footer .container { max-width: none; padding: 0; }
+  footer .disc { line-height: 1.7; }
+  footer .copy { margin-top: 12px; }
 
-  footer { padding: 36px 0; color: var(--muted); font-size: 12px; background: var(--ink); text-align: center; }
-  footer .disc { max-width: 760px; margin: 0 auto; line-height: 1.7; color: rgba(255,255,255,0.55); font-style: italic; }
-  footer .copy { margin-top: 14px; color: rgba(255,255,255,0.4); }
-
-  @media (max-width: 700px) {
-    .container { padding: 0 20px; }
-    section { padding: 42px 0; }
-    .hero { padding: 46px 0 32px 0; }
-    .q { padding: 18px 18px; }
-    .tl-card { padding: 16px 18px; }
-    .score { padding: 16px 16px; }
-    .score .v { font-size: 32px; }
+  /* The shared revision furniture (revisions.js) is a sans-serif design;
+     keep it that way on this serif page. */
+  body .revbar, body .rev-what {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand-row">
-      <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
-      <span class="title">DECISION LOG</span>
-    </div>
-    <div class="nav">
-      <a href="#product">Product</a>
-      <a href="#open">Open</a>
-      <a href="#answered">Answered</a>
-      <a href="#meetings">Meetings</a>
-      <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
-      <a href="/">← Wireframes</a>
-      <a href="/certification">Cert Roadmap ↗</a>
-      <a href="/stack-research">Evidence ↗</a>
-      <span class="field-guide">SHARED RECORD</span>
-    </div>
+<div class="nav">
+  <div class="inner">
+    <span class="who">AppAxis · Tenna ELD</span>
+    <a href="/">Wireframes</a>
+    <a href="/certification">Certification Roadmap</a>
+    <a href="/stack-research">Evidence</a>
   </div>
 </div>
 
 <section class="hero">
   <div class="container">
-    <div class="kicker" data-rev-until="v1">Updated 13 August 2026 · Confidential</div>
-    <div class="kicker" data-rev-from="v2" data-rev-until="v2">Updated 28 August 2026 · Confidential</div>
-    <div class="kicker" data-rev-from="v3">Updated 2 September 2026 · Confidential</div>
-    <h1>Decision Log.<br/><span class="accent">Open questions, settled answers, and how we got there.</span></h1>
+    <h1>Decision Log</h1>
+    <p class="subtitle">Open questions, settled answers, and how we got there.</p>
+    <p class="docmeta" data-rev-until="v1">Updated 13 August 2026 · Confidential</p>
+    <p class="docmeta" data-rev-from="v2" data-rev-until="v2">Updated 28 August 2026 · Confidential</p>
+    <p class="docmeta" data-rev-from="v3">Updated 2 September 2026 · Confidential</p>
+    <p class="docmeta">On this page: <a href="#product">Product decisions</a> · <a href="#open">Awaiting an answer</a> · <a href="#answered">Settled</a> · <a href="#meetings">Meetings</a> · <a href="#whats-changed">What changed</a></p>
     <p class="lede">
       One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2: building against real Geometris WQ hardware surfaces things a specification cannot. <span data-revi-until="v1">Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/">Wireframes page&nbsp;↗</a>.</span><span data-revi-from="v2" data-revi-until="v2">Newest group: six questions (Q15–Q20) out of the <a href="#meetings">August 17 FMCSA compliance review of host reporting</a>, most of them for Tenna's compliance advisor, plus two long-standing questions the same memo settled. The five <a href="#product">product decisions</a> from the August 13 kickoff are unchanged and still queued.</span><span data-revi-from="v3">Newest entry: the <a href="#meetings">28 August huddle</a>, which settled three of the five <a href="#product">product decisions</a> in the room. P3 and P4 stay open, and the sixteen questions below are unchanged.</span>
     </p>
-
-    <div class="score-row">
-      <div class="score is-decisions" data-rev-until="v2">
-        <div class="v">5</div>
-        <div class="l">Product decisions</div>
-      </div>
-      <div class="score is-decisions" data-rev-from="v3">
-        <div class="v">3 / 5</div>
-        <div class="l">Product decisions settled</div>
-      </div>
-      <div class="score is-blocking">
-        <div class="v">1</div>
-        <div class="l">Blocking Phase&nbsp;3</div>
-      </div>
-      <div class="score is-open" data-rev-until="v1">
-        <div class="v">10</div>
-        <div class="l">Awaiting an answer</div>
-      </div>
-      <div class="score is-open" data-rev-from="v2" data-rev-until="v2">
-        <div class="v">16</div>
-        <div class="l">Awaiting an answer</div>
-      </div>
-      <div class="score is-open" data-rev-from="v3">
-        <div class="v">17</div>
-        <div class="l">Awaiting an answer</div>
-      </div>
-      <div class="score is-answered" data-rev-until="v1">
-        <div class="v">4</div>
-        <div class="l">Settled by test</div>
-      </div>
-      <div class="score is-answered" data-rev-from="v2">
-        <div class="v">6</div>
-        <div class="l">Settled</div>
-      </div>
-      <div class="score is-meetings" data-rev-until="v1">
-        <div class="v">2</div>
-        <div class="l">Meetings logged</div>
-      </div>
-      <div class="score is-meetings" data-rev-from="v2" data-rev-until="v2">
-        <div class="v">3</div>
-        <div class="l">Meetings logged</div>
-      </div>
-      <div class="score is-meetings" data-rev-from="v3">
-        <div class="v">4</div>
-        <div class="l">Meetings logged</div>
-      </div>
-    </div>
+    <p class="statline" data-rev-until="v1">5 product decisions · 1 blocking Phase 3 · 10 awaiting an answer · 4 settled by test · 2 meetings logged</p>
+    <p class="statline" data-rev-from="v2" data-rev-until="v2">5 product decisions · 1 blocking Phase 3 · 16 awaiting an answer · 6 settled · 3 meetings logged</p>
+    <p class="statline" data-rev-from="v3">3 of 5 product decisions settled · 1 blocking Phase 3 · 17 awaiting an answer · 6 settled · 4 meetings logged</p>
   </div>
 </section>
 
-<section id="whats-changed" style="padding:30px 0 4px 0;">
+<section id="whats-changed">
   <div class="container">
-    <div data-rev-until="v1" class="rev-what" style="border-color:var(--line); background:var(--bg-alt);">
-      <span class="rev-what-h" style="color:var(--muted);">Original · as of 13 August 2026</span>
+    <div data-rev-until="v1" class="rev-what" style="border-color:#E5E7EB; background:#F7F8FB;">
+      <span class="rev-what-h" style="color:#6B7484;">Original · as of 13 August 2026</span>
       <p>You are reading the log as it stood before the August 17 FMCSA compliance review of host reporting. The
       8/28/2026 revision adds six questions (Q15–Q20), records two answers that review supplied, and logs
       the meeting itself. Switch versions with the control at the bottom right.</p>
@@ -564,7 +407,7 @@
 
     <div class="qlist" id="qlist">
 
-      <article class="q blocking reveal" data-owner="compliance" id="q1">
+      <article class="q blocking" data-owner="compliance" id="q1">
         <div class="q-head">
           <span class="q-id">Q1</span>
           <h3 class="q-title">Duty status when the phone loses its link to the vehicle</h3>
@@ -603,7 +446,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris" id="q2">
+      <article class="q open" data-owner="geometris" id="q2">
         <div class="q-head">
           <span class="q-id">Q2</span>
           <h3 class="q-title">Is <span class="mono">ENGINEHOURS</span> the ECM lifetime total?</h3>
@@ -628,7 +471,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris" id="q3">
+      <article class="q open" data-owner="geometris" id="q3">
         <div class="q-head">
           <span class="q-id">Q3</span>
           <h3 class="q-title"><span class="mono">0</span> versus the unavailable sentinel for missing data</h3>
@@ -658,7 +501,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris" id="q4">
+      <article class="q open" data-owner="geometris" id="q4">
         <div class="q-head">
           <span class="q-id">Q4</span>
           <h3 class="q-title">Unidentified-driving capacity, retention, and drain rate</h3>
@@ -684,7 +527,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris tenna" id="q5">
+      <article class="q open" data-owner="geometris tenna" id="q5">
         <div class="q-head">
           <span class="q-id">Q5</span>
           <h3 class="q-title">No authentication in the BLE protocol</h3>
@@ -709,7 +552,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna" id="q6">
+      <article class="q open" data-owner="tenna" id="q6">
         <div class="q-head">
           <span class="q-id">Q6</span>
           <h3 class="q-title">Which odometer is authoritative for compliance?</h3>
@@ -732,7 +575,7 @@
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna" id="q7">
+      <article class="q open" data-owner="tenna" id="q7">
         <div class="q-head">
           <span class="q-id">Q7</span>
           <h3 class="q-title">Mapping a device serial to a Tenna asset ID</h3>
@@ -765,7 +608,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="compliance tenna" id="q24" data-rev-from="v3">
+      <article class="q open" data-owner="compliance tenna" id="q24" data-rev-from="v3">
         <div class="q-head">
           <span class="q-id">Q24</span>
           <h3 class="q-title">What a Face ID sign-in proves about who produced the record</h3>
@@ -794,7 +637,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           <div class="q-foot"><span>Raised from <a href="/#d1">D1</a>, where the promise was made and never drawn. Bears on <a href="/#d3">D3</a>, <a href="/#d24">D24</a>, <a href="/#d30">D30</a> and <a href="/#w15">W15</a>, and on the offline grace <a href="#p2">P2</a> leaves open.</span></div>
         </div>
       </article>
-      <article class="q open reveal" data-owner="compliance tenna" id="q23" data-rev-from="v3">
+      <article class="q open" data-owner="compliance tenna" id="q23" data-rev-from="v3">
         <div class="q-head">
           <span class="q-id">Q23</span>
           <h3 class="q-title">Which VIN is authoritative when the vehicle and the asset record disagree</h3>
@@ -818,7 +661,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna" id="q8">
+      <article class="q open" data-owner="tenna" id="q8">
         <div class="q-head">
           <span class="q-id">Q8</span>
           <h3 class="q-title">Fleet composition: light-duty OBD-II vs heavy-duty J1939</h3>
@@ -838,7 +681,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris" id="q9">
+      <article class="q open" data-owner="geometris" id="q9">
         <div class="q-head">
           <span class="q-id">Q9</span>
           <h3 class="q-title">Two phones connected to one tracker</h3>
@@ -854,7 +697,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="geometris" id="q10">
+      <article class="q open" data-owner="geometris" id="q10">
         <div class="q-head">
           <span class="q-id">Q10</span>
           <h3 class="q-title">Firmware predating the TLV format (protocol 0)</h3>
@@ -875,7 +718,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
       </article>
 
 
-      <article class="q open reveal" data-owner="compliance" data-rev-from="v2" id="q15">
+      <article class="q open" data-owner="compliance" data-rev-from="v2" id="q15">
         <div class="q-head">
           <span class="q-id">Q15</span>
           <h3 class="q-title">How is a non-driver vehicle movement classified?</h3>
@@ -902,7 +745,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="compliance" data-rev-from="v2" id="q16">
+      <article class="q open" data-owner="compliance" data-rev-from="v2" id="q16">
         <div class="q-head">
           <span class="q-id">Q16</span>
           <h3 class="q-title">May a carrier auto-annotate unidentified driving that matches a pattern?</h3>
@@ -933,7 +776,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="compliance" data-rev-from="v2" id="q17">
+      <article class="q open" data-owner="compliance" data-rev-from="v2" id="q17">
         <div class="q-head">
           <span class="q-id">Q17</span>
           <h3 class="q-title">What counts as "unaccepted," and what is the retention unit?</h3>
@@ -967,7 +810,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="compliance tenna" data-rev-from="v2" id="q18">
+      <article class="q open" data-owner="compliance tenna" data-rev-from="v2" id="q18">
         <div class="q-head">
           <span class="q-id">Q18</span>
           <h3 class="q-title">Formal sign-off on the Telematics transfer election</h3>
@@ -995,7 +838,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna" data-rev-from="v2" id="q19">
+      <article class="q open" data-owner="tenna" data-rev-from="v2" id="q19">
         <div class="q-head">
           <span class="q-id">Q19</span>
           <h3 class="q-title">Is the DOT audit export over-scoped?</h3>
@@ -1024,7 +867,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q open reveal" data-owner="tenna" data-rev-from="v2" id="q20">
+      <article class="q open" data-owner="tenna" data-rev-from="v2" id="q20">
         <div class="q-head">
           <span class="q-id">Q20</span>
           <h3 class="q-title">Build or cut the host inspector view?</h3>
@@ -1069,7 +912,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
 
     <div class="qlist">
 
-      <article class="q answered reveal" id="q11">
+      <article class="q answered" id="q11">
         <div class="q-head">
           <span class="q-id">Q11</span>
           <h3 class="q-title">Control-word byte order</h3>
@@ -1091,7 +934,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q answered reveal" id="q12">
+      <article class="q answered" id="q12">
         <div class="q-head">
           <span class="q-id">Q12</span>
           <h3 class="q-title">Latitude / longitude sign encoding</h3>
@@ -1109,7 +952,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q answered reveal" id="q13">
+      <article class="q answered" id="q13">
         <div class="q-head">
           <span class="q-id">Q13</span>
           <h3 class="q-title">Notification cadence</h3>
@@ -1130,7 +973,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
       </article>
 
-      <article class="q answered reveal" id="q14">
+      <article class="q answered" id="q14">
         <div class="q-head">
           <span class="q-id">Q14</span>
           <h3 class="q-title">Byte order of the device-address characteristic</h3>
@@ -1161,7 +1004,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
       </article>
 
 
-      <article class="q answered reveal" data-rev-from="v2" id="q21">
+      <article class="q answered" data-rev-from="v2" id="q21">
         <div class="q-head">
           <span class="q-id">Q21</span>
           <h3 class="q-title">Who owns the carrier-side surface for unidentified driving?</h3>
@@ -1183,7 +1026,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         </div>
       </article>
 
-      <article class="q answered reveal" data-rev-from="v2" id="q22">
+      <article class="q answered" data-rev-from="v2" id="q22">
         <div class="q-head">
           <span class="q-id">Q22</span>
           <h3 class="q-title">How much log history belongs on the phone?</h3>
@@ -1218,7 +1061,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
 
     <div class="timeline">
 
-      <div class="tl-item reveal">
+      <div class="tl-item">
         <div class="tl-date">Monday · 3 August 2026</div>
         <div class="tl-card">
           <h3>Hardware setup for Phase 2 validation</h3>
@@ -1236,7 +1079,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         </div>
       </div>
 
-      <div class="tl-item reveal">
+      <div class="tl-item">
         <div class="tl-date">Thursday · 13 August 2026</div>
         <div class="tl-card">
           <h3>ELD Solution API · Platform kickoff</h3>
@@ -1257,7 +1100,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
       </div>
 
 
-      <div class="tl-item reveal" data-rev-from="v2">
+      <div class="tl-item" data-rev-from="v2">
         <div class="tl-date">Monday · 17 August 2026</div>
         <div class="tl-card">
           <h3>FMCSA compliance review · host reporting</h3>
@@ -1302,7 +1145,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         </div>
       </div>
 
-      <div class="tl-item reveal" data-rev-from="v3">
+      <div class="tl-item" data-rev-from="v3">
         <div class="tl-date">Friday · 28 August 2026</div>
         <div class="tl-card">
           <h3>Weekly huddle · first session</h3>
@@ -1380,14 +1223,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         var owners = (card.getAttribute('data-owner') || '').split(/\s+/);
         var match = filter === 'all' || owners.indexOf(filter) !== -1;
         card.hidden = !match;
-        if (match) {
-          shown++;
-          // Filtering pulls cards up into view without firing a scroll event,
-          // so the reveal observer never runs for them. Reveal on the spot;
-          // otherwise filtering to an owner whose questions all sat below the
-          // fold renders a blank page.
-          card.classList.add('in');
-        }
+        if (match) shown++;
       });
       if (empty) empty.classList.toggle('on', shown === 0);
       buttons.forEach(function (b) {
@@ -1402,37 +1238,6 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
     });
   })();
 
-  /* Reveal on scroll: same implementation as the other three pages, kept
-     deliberately identical. An IntersectionObserver was tried here first and
-     reverted: it is what b2ddb0f already replaced, because elements jumped
-     past rather than scrolled through (anchor links, scroll restoration)
-     stayed permanently invisible. The rect check reveals anything at or above
-     the viewport, and the interval is the safety net for a hash jump that
-     lands after the first check has already run; without it, opening
-     /decisions#answered cold renders a blank page. */
-  (function () {
-    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
-    var timer = null;
-    function check() {
-      els = els.filter(function (el) {
-        /* Reveal anything in view or already scrolled past (anchor jumps, scroll restoration). */
-        if (el.getBoundingClientRect().top < window.innerHeight - 40) {
-          el.classList.add('in');
-          return false;
-        }
-        return true;
-      });
-      if (!els.length) {
-        window.removeEventListener('scroll', check);
-        window.removeEventListener('resize', check);
-        if (timer) clearInterval(timer);
-      }
-    }
-    window.addEventListener('scroll', check, { passive: true });
-    window.addEventListener('resize', check);
-    timer = setInterval(check, 300);
-    check();
-  })();
 </script>
 
 <script src="/revisions.js" defer></script>
