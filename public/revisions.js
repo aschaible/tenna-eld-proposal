@@ -9,7 +9,9 @@
  *   v3  "9/2/2026"    - data ownership split and API surfaces, after the
  *                       28 August huddle settled P1, P2 and P5
  *   v4  "9/3/2026"    - mobile stack comparison rewritten as an open
- *                       two-option decision (native vs React Native)
+ *                       two-option decision (native vs React Native), and
+ *                       the 9/3 FMCSA consultant session applied to the
+ *                       wireframes
  *
  * Content that differs between them is marked up in place, as a range
  * rather than as a single version, so a fourth revision costs one entry in
@@ -38,7 +40,7 @@
     { id: 'v1', label: 'Original', sub: 'Aug 20 session', slug: 'original' },
     { id: 'v2', label: '8/28/2026', sub: 'host reporting', slug: '8-28' },
     { id: 'v3', label: '9/2/2026', sub: 'data ownership', slug: '9-2' },
-    { id: 'v4', label: '9/3/2026', sub: 'mobile stack', slug: '9-3' }
+    { id: 'v4', label: '9/3/2026', sub: 'stack · wireframes', slug: '9-3' }
   ];
 
   var DEFAULT = VERSIONS[VERSIONS.length - 1].id;
