@@ -171,13 +171,17 @@
       '.rev-badge.rev-orig { background: #EEF0F4; color: #4A5261; border-color: #D9DDE4; }',
 
       /* ---- the floating control ---- */
+      /* Solid background on its own compositor layer. A backdrop blur here
+         forces the browser to re-composite everything scrolling underneath
+         the fixed bar, which reads as flicker on long pages; at 96% opacity
+         the blur was invisible anyway. */
       '.revbar {',
       '  position: fixed; right: 18px; bottom: 18px; z-index: 900;',
-      '  background: rgba(26,31,42,0.96); color: #fff;',
+      '  background: #1A1F2A; color: #fff;',
       '  border-radius: 14px; box-shadow: 0 12px 36px rgba(26,31,42,0.34);',
       '  padding: 10px 12px; font-family: inherit;',
       '  display: flex; flex-direction: column; gap: 8px; max-width: 384px;',
-      '  backdrop-filter: blur(8px);',
+      '  transform: translateZ(0);',
       '}',
       '.revbar .rb-cap {',
       '  font-size: 8.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;',
