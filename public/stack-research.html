@@ -38,28 +38,26 @@
   .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
 
   /* Top bar */
-  .topbar {
-    border-bottom: 1px solid var(--line);
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(8px);
-    position: sticky; top: 0; z-index: 50;
+  /* Site strip — the same one the other pages use, widened to this page's
+     column. Site links only; the section jump links live in the page header. */
+  .nav {
+    border-bottom: 1px solid #ccc; padding: 10px 0; background: #fff;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
   }
-  .topbar-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 28px; max-width: 1240px; margin: 0 auto;
-  }
-  .brand-row { display: flex; align-items: center; gap: 14px; }
-  .brand-row img.appaxis { height: 24px; width: auto; }
-  .brand-row .title { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
-  .topbar .nav { display: flex; gap: 18px; color: var(--ink-soft); font-size: 13px; font-weight: 500; align-items: center; flex-wrap: wrap; }
-  .topbar .nav a { color: var(--ink-soft); }
-  .topbar .nav a:hover { color: var(--orange); }
-  .field-guide {
-    border: 1px solid var(--orange);
-    color: var(--orange);
-    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 1.5px; font-weight: 800;
-    background: var(--orange-soft);
-  }
+  .nav .inner { max-width: 1100px; margin: 0 auto; padding: 0 28px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; }
+  .nav .who { color: #555; font-weight: 600; margin-right: auto; }
+  .nav a { color: #555; text-decoration: none; }
+  .nav a:hover { color: #14459c; text-decoration: underline; }
+
+  /* Page header — carries what the old topbar held: the page name, its
+     role label, and the section jump links. */
+  .pagehead { padding: 34px 0 0; }
+  .pagehead h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.2; margin: 0 0 2px; }
+  .pagehead .role { color: var(--muted); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; margin: 0 0 12px; }
+  .pagehead .onpage { font-size: 13px; font-weight: 500; color: var(--ink-soft); margin: 0; }
+  .pagehead .onpage a { color: var(--ink-soft); }
+  .pagehead .onpage a:hover { color: var(--orange); }
 
   /* Hero */
   .hero { padding: 70px 0 50px 0; position: relative; overflow: hidden; }
@@ -271,16 +269,6 @@
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .table-scroll .matrix { min-width: 680px; }
 
-  @media (max-width: 860px) {
-    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 16px; }
-    .topbar .nav {
-      width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 16px;
-      white-space: nowrap; padding-bottom: 2px;
-      scrollbar-width: none;
-    }
-    .topbar .nav::-webkit-scrollbar { display: none; }
-    .topbar .nav > * { flex: none; }
-  }
   @media (max-width: 700px) {
     .container { padding: 0 20px; }
     section { padding: 44px 0; }
@@ -295,33 +283,25 @@
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand-row">
-      <img class="appaxis" src="https://appaxis.com/appaxis-logo.png" alt="AppAxis" />
-      <span class="title">MOBILE STACK · EVIDENCE BRIEF</span>
-    </div>
-    <div class="nav">
-      <a href="#verdict">Verdict</a>
-      <a href="#samsara">Samsara</a>
-      <a href="#motive">Motive</a>
-      <a href="#omnitracs">Omnitracs</a>
-      <a href="#geotab">Geotab</a>
-      <a href="#implication">The Take</a>
-      <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a>
-      <a href="/">← Wireframes</a>
-      <a href="/certification">Cert Roadmap ↗</a>
-      <a href="/decisions">Decision Log ↗</a>
-      <span class="field-guide">PRIMARY SOURCES</span>
-    </div>
+<div class="nav">
+  <div class="inner">
+    <span class="who">AppAxis · Tenna ELD</span>
+    <a href="/">Wireframes</a>
+    <a href="/decisions">Decision Log</a>
+    <a href="/certification">Certification Roadmap</a>
   </div>
 </div>
 
-<section class="hero">
+<header class="pagehead">
   <div class="container">
-    <div class="kicker" data-rev-until="v1">Companion Brief · Primary Sources Only</div>
-    <div class="kicker" data-rev-from="v2">Companion Brief · Primary Sources Only · Rev. 8/28/2026</div>
-    <h1>How the big four ELDs<br/><span class="accent">actually build their driver apps.</span></h1>
+    <h1>Evidence</h1>
+    <div class="role">Mobile stack · Primary sources</div>
+    <p class="onpage">On this page: <a href="#verdict">Verdicts</a> · <a href="#samsara">Samsara</a> · <a href="#motive">Motive</a> · <a href="#omnitracs">Omnitracs</a> · <a href="#geotab">Geotab</a> · <a href="#matrix">Matrix</a> · <a href="#implication">Implications</a> · <a href="#whats-changed" style="color:var(--orange); font-weight:700;">What changed</a></p>
+  </div>
+</header>
+
+<section class="hero" style="padding:10px 0 14px 0;">
+  <div class="container">
     <p class="lede">
       The proposal recommends React Native with strategic native modules for the Tenna ELD driver app. This brief establishes what Samsara, Motive, Omnitracs, and Geotab run in production, from engineering blogs, live job listings, public SDK repositories, and published package sizes. Every claim links to its primary source. No analyst commentary, no inference without the receipts.
     </p>
@@ -362,11 +342,9 @@
 
 <section id="verdict">
   <div class="container">
-    <div class="eyebrow">The One-Screen Version</div>
-    <h2>Three of the four leaders avoid full native. One can afford not to.</h2>
+    <h2>Verdicts</h2>
 
     <div class="verdict-band reveal">
-      <h2>The verdicts</h2>
       <p class="sub">Each card links to the full dossier with evidence and sources below.</p>
       <div class="verdict-grid">
         <a href="#samsara"><div class="verdict-card">
@@ -629,8 +607,7 @@
 
 <section id="matrix" class="alt">
   <div class="container">
-    <div class="eyebrow">The Matrix</div>
-    <h2>Four providers, three architecture families.</h2>
+    <h2>Architecture Matrix</h2>
     <div class="table-scroll reveal">
     <table class="matrix">
       <thead>
@@ -669,8 +646,7 @@
 
 <section id="implication">
   <div class="container">
-    <div class="eyebrow">The Take · What This Means For The Tenna Build</div>
-    <h2>The recommendation sits in the industry mainstream, by evidence rather than convenience.</h2>
+    <h2>What This Means for the Tenna Build</h2>
 
     <div class="stat-row reveal">
       <div class="big-stat">
