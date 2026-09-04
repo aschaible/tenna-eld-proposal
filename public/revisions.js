@@ -1,13 +1,15 @@
 /*
  * Revision toggle. Shared by every page in the package.
  *
- * Three versions of this document set exist:
+ * Four versions of this document set exist:
  *   v1  "Original"    - as presented for the August 20 product session
  *   v2  "8/28/2026"   - revised after the August 17 FMCSA compliance
  *                       review memo on host reporting; the snapshot sent
  *                       to Tenna on 28 August
  *   v3  "9/2/2026"    - data ownership split and API surfaces, after the
  *                       28 August huddle settled P1, P2 and P5
+ *   v4  "9/3/2026"    - mobile stack comparison rewritten as an open
+ *                       two-option decision (native vs React Native)
  *
  * Content that differs between them is marked up in place, as a range
  * rather than as a single version, so a fourth revision costs one entry in
@@ -24,8 +26,8 @@
  *
  * Only one side is ever visible, and whatever is new in the revision being
  * read is outlined so it can be found. The choice persists across pages via
- * localStorage and can be forced with ?v=original, ?v=8-28 or ?v=9-2, so a
- * link can open the package in a known state.
+ * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2 or
+ * ?v=9-3, so a link can open the package in a known state.
  */
 (function () {
   'use strict';
@@ -35,7 +37,8 @@
   var VERSIONS = [
     { id: 'v1', label: 'Original', sub: 'Aug 20 session', slug: 'original' },
     { id: 'v2', label: '8/28/2026', sub: 'host reporting', slug: '8-28' },
-    { id: 'v3', label: '9/2/2026', sub: 'data ownership', slug: '9-2' }
+    { id: 'v3', label: '9/2/2026', sub: 'data ownership', slug: '9-2' },
+    { id: 'v4', label: '9/3/2026', sub: 'mobile stack', slug: '9-3' }
   ];
 
   var DEFAULT = VERSIONS[VERSIONS.length - 1].id;
@@ -207,8 +210,8 @@
       '@media (max-width: 700px) {',
       '  .revbar { right: 10px; left: 10px; bottom: 10px; max-width: none; }',
       '}',
-      /* three buttons stop fitting side by side on the narrowest phones */
-      '@media (max-width: 360px) {',
+      /* the version buttons stop fitting side by side on narrow phones */
+      '@media (max-width: 500px) {',
       '  .revbar .rb-opts { flex-direction: column; }',
       '}',
       '@media print { .revbar { display: none; } }'

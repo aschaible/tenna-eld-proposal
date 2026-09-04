@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tenna ELD · Requirements and Project Plan · Rev. 8/28/2026</title>
+<title>Tenna ELD · Requirements and Project Plan · Rev. 9/3/2026</title>
 <meta name="rev-title-v1" content="Tenna ELD · Requirements and Project Plan · Revised June 4" />
 <meta name="rev-title-v2" content="Tenna ELD · Requirements and Project Plan · Rev. 8/28/2026" />
 <meta name="rev-title-v3" content="Tenna ELD · Requirements and Project Plan · Rev. 9/2/2026" />
+<meta name="rev-title-v4" content="Tenna ELD · Requirements and Project Plan · Rev. 9/3/2026" />
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -611,10 +612,11 @@
 
     <div data-rev-until="v1" class="rev-what" style="border-color:var(--line); background:white;">
       <span class="rev-what-h" style="color:var(--muted);">Original · June 4 revision</span>
-      <p>You are reading the June 4 revision of the proposal. Two later revisions exist. The 8/28/2026 revision
+      <p>You are reading the June 4 revision of the proposal. Three later revisions exist. The 8/28/2026 revision
       incorporates the August 17 FMCSA compliance review of <i>host reporting</i>: it adds three host screens, cuts
       the peer-to-peer transfer scope, and rescopes unidentified driving on the phone. The 9/2/2026 revision records
-      the three product decisions the 28 August huddle settled and names the integration surfaces that follow.
+      the three product decisions the 28 August huddle settled and names the integration surfaces that follow. The
+      9/3/2026 revision rewrites the mobile stack comparison in Section 4 as an open two-option decision.
       Switch versions with the control at the bottom right of the page.</p>
     </div>
 
@@ -684,7 +686,7 @@
       </p>
     </div>
 
-    <div data-rev-from="v3">
+    <div data-rev-from="v3" data-rev-until="v3">
       <div class="eyebrow">Revision 9/2/2026</div>
       <h2 style="margin-bottom:8px;">Three decisions settled, and the integration boundary named.</h2>
       <p class="lede">
@@ -716,6 +718,25 @@
         settled: Jose asked for the credential form &ldquo;with Face ID for the next time&rdquo;, and only the form
         was drawn. Biometric sign-in is now a requirement, a screen state on D1, and
         <a href="/decisions#q24">Q24 ↗</a>.
+      </p>
+    </div>
+
+    <div data-rev-from="v4">
+      <div class="eyebrow">Revision 9/3/2026</div>
+      <h2 style="margin-bottom:8px;">The mobile stack comparison, reopened.</h2>
+      <p class="lede">
+        <a href="#mobile-stack">Section 4</a> now compares two ways to build the driver app instead of three:
+        fully native, or React Native with native modules. The pure React Native / Flutter option is dropped;
+        the two jobs that cannot be compromised, the Bluetooth link to the tracker and background recording,
+        need native code under either approach, so an option with none was never a real candidate. The cost of
+        going fully native is also re-estimated: 1 to 2 weeks more than React Native, not the 6 to 10 the
+        earlier revisions said. And the recommendation is withdrawn. Native versus React Native is presented
+        as an open decision, to be settled and recorded rather than assumed.
+      </p>
+      <p style="font-size:14px; color:var(--muted); margin-top:16px;">
+        The earlier three-option comparison and its recommendation are still readable in the 9/2 and older
+        views through the control at the bottom right. When the stack decision is made it will be recorded in
+        the <a href="/decisions">Decision Log ↗</a>.
       </p>
     </div>
 
@@ -1020,12 +1041,16 @@
 <section id="mobile-stack" class="alt">
   <div class="container">
     <div class="eyebrow">Section 4 · Mobile Stack</div>
-    <h2>React Native with strategic native modules.</h2>
-    <p class="lede">
+    <h2 data-rev-until="v3">React Native with strategic native modules.</h2>
+    <h2 data-rev-from="v4">Two ways to build the apps: native, or React Native.</h2>
+    <p class="lede" data-rev-until="v3">
       Three viable approaches: full native (Swift and Kotlin), pure React Native, or React Native with selectively-built native modules. This is a real engineering decision with real timeline implications. The driver application carries three constraints that shape the choice. Reliable Bluetooth pairing with the Tenna tracker. Background processing for HOS tracking when the application is not foregrounded. Roadside inspection display that renders in under 5 seconds without a network. The June 4 session added a fourth: the app ships on both vehicle-mounted tablets and driver personal devices at launch, which widens the device matrix and raises the bar on background reliability. The three options compared below, against what the four incumbent leaders actually run, documented with primary sources in the companion <a href="/stack-research">Mobile Stack Evidence Brief&nbsp;↗</a>.
     </p>
+    <p class="lede" data-rev-from="v4">
+      There are two ways to build the driver app. Fully native means two separate apps: one in Swift for iPhone, one in Kotlin for Android. React Native means one shared codebase for both, with small native pieces where they are needed. Either way, the app has to do three hard things well: hold a Bluetooth connection to the Tenna tracker, keep recording hours when it is in the background, and show the roadside inspection screen in under 5 seconds with no signal. It also has to run on vehicle-mounted tablets and on drivers' own phones. Both options can do all of this. The difference is how the work is organized, how long it takes, and what it costs to maintain. What the competitors run is documented in the companion <a href="/stack-research">Mobile Stack Evidence Brief&nbsp;↗</a>.
+    </p>
 
-    <div class="three-col">
+    <div class="three-col" data-rev-until="v3">
       <div class="competitor">
         <h4>OPTION A</h4>
         <h3>Full Native (iOS + Android)</h3>
@@ -1070,6 +1095,35 @@
       </div>
     </div>
 
+    <div class="two-col" style="gap:18px;" data-rev-from="v4">
+      <div class="competitor">
+        <h4>OPTION A</h4>
+        <h3>Full Native (iOS + Android)</h3>
+        <p>Two separate apps: Swift on iPhone, Kotlin on Android. Nothing sits between the app and the operating system, so this is the most dependable way to handle Bluetooth and background work.</p>
+        <ul>
+          <li>Two codebases to build and to maintain</li>
+          <li>Most dependable Bluetooth and background behavior</li>
+          <li>Each app looks and feels right on its platform</li>
+          <li>Every future change is made twice</li>
+        </ul>
+        <div class="price">+1 to 2 weeks vs React Native</div>
+      </div>
+
+      <div class="competitor">
+        <h4>OPTION B</h4>
+        <h3>React Native + Native Modules</h3>
+        <p>One shared codebase for the screens and logic. Small native pieces in Swift and Kotlin for the two jobs where reliability cannot be compromised: the Bluetooth link and background polling.</p>
+        <ul>
+          <li>About 80% of the code is shared</li>
+          <li>Native code only where it has to be</li>
+          <li>One codebase to keep up to date</li>
+          <li>The native pieces are still written twice, once per platform</li>
+        </ul>
+        <div class="price">Baseline</div>
+      </div>
+    </div>
+
+    <div data-rev-until="v3">
     <h3>Why Option B is the recommendation</h3>
     <p>
       For most product applications, pure React Native is sufficient. ELDs have a few specific failure modes that justify strategic native code. If Bluetooth pairing drops mid-trip and the application cannot reconnect within 30 minutes, that is an engine sync compliance malfunction under §395.34(a)(2). If iOS aggressively suspends the application and background polling stops, the same outcome. These are not failure modes to discover in production.
@@ -1080,10 +1134,28 @@
     <p>
       Pure native is marginally more reliable on paper. The day-to-day delta is small and the maintenance cost is roughly double. The marginal reliability gain does not justify the timeline and ongoing cost.
     </p>
+    </div>
 
-    <h3>What the incumbent leaders actually run</h3>
+    <div data-rev-from="v4">
+    <h3>How the two compare</h3>
     <p>
+      Some native code is required no matter what. If the app loses its Bluetooth link to the tracker and cannot get it back within 30 minutes, that is a compliance malfunction under §395.34(a)(2). The same is true if the phone puts the app to sleep and recording stops. Those two jobs have to work every time, and they work best as native code. The question is whether the rest of the app is native too.
+    </p>
+    <p>
+      The rest of the app is ordinary screen work: the hours clock, logs, inspections, sign-in, the roadside display. React Native builds those screens once for both platforms; full native builds them twice. That is where the 1-to-2-week difference comes from, along with the ongoing cost of keeping two codebases current instead of one.
+    </p>
+    <p>
+      The decision is open. Full native is the more dependable path and costs 1 to 2 weeks more up front. React Native is faster and keeps native code only where it is required. The choice will be recorded in the <a href="/decisions">Decision Log&nbsp;↗</a> when it is made.
+    </p>
+    </div>
+
+    <h3 data-rev-until="v3">What the incumbent leaders actually run</h3>
+    <h3 data-rev-from="v4">What the big ELD companies use</h3>
+    <p data-rev-until="v3">
       This recommendation is the industry mainstream, not a team-size compromise. <a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Samsara has publicly documented</a> running their Driver App on React Native at scale, including a deliberate rewrite in 2019 that reaffirmed the architectural choice when a Play Store deadline forced the question. <a href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">Omnitracs is following the same pattern</a> for new builds under Solera ownership. Geotab takes a different approach with a WebView hybrid, where <a href="https://github.com/Geotab/mobile-sdk-ios" target="_blank" rel="noopener">a single web codebase is wrapped in thin native Swift and Kotlin shells</a>. Motive is the outlier, running <a href="https://job-boards.greenhouse.io/gomotive" target="_blank" rel="noopener">two fully separate native codebases</a> at the cost of duplicate engineering effort, which is feasible at their team size of more than 50 mobile engineers but not at the scale of this engagement. Three of the four leaders avoid full native because the team-size cost is meaningful. The recommended approach aligns with Samsara's, which is the most directly comparable architecturally.
+    </p>
+    <p data-rev-from="v4">
+      Both approaches are proven in this industry. <a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Samsara has written publicly</a> about running its driver app on React Native with native modules. Motive builds <a href="https://job-boards.greenhouse.io/gomotive" target="_blank" rel="noopener">fully native</a>, with separate iOS and Android codebases and a mobile team of more than 50 engineers. <a href="https://careers.omnitracs.com/jobs/2375?lang=en-us" target="_blank" rel="noopener">Omnitracs uses React Native</a> for new builds. Geotab wraps <a href="https://github.com/Geotab/mobile-sdk-ios" target="_blank" rel="noopener">one web app in thin native shells</a>.
     </p>
 
     <div class="table-scroll">
@@ -1094,7 +1166,7 @@
       <tbody>
         <tr>
           <td class="col-name"><b>Samsara</b><span>Enterprise telematics</span></td>
-          <td>React Native with native modules. The architecture this proposal recommends.</td>
+          <td>React Native with native modules. <span data-revi-until="v3">The architecture this proposal recommends.</span><span data-revi-from="v4">The React Native option above.</span></td>
           <td><a href="https://www.samsara.com/blog/why-and-how-we-rewrote-our-biggest-mobile-app" target="_blank" rel="noopener">Engineering blog post</a></td>
         </tr>
         <tr>
