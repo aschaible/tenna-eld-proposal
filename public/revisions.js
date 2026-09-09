@@ -1,7 +1,7 @@
 /*
  * Revision toggle. Shared by every page in the package.
  *
- * Four versions of this document set exist:
+ * Five versions of this document set exist:
  *   v1  "Original"    - as presented for the August 20 product session
  *   v2  "8/28/2026"   - revised after the August 17 FMCSA compliance
  *                       review memo on host reporting; the snapshot sent
@@ -12,6 +12,10 @@
  *                       two-option decision (native vs React Native), and
  *                       the 9/3 FMCSA consultant session applied to the
  *                       wireframes
+ *   v5  "9/8/2026"    - the 9/8 consultant call applied to the wireframes:
+ *                       P3 settled, D35 required with a trigger rule, the
+ *                       reason list, the no-signal roadside path, engine
+ *                       hours and VIN sourcing, power-down handling
  *
  * Content that differs between them is marked up in place, as a range
  * rather than as a single version, so a fourth revision costs one entry in
@@ -28,8 +32,8 @@
  *
  * Only one side is ever visible, and whatever is new in the revision being
  * read is outlined so it can be found. The choice persists across pages via
- * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2 or
- * ?v=9-3, so a link can open the package in a known state.
+ * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2, ?v=9-3 or
+ * ?v=9-8, so a link can open the package in a known state.
  */
 (function () {
   'use strict';
@@ -40,7 +44,8 @@
     { id: 'v1', label: 'Original', sub: 'Aug 20 session', slug: 'original' },
     { id: 'v2', label: '8/28/2026', sub: 'host reporting', slug: '8-28' },
     { id: 'v3', label: '9/2/2026', sub: 'data ownership', slug: '9-2' },
-    { id: 'v4', label: '9/3/2026', sub: 'stack · wireframes', slug: '9-3' }
+    { id: 'v4', label: '9/3/2026', sub: 'stack · wireframes', slug: '9-3' },
+    { id: 'v5', label: '9/8/2026', sub: 'consultant call', slug: '9-8' }
   ];
 
   var DEFAULT = VERSIONS[VERSIONS.length - 1].id;

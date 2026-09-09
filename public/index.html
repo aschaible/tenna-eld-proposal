@@ -631,7 +631,7 @@
       </div>
     </div>
 
-    <div data-rev-from="v4">
+    <div data-rev-from="v4" data-rev-until="v4">
       <div class="eyebrow">Revision 9/3/2026</div>
       <h2 style="margin-bottom:6px;">What changed</h2>
       <p class="lede" style="margin-bottom:18px;">The 3 September working session with Tom Cuthbertson, Tenna&rsquo;s FMCSA advisor, produced a verified change list: one design reversal, two new screens, one long-standing question answered, and a set of smaller corrections. This revision applies the wireframe items from that list. The 9/2 package is unchanged and still readable in full.</p>
@@ -678,6 +678,44 @@
       <div class="anatomy" style="margin-top:16px;">
         <p><b>One change is provisional:</b> the D28 reversal to a binary rejection came from the session, but the reason pick list came from the advisor&rsquo;s own August 17 memo. It is applied here and flagged on the screen; the advisor confirms on September 8 before it is built.</p>
         <p><b>Also changed:</b> the screen count moves from 52 to 54 with D35 and W19; the <a href="#data">data element table</a> picks up three rows; and the <a href="#flow">flow map</a> notes the two surfaces it does not yet draw. The index page and the decision log are updated in a later pass, so their counts and P4 entries still read as 9/2.</p>
+      </div>
+    </div>
+
+    <div data-rev-from="v5">
+      <div class="eyebrow">Revision 9/8/2026</div>
+      <h2 style="margin-bottom:6px;">What changed</h2>
+      <p class="lede" style="margin-bottom:18px;">The 8 September call with Tom Cuthbertson and Mark Leszczynski answered most of the open questions from the 9/3 list. One product decision is settled, one proposed screen becomes required, and a set of screens pick up the answers. Co-driver items from the call are deliberately not applied here. The 9/3 package is unchanged and still readable in full.</p>
+
+      <div class="legend-grid">
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D35</span>
+          <p><b>Motion without sign-in is required, and it has a trigger rule.</b> Tom: it is a required feature, and phone GPS may sense motion so long as it is never used for odometer or engine hours. <a href="#d35">D35</a> now fires only when the phone sees sustained motion, is near a tracker that nobody is connected to, and both last long enough to rule out a truck driving past.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">P3</span>
+          <p><b>Raw tracker data: settled.</b> Keep only the last few readings on the phone, so the next event has its data within 5 seconds. Send nothing raw to the host. Send every event to the host the moment it is recorded, so a lost phone can be rebuilt from the host. <a href="#w7">W7</a> and <a href="#w13">W13</a> lose their gated rows.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D27 &middot; W15 &middot; W16</span>
+          <p><b>Five reasons, and carriers can add their own.</b> Yard Relocation is yard A to yard B, a few miles apart. Internal Yard Move is inside one yard. Both stay. Review stays manual: matching driver-phone GPS to the truck is a privacy line Tom says not to cross.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D16 &middot; D17</span>
+          <p><b>No signal means the phone leaves the cab.</b> Telematics only is the rule, not a recommendation. With no coverage nothing transfers by any method, so the driver hands the phone to the officer in inspector mode. <a href="#d17">D17</a> gets that path; <a href="#d16">D16</a> is drawn as the screen the officer holds.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">Engine hours &middot; VIN</span>
+          <p><b>Where two numbers come from.</b> Engine hours come from the engine through the tracker; tracker-calculated hours are the fallback when the ECM has none, and GPS is never allowed. The VIN comes from the vehicle and wins any mismatch. <a href="#w11">W11</a> and <a href="#w12">W12</a> gain flags for both.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">W4 &middot; D29</span>
+          <p><b>Power down and idle shutdown.</b> An idle shutdown is an engine power-down event and does not change duty status. A drive segment left open past key-off can be ended at the power-down time, from the host, per FMCSA guidance. <a href="#w4">W4</a> gains that action; the driver gets no button for it.</p>
+        </div>
+      </div>
+
+      <div class="anatomy" style="margin-top:16px;">
+        <p><b>Confirmed with no change:</b> <a href="#w17">W17</a> one-month transfers on request, <a href="#w18">W18</a> gets built, <a href="#d31">D31</a> PIN entry and the 8-day view, and the D22 &rarr; W16 flow for records a driver says are not theirs.</p>
+        <p><b>Not applied on purpose:</b> the co-driver guidance from the call (both drivers signed in, and a wrong-driver reassignment of a whole drive segment). It is listed in the call notes and held for a later pass. The decision log and the index page are also updated in a later pass.</p>
       </div>
     </div>
 
@@ -797,17 +835,29 @@
       <article class="pcard" id="pd3">
         <div class="p-head">
           <span class="p-id">P3</span>
-          <h3 class="p-title">Does Tenna keep the raw tracker data, and if so, where?</h3>
+          <h3 class="p-title" data-rev-until="v4">Does Tenna keep the raw tracker data, and if so, where?</h3>
+          <h3 class="p-title" data-rev-from="v5">Settled: nobody keeps the raw tracker data. The phone keeps the last few readings; the host gets every event.</h3>
         </div>
-        <p class="p-quote">
+        <p class="p-quote" data-rev-until="v4">
           The second-by-second readings from the tracker (position, speed, odometer) won't go through Tenna's existing data pipeline. So: does Tenna need to keep those raw readings at all? And if yes, does Tenna store and process them, or does the ELD hold them?
         </p>
-        <div class="p-opts">
+        <p class="p-quote" data-rev-from="v5">
+          Tom, 8 September: <i>&ldquo;I would store the last one you got to make sure you have one. But don't store 9 hours or 11 hours or 14 hours of stuff.&rdquo;</i> And on the host: <i>&ldquo;Every time you generate an event, send it to the host.&rdquo;</i> Raw pings sent up could be read as caching data, which the rule forbids.
+        </p>
+        <div class="p-opts" data-rev-until="v4">
           <div class="p-opt"><b>A · The ELD keeps the raw data</b> Tenna gets the results (events, daily summaries, alerts) but not the raw readings. Exports and audit files come from the ELD.</div>
           <div class="p-opt"><b>B · Tenna keeps the raw data</b> The raw readings flow into Tenna and are stored alongside its other asset data, through a new connection built for this.</div>
         </div>
-        <div class="p-gates">
+        <div class="p-opts" data-rev-from="v5">
+          <div class="p-opt"><b>What was decided</b> The phone keeps roughly the last three tracker readings, enough to stamp the next event within the 5-second rule. Neither the phone nor the host stores the stream.</div>
+          <div class="p-opt"><b>What follows from it</b> Every event goes to the host the moment it is recorded, so a lost phone can be rebuilt from the host. W7 and W13 drop their raw-telemetry rows. Crash diagnostics may keep a short local buffer, but it is not compliance data.</div>
+        </div>
+        <div class="p-gates" data-rev-until="v4">
           <span class="glabel">Waiting on this</span>
+          <span class="gchip"><a href="#data">Master data table</a></span><span class="gchip"><a href="#w7">W7</a></span><span class="gchip"><a href="#w13">W13</a></span>
+        </div>
+        <div class="p-gates" data-rev-from="v5">
+          <span class="glabel">Unblocked</span>
           <span class="gchip"><a href="#data">Master data table</a></span><span class="gchip"><a href="#w7">W7</a></span><span class="gchip"><a href="#w13">W13</a></span>
         </div>
         <p class="p-log">Recorded as <a href="/decisions#p3">P3 in the decision log ↗</a></p>
@@ -916,7 +966,7 @@
       </div>
       <div class="legend-item">
         <span class="tag t-ble">Tracker · BLE</span>
-        <p>Read from the Geometris WQ over Bluetooth LE: VIN, odometer, engine hours, position, speed, stored events. Phase 2 measured the stream at ~2–3 s cadence, comfortably inside the FMCSA 5-second engine-sync requirement.</p>
+        <p>Read from the Geometris WQ over Bluetooth LE: VIN, odometer, engine hours, position, speed, stored events. Phase 2 measured the stream at ~2–3 s cadence, comfortably inside the FMCSA 5-second engine-sync requirement.<span data-revi-from="v5"> Only the last few readings are kept; every event is sent to the host when it is recorded (P3, settled 9/8).</span></p>
       </div>
       <div class="legend-item">
         <span class="tag t-push">→ Tenna</span>
@@ -1070,6 +1120,8 @@
                 <div class="ph-confirm"><i>&#9675;</i><span>VIN unconfirmed<small>the truck has to be running before the tracker reports one</small></span></div>
                 <div class="ph-state">After ignition on</div>
                 <div class="ph-confirm is-ok"><i>&#10003;</i><span>VIN confirmed &middot; <span class="mono" style="font-size:8.5px;">1FTFW1R63EFA84339</span><small>matches the asset record for Unit 218</small></span></div>
+                <div class="ph-state" data-rev-from="v5">Vehicle reports a different VIN</div>
+                <div class="ph-confirm" data-rev-from="v5"><i>&#9888;</i><span>Using the vehicle&rsquo;s VIN<small>differs from the asset record. Flagged to your carrier; you can keep driving</small></span></div>
                 <div class="ph-state">No signal, or serial not in the roster</div>
                 <div class="ph-confirm"><i>&#9679;</i><span><span class="mono" style="font-size:8.5px;">WQ-87X060680218</span><small>unit name unavailable, pair by serial</small></span></div>
               </div>
@@ -1106,7 +1158,8 @@
               <li data-rev-from="v3"><a class="qref" href="/decisions#q7">Q7</a> Which identifier keys the serial &rarr; asset lookup, the serial or the BLE address? Only the serial can be read before connecting, because iOS hides the MAC address. This screen forces the choice.</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28 ·</b> The memo names short-haul operations with no ELD login as a top source of excessive unidentified driving. Pairing friction is a compliance problem, not a UX preference: a remembered vehicle with silent reconnect is the cheapest lever on the <a href="#w16">W16</a> backlog. What is the correct default for a driver who legitimately changes trucks mid-day?</li>
               <li data-rev-from="v3"><b>New 8/28 &middot;</b> Pairing friction is a compliance problem: a remembered truck with silent reconnect is the cheapest lever on the <a href="#w16">W16</a> backlog. What is the right default for a driver who changes trucks mid-day?</li>
-              <li data-rev-from="v3"><a class="qref" href="/decisions#q23">Q23</a> When the VIN read from the vehicle disagrees with the asset record, which goes on the ELD record? We would use the observed one and flag it. <a class="qref" href="/decisions#q6">Q6</a> asks the same of the odometer.</li>
+              <li data-rev-from="v3" data-rev-until="v4"><a class="qref" href="/decisions#q23">Q23</a> When the VIN read from the vehicle disagrees with the asset record, which goes on the ELD record? We would use the observed one and flag it. <a class="qref" href="/decisions#q6">Q6</a> asks the same of the odometer.</li>
+              <li data-rev-from="v5"><a class="qref" href="/decisions#q23">Q23</a> <b>Settled 9/8 &middot;</b> The vehicle&rsquo;s VIN wins a mismatch. If the vehicle gives no VIN, use Tenna&rsquo;s with a dash in front to mark it as from a database. The mismatch itself is an admin flag on <a href="#w12">W12</a>, not a compliance report. <a class="qref" href="/decisions#q6">Q6</a> still asks the same of the odometer.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q3">Q3</a> With the ignition off the tracker returns an empty VIN and a zero odometer, which is exactly the state a driver pairs in. What should the screen show until ignition?</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#q5">Q5</a> The BLE protocol has no authentication; "pairing" here is an app-level concept, not a security boundary. Any phone in range can connect to the tracker.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q5">Q5</a> The BLE protocol has no authentication. Pairing here is an app convention, not a security control: any phone in range can connect to the tracker.</li>
@@ -1176,32 +1229,50 @@
                 This vehicle is moving and nobody is signed in. Driving is being recorded as unidentified.
               </div>
               <div class="ph-btn" style="border-color:#fff; color:#fff;">Sign in</div>
-              <div class="ph-note" style="color:#7A828F;">The tracker records this drive either way. This message returns until the vehicle stops or someone signs in. Nothing else in the app is available.</div>
+              <div class="ph-note" data-rev-until="v4" style="color:#7A828F;">The tracker records this drive either way. This message returns until the vehicle stops or someone signs in. Nothing else in the app is available.</div>
+              <div class="ph-note" data-rev-from="v5" style="color:#7A828F;">Shown because: your phone has been moving for a while &middot; a Tenna tracker is in range &middot; nobody is connected to it. Not the driver? Sign in and mark this drive as not yours.</div>
             </div>
           </div></div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">D35</span><h4 class="wf-name">Motion Without Sign-In</h4><span class="rev-badge">new 9/3</span></div>
-          <p class="wf-purpose">The foreground warning the advisor requires when the vehicle moves with nobody signed in, or signed in but not paired. Nothing else in the app is reachable from it except sign-in.</p>
+          <div class="wf-head"><span class="wf-id">D35</span><h4 class="wf-name">Motion Without Sign-In</h4><span class="rev-badge">new 9/3</span><span class="rev-badge rev-changed" data-revi-from="v5">required 9/8</span></div>
+          <p class="wf-purpose" data-rev-until="v4">The foreground warning the advisor requires when the vehicle moves with nobody signed in, or signed in but not paired. Nothing else in the app is reachable from it except sign-in.</p>
+          <p class="wf-purpose" data-rev-from="v5">Required. Shown when the phone senses sustained motion, is near a tracker nobody is connected to, and both last long enough to rule out a truck driving past. Nothing else in the app is reachable from it except sign-in.</p>
+          <div class="rev-what" data-rev-from="v5">
+            <span class="rev-what-h">Changed 9/8 &middot; required, with a three-part trigger</span>
+            <ul>
+              <li><b>Required, not proposed.</b> Tom: <i>&ldquo;It's a required feature.&rdquo;</i> The vehicle moving with no login is where unidentified driving starts, and the driver must be told to pull over and sign in.</li>
+              <li><b>GPS may sense motion.</b> Nothing in the rule forbids background GPS for motion. What it forbids is GPS for odometer or engine hours.</li>
+              <li><b>Proximity is the filter.</b> A tracker nobody is connected to keeps advertising. Motion plus an advertising tracker in range, for long enough, is the trigger. A driver riding as a passenger elsewhere, or someone walking across the yard, never sees this.</li>
+              <li><b>Everyone in range sees it.</b> Four people in a crew cab all get the screen. Whoever did not drive later says not mine on <a href="#d22">D22</a> and puts themselves on duty.</li>
+            </ul>
+          </div>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
-              <li><span>Motion signal<small style="display:block; color:var(--muted); font-size:11px;">tracker road speed when paired; phone sensors when not, pending the reg citation</small></span><span class="tags"><span class="tag t-ble">Tracker &middot; BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-until="v4"><span>Motion signal<small style="display:block; color:var(--muted); font-size:11px;">tracker road speed when paired; phone sensors when not, pending the reg citation</small></span><span class="tags"><span class="tag t-ble">Tracker &middot; BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v5"><span>Motion signal<small style="display:block; color:var(--muted); font-size:11px;">tracker road speed when paired; phone GPS when not. GPS is for motion only, never odometer or hours</small></span><span class="tags"><span class="tag t-ble">Tracker &middot; BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v5"><span>Tracker in range and advertising<small style="display:block; color:var(--muted); font-size:11px;">nobody connected. Bluetooth reaches 30 to 50 feet</small></span><span class="tags"><span class="tag t-ble">Tracker &middot; BLE</span></span></li>
+              <li data-rev-from="v5"><span>Trigger duration<small style="display:block; color:var(--muted); font-size:11px;">how long motion and proximity must both hold. Set in test</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Takeover shown / dismissed event</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
             </ul>
           </div>
           <div class="wf-src">
             <span class="wf-label">Where this data comes from</span>
             <ul>
-              <li><a class="src-chip" href="#s-b1">B1 &middot; BLE</a><span>road speed, when a tracker is paired</span></li>
+              <li data-rev-until="v4"><a class="src-chip" href="#s-b1">B1 &middot; BLE</a><span>road speed, when a tracker is paired</span></li>
+              <li data-rev-from="v5"><a class="src-chip" href="#s-b1">B1 &middot; BLE</a><span>road speed when paired; when not, the advertisement itself, which only an unconnected tracker sends</span></li>
               <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>the takeover shown and dismissed events. The unidentified driving itself is the tracker&rsquo;s record, not this screen&rsquo;s</span></li>
             </ul>
           </div>
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><b>New screen &middot;</b> The unpaired case is blocked on the regulation citation the advisor is sending. Until it arrives, this screen is a proposal, not a requirement.</li>
-              <li>Unpaired motion sensing: accelerometer or activity recognition, and what breaks the false positive, a driver riding as a passenger with the app on a personal phone?</li>
+              <li data-rev-until="v4"><b>New screen &middot;</b> The unpaired case is blocked on the regulation citation the advisor is sending. Until it arrives, this screen is a proposal, not a requirement.</li>
+              <li data-rev-until="v4">Unpaired motion sensing: accelerometer or activity recognition, and what breaks the false positive, a driver riding as a passenger with the app on a personal phone?</li>
+              <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> Required. GPS for motion is allowed. The passenger false positive is answered by proximity: no advertising tracker in range, no screen.</li>
+              <li data-rev-from="v5"><b>New 9/8 &middot;</b> How long is long enough? A truck passing at 15 mph will not hold a Bluetooth link. Pick the duration in test, and confirm that a connected tracker really stops advertising.</li>
+              <li data-rev-from="v5"><b>New 9/8 &middot;</b> Off duty and riding along: the rule does not know a duty status until someone signs in. Mark asked the product team to think through the crew-cab case; Tom&rsquo;s answer is that anyone with a CDL in that truck owes on-duty time anyway.</li>
               <li>Relationship to <a href="#d22">D22</a>: the drive is unidentified either way. This screen only shortens it.</li>
             </ul>
           </div>
@@ -1377,6 +1448,7 @@
               <li><b>New screen &middot;</b> The specification calls defects here among the most common revocation triggers. Confirm the 60-second window and the recorded origin with Tenna&rsquo;s FMCSA advisor before build.</li>
               <li><a class="qref" href="/decisions#q1">Q1</a> The link drops when a driver parks and walks away with the phone, so this prompt never fires. Does the tracker&rsquo;s stored stop evidence let the ELD run it late, on reconnect?</li>
               <li>A driver at a long light may dismiss this without a status change. How many dismissals in a row before the ELD stops asking and just transitions?</li>
+              <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> An idle shutdown does not move the driver to On Duty or change this prompt. It is an engine power-down event, recorded as such; duty status stays whatever it was. A drive left open past key-off is fixed from the host (<a href="#w4">W4</a>).</li>
             </ul>
           </div>
         </div>
@@ -1531,10 +1603,20 @@
             <div class="ph-body">
               <div class="ph-banner">You are signed in as R. Duarte · Mechanic. This stamps the movement to you so it never lands in unidentified driving. It does not open a driver log or start an HOS clock.</div>
               <div class="ph-label">Reason for the move</div>
+              <div data-rev-until="v4">
               <div class="ph-li"><span class="a">Mechanic road test<small>post-repair verification drive</small></span><span class="b">&#9673;</span></div>
               <div class="ph-li"><span class="a">Yard movement<small>repositioning inside the yard</small></span><span class="b">&#9675;</span></div>
               <div class="ph-li"><span class="a">Yard relocation<small>moving to another yard nearby</small></span><span class="b">&#9675;</span></div>
               <div class="ph-li"><span class="a">OEM / warranty movement<small>vendor or dealer moving the unit</small></span><span class="b">&#9675;</span></div>
+              </div>
+              <div data-rev-from="v5">
+              <div class="ph-li"><span class="a">Mechanic road test<small>post-repair verification drive</small></span><span class="b">&#9673;</span></div>
+              <div class="ph-li"><span class="a">Internal yard move<small>moved inside this yard</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">Yard relocation<small>yard A to yard B, a few miles apart</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">OEM pickup<small>dealer or vendor took the unit</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">Maintenance yard move<small>to or from the shop</small></span><span class="b">&#9675;</span></div>
+              <div class="ph-li"><span class="a">Jobsite shuttle<small>added by Blue Ash Construction</small></span><span class="b">&#9675;</span></div>
+              </div>
               <div class="ph-label">Note &middot; optional</div>
               <div class="ph-field filled">Brake job 44821 &middot; road test</div>
               <div class="ph-btn primary">Start non-HOS move</div>
@@ -1545,7 +1627,12 @@
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D27</span><h4 class="wf-name">Non-HOS Move &middot; shop &amp; yard</h4><span class="rev-badge">new 8/28</span></div>
           <p class="wf-purpose" data-rev-until="v2">A two-tap stamp for the four movements the memo names as ordinary causes of unidentified driving: mechanic road test, yard movement, yard relocation, and OEM/warranty movement. Used by mechanics and yard hands who are not running an HOS log, so the driving is attributed at the moment it happens instead of being reconciled a week later.</p>
-          <p class="wf-purpose" data-rev-from="v3">A two-tap stamp for the four ordinary causes of unidentified driving: mechanic road test, yard movement, yard relocation, OEM warranty movement. Used by mechanics and yard hands, so the move is named when it happens.</p>
+          <p class="wf-purpose" data-rev-from="v3" data-rev-until="v4">A two-tap stamp for the four ordinary causes of unidentified driving: mechanic road test, yard movement, yard relocation, OEM warranty movement. Used by mechanics and yard hands, so the move is named when it happens.</p>
+          <p class="wf-purpose" data-rev-from="v5">A two-tap stamp for the five ordinary causes of unidentified driving: mechanic road test, internal yard move, yard relocation, OEM pickup, maintenance yard move, plus any the carrier adds. Used by mechanics and yard hands, so the move is named when it happens.</p>
+          <div class="rev-what" data-rev-from="v5">
+            <span class="rev-what-h">Changed 9/8 &middot; the reason list is final, and open</span>
+            <p>Tom&rsquo;s 6 September list, confirmed on the call: Yard Relocation, Internal Yard Move, Mechanic Road Test, OEM Pickup, Maintenance Yard Move. Yard Relocation is yard A to yard B, a couple of miles apart. Internal Yard Move is inside the yard you are in. Both stay separate. Carriers may add their own reasons in <a href="#w15">W15</a>; the same list drives the pop-up on <a href="#w16">W16</a>.</p>
+          </div>
           <div class="rev-what">
             <span class="rev-what-h">Why this screen exists &middot; 8/28</span>
             <p>The memo lists the normal operating reasons unidentified driving occurs, then observes that the usual
@@ -1558,7 +1645,7 @@
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Non-HOS move event (person, reason, note)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Reason taxonomy (carrier-configurable, W15)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Reason taxonomy (carrier-configurable, W15)<span data-revi-from="v5"><small style="display:block; color:var(--muted); font-size:11px;">five fixed reasons plus the carrier&rsquo;s own. Settled 9/8</small></span></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Non-driver personnel &amp; role (mechanic, yard)</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-gated" data-revi-until="v2">Gated &middot; P1</span></span></li>
               <li><span>Work order reference</span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
               <li><span>Odometer, position, engine state at stamp</span><span class="tags"><span class="tag t-ble">Tracker &middot; BLE</span></span></li>
@@ -2063,7 +2150,12 @@
           <div class="wf-head"><span class="wf-id">D16</span><h4 class="wf-name">Inspection Display</h4></div>
           <p class="wf-purpose" data-rev-until="v1">The full 8-day record in the FMCSA-required display format: header block, daily grid, and complete event list per day. Read-only, day-tabbed, formatted for an officer who reads dozens of these a week.</p>
           <p class="wf-purpose" data-rev-from="v2" data-rev-until="v2">The full 8-day record in the FMCSA-required display format: header block, daily grid, and complete event list per day, each row carrying its sequence number, elapsed engine hours, and accumulated vehicle miles. Read-only, day-tabbed, formatted for an officer who reads dozens of these a week.</p>
-          <p class="wf-purpose" data-rev-from="v3">The full 8-day record in the display format FMCSA requires: header, daily grid, event list. Each row shows its sequence number, engine hours and vehicle miles (§4.5.1.1). Read-only and day-tabbed.</p>
+          <p class="wf-purpose" data-rev-from="v3" data-rev-until="v4">The full 8-day record in the display format FMCSA requires: header, daily grid, event list. Each row shows its sequence number, engine hours and vehicle miles (§4.5.1.1). Read-only and day-tabbed.</p>
+          <p class="wf-purpose" data-rev-from="v5">The full 8-day record in the display format FMCSA requires: header, daily grid, event list. Each row shows its sequence number, engine hours and vehicle miles (§4.5.1.1). Read-only and day-tabbed. With no coverage this is the screen the officer holds.</p>
+          <div class="rev-what" data-rev-from="v5">
+            <span class="rev-what-h">Changed 9/8 &middot; the phone leaves the cab</span>
+            <p>Tom confirmed the PIN entry and the 8-day view are &ldquo;good enough for inspector mode.&rdquo; When there is no coverage to transfer, the driver hands the phone to the officer and this is what they read, outside the truck. So: one hand, bright sun, no login, and nothing on it that is not the record. Engine hours on every row come from the ECM through the tracker; a tracker-calculated figure is the fallback when the ECM has none, and GPS is never allowed for hours or miles.</p>
+          </div>
           <div class="rev-what" data-rev-from="v2">
             <span class="rev-what-h">Changed 8/28 · three fields added</span>
             <p>The memo's recommendation, taken directly: show sequence numbers, elapsed engine hours, and accumulated
@@ -2077,7 +2169,8 @@
             <ul class="wf-elems">
               <li><span>8-day event record in display format</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li data-rev-from="v2"><span>Event sequence number (§4.5.1.1)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li data-rev-from="v2"><span>Elapsed engine hours per event</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v2" data-rev-until="v4"><span>Elapsed engine hours per event</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v5"><span>Elapsed engine hours per event<small style="display:block; color:var(--muted); font-size:11px;">ECM hours through the tracker; tracker-calculated when the ECM has none. Never GPS</small></span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
               <li data-rev-from="v2"><span>Accumulated vehicle miles per event</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>ELD identifier &amp; registration ID</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Carrier, driver, CDL header fields</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-gated" data-revi-until="v2">Gated · P1</span></span></li>
@@ -2103,6 +2196,7 @@
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28 ·</b> Elapsed engine hours and accumulated vehicle miles must be stamped <i>per event</i> at the moment it is recorded, not read live at display time. That makes <a class="qref" href="/decisions#q2">Q2</a> (the tracker's engine-hour counter runs from a device-local baseline, not the ECM lifetime total) a certification issue rather than a cosmetic one: the number printed on this row is the number an auditor checks.</li>
               <li data-rev-from="v3"><b>New 8/28 &middot;</b> Engine hours and vehicle miles must be stamped <i>per event</i> when it is recorded, not read live at display time. That makes <a class="qref" href="/decisions#q2">Q2</a>, the tracker's device-local hour baseline, a certification issue.</li>
               <li data-rev-from="v4"><b>New 9/3 &middot;</b> If Canada support lands, show 14 days only in Canada and never in a US inspection: extra days give enforcement something extra to cite. The US display stays exactly 8 days.</li>
+              <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> Engine hours: any engine hours beat none. Send what the tracker gives, ECM first. Adam to check with a scan tool why a 2014 F-150 reads 450 hours at 130,000 miles; Tom&rsquo;s 2019 and 2024 F-150s both report real hours, GM trucks usually do not.</li>
             </ul>
           </div>
         </div>
@@ -2119,7 +2213,9 @@
               <div data-rev-until="v1" class="ph-li"><span class="a">Bluetooth · USB<small>local fallback</small></span><span class="b">○</span></div>
               <div data-rev-from="v2" class="ph-banner" style="border-style:solid;"><b>Telematics ELD</b> · this device is certified for web-service and email transfer. Peer-to-peer transfer is not offered.</div>
               <div data-rev-from="v2" class="ph-li"><span class="a">Wireless web services<small>FMCSA eRODS endpoint</small></span><span class="b">◉ selected</span></div>
-              <div data-rev-from="v2" class="ph-li"><span class="a">Email<small>FMCSA transfer address · use if no signal</small></span><span class="b">○</span></div>
+              <div data-rev-from="v2" data-rev-until="v4" class="ph-li"><span class="a">Email<small>FMCSA transfer address · use if no signal</small></span><span class="b">○</span></div>
+              <div data-rev-from="v5" class="ph-li"><span class="a">Email<small>FMCSA transfer address · second choice</small></span><span class="b">○</span></div>
+              <div data-rev-from="v5" class="ph-btn ghost">No signal? Show the record on this phone &rarr;</div>
               <div class="ph-label">Output file comment · officer code</div>
               <div class="ph-field filled">OH-3471</div>
               <div class="ph-btn primary">Send to FMCSA</div>
@@ -2131,7 +2227,13 @@
           <div class="wf-head"><span class="wf-id">D17</span><h4 class="wf-name">Transfer to Officer</h4></div>
           <p class="wf-purpose" data-rev-until="v1">Initiates the eRODS web-service transfer (or the local fallback), with the officer's code in the output file comment, and shows an unambiguous success or failure. Every attempt, including failures, is recorded and surfaces in W14.</p>
           <p class="wf-purpose" data-rev-from="v2" data-rev-until="v2">Initiates the eRODS transfer, web service first and email if there is no signal, with the officer's code in the output file comment, and shows an unambiguous success or failure. Every attempt, including failures, is recorded and surfaces in W14.</p>
-          <p class="wf-purpose" data-rev-from="v3">Starts the eRODS transfer, web service first and email if there is no signal, with the officer's code in the file comment. Every attempt is recorded, including failures, and surfaces in W14.</p>
+          <p class="wf-purpose" data-rev-from="v3" data-rev-until="v4">Starts the eRODS transfer, web service first and email if there is no signal, with the officer's code in the file comment. Every attempt is recorded, including failures, and surfaces in W14.</p>
+          <p class="wf-purpose" data-rev-from="v5">Starts the eRODS transfer, web service first, email second, with the officer's code in the file comment. No signal at all: go to D16 and hand the phone to the officer. Every attempt is recorded, including failures, and surfaces in W14.</p>
+          <div class="rev-what" data-rev-from="v5">
+            <span class="rev-what-h">Changed 9/8 &middot; the no-signal path</span>
+            <p>Telematics only is a regulatory requirement, not a recommendation. Tom: <i>&ldquo;You can't do both peer-to-peer and telematics. If you pick telematics, you can only do telematics.&rdquo;</i></p>
+            <p>The normal path is the transfer, read by the officer in the cruiser. With no coverage nothing transfers by either method, so the driver hands the phone out of the cab in inspector mode and the officer reads the 8 days on <a href="#d16">D16</a>. The officer may still cite the failed transfer; there is nothing the app can do about that except make the on-device record easy to read.</p>
+          </div>
           <div class="rev-what" data-rev-from="v2">
             <span class="rev-what-h">Changed 8/28 · the Bluetooth · USB option is gone</span>
             <p>From the memo, on specification item D17: <i>"You either do a telematics transfer (web or email) or you
@@ -2163,7 +2265,8 @@
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Should a roadside inspection ping the fleet manager in real time inside Tenna, or is the W14 record after the fact enough?</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28 ·</b> Electing Telematics is a self-certification declaration, so it needs Tenna's formal sign-off before Phase 3, not after. Confirm with the FMCSA advisor that email fallback alone is an acceptable answer at a roadside with no cellular coverage, since the alternative in that scenario used to be the thumb drive.</li>
-              <li data-rev-from="v3"><b>New 8/28 &middot;</b> Electing Telematics is a self-certification declaration, so it needs Tenna's sign-off before Phase 3, not after. Confirm with the FMCSA advisor that email fallback alone is acceptable at a roadside with no coverage.</li>
+              <li data-rev-from="v3" data-rev-until="v4"><b>New 8/28 &middot;</b> Electing Telematics is a self-certification declaration, so it needs Tenna's sign-off before Phase 3, not after. Confirm with the FMCSA advisor that email fallback alone is acceptable at a roadside with no coverage.</li>
+              <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> Telematics is the only legal shape once chosen. Email is not a no-coverage fallback: with no signal, nothing sends. The fallback is the phone in the officer&rsquo;s hand, on <a href="#d16">D16</a>.</li>
             </ul>
           </div>
         </div>
@@ -3226,12 +3329,14 @@
                   <table class="wb-table" style="margin-top:8px;">
                     <thead><tr><th>Time</th><th>Event</th><th>Origin</th><th>Odometer</th><th>Location</th></tr></thead>
                     <tbody>
+                      <tr data-rev-from="v5"><td>5:31 PM</td><td>Engine power down</td><td>automatic</td><td>126,474.5</td><td>Blue Ash yard</td></tr>
                       <tr><td>4:30 PM</td><td>ON · On duty</td><td>edited · v3 <span class="wb-pill out">history</span></td><td>126,474.5</td><td>Blue Ash yard</td></tr>
                       <tr><td>12:00 PM</td><td>D · Driving</td><td>automatic</td><td>126,447.9</td><td>Sharonville, OH</td></tr>
                       <tr><td>6:00 AM</td><td>D · Driving</td><td>automatic</td><td>126,412.3</td><td>Blue Ash, OH</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-filter" style="margin-top:8px;"><span class="wb-btn primary">Propose edit</span><span class="wb-btn">Full edit history</span><span class="wb-btn">Export this day</span></div>
+                  <div class="wb-note" data-rev-from="v5">Driving still open past an engine power-down? <b>End drive segment at power-down</b> appears here as a proposal to the driver. Idle shutdowns are power-downs too; neither changes duty status by itself.</div>
                 </div>
               </div>
             </div>
@@ -3245,7 +3350,9 @@
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Full event list + edit trail</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Odometer / engine hours per event</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span></span></li>
+              <li><span>Odometer / engine hours per event<span data-revi-from="v5"><small style="display:block; color:var(--muted); font-size:11px;">ECM hours through the tracker; tracker-calculated when the ECM has none</small></span></span><span class="tags"><span class="tag t-ble">Tracker · BLE</span></span></li>
+              <li data-rev-from="v5"><span>Engine power up / power down events<small style="display:block; color:var(--muted); font-size:11px;">an idle shutdown is a power down. It does not change duty status</small></span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v5"><span>End drive segment at power-down<small style="display:block; color:var(--muted); font-size:11px;">carrier action, FMCSA guidance. Goes to the driver as a proposal on W5</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Certification record</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
             </ul>
           </div>
@@ -3260,6 +3367,8 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#q6">Q6</a> Same odometer question as D8, now customer-facing: managers will compare this column to the dashboard number they saw in the truck. Which is authoritative in Tenna reporting?</li>
+              <li data-rev-from="v5"><b>New 9/8 &middot;</b> A driver who turns the key off while still in Driving stays in Driving all night and loses the next day. Guidance, not the rule, lets the drive segment end at the power-down time. Tom: this is done from the host. The driver gets no button; the carrier proposes it here and the driver accepts on D21.</li>
+              <li data-rev-from="v5"><b>New 9/8 &middot;</b> Idle shutdown on a commercial engine is a power down with no key turn. If the tracker exposes the J1939 idle-shutdown signals (SPN 591, 592, 593), the app records a power-down when it sees them. Mark is asking Geometris. Not a concern on F-series or Silverado.</li>
             </ul>
           </div>
         </div>
@@ -3309,6 +3418,7 @@
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Edit proposal + required annotation</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v5"><span>Proposal type: end drive segment at power-down<small style="display:block; color:var(--muted); font-size:11px;">the one edit to automatic driving time the guidance allows: it ends at key-off, nothing else moves</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Proposer identity (which Tenna user)</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-gated" data-revi-until="v2">Gated · P1</span></span></li>
               <li><span>Push dispatch to the driver's device</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
             </ul>
@@ -3434,14 +3544,15 @@
           </div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">W7</span><h4 class="wf-name">Log Export</h4><span class="tag t-gated">Gated · P3</span></div>
+          <div class="wf-head"><span class="wf-id">W7</span><h4 class="wf-name">Log Export</h4><span class="tag t-gated" data-revi-until="v4">Gated · P3</span><span class="tag t-settled" data-revi-from="v5">Settled &middot; P3</span></div>
           <p class="wf-purpose">FMCSA-format output files (or working CSV) for any driver and date range, validated before download, with an audit trail of who exported what. The workhorse for audit requests and driver departures.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>FMCSA output file generation</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Export audit trail (who, what, when)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Raw point data inclusion</span><span class="tags"><span class="tag t-gated">Gated · P3</span></span></li>
+              <li data-rev-until="v4"><span>Raw point data inclusion</span><span class="tags"><span class="tag t-gated">Gated · P3</span></span></li>
+              <li data-rev-from="v5"><span>Raw point data<small style="display:block; color:var(--muted); font-size:11px;">not kept anywhere, so never exported. P3 settled 9/8</small></span><span class="tags"><span class="tag t-settled">Settled &middot; P3</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
@@ -3518,8 +3629,8 @@
                   </table>
                   <div class="wb-box" style="margin-top:9px;">
                     <div class="h">Annotate 8 records &middot; suggested reasons</div>
-                    <span style="font-size:8px;">&#9673; Mechanic road test / maintenance &nbsp; &#9675; Yard movement &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM / warranty movement &nbsp; &#9675; Other &middot; explain<br/>
-                    Applies one annotation to all 8 with your name and timestamp. Assigning instead notifies the driver for confirmation.</span>
+                    <span style="font-size:8px;" data-revi-until="v4">&#9673; Mechanic road test / maintenance &nbsp; &#9675; Yard movement &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM / warranty movement &nbsp; &#9675; Other &middot; explain<br/></span><span style="font-size:8px;" data-revi-from="v5">&#9673; Mechanic road test &nbsp; &#9675; Internal yard move &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM pickup &nbsp; &#9675; Maintenance yard move &nbsp; &#9675; Jobsite shuttle <i>(yours)</i> &nbsp; + Add a reason<br/></span><span style="font-size:8px;">
+                    Applies one annotation to all 8 with your name and timestamp. Assigning instead notifies the driver for confirmation.</span></span>
                   </div>
                   <div class="wb-note">Annotating explains why the time is unassigned; assigning routes it to the driver to accept. &sect;395.32(a) accepts either, and requires one of them.</div>
                 </div>
@@ -3541,6 +3652,15 @@
             on the carrier side. Folding this into <a href="#w3">W3</a> was the alternative; it does not survive
             contact with a 46-record backlog that needs grouping, bulk annotation, and its own retention clock.</p>
             <p data-rev-from="v3">It also closes the gap the original page raised: rejected records had nowhere to go on the carrier side. Folding this into <a href="#w3">W3</a> was the alternative; it does not survive contact with a 46-record backlog that needs grouping, bulk annotation, and its own retention clock.</p>
+          </div>
+          <div class="rev-what" data-rev-from="v5">
+            <span class="rev-what-h">Changed 9/8 &middot; the flow is confirmed, review stays manual</span>
+            <ul>
+              <li><b>The flow is right.</b> Someone moves the truck without signing in. The next driver says not mine on <a href="#d22">D22</a>. The record lands here and the carrier picks a reason or a driver. Tom: <i>&ldquo;Yes, exactly.&rdquo;</i></li>
+              <li><b>Assigning to a driver is an admin edit.</b> The driver accepts it on <a href="#d34">D34</a>. Confirmed.</li>
+              <li><b>No auto-assignment.</b> Matching a driver&rsquo;s phone GPS to the truck to decide who drove is a privacy line the industry does not cross; the court case that struck the earlier rule was about exactly that. Auto-labelling yard moves by location is possible in theory, but the industry keeps this a manual decision.</li>
+              <li><b>Reasons are a pop-up, and carriers add their own.</b> The five fixed reasons plus the carrier&rsquo;s list from <a href="#w15">W15</a>.</li>
+            </ul>
           </div>
           <div>
             <span class="wf-label">Data elements</span>
@@ -3582,7 +3702,8 @@
               threshold, or does every record need a human? Auto-annotation is efficient and is also exactly the kind of blanket
               treatment enforcement pushes back on.</li>
               <li data-rev-from="v3"><b>The excessive-volume case.</b> The memo names short-haul operations with no ELD login. A yard with 200 sub-mile records a week is a different product from one with six.</li>
-              <li data-rev-from="v3">Is there a carrier rule that auto-annotates records inside a yard geofence or under a distance threshold, or does every record need a human? Auto-annotation is exactly what enforcement pushes back on.</li>
+              <li data-rev-from="v3" data-rev-until="v4">Is there a carrier rule that auto-annotates records inside a yard geofence or under a distance threshold, or does every record need a human? Auto-annotation is exactly what enforcement pushes back on.</li>
+              <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> Every record gets a human. Bulk annotation with a pop-up reason is the tool for volume; auto-annotation and phone-GPS matching are out.</li>
               <li data-rev-until="v2"><b>Retention.</b> Six months from date of receipt, per ELD, is the rule. "Per ELD" is device-scoped
               language in a screen that is fleet-scoped; confirm the retention unit with the FMCSA advisor before the
               data model is fixed.</li>
@@ -3836,6 +3957,8 @@
               <li><span>Asset records (unit, vehicle, VIN)</span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
               <li data-rev-until="v2"><span>Tracker serial + firmware + protocol</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span></span></li><li data-rev-from="v3"><span>Tracker serial + broadcast protocol<small style="display:block; color:var(--muted); font-size:11px;">firmware is not readable over BLE; it would come from the asset record</small></span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-api" data-revi-from="v3">Tenna API</span></span></li>
               <li><span>Last-activity heartbeat</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v5"><span>ECM engine hours: yes / no<small style="display:block; color:var(--muted); font-size:11px;">whether the engine reports hours. Fords do; GM trucks usually do not, and get tracker-calculated hours</small></span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v5"><span>VIN mismatch flag (from W12)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
@@ -3851,6 +3974,7 @@
             <ul>
               <li><a class="qref" href="/decisions#q8">Q8</a> What is the fleet actually made of? Phase 2 tested light-duty OBD-II only; heavy-duty J1939 vehicles expose engine hours differently and may not share its quirks.</li>
               <li><a class="qref" href="/decisions#q10">Q10</a> What share of deployed trackers runs firmware that never speaks the TLV protocol?</li>
+              <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> Every duty-status event needs engine hours and odometer. Hours come from the ECM through the tracker; when the ECM has none, the tracker&rsquo;s calculated hours are acceptable. GPS may never be used for either. Tom: <i>&ldquo;Any engine hours is better than no engine hours.&rdquo;</i></li>
             </ul>
           </div>
         </div>
@@ -3885,7 +4009,7 @@
                     </div>
                   </div>
                   <div class="wb-box" style="margin-top:9px;"><div class="h">Verification</div>
-                    VIN read over BLE matches the Tenna asset record ✓ · last seen 2 s ago ✓
+                    VIN read over BLE matches the Tenna asset record ✓ · last seen 2 s ago ✓<span data-revi-from="v5"><br/>If they ever differ: the vehicle&rsquo;s VIN goes on the ELD record and this row is flagged <span class="wb-pill out">VIN mismatch · fix asset record</span></span>
                   </div>
                   <div class="wb-filter" style="margin-top:9px;"><span class="wb-btn primary">Confirm pairing</span><span class="wb-btn">Swap device</span></div>
                 </div>
@@ -3903,6 +4027,7 @@
               <li><span>Serial ↔ asset mapping (the master copy)</span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
               <li data-rev-until="v2"><span>BLE address + VIN for verification</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span></span></li><li data-rev-from="v3"><span>BLE address + VIN, as last observed<small style="display:block; color:var(--muted); font-size:11px;">empty until the truck has been driven with the app connected</small></span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Pairing audit (who, when)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v5"><span>VIN mismatch flag<small style="display:block; color:var(--muted); font-size:11px;">vehicle VIN differs from the asset record. The vehicle&rsquo;s goes on the ELD record; this is the admin cleanup</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span><span class="tag t-push">&rarr; Tenna</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
@@ -3918,6 +4043,7 @@
             <ul>
               <li><a class="qref" href="/decisions#q7">Q7</a> Which identifier is the stable key in Tenna's records, serial or BLE address, and who owns the mapping table?</li>
               <li><a class="qref" href="/decisions#q14">Q14</a> Settled by test, worth stating: the address characteristic reads byte-reversed. Any Tenna-side lookup keyed on raw reads will silently match nothing.</li>
+              <li data-rev-from="v5"><a class="qref" href="/decisions#q23">Q23</a> <b>Settled 9/8 &middot;</b> On a mismatch the vehicle&rsquo;s VIN is the one on the record. Tom: <i>&ldquo;The ECM is always the winner.&rdquo;</i> Mark: what to do about the Tenna record is a Tenna problem to work out with AppAxis, not a compliance one.</li>
             </ul>
           </div>
         </div>
@@ -3955,7 +4081,7 @@
                   <div class="wb-box"><div class="h">Include</div>
                     ☑ Daily logs &amp; certifications&nbsp;&nbsp; ☑ Full event records&nbsp;&nbsp; ☑ Edit histories<br/>
                     ☑ Malfunctions &amp; diagnostics&nbsp;&nbsp; ☑ Unidentified driving&nbsp;&nbsp; ☑ Transfer records<br/>
-                    ☐ Raw telemetry points <span class="wb-pill out">pending P3</span>
+                    <span data-revi-until="v4">☐ Raw telemetry points <span class="wb-pill out">pending P3</span></span><span data-revi-from="v5"><s>Raw telemetry points</s> <span class="wb-pill out">not kept · P3</span></span>
                   </div>
                   <div class="wb-box" style="margin-top:9px;"><div class="h">Package preview</div>
                     14 drivers · 182 days · 2,341 log days · FMCSA output files + index &amp; summary PDF
@@ -3967,13 +4093,14 @@
           </div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">W13</span><h4 class="wf-name">DOT Audit Export</h4><span class="tag t-gated">Gated · P3</span></div>
+          <div class="wf-head"><span class="wf-id">W13</span><h4 class="wf-name">DOT Audit Export</h4><span class="tag t-gated" data-revi-until="v4">Gated · P3</span><span class="tag t-settled" data-revi-from="v5">Settled &middot; P3</span></div>
           <p class="wf-purpose">Bulk export of logs, events, edits, malfunctions, and unidentified driving for an audit period: the fleet-wide version of W7, packaged the way an auditor asks for it.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Everything in the compliance record, bundled</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Raw telemetry inclusion</span><span class="tags"><span class="tag t-gated">Gated · P3</span></span></li>
+              <li data-rev-until="v4"><span>Raw telemetry inclusion</span><span class="tags"><span class="tag t-gated">Gated · P3</span></span></li>
+              <li data-rev-from="v5"><span>Raw telemetry<small style="display:block; color:var(--muted); font-size:11px;">not kept anywhere, so never in the bundle. P3 settled 9/8</small></span><span class="tags"><span class="tag t-settled">Settled &middot; P3</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
@@ -4119,6 +4246,7 @@
             file export (<a href="#w7">W7</a>). Neither is what this request asks for. The 30-day cap is designed in as
             a constraint the user cannot override, not a warning they can click past: the failure mode is a rejected
             transfer that looks like non-production of records.</p>
+            <p data-rev-from="v5"><b>Confirmed 9/8:</b> one month at a time, only when requested. No change.</p>
           </div>
           <div>
             <span class="wf-label">Data elements</span>
@@ -4210,6 +4338,7 @@
             <p>Taken at the weight it was offered: valuable, not mandatory. It shares its renderer with
             <a href="#d16">D16</a>, so the marginal build cost is low once D16 carries the same three fields. The memo's conditional matters though: if this is cut for scope, <a href="#w17">W17</a> is not optional,
             and that is the trade to make consciously rather than by omission.</p>
+            <p data-rev-from="v5"><b>Confirmed 9/8:</b> build it (<a class="qref" href="/decisions#q20">Q20</a>). Tom again called it nice but not required. It shares its renderer with D16, so it is cheap.</p>
           </div>
           <div>
             <span class="wf-label">Data elements</span>
@@ -4372,7 +4501,7 @@
               <li><span>Carrier HOS policy (cycles, permissions, thresholds)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Yard geofences</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Org identity &amp; terminal time zones</span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
-              <li data-rev-from="v2"><span>UD reason taxonomy (shared by D27, D28, W16)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v2"><span>UD reason taxonomy (shared by D27, D28, W16)<span data-revi-from="v5"><small style="display:block; color:var(--muted); font-size:11px;">five fixed reasons; carriers add their own. Settled 9/8</small></span></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li data-rev-from="v2"><span>UD review cadence &amp; reminder threshold</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li data-rev-from="v3"><span>Biometric sign-in permitted<small style="display:block; color:var(--muted); font-size:11px;">off for shared cab tablets, where one enrolled face opens any session</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li data-rev-from="v2"><span>Non-HOS move roles &amp; permissions</span><span class="tags"><span class="tag t-eld">ELD-owned</span><span class="tag t-gated" data-revi-until="v2">Gated · P1</span><span class="tag t-api" data-revi-from="v3">Tenna API</span></span></li>
@@ -4392,7 +4521,8 @@
             <ul>
               <li>Tenna already models sites and geofences. Do yard-move fences reference Tenna sites over the API (one source of truth) or get drawn here? The wireframe shows both to force the choice.</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28 ·</b> Is the reason taxonomy carrier-editable, as drawn, or fixed across the customer base? Editable serves the individual carrier; fixed keeps unidentified-driving reporting comparable and makes any future benchmarking possible. Recommendation: fixed core list from the memo, with one carrier-defined "other" slot.</li>
-              <li data-rev-from="v3"><b>New 8/28 &middot;</b> Is the reason list carrier-editable, as drawn, or fixed across the customer base? Fixed keeps unidentified-driving reporting comparable. Recommendation: the memo's core list, plus one carrier-defined slot.</li>
+              <li data-rev-from="v3" data-rev-until="v4"><b>New 8/28 &middot;</b> Is the reason list carrier-editable, as drawn, or fixed across the customer base? Fixed keeps unidentified-driving reporting comparable. Recommendation: the memo's core list, plus one carrier-defined slot.</li>
+              <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> Carrier-editable. Tom: let carriers add their own reasons to the pop-up, because unassigned records pile up while people learn the product. The five fixed reasons stay as the core list.</li>
             </ul>
           </div>
         </div>
@@ -5251,7 +5381,7 @@ eld.transfers(id, output_file_id, method, caller,
       <div class="rev-what" data-rev-from="v4" style="margin-top:16px;">
         <span class="rev-what-h">Added 9/3 &middot; two surfaces the map does not yet draw</span>
         <ul>
-          <li><b><a href="#d35">D35</a> Motion Without Sign-In.</b> A takeover rather than a navigation target: it appears over everything when the vehicle moves with nobody signed in, and its only exit is D1.</li>
+          <li><b><a href="#d35">D35</a> Motion Without Sign-In.</b> A takeover rather than a navigation target: it appears over everything when the vehicle moves with nobody signed in<span data-revi-from="v5"> and an unconnected tracker is in range</span>, and its only exit is D1.</li>
           <li><b><a href="#w19">W19</a> Odometer Jump Report.</b> Reached from the module nav under Reports, and fed by the event log rather than by any other screen.</li>
         </ul>
       </div>
