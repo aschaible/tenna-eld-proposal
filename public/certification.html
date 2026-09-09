@@ -116,11 +116,19 @@
         drives, 24-hour soak, stored-event drain and purge, process death and gap coverage, 30-minute malfunction
         escalation, automatic duty-status transitions).</li>
       <li>Every run leaves an append-only session log on the device.</li>
-      <li>Status: the Android result to date (25 of 26 protocol steps passed) was on the React Native prototype. The
-        build is moving to native Android and iOS apps. No protocol steps have been run on the native apps yet; the
-        full protocol is re-run on both. Acceptance criteria are AppAxis proposals pending ratification by
+      <li>The build is moving from the React Native prototype to native Android and iOS apps. The full protocol is
+        re-run on both native apps. Acceptance criteria are AppAxis proposals pending ratification by
         Tom Cuthbertson.</li>
     </ul>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>App</th><th>Android</th><th>iOS</th></tr></thead>
+      <tbody>
+        <tr><td>React Native prototype</td><td>Done: 25 of 26 protocol steps passed</td><td>Bench steps passed; closing drive pending</td></tr>
+        <tr><td>Native</td><td>Not started</td><td>Not started</td></tr>
+      </tbody>
+    </table>
+    </div>
     <p class="gate"><b>Exit.</b> Every protocol step passes on both platforms against ratified acceptance criteria.
       Evidence: completed test workbooks and per-test device session logs.</p>
   </div>
@@ -129,7 +137,7 @@
     <h3>Stage B — Compliance requirements freeze</h3>
     <p class="who">Owner: <b>Joint</b> — Tom Cuthbertson rules, AppAxis drafts, Tenna ratifies · Phase 2 exit</p>
     <ul>
-      <li>Settled 8 September: P3 raw data (ELD keeps the last three readings; host receives events only), Q15–Q17
+      <li>Settled 8 September: P3 raw data (host receives events only; the ELD keeps the last 24 hours of raw tracker readings on the device to support log submission, a modest storage cost), Q15–Q17
         unidentified driving (manual carrier review, carrier assigns with driver acceptance, five standard reasons
         plus carrier-defined), Q18 transfer method (Telematics: web services and email; peer-to-peer excluded by
         rule), Q20 host inspector view (build), D35 motion-without-sign-in screen (required).</li>
@@ -222,7 +230,7 @@
         <td>Bench and drive protocol passes on both platforms against ratified criteria</td>
         <td>Test workbooks, device session logs</td>
         <td>AppAxis</td>
-        <td>React Native prototype: Android 25 of 26. Native apps: no tests run yet; criteria ratification pending</td>
+        <td>React Native: Android done, iOS drive pending. Native: not started. Criteria ratification pending</td>
       </tr>
       <tr>
         <td>B</td>
