@@ -74,7 +74,7 @@
       for compliance with the technical specifications.</li>
     <li>The reference test method is FMCSA's <i>ELD Test Plan and Procedures</i>, version 2.1 (18 July 2017). It is not
       binding on providers, but it is the procedure FMCSA uses if it independently evaluates a listed device.</li>
-    <li>The test plan decomposes Appendix section 4 into a Requirements Traceability Matrix (RTM) of 347 numbered
+    <li>The test plan breaks Appendix section 4 down into a Requirements Traceability Matrix (RTM) of 347 numbered
       requirements (ELD-FUNC-4.x) in eight categories: Accounts, Vehicle Interface, ELD Inputs, Processing, Recording,
       Monitoring, ELD Outputs, Data Transfer. Test procedures are grouped in three chapters: (1) Accounts, Inputs and
       Vehicle Interface; (2) Processing, Monitoring and Recording; (3) Outputs and Data Transfer.</li>
@@ -93,11 +93,11 @@
     <thead><tr><th>Tenna (Tom Cuthbertson)</th><th>AppAxis</th></tr></thead>
     <tbody>
       <tr>
-        <td>Compliance rulings and acceptance-criteria ratification. Registration submission and the certifying
+        <td>Compliance rulings and acceptance-criteria approval. Registration submission and the certifying
           statement. Public user guide, malfunction and transfer instruction sheets. Relationship with FMCSA. Listing
           maintenance.</td>
         <td>Device and application. RTM-traced test harness and on-road protocol. Test evidence and the readiness
-          dossier. Drafts of the in-cab documents and the certifying statement's test description.</td>
+          evidence package. Drafts of the in-cab documents and the certifying statement's test description.</td>
       </tr>
     </tbody>
   </table>
@@ -117,7 +117,7 @@
         escalation, automatic duty-status transitions).</li>
       <li>Every run leaves an append-only session log on the device.</li>
       <li>The build is moving from the React Native prototype to native Android and iOS apps. The full protocol is
-        re-run on both native apps. Acceptance criteria are AppAxis proposals pending ratification by
+        re-run on both native apps. Acceptance criteria are AppAxis proposals pending approval by
         Tom Cuthbertson.</li>
     </ul>
     <div class="tbl-wrap">
@@ -129,20 +129,20 @@
       </tbody>
     </table>
     </div>
-    <p class="gate"><b>Exit.</b> Every protocol step passes on both platforms against ratified acceptance criteria.
+    <p class="gate"><b>Exit.</b> Every protocol step passes on both platforms against approved acceptance criteria.
       Evidence: completed test workbooks and per-test device session logs.</p>
   </div>
 
   <div class="stage">
     <h3>Stage B — Compliance requirements freeze</h3>
-    <p class="who">Owner: <b>Joint</b> — Tom Cuthbertson rules, AppAxis drafts, Tenna ratifies · Phase 2 exit</p>
+    <p class="who">Owner: <b>Joint</b> — Tom Cuthbertson rules, AppAxis drafts, Tenna signs off · Phase 2 exit</p>
     <ul>
       <li>Settled 8 September: P3 raw data (host receives events only; the ELD keeps the last 24 hours of raw tracker readings on the device to support log submission, a modest storage cost), Q15–Q17
         unidentified driving (manual carrier review, carrier assigns with driver acceptance, five standard reasons
         plus carrier-defined), Q18 transfer method (Telematics: web services and email; peer-to-peer excluded by
         rule), Q20 host inspector view (build), D35 motion-without-sign-in screen (required).</li>
       <li>Open: Q1 duty status on link loss, Q19 audit export scope, D29 stationary-prompt parameters, acceptance
-        criteria ratification, Q18 formal sign-off, registration mechanics (Stage F).</li>
+        criteria approval, Q18 formal sign-off, registration mechanics (Stage F).</li>
       <li>Fold answers into the HOS engine specification, the data-retention design, and the decision log.</li>
     </ul>
     <p class="gate"><b>Exit.</b> Scope lock signed with every open item answered in writing. Evidence: signed scope-lock
@@ -196,8 +196,8 @@
       <li>In-cab documents per 395.22(g)–(h): user manual, data-transfer instruction sheet, malfunction instruction
         sheet, blank paper logs. Public user-instructions page, reachable without login.</li>
     </ul>
-    <p class="gate"><b>Exit.</b> Tom Cuthbertson accepts the dossier as sufficient to sign. Evidence: the
-      dossier and written acceptance. Records retained two years minimum.</p>
+    <p class="gate"><b>Exit.</b> Tom Cuthbertson accepts the evidence package as sufficient to sign. Evidence: the
+      package and written acceptance. Records retained two years minimum.</p>
   </div>
 
   <div class="stage">
@@ -227,10 +227,10 @@
     <tbody>
       <tr>
         <td>A</td>
-        <td>Bench and drive protocol passes on both platforms against ratified criteria</td>
+        <td>Bench and drive protocol passes on both platforms against approved criteria</td>
         <td>Test workbooks, device session logs</td>
         <td>AppAxis</td>
-        <td>React Native: Android done, iOS drive pending. Native: not started. Criteria ratification pending</td>
+        <td>React Native: Android done, iOS drive pending. Native: not started. Criteria approval pending</td>
       </tr>
       <tr>
         <td>B</td>
@@ -255,8 +255,8 @@
       </tr>
       <tr>
         <td>E</td>
-        <td>Dossier complete, FMCSA procedures run in-vehicle, accepted by Tom Cuthbertson</td>
-        <td>Dossier, written acceptance</td>
+        <td>Evidence package complete, FMCSA procedures run in-vehicle, accepted by Tom Cuthbertson</td>
+        <td>Evidence package, written acceptance</td>
         <td>AppAxis, then Tom Cuthbertson</td>
         <td>Phase 5</td>
       </tr>
@@ -284,11 +284,11 @@
       <tr><td>D29 — stationary prompt parameters</td>
         <td>Window, timeout, recorded origin</td><td>Stage B; state machine</td></tr>
       <tr><td>Acceptance criteria</td>
-        <td>Ratification, correction, or additions by Tom Cuthbertson to the test inventory</td><td>Stage A exit</td></tr>
+        <td>Approval, correction, or additions by Tom Cuthbertson to the test inventory</td><td>Stage A exit</td></tr>
       <tr><td>Q18 — Telematics election</td>
-        <td>Formal Tenna sign-off; irreversible without re-certifying</td><td>Stage B; Stage D</td></tr>
+        <td>Formal Tenna sign-off; cannot be changed later without re-certifying</td><td>Stage B; Stage D</td></tr>
       <tr><td>Registration mechanics</td>
-        <td>Per-OS registration, ELD identifier rules, version discipline, public URL content, signatory</td>
+        <td>Per-OS registration, ELD identifier rules, version numbering rules, public URL content, who signs</td>
         <td>Stage F</td></tr>
       <tr><td>Idle-shutdown signals (SPN 591–593)</td>
         <td>Whether the tracker exposes them; if so, record power-down on detection</td><td>Stage C event list</td></tr>
