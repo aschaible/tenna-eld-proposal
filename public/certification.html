@@ -66,7 +66,7 @@
 <div class="doc">
 
   <h1>Certification Roadmap</h1>
-  <p class="subtitle">Tenna ELD · Updated 9 September 2026</p>
+  <p class="subtitle">Tenna ELD · Updated 10 September 2026</p>
 
   <h2>1. Basis</h2>
   <ul>
@@ -138,16 +138,20 @@
     <h3>Stage B — Compliance requirements freeze</h3>
     <p class="who">Owner: <b>Joint</b> — Tom Cuthbertson rules, AppAxis drafts, Tenna signs off · Phase 2 exit</p>
     <ul>
-      <li>Settled 8 September: P3 raw data (host receives events only; the ELD keeps the last 24 hours of raw tracker readings on the device to support log submission, a modest storage cost), Q15–Q17
-        unidentified driving (manual carrier review, carrier assigns with driver acceptance, five standard reasons
-        plus carrier-defined), Q18 transfer method (Telematics: web services and email; peer-to-peer excluded by
-        rule), Q20 host inspector view (build), D35 motion-without-sign-in screen (required).</li>
-      <li>Open: Q1 duty status on link loss, Q19 audit export scope, D29 stationary-prompt parameters, acceptance
-        criteria approval, Q18 formal sign-off, registration mechanics (Stage F).</li>
+      <li>Settled 8 and 10 September: P3 raw data (host receives events only, the moment they are recorded; the phone
+        keeps ten days of raw readings that never leave it), Q15–Q17 unidentified driving (manual carrier review, carrier
+        assigns with driver acceptance, five standard reasons plus carrier-defined, a driver's rejection removes the record
+        from the cab), Q18 transfer method (Telematics: web services and email, elected), Q19 audit export (the Appendix A
+        output file only, in 30-day increments), Q20 host inspector view (build), Q23 VIN (vehicle wins), Q24 biometric
+        sign-in (sufficient under Appendix A 4.1.3), D35 motion-without-sign-in screen (required). Concurrent co-driver
+        authentication is required by 4.1.4(b).</li>
+      <li>Open: Q1 duty status on link loss (planned walk-off and unplanned dropout, three rulings needed), D29
+        stationary-prompt parameters, acceptance criteria approval, registration re-submission triggers (Stage F).</li>
       <li>Fold answers into the HOS engine specification, the data-retention design, and the decision log.</li>
     </ul>
-    <p class="gate"><b>Exit.</b> Scope lock signed with every open item answered in writing. Evidence: signed scope-lock
-      package and updated decision log.</p>
+    <p class="gate"><b>Exit.</b> Scope lock signed with every open item answered in writing. Tom Cuthbertson rules in
+      writing; Tenna signs the package (decided 10 September). Evidence: signed scope-lock package and updated decision
+      log.</p>
   </div>
 
   <div class="stage">
@@ -186,6 +190,8 @@
     <h3>Stage E — Certification-readiness verification</h3>
     <p class="who">Owner: <b>AppAxis assembles, Tom Cuthbertson accepts</b> · Phase 5, weeks 16–17</p>
     <ul>
+      <li>Evidence package in the FMCSA test-plan report format, decided 10 September: per RTM requirement, date, tester,
+        pass or fail per step, comments, re-run set, regression after each fix.</li>
       <li>Full RTM harness run on the integrated release build, archived.</li>
       <li>FMCSA test procedures executed manually in a commercial vehicle over a multi-day drive, following the
         RTM and chapter outline, on the customer device matrix. Report in the test plan's format: date, tester,
@@ -238,7 +244,7 @@
         <td>Open items answered in writing; scope lock signed</td>
         <td>Signed scope-lock package, decision log</td>
         <td>Joint</td>
-        <td>P3, Q15–Q18, Q20 settled 8 Sep; Q1, Q19, D29, criteria, registration mechanics open</td>
+        <td>P3, Q15–Q20, Q23, Q24 settled 8 and 10 Sep; Q1, D29, criteria, re-submission triggers open</td>
       </tr>
       <tr>
         <td>C</td>
@@ -278,18 +284,20 @@
     <thead><tr><th>Item</th><th>Needed</th><th>Blocks</th></tr></thead>
     <tbody>
       <tr><td>Q1 — duty status when the phone loses the vehicle link</td>
-        <td>Which component is the ELD of record; whether tracker stop/start records apply retroactively; malfunction
-          versus duty-status treatment</td><td>Stage B; Phase 3 HOS engine</td></tr>
-      <tr><td>Q19 — audit export scope (W13)</td>
-        <td>What is in the one-click export versus on specific request</td><td>Stage B; W13 design</td></tr>
+        <td>Planned walk-off: may the app close Driving at the tracker's stop time automatically. Unplanned dropout: may
+          drained records that fill the same signed-in driver's gap attach to that driver automatically. Both: does
+          link-loss time count toward the 4.6.1.1 malfunction clock when the tracker kept recording</td>
+        <td>Stage B; Phase 3 HOS engine</td></tr>
+
       <tr><td>D29 — stationary prompt parameters</td>
         <td>Window, timeout, recorded origin</td><td>Stage B; state machine</td></tr>
       <tr><td>Acceptance criteria</td>
         <td>Approval, correction, or additions by Tom Cuthbertson to the test inventory</td><td>Stage A exit</td></tr>
-      <tr><td>Q18 — Telematics election</td>
-        <td>Formal Tenna sign-off; cannot be changed later without re-certifying</td><td>Stage B; Stage D</td></tr>
-      <tr><td>Registration mechanics</td>
-        <td>Per-OS registration, ELD identifier rules, version numbering rules, public URL content, who signs</td>
+
+      <tr><td>Registration re-submission triggers</td>
+        <td>Which changes require re-submission under Appendix A 5.1.2. Decided 10 Sep: one registration and one ELD
+          identifier for both operating systems; public URL holds only the rule's required documents. Lean: re-submit on a
+          major version or any change to HOS logic, output file or transfer</td>
         <td>Stage F</td></tr>
       <tr><td>Idle-shutdown signals (SPN 591–593)</td>
         <td>Whether the tracker exposes them; if so, record power-down on detection</td><td>Stage C event list</td></tr>

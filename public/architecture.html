@@ -74,7 +74,7 @@
 <div class="doc">
 
   <h1>Architecture</h1>
-  <p class="docmeta">Updated 9 September 2026 · Confidential</p>
+  <p class="docmeta">Updated 10 September 2026 · Confidential</p>
   <p class="docmeta">On this page:
     <a href="#s1">1. Context</a> ·
     <a href="#s2">2. Ownership split</a> ·
@@ -230,7 +230,7 @@
       <tr><td>Non-HOS move stamps, work order reference</td><td>Entered, Tenna platform</td><td>ELD, Tenna</td><td>S3, T6</td><td>T6 is new</td></tr>
       <tr><th colspan="5">Compliance outputs</th></tr>
       <tr><td>Output file, transfer records, increment plan</td><td>Derived</td><td>ELD</td><td>S4</td><td></td></tr>
-      <tr><td>DOT audit bundle</td><td>Derived</td><td>ELD</td><td>S4</td><td>Scope is <b>Q19, open</b>. Corrected from the Wireframes table, which said P3</td></tr>
+      <tr><td>DOT audit bundle</td><td>Derived</td><td>ELD</td><td>S4</td><td>Appendix A output files only (Q19, decided 10 Sep). Corrected from the Wireframes table, which said P3</td></tr>
       <tr><th colspan="5">Cross-system</th></tr>
       <tr><td>ELD events into Tenna</td><td>Derived</td><td>ELD, Tenna receives a copy</td><td>E2</td><td>P4 list open</td></tr>
       <tr><td>DVIR status and handoff</td><td>Tenna platform</td><td>Tenna</td><td>T7</td><td></td></tr>
@@ -248,7 +248,7 @@
     <tbody>
       <tr><td>Device</td><td>HOS log for the signed-in driver</td><td>8 days</td><td>§395.8(k), Q22</td></tr>
       <tr><td>Device</td><td>Unaccepted unidentified-driving records</td><td>8 days</td><td>§4.5.1.7(c), Q22</td></tr>
-      <tr><td>Device</td><td>Raw tracker readings</td><td>10 days, rolling. Parsed reading plus the assembled TLV payload per reading; BLE fragments are not kept. About 45 MB at the measured 2.1 s cadence, 24x7</td><td>AppAxis position, 9 September. Supersedes "last ~3 readings" (Tom, 8 Sep) and "24 hours" (Certification Roadmap, Stage B). Confirm with Tom on Thursday 10 September</td></tr>
+      <tr><td>Device</td><td>Raw tracker readings</td><td>10 days, rolling. Parsed reading plus the assembled TLV payload per reading; BLE fragments are not kept. About 45 MB at the measured 2.1 s cadence, 24x7</td><td>Decided 10 September (Adam, product owner). Supersedes "last ~3 readings" (Tom, 8 Sep) and "24 hours" (roadmap Stage B, since corrected)</td></tr>
       <tr><td>Device</td><td>Crash diagnostics buffer</td><td>Engineering choice</td><td>Not compliance data. Never leaves the device except in a bug report</td></tr>
       <tr><td>Host</td><td>Unidentified-driving records</td><td>6 months from receipt</td><td>§395.8(k)(1). Record-level <code>retain_until</code>, source device stamped</td></tr>
       <tr><td>Host</td><td>HOS records, edit history, output files, transfers</td><td>6 months minimum</td><td>§395.8(k). A carrier may want longer for its own reasons. Product question, not an architecture one</td></tr>
@@ -849,7 +849,7 @@
       <tr><td>Malfunctions</td><td><code>GET /malfunctions?status=open</code>; <code>GET /malfunctions/{id}</code></td><td>W10</td></tr>
       <tr><td>Transfers</td><td><code>POST /transfer-requests</code> (driver_id, from, to up to 30 days, output_file_comment) returns 202; <code>GET /transfer-requests/{id}</code> lists the increments it split into and each transfer's result; <code>GET /transfers?from&amp;to</code></td><td>W14, W17</td></tr>
       <tr><td>Inspector view</td><td><code>GET /drivers/{id}/inspection-record?from&amp;to</code>, a read-only view in FMCSA display order</td><td>W18</td></tr>
-      <tr><td>Audit export</td><td><code>POST /audit-exports</code> returns 202; <code>GET /audit-exports/{id}</code></td><td>W13. Scope is Q19, <b>open</b></td></tr>
+      <tr><td>Audit export</td><td><code>POST /audit-exports</code> returns 202; <code>GET /audit-exports/{id}</code></td><td>W13. Output files only, in 30-day increments (Q19, decided 10 Sep)</td></tr>
       <tr><td>Settings</td><td><code>GET</code>, <code>PUT /carrier-policy</code> (singleton per carrier, from the JWT)</td><td>W15</td></tr>
     </tbody>
   </table>
@@ -1311,8 +1311,8 @@
     <thead><tr><th>Item</th><th>Needed</th><th>Blocks</th><th>Owner</th></tr></thead>
     <tbody>
       <tr><td><a href="/decisions#q1">Q1</a> duty status on link loss</td><td>Which component is the ELD of record during a gap; retroactive stop/start treatment</td><td>HOS engine; not_before_utc semantics</td><td>Tom</td></tr>
-      <tr><td><a href="/decisions#q19">Q19</a> audit export scope</td><td>What the one-click export contains</td><td>W13; <code>POST /audit-exports</code></td><td>Tom, Tenna product</td></tr>
-      <tr><td><a href="/decisions#p3">P3</a> raw-reading retention</td><td>Tom's agreement to 10 days rolling on the device (section 2)</td><td>Certification Roadmap Stage B text; Wireframes v5 note</td><td>Tom, Thursday 10 Sep</td></tr>
+
+
       <tr><td><a href="/decisions#p4">P4</a> event list</td><td>Which E2 events Tenna consumes, and how host-to-driver pushes are delivered</td><td>Egress; W1, W2, W8, W10</td><td>Tenna product</td></tr>
       <tr><td>Registration mechanics</td><td>Per-OS registration, ELD identifier rules, version string rules</td><td>eld.devices columns; Stage F</td><td>Tom</td></tr>
       <tr><td><a href="/decisions#q17">Q17</a> retention scoping</td><td>Whether the carrier wants longer than 6 months on the host</td><td>Retention policy, storage estimate</td><td>Tenna product</td></tr>

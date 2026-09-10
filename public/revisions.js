@@ -16,6 +16,9 @@
  *                       P3 settled, D35 required with a trigger rule, the
  *                       reason list, the no-signal roadside path, engine
  *                       hours and VIN sourcing, power-down handling
+ *   v6  "9/10/2026"   - Adam takes product-requirements ownership; P3, Q17,
+ *                       Q18, Q19, Q20, Q23, Q24 settled; Q1 restated with
+ *                       the walk-off scenario; 3, 8 and 10 Sep sessions logged
  *
  * Content that differs between them is marked up in place, as a range
  * rather than as a single version, so a fourth revision costs one entry in
@@ -32,8 +35,8 @@
  *
  * Only one side is ever visible, and whatever is new in the revision being
  * read is outlined so it can be found. The choice persists across pages via
- * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2, ?v=9-3 or
- * ?v=9-8, so a link can open the package in a known state.
+ * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2, ?v=9-3, ?v=9-8 or
+ * ?v=9-10, so a link can open the package in a known state.
  */
 (function () {
   'use strict';
@@ -45,7 +48,8 @@
     { id: 'v2', label: '8/28/2026', sub: 'host reporting', slug: '8-28' },
     { id: 'v3', label: '9/2/2026', sub: 'data ownership', slug: '9-2' },
     { id: 'v4', label: '9/3/2026', sub: 'stack · wireframes', slug: '9-3' },
-    { id: 'v5', label: '9/8/2026', sub: 'consultant call', slug: '9-8' }
+    { id: 'v5', label: '9/8/2026', sub: 'consultant call', slug: '9-8' },
+    { id: 'v6', label: '9/10/2026', sub: 'product decisions', slug: '9-10' }
   ];
 
   var DEFAULT = VERSIONS[VERSIONS.length - 1].id;
