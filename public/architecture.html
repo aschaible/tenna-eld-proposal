@@ -359,7 +359,7 @@
     <line x1="215" y1="510" x2="255" y2="510" stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arrS)"/>
     <text x="262" y="514" fill="#1a1a1a" font-size="11">foreign key inside schema eld</text>
     <line x1="215" y1="535" x2="255" y2="535" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrSd)"/>
-    <text x="262" y="539" fill="#1a1a1a" font-size="11">Tenna id stored as opaque text, resolved through the T-surface API, no foreign key</text>
+    <text x="262" y="539" fill="#1a1a1a" font-size="11">Tenna id stored as text and never interpreted; the record is read through the T-surface API, no foreign key</text>
     <text x="215" y="558" fill="#555" font-size="11">Not drawn: carrier_id on every eld table to carriers; outbox.aggregate_id to ud_records,</text>
     <text x="215" y="573" fill="#555" font-size="11">malfunctions and transfers; ud_records.source_device_id to devices.</text>
   </svg>
@@ -389,7 +389,7 @@
     <thead><tr><th>eld.tracker_links</th><th>Type</th><th>Notes</th></tr></thead>
     <tbody>
       <tr><td>tracker_serial</td><td>text</td><td>Item 0x0F, also the advertised name after the WQ- prefix. Primary key with asset_id</td></tr>
-      <tr><td>asset_id</td><td>text</td><td>Tenna asset id, opaque reference (T4)</td></tr>
+      <tr><td>asset_id</td><td>text</td><td>Tenna asset id, stored as given and looked up through T4</td></tr>
       <tr><td>carrier_id</td><td>text</td><td>Tenna carrier id</td></tr>
       <tr><td>first_seen_at, last_seen_at</td><td>timestamptz</td><td></td></tr>
       <tr><td>protocol_version</td><td>smallint</td><td>Inferred from the frame shape (protocol 1 today)</td></tr>
@@ -407,7 +407,7 @@
       <tr><td>seq</td><td>integer</td><td>Per driver, per ELD, assigned on the device (§4.5.1.1). Unique on (device_id, driver_id, seq)</td></tr>
       <tr><td>carrier_id</td><td>text</td><td>Tenant key, on every row</td></tr>
       <tr><td>driver_id</td><td>text</td><td>Tenna user id. Null for unidentified-driver events</td></tr>
-      <tr><td>asset_id</td><td>text</td><td>Tenna asset id, opaque</td></tr>
+      <tr><td>asset_id</td><td>text</td><td>Tenna asset id, stored as given</td></tr>
       <tr><td>device_id</td><td>uuid</td><td>eld.devices</td></tr>
       <tr><td>event_type</td><td>smallint</td><td>1 duty status, 2 intermediate, 3 special driving, 4 certification, 5 login/logout, 6 engine power, 7 malfunction/diagnostic</td></tr>
       <tr><td>event_code</td><td>smallint</td><td>Code within the type, per Table 6</td></tr>
@@ -574,7 +574,7 @@
     <li>Every timestamp is <code>timestamptz</code> in UTC. The apps use epoch milliseconds UTC everywhere. The tracker's
       UDRV_TIME and LOCTIME are epoch seconds on the device clock and are kept in their own columns where they matter.</li>
     <li>Home-terminal time zone is read from T3 for display and for the 24-hour certification boundary. It is not stored on events.</li>
-    <li>Tenna ids are opaque text. No foreign keys into Tenna's schema and no cross-schema joins. Names are resolved at read time through T2 and T4.</li>
+    <li>Tenna ids are stored as text exactly as Tenna issues them. The ELD never parses them, checks their format, or joins on them. No foreign keys into Tenna's schema and no cross-schema joins. Names are resolved at read time through T2 and T4.</li>
     <li>Tenant isolation is <code>carrier_id</code> on every table. Row-level security keyed on the JWT's carrier claim is
       the recommendation; the API enforces it regardless.</li>
     <li>Ids are UUIDv7 everywhere. The leading 48 bits are a millisecond timestamp, so ids sort by creation time and a
@@ -1145,7 +1145,7 @@
       <tr><td><a href="/decisions#q2">Q2</a> engine-hours ECM baseline</td><td>Which assets expose ECM hours; accumulated-hours fallback rules</td><td>hours_source; W11 flag</td><td>Tom, Geometris</td></tr>
       <tr><td><a href="/decisions#q5">Q5</a> BLE has no authentication</td><td>Accepted risk statement, or a mitigation</td><td>Security review of B1</td><td>Tenna engineering</td></tr>
       <tr><td><a href="/decisions#q9">Q9</a> two phones, one tracker</td><td>Who owns the link when two drivers connect</td><td>Active-driver designation; seq assignment</td><td>AppAxis, Tom</td></tr>
-      <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and opaque Tenna ids are the keys across the phone, the API and the portal</td><td>Contract A and B as written</td><td>Kyle, Tamar</td></tr>
+      <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and Tenna-issued ids, stored as given, are the keys across the phone, the API and the portal</td><td>Contract A and B as written</td><td>Kyle, Tamar</td></tr>
     </tbody>
   </table>
   </div>
