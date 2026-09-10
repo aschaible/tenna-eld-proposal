@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Architecture · Tenna ELD</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: #ffffff; color: #1a1a1a;
+    font-family: Georgia, "Times New Roman", Cambria, serif;
+    line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased;
+  }
+  a { color: #14459c; }
+  a:hover { color: #0d2f6e; }
+
+  .nav {
+    border-bottom: 1px solid #ccc; padding: 10px 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+  }
+  .nav .inner { max-width: 780px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; }
+  .nav .who { color: #555; font-weight: 600; margin-right: auto; }
+  .nav a { color: #555; text-decoration: none; }
+  .nav a:hover { color: #14459c; text-decoration: underline; }
+
+  .doc { max-width: 780px; margin: 0 auto; padding: 40px 24px 72px; }
+
+  h1 { font-size: 26px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.2px; }
+  .subtitle { font-size: 15px; color: #333; margin: 0 0 28px; }
+  .docmeta {
+    font-size: 13px; color: #666; margin: 0 0 4px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  h2 { font-size: 19px; font-weight: 700; margin: 34px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #ddd; }
+  h3 { font-size: 16px; font-weight: 700; margin: 22px 0 4px; }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 0 0 12px; padding-left: 24px; }
+  li { margin-bottom: 5px; }
+
+  .stage { margin: 0 0 26px; }
+  .stage .who { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; color: #555; margin: 0 0 8px; }
+  .stage .who b { color: #1a1a1a; }
+  .gate { border-left: 3px solid #999; padding: 4px 0 4px 14px; margin: 12px 0 0; font-size: 15px; }
+
+  table { border-collapse: collapse; width: 100%; margin: 12px 0 18px; font-size: 14px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  th, td { border: 1px solid #bbb; padding: 7px 9px; text-align: left; vertical-align: top; }
+  th { background: #f0f0f0; font-weight: 700; }
+  .tbl-wrap { overflow-x: auto; }
+  .tbl-wrap svg { display: block; min-width: 560px; width: 100%; height: auto; margin: 10px 0 14px; }
+
+  pre { font-family: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; line-height: 1.5;
+    background: #f6f6f6; border: 1px solid #bbb; padding: 10px 14px; margin: 10px 0 16px; overflow-x: auto; }
+  code { font-family: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; }
+  td code, li code, p code { background: #f6f6f6; padding: 0 3px; }
+
+  footer { max-width: 780px; margin: 0 auto; padding: 20px 24px 48px; border-top: 1px solid #ddd;
+    font-size: 13px; color: #666; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="inner">
+    <span class="who">AppAxis · Tenna ELD</span>
+    <a href="/">Wireframes</a>
+    <a href="/decisions">Decision Log</a>
+    <a href="/certification">Certification Roadmap</a>
+    <a href="/stack-research">Evidence</a>
+  </div>
+</div>
+
+<div class="doc">
+
+  <h1>Architecture</h1>
+  <p class="docmeta">Updated 9 September 2026 · Confidential</p>
+  <p class="docmeta">On this page:
+    <a href="#s1">1. Context</a> ·
+    <a href="#s2">2. Ownership split</a> ·
+    <a href="#s3">3. Contract A: schema</a> ·
+    <a href="#s4">4. Contract B: API</a> ·
+    <a href="#s5">5. Contract C: from Tenna</a> ·
+    <a href="#s6">6. Key flows</a> ·
+    <a href="#s7">7. Deployment</a> ·
+    <a href="#s8">8. Compliance mapping</a> ·
+    <a href="#s9">9. Open items</a></p>
+  <p class="subtitle">Draft for Tenna engineering review. Everything here is a recommendation until Luke signs it off
+    (his 8/29 note). Open items are marked open, not decided.</p>
+
+  <p>This is a boundary document. It describes three contracts and stops there: the ELD's own schema in Tenna's
+    Postgres (Contract A), the API the ELD exposes over that schema to its mobile app and its portal micro-frontend
+    (Contract B), and what the ELD needs from Tenna's platform to work at all (Contract C). Surface codes
+    (T1–T8, E1–E3, B1, S1–S5) and screen codes (D1–D35, W1–W19) are the ones used on the
+    <a href="/#sources">Wireframes</a> page, so the two pages can be read side by side.</p>
+
+  <h2 id="s1">1. Context</h2>
+
+  <div class="tbl-wrap">
+  <svg viewBox="0 0 760 430" role="img" aria-label="Context diagram: tracker, driver phone, ELD backend in Tenna AWS, Tenna platform, FMCSA, and roadside inspector"
+       font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
+    <defs>
+      <marker id="arrC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#999"/>
+      </marker>
+    </defs>
+    <!-- Tracker -->
+    <rect x="16" y="150" width="150" height="74" fill="#f0f0f0" stroke="#999"/>
+    <text x="91" y="174" text-anchor="middle" font-weight="700" fill="#1a1a1a">Geometris WQ tracker</text>
+    <text x="91" y="192" text-anchor="middle" fill="#555">on the vehicle bus</text>
+    <text x="91" y="208" text-anchor="middle" fill="#555">BLE GATT · B1</text>
+    <!-- Phone -->
+    <rect x="216" y="150" width="160" height="74" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <text x="296" y="174" text-anchor="middle" font-weight="700" fill="#1a1a1a">Driver phone</text>
+    <text x="296" y="192" text-anchor="middle" fill="#555">native ELD app</text>
+    <text x="296" y="208" text-anchor="middle" fill="#555">Swift · Kotlin · D1–D35</text>
+    <!-- Inspector -->
+    <rect x="216" y="320" width="160" height="60" fill="#f0f0f0" stroke="#999"/>
+    <text x="296" y="345" text-anchor="middle" font-weight="700" fill="#1a1a1a">Roadside inspector</text>
+    <text x="296" y="363" text-anchor="middle" fill="#555">D16 on-screen display</text>
+    <!-- ELD backend -->
+    <rect x="430" y="20" width="310" height="160" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <text x="585" y="42" text-anchor="middle" font-weight="700" fill="#1a1a1a">ELD backend · in Tenna's AWS</text>
+    <rect x="446" y="56" width="134" height="50" fill="#f0f0f0" stroke="#999"/>
+    <text x="513" y="77" text-anchor="middle" fill="#1a1a1a">ELD API</text>
+    <text x="513" y="94" text-anchor="middle" fill="#555">/eld/v1 · Contract B</text>
+    <rect x="590" y="56" width="134" height="50" fill="#f0f0f0" stroke="#999"/>
+    <text x="657" y="77" text-anchor="middle" fill="#1a1a1a">schema eld</text>
+    <text x="657" y="94" text-anchor="middle" fill="#555">Postgres · Contract A</text>
+    <rect x="446" y="116" width="278" height="46" fill="#f0f0f0" stroke="#999"/>
+    <text x="585" y="135" text-anchor="middle" fill="#1a1a1a">output files · S4</text>
+    <text x="585" y="152" text-anchor="middle" fill="#555">object storage</text>
+    <!-- Tenna platform -->
+    <rect x="430" y="230" width="310" height="180" fill="#f0f0f0" stroke="#999"/>
+    <text x="585" y="252" text-anchor="middle" font-weight="700" fill="#1a1a1a">Tenna platform · Contract C</text>
+    <rect x="446" y="266" width="134" height="40" fill="#ffffff" stroke="#bbb"/>
+    <text x="513" y="283" text-anchor="middle" fill="#1a1a1a">Cognito user pool</text>
+    <text x="513" y="298" text-anchor="middle" fill="#555">T1 · T8</text>
+    <rect x="590" y="266" width="134" height="40" fill="#ffffff" stroke="#bbb"/>
+    <text x="657" y="283" text-anchor="middle" fill="#1a1a1a">People · Org · Assets</text>
+    <text x="657" y="298" text-anchor="middle" fill="#555">T2 – T7 APIs</text>
+    <rect x="440" y="316" width="146" height="40" fill="#ffffff" stroke="#bbb"/>
+    <text x="513" y="333" text-anchor="middle" fill="#1a1a1a">Portal shell</text>
+    <text x="513" y="348" text-anchor="middle" fill="#555">micro-frontend · W1–W19</text>
+    <rect x="590" y="316" width="134" height="40" fill="#ffffff" stroke="#bbb"/>
+    <text x="657" y="333" text-anchor="middle" fill="#1a1a1a">Notification engine</text>
+    <text x="657" y="348" text-anchor="middle" fill="#555">E2 · E3</text>
+    <text x="585" y="392" text-anchor="middle" fill="#555">shared Postgres instance · users are the one shared table</text>
+    <!-- FMCSA -->
+    <rect x="16" y="20" width="150" height="74" fill="#f0f0f0" stroke="#999"/>
+    <text x="91" y="44" text-anchor="middle" font-weight="700" fill="#1a1a1a">FMCSA</text>
+    <text x="91" y="62" text-anchor="middle" fill="#555">eRODS web service</text>
+    <text x="91" y="78" text-anchor="middle" fill="#555">eRODS email</text>
+    <!-- arrows -->
+    <line x1="166" y1="187" x2="216" y2="187" stroke="#999" stroke-width="1.5" marker-end="url(#arrC)" marker-start="url(#arrC)"/>
+    <text x="191" y="180" text-anchor="middle" fill="#555" font-size="11">BLE</text>
+    <line x1="376" y1="170" x2="446" y2="100" stroke="#999" stroke-width="1.5" marker-end="url(#arrC)" marker-start="url(#arrC)"/>
+    <text x="404" y="152" fill="#555" font-size="11">E1 · JWT</text>
+    <line x1="376" y1="204" x2="446" y2="286" stroke="#999" stroke-width="1.5" marker-end="url(#arrC)" marker-start="url(#arrC)"/>
+    <text x="392" y="255" text-anchor="middle" fill="#555" font-size="11">sign-in</text>
+    <line x1="296" y1="224" x2="296" y2="320" stroke="#999" stroke-width="1.5" marker-end="url(#arrC)"/>
+    <text x="330" y="276" text-anchor="middle" fill="#555" font-size="11">display</text>
+    <line x1="513" y1="180" x2="513" y2="266" stroke="#999" stroke-width="1.5" marker-end="url(#arrC)"/>
+    <text x="508" y="205" text-anchor="end" fill="#555" font-size="11">authorize</text>
+    <line x1="657" y1="180" x2="657" y2="316" stroke="#999" stroke-width="1.5" marker-end="url(#arrC)"/>
+    <text x="700" y="215" text-anchor="middle" fill="#555" font-size="11">E2 · E3 out</text>
+    <line x1="585" y1="230" x2="585" y2="180" stroke="#999" stroke-width="1.5" marker-end="url(#arrC)"/>
+    <text x="592" y="205" fill="#555" font-size="11">T2–T7 reads</text>
+    <line x1="430" y1="60" x2="166" y2="60" stroke="#999" stroke-width="1.5" marker-end="url(#arrC)" marker-start="url(#arrC)"/>
+    <text x="298" y="53" text-anchor="middle" fill="#555" font-size="11">Appendix A file · receipt</text>
+  </svg>
+  </div>
+
+  <p>Blue outlines are what AppAxis builds. Grey boxes exist today or are Tenna's to build. The one shared table is
+    users. Everything else the ELD needs from Tenna it reads over an API when it needs it and does not copy.</p>
+
+  <h3>Four rules of the split</h3>
+  <ol>
+    <li>Tenna IDs are the join keys. The ELD stores a reference and never copies a Tenna-owned record into its schema.</li>
+    <li>On-demand reads, not bulk sync. Nothing is copied on a schedule, so the ELD never holds a stale person or asset.</li>
+    <li>New, purpose-built APIs (T1–T8) rather than direct access to Tenna's existing ones, each scoped to what the ELD needs.</li>
+    <li>The certifiable record stays in the ELD schema. Tenna receives copies of events (E2), never the record of truth.</li>
+  </ol>
+
+  <h3>Assumptions</h3>
+  <ul>
+    <li>The ELD API is deployed in Tenna's AWS account, in the VPC that can reach the Tenna Postgres instance.</li>
+    <li>Runtime, framework and API gateway are Tenna's choice. They are placeholders in section 7 until Tenna fills them in.</li>
+    <li>A Cognito JWT from the shared user pool is the bearer credential for both the mobile app and the micro-frontend.
+      The ELD API validates it with the pool's public keys and reads carrier and role claims from it.</li>
+    <li>Driver events are never lost by design: the transactional outbox pattern is used on the phone and on the server (section 4). This is an architectural commitment, not a tuning choice.</li>
+    <li>The ELD backend lives in a repo Tenna owns, alongside the micro-frontend repo P5 already calls for. Confirm.</li>
+  </ul>
+
+  <h2 id="s2">2. Ownership split</h2>
+
+  <p>Two axes, as on the Wireframes page: <i>origin</i> is where a value is first produced, <i>system of record</i> is
+    who keeps it and produces it in an audit. This is the Wireframes table corrected for 8 September. The Position row
+    is now ELD-owned as stamped on events, with the raw stream not retained. The DOT audit bundle row now points at Q19,
+    not P3. Three rows stay open.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Data element</th><th>Origin</th><th>System of record</th><th>Surface</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><th colspan="5">Identity and organization</th></tr>
+      <tr><td>Driver identity and credential</td><td>Tenna platform</td><td>Tenna</td><td>T1, T2</td><td>P1, P2</td></tr>
+      <tr><td>Driver roster, CDL number and state</td><td>Tenna platform</td><td>Tenna</td><td>T2</td><td></td></tr>
+      <tr><td>Carrier name, USDOT, home terminal</td><td>Tenna platform</td><td>Tenna</td><td>T3</td><td></td></tr>
+      <tr><td>Auth session and tokens</td><td>Tenna platform</td><td>Tenna</td><td>T1</td><td>Offline grace: <b>open</b></td></tr>
+      <tr><td>Module user permissions</td><td>Tenna platform</td><td>Tenna</td><td>T8</td><td>P5</td></tr>
+      <tr><th colspan="5">Vehicle and device</th></tr>
+      <tr><td>Asset name and type</td><td>Tenna platform</td><td>Tenna</td><td>T4</td><td></td></tr>
+      <tr><td>VIN</td><td>Tracker (observed), Tenna (of record)</td><td>Tenna, ELD stamps what it read</td><td>B1, T4</td><td>Mismatch flagged on the event and in W11</td></tr>
+      <tr><td>Tracker serial (item 0x0F)</td><td>Tracker</td><td>Tenna</td><td>B1, T4</td><td>The join everything hangs on</td></tr>
+      <tr><td>Tracker BLE address (char. 0x2A59)</td><td>Tracker</td><td>ELD</td><td>B1</td><td>A connection detail, not a business key</td></tr>
+      <tr><td>Tracker protocol version</td><td>Tracker (inferred)</td><td>ELD</td><td>B1</td><td></td></tr>
+      <tr><td>Tracker firmware version</td><td>Tenna platform</td><td><b>Open</b></td><td>T4</td><td>No BLE characteristic exposes it</td></tr>
+      <tr><th colspan="5">Telemetry</th></tr>
+      <tr><td>Odometer, engine hours</td><td>Tracker</td><td>ELD</td><td>B1, S1</td><td>Owned as stamped on events, not as streamed</td></tr>
+      <tr><td>Engine power state</td><td>Derived (RPM over 200)</td><td>ELD</td><td>B1, S1</td><td></td></tr>
+      <tr><td>Road speed and motion state</td><td>Tracker</td><td>ELD</td><td>B1</td><td>The moving-or-not judgement is the ELD's</td></tr>
+      <tr><td>Position (lat, lon)</td><td>Tracker</td><td>ELD, as stamped on events</td><td>B1, S1</td><td>Raw stream not retained (P3, 8 Sep). Corrected from the Wireframes table</td></tr>
+      <tr><td>Geocoded place name</td><td>Derived</td><td>ELD</td><td>S1</td><td></td></tr>
+      <tr><th colspan="5">HOS record</th></tr>
+      <tr><td>Duty-status events, derived clocks, sequence number</td><td>Derived</td><td>ELD</td><td>S1, E1</td><td></td></tr>
+      <tr><td>Annotations, certifications, edits and edit history</td><td>Entered</td><td>ELD</td><td>S2</td><td></td></tr>
+      <tr><td>HOS violations, malfunctions and diagnostics</td><td>Derived</td><td>ELD</td><td>S1, E2</td><td>Egress gated on P4</td></tr>
+      <tr><td>Unidentified-driving records and their dispositions</td><td>Tracker, then Entered</td><td>ELD</td><td>B1, S3</td><td></td></tr>
+      <tr><td>Non-HOS move stamps, work order reference</td><td>Entered, Tenna platform</td><td>ELD, Tenna</td><td>S3, T6</td><td>T6 is new</td></tr>
+      <tr><th colspan="5">Compliance outputs</th></tr>
+      <tr><td>Output file, transfer records, increment plan</td><td>Derived</td><td>ELD</td><td>S4</td><td></td></tr>
+      <tr><td>DOT audit bundle</td><td>Derived</td><td>ELD</td><td>S4</td><td>Scope is <b>Q19, open</b>. Corrected from the Wireframes table, which said P3</td></tr>
+      <tr><th colspan="5">Cross-system</th></tr>
+      <tr><td>ELD events into Tenna</td><td>Derived</td><td>ELD, Tenna receives a copy</td><td>E2</td><td>P4 list open</td></tr>
+      <tr><td>DVIR status and handoff</td><td>Tenna platform</td><td>Tenna</td><td>T7</td><td></td></tr>
+      <tr><td>Yard geofences</td><td>Tenna platform</td><td><b>Source open</b></td><td>T5, S5</td><td>Tenna Sites over the API, or drawn in the ELD</td></tr>
+      <tr><td>Carrier HOS policy</td><td>Entered</td><td>ELD</td><td>S5</td><td></td></tr>
+      <tr><td>Push notifications</td><td>Derived</td><td>ELD (driver-local), Tenna (cross-user)</td><td>E3</td><td>P4</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Retention</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Where</th><th>What</th><th>How long</th><th>Basis</th></tr></thead>
+    <tbody>
+      <tr><td>Device</td><td>HOS log for the signed-in driver</td><td>8 days</td><td>§395.8(k), Q22</td></tr>
+      <tr><td>Device</td><td>Unaccepted unidentified-driving records</td><td>8 days</td><td>§4.5.1.7(c), Q22</td></tr>
+      <tr><td>Device</td><td>Raw tracker readings</td><td>10 days, rolling. Parsed reading plus the assembled TLV payload per reading; BLE fragments are not kept. About 45 MB at the measured 2.1 s cadence, 24x7</td><td>AppAxis position, 9 September. Supersedes "last ~3 readings" (Tom, 8 Sep) and "24 hours" (Certification Roadmap, Stage B). Confirm with Tom on Thursday 10 September</td></tr>
+      <tr><td>Device</td><td>Crash diagnostics buffer</td><td>Engineering choice</td><td>Not compliance data. Never leaves the device except in a bug report</td></tr>
+      <tr><td>Host</td><td>Unidentified-driving records</td><td>6 months from receipt</td><td>§395.8(k)(1). Record-level <code>retain_until</code>, source device stamped</td></tr>
+      <tr><td>Host</td><td>HOS records, edit history, output files, transfers</td><td>6 months minimum</td><td>§395.8(k). A carrier may want longer for its own reasons. Product question, not an architecture one</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="s3">3. Contract A: the ELD schema</h2>
+
+  <p>Postgres, schema <code>eld</code>, in Tenna's instance. Most of these tables come straight from what the two
+    native apps already store. Each event the apps write today has a per-driver sequence number, a type and code, a
+    timestamp, odometer and engine hours with flags that say whether each value was read or estimated, a location, an
+    origin, and a <code>notBefore</code> time when the change happened somewhere inside a gap in the tracker data.
+    Unidentified driving comes off the tracker as pairs of events identified by reason code and device time. The apps
+    only implement event types 1, 2 and 6 so far. Types 3, 4, 5 and 7, and edit versioning, are new. Those tables are
+    proposals, not copies of working code.</p>
+
+  <h3>Devices and tracker links</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>eld.devices</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td>Generated on the device at first launch, primary key</td></tr>
+      <tr><td>platform</td><td>text</td><td>ios | android</td></tr>
+      <tr><td>app_version</td><td>text</td><td>Updated on every sync. The registration's software version string</td></tr>
+      <tr><td>eld_identifier</td><td>text</td><td>The registered ELD identifier this install reports (Stage F)</td></tr>
+      <tr><td>registered_at</td><td>timestamptz</td><td></td></tr>
+      <tr><td>last_seen_at</td><td>timestamptz</td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>eld.tracker_links</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>tracker_serial</td><td>text</td><td>Item 0x0F, also the advertised name after the WQ- prefix. Primary key with asset_id</td></tr>
+      <tr><td>asset_id</td><td>text</td><td>Tenna asset id, opaque reference (T4)</td></tr>
+      <tr><td>carrier_id</td><td>text</td><td>Tenna carrier id</td></tr>
+      <tr><td>first_seen_at, last_seen_at</td><td>timestamptz</td><td></td></tr>
+      <tr><td>protocol_version</td><td>smallint</td><td>Inferred from the frame shape (protocol 1 today)</td></tr>
+      <tr><td>ble_address_observed</td><td>text</td><td>Char. 0x2A59, byte-reversed. Diagnostic only, never a key</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>eld.events (S1, the log)</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td>Client-generated UUIDv7. Primary key and the idempotency key for E1</td></tr>
+      <tr><td>seq</td><td>integer</td><td>Per driver, per ELD, assigned on the device (§4.5.1.1). Unique on (device_id, driver_id, seq)</td></tr>
+      <tr><td>carrier_id</td><td>text</td><td>Tenant key, on every row</td></tr>
+      <tr><td>driver_id</td><td>text</td><td>Tenna user id. Null for unidentified-driver events</td></tr>
+      <tr><td>asset_id</td><td>text</td><td>Tenna asset id, opaque</td></tr>
+      <tr><td>device_id</td><td>uuid</td><td>eld.devices</td></tr>
+      <tr><td>event_type</td><td>smallint</td><td>1 duty status, 2 intermediate, 3 special driving, 4 certification, 5 login/logout, 6 engine power, 7 malfunction/diagnostic</td></tr>
+      <tr><td>event_code</td><td>smallint</td><td>Code within the type, per Table 6</td></tr>
+      <tr><td>record_status</td><td>smallint</td><td>1 active, 2 inactive changed, 3 inactive change requested, 4 inactive change rejected</td></tr>
+      <tr><td>record_origin</td><td>smallint</td><td>1 automatic, 2 driver, 3 other authenticated user, 4 unidentified</td></tr>
+      <tr><td>at_utc</td><td>timestamptz</td><td>Device clock. The app's epoch-ms timestamp</td></tr>
+      <tr><td>not_before_utc</td><td>timestamptz</td><td>From the app's notBefore. Set when the transition fell in a telemetry gap: the change happened in [not_before_utc, at_utc]. Null when observed directly</td></tr>
+      <tr><td>odometer_mi</td><td>numeric(9,1)</td><td>Null when the tracker could not supply it</td></tr>
+      <tr><td>odometer_is_relative</td><td>boolean</td><td>True when the value is estimated, not read. Stored next to the value</td></tr>
+      <tr><td>engine_hours</td><td>numeric(9,1)</td><td></td></tr>
+      <tr><td>engine_hours_accumulated</td><td>boolean</td><td>True when the ELD added up the hours itself instead of reading them from the ECM</td></tr>
+      <tr><td>hours_source</td><td>text</td><td>ecm | tracker_calculated (Q2)</td></tr>
+      <tr><td>lat, lon</td><td>numeric(9,6)</td><td>As stamped. Precision reduced to 1 decimal for personal conveyance at output time, not at rest</td></tr>
+      <tr><td>location_text</td><td>text</td><td>Geocoded description</td></tr>
+      <tr><td>distance_since_last_coord</td><td>smallint</td><td>§4.5.1.1 item, miles</td></tr>
+      <tr><td>vin_observed</td><td>text</td><td>Item 0x01 at the time of the event. Compared to T4 VIN of record</td></tr>
+      <tr><td>malfunction_indicator, diagnostic_indicator</td><td>boolean</td><td>State at time of event</td></tr>
+      <tr><td>comment</td><td>text</td><td>Driver annotation, 4 to 60 characters when present</td></tr>
+      <tr><td>line_check</td><td>char(2)</td><td>Appendix A line check value, computed on insert</td></tr>
+      <tr><td>received_at</td><td>timestamptz</td><td>Server clock</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Append-only. No UPDATE on this table except <code>record_status</code>, which changes only through the edit path.
+    An edit inserts a new active row and points at the old one through <code>eld.event_versions</code>.</p>
+
+  <h3>eld.event_versions (S2, edits and annotations)</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td></td></tr>
+      <tr><td>event_id</td><td>uuid</td><td>The row this version produced (or would produce, while pending)</td></tr>
+      <tr><td>prior_version_id</td><td>uuid</td><td>The row it supersedes. Null for originals</td></tr>
+      <tr><td>version</td><td>integer</td><td>1 for the original</td></tr>
+      <tr><td>proposed_by, decided_by</td><td>text</td><td>Tenna user ids. Driver, or the supervisor at W5</td></tr>
+      <tr><td>decision</td><td>text</td><td>pending | accepted | rejected. Pending proposals never expire</td></tr>
+      <tr><td>annotation</td><td>text</td><td>Required on every edit (§395.30)</td></tr>
+      <tr><td>at_utc, decided_at_utc</td><td>timestamptz</td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <ul>
+    <li>Originals are preserved. Nothing is ever deleted from <code>eld.events</code>.</li>
+    <li>Automatically recorded driving time cannot be shortened or reassigned by an edit. The one permitted change is
+      to end a drive segment at a power-down the app missed.</li>
+    <li>Reassigning a segment to another driver requires both drivers' acceptance, recorded as two version rows.</li>
+    <li>A certified day with an accepted edit gets a recertification requirement (type 4, next code).</li>
+  </ul>
+
+  <h3>eld.outbox (server-side transactional outbox)</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td>UUIDv7. Also the dedupe key the consumer sees</td></tr>
+      <tr><td>carrier_id</td><td>text</td><td>Tenant key. Relay publishes in id order per carrier</td></tr>
+      <tr><td>aggregate_type, aggregate_id</td><td>text, uuid</td><td>What the message is about: event, ud_record, malfunction, transfer, proposal</td></tr>
+      <tr><td>message_type</td><td>text</td><td>The E2 event_type, for example eld.malfunction.raised</td></tr>
+      <tr><td>payload</td><td>jsonb</td><td>The E2/E3 envelope, fully rendered at write time so the relay needs no joins</td></tr>
+      <tr><td>created_at</td><td>timestamptz</td><td>Same transaction as the row it announces</td></tr>
+      <tr><td>published_at</td><td>timestamptz</td><td>Null until Tenna's intake acknowledges. Published rows are pruned after 7 days</td></tr>
+      <tr><td>attempts, next_attempt_at, last_error</td><td>integer, timestamptz, text</td><td>Backoff state. A row that exhausts attempts stays put and raises an operator alert; it is never dropped</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <ul>
+    <li>Every write that must reach Tenna (E2, E3) inserts its outbox row in the <i>same</i> database transaction as the
+      business row. Either both commit or neither does, so there is no window in which an event exists but its
+      notification was lost, and no window in which Tenna is told about an event that was rolled back.</li>
+    <li>A relay worker polls unpublished rows (ordered by id, <code>FOR UPDATE SKIP LOCKED</code> so several instances
+      can run), posts them to Tenna's intake, and sets <code>published_at</code> on acknowledgment. Delivery is
+      at-least-once; Tenna dedupes on the outbox id, which travels in the envelope.</li>
+    <li>The same table also holds internal work that must not be lost: transfer requests and
+      eRODS transfer attempts are enqueued here and executed by the same relay, so a crash between "transfer row
+      written" and "file sent" resumes rather than disappears.</li>
+  </ul>
+
+  <h3>Certifications, login sessions, power events</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Table</th><th>Columns</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>eld.certifications</td><td>id, event_id, driver_id, period_date, certification_number, certified_at</td>
+        <td>Type 4 events. period_date is the 24-hour period certified in the home-terminal zone. certification_number is the event code (1 first, 2–9 recertifications)</td></tr>
+      <tr><td>eld.login_sessions</td><td>id, driver_id, device_id, login_event_id, logout_event_id, started_at, ended_at</td>
+        <td>Type 5 events. Session is Tenna's (T1); the ELD event is the ELD's</td></tr>
+      <tr><td>eld.power_events</td><td>id, event_id, asset_id, kind, at_utc, odometer_mi, engine_hours, lat, lon</td>
+        <td>Type 6 kept in its own list as the apps do today. Idle shutdown (SPN 591–593, if exposed) is a power-down and does not change duty status</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>eld.malfunctions (type 7)</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>id, carrier_id, asset_id, device_id, driver_id</td><td></td><td></td></tr>
+      <tr><td>category</td><td>char(1)</td><td>Malfunction P power, E engine sync, T timing, L positioning, R recording, S transfer; diagnostic 1–6</td></tr>
+      <tr><td>raised_event_id, cleared_event_id</td><td>uuid</td><td>The type 7 events</td></tr>
+      <tr><td>raised_at, cleared_at</td><td>timestamptz</td><td>raised_at starts the §395.34 8-day remediation clock</td></tr>
+      <tr><td>remediate_by</td><td>timestamptz</td><td>raised_at + 8 days, included in the E2 envelope</td></tr>
+      <tr><td>driver_acknowledged_at</td><td>timestamptz</td><td>D18</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>eld.ud_records (S3, unidentified driving)</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td></td></tr>
+      <tr><td>tracker_serial, reason, time_epoch_sec</td><td>text, smallint, bigint</td><td>The natural key from the drained UDRV frame. UNIQUE, which is the dedupe: the tracker repeats each frame 2–4 times</td></tr>
+      <tr><td>carrier_id, asset_id</td><td>text</td><td>asset resolved through eld.tracker_links at receipt</td></tr>
+      <tr><td>start_at, end_at</td><td>timestamptz</td><td>From the BEGIN_STOP / END_STOP pair (reason codes 12, 13). Device clock</td></tr>
+      <tr><td>loc_time_epoch_sec</td><td>bigint</td><td>UDRV_LOCTIME as received, kept separately because it is the tracker's clock</td></tr>
+      <tr><td>miles, odometer_mi, engine_hours</td><td>numeric</td><td></td></tr>
+      <tr><td>lat, lon</td><td>numeric(9,6)</td><td></td></tr>
+      <tr><td>accepted_state</td><td>text</td><td>unreviewed | driver_declined | carrier_annotated | assigned_pending | assigned_accepted | assigned_rejected</td></tr>
+      <tr><td>driver_suggestion, driver_remark</td><td>text</td><td>D22: the signed-in driver's "not me" and note</td></tr>
+      <tr><td>carrier_reason</td><td>text</td><td>Five fixed reasons plus carrier additions from eld.carrier_policy</td></tr>
+      <tr><td>assigned_driver_id, annotated_by</td><td>text</td><td>Tenna user ids</td></tr>
+      <tr><td>received_at</td><td>timestamptz</td><td></td></tr>
+      <tr><td>retain_until</td><td>timestamptz</td><td>received_at + 6 months, record-level</td></tr>
+      <tr><td>source_device_id</td><td>uuid</td><td>Which phone drained it</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>eld.output_files and eld.transfers (S4)</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Table</th><th>Columns</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>eld.output_files</td><td>id, carrier_id, driver_id, from_day, to_day, generated_at, generated_by, object_key, file_sha256, file_check</td>
+        <td>One row per Appendix A file. The file itself is in object storage; the hash and file check value are here</td></tr>
+      <tr><td>eld.transfers</td><td>id, output_file_id (nullable), method, caller, output_file_comment, attempted_at, result, receipt, error_text</td>
+        <td>method web | email | display. caller is the driver (D17) or the supervisor (W17). output_file_comment is the officer's code. A display-only inspector session (D15, D16) is logged with method display and no file, so a no-signal roadside stop still leaves a record</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>eld.carrier_policy (S5)</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>carrier_id</td><td>text</td><td>Primary key</td></tr>
+      <tr><td>cycle_rule</td><td>text</td><td>60/7 | 70/8</td></tr>
+      <tr><td>pc_allowed, ym_allowed</td><td>boolean</td><td>Personal conveyance, yard move</td></tr>
+      <tr><td>warn_thresholds</td><td>jsonb</td><td>Minutes before each limit for W2 and D-screen warnings</td></tr>
+      <tr><td>ud_review_cadence_days</td><td>smallint</td><td></td></tr>
+      <tr><td>ud_reasons</td><td>text[]</td><td>Carrier additions to the five fixed reasons</td></tr>
+      <tr><td>nonhos_roles</td><td>text[]</td><td>Tenna role names allowed to stamp a non-HOS move (D27)</td></tr>
+      <tr><td>yard_geofence_source</td><td>text</td><td>tenna_sites | eld_drawn. <b>Open</b> (T5)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Cross-cutting rules</h3>
+  <ul>
+    <li>Every timestamp is <code>timestamptz</code> in UTC. The apps use epoch milliseconds UTC everywhere. The tracker's
+      UDRV_TIME and LOCTIME are epoch seconds on the device clock and are kept in their own columns where they matter.</li>
+    <li>Home-terminal time zone is read from T3 for display and for the 24-hour certification boundary. It is not stored on events.</li>
+    <li>Tenna ids are opaque text. No foreign keys into Tenna's schema and no cross-schema joins. Names are resolved at read time through T2 and T4.</li>
+    <li>Tenant isolation is <code>carrier_id</code> on every table. Row-level security keyed on the JWT's carrier claim is
+      the recommendation; the API enforces it regardless.</li>
+    <li>Ids are UUIDv7 everywhere. The leading 48 bits are a millisecond timestamp, so ids sort by creation time and a
+      B-tree index on them grows at one end instead of splitting randomly. Generators must use a monotonic counter for
+      ids created in the same millisecond. On the phone the id is stored as a 16-byte blob. The id is for dedupe and
+      index locality only; the per-driver <code>seq</code> remains the order of record.</li>
+    <li>No request handler talks to Tenna or FMCSA directly. Anything that leaves the ELD is written to <code>eld.outbox</code> in the same transaction as the row it concerns and sent by the relay.</li>
+    <li>JSON contract: the apps' session JSON distinguishes a missing key from an explicit null. The API normalizes
+      inbound payloads to explicit nulls before validation, so the schema never has to model "absent".</li>
+  </ul>
+
+  <h2 id="s4">4. Contract B: the ELD API</h2>
+
+  <p>REST over HTTPS, JSON bodies. Bearer token is the Cognito JWT from the shared pool. Base path placeholder
+    <code>/eld/v1</code>. Grouped by who calls it.</p>
+
+  <h3>E1: mobile sync</h3>
+  <p>Resource-oriented. Collections are plural nouns, creates are <code>POST</code> to the collection with a single
+    object or an array, set-once state is <code>PUT</code>, partial updates are <code>PATCH</code>, and reads that belong
+    to one driver are nested under <code>/drivers/{driver_id}</code>. A batch create returns 200 with one result per
+    item; a single create returns 201.</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Endpoint</th><th>Purpose</th><th>Rules</th></tr></thead>
+    <tbody>
+      <tr><td><code>POST /events</code> (array body)</td><td>Upload recorded events</td>
+        <td>Idempotent on event <code>id</code>. Response lists accepted, duplicate, rejected per item. Ordering is by (driver_id, seq). A gap in seq is reported in the response, not rejected, because the missing event may be in the next batch</td></tr>
+      <tr><td><code>GET /drivers/{driver_id}/events?from&amp;to</code></td><td>Rebuild a replaced or wiped phone; fetch a day for D11 or D16</td>
+        <td><code>from</code> and <code>to</code> are UTC timestamps on <code>at_utc</code>, <code>from</code> inclusive and <code>to</code> exclusive. <code>to</code> defaults to now; the window is capped at 31 days per call and paged. A rebuild asks for the last 8 days. The host has every event (P3), so the phone never has to keep more than that</td></tr>
+      <tr><td><code>POST /ud-records</code> (array body)</td><td>Upload drained unidentified-driving frames</td>
+        <td>Dedupe on the natural key. Response is per key, and the phone purges the tracker only after every key is accepted</td></tr>
+      <tr><td><code>GET /drivers/{driver_id}/ud-records?status</code></td><td>D22 in-cab list, D34 pending assignments</td><td><code>status=unreviewed</code> for D22, <code>status=assigned_pending</code> for D34</td></tr>
+      <tr><td><code>PATCH /ud-records/{id}</code></td><td>D22 "not me" and remark</td><td>Only <code>driver_suggestion</code> and <code>driver_remark</code> are writable from the phone</td></tr>
+      <tr><td><code>PUT /ud-records/{id}/assignment/decision</code></td><td>D34 accept or reject an assignment</td><td>Set once, same 200/409 rule as proposal decisions</td></tr>
+      <tr><td><code>POST /transfer-requests</code></td><td>D17 roadside transfer</td><td>Body: last 8 days, method web or email, officer code as <code>output_file_comment</code>. Returns 202; the phone polls <code>GET /transfer-requests/{id}</code> and shows the result on D17</td></tr>
+      <tr><td><code>GET /drivers/{driver_id}/proposals?status=pending</code></td><td>Pending edit proposals for D20</td><td></td></tr>
+      <tr><td><code>PUT /proposals/{id}/decision</code></td><td>D21 accept or reject</td>
+        <td>Set once. A repeat with the same body returns 200 and changes nothing; a conflicting body returns 409. Writes the version row and the new event row in one transaction</td></tr>
+      <tr><td><code>POST /power-events</code>, <code>POST /malfunctions</code> (array body)</td><td>Type 6 and 7 lists</td><td>Same idempotency rule as events</td></tr>
+      <tr><td><code>PATCH /malfunctions/{id}</code></td><td>Clear a malfunction, record driver acknowledgment</td><td>Only <code>cleared_at</code> and <code>driver_acknowledged_at</code> are writable</td></tr>
+      <tr><td><code>GET /me</code></td><td>Everything the phone needs after sign-in</td>
+        <td>Driver attributes (T2), home terminal tz (T3), carrier policy (S5), entitlements (T8). One call, cached for the session. A composite read-only view, not a stored resource</td></tr>
+      <tr><td><code>GET /assets?tracker_serial=</code></td><td>Resolve a scanned tracker to an asset (D2)</td><td>Same endpoint the portal roster uses (T4 behind it)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Never losing a driver event: the outbox pattern, twice</h3>
+  <p>A driver event can be lost at two hops: between the app recording it and the network, and between the ELD API
+    storing it and anything downstream. Both hops use the transactional outbox pattern, so a record and the intent
+    to deliver it are always written together.</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Hop</th><th>Transaction</th><th>Relay</th><th>Idempotency</th><th>Fails how</th></tr></thead>
+    <tbody>
+      <tr><td>Phone to ELD API (E1)</td>
+        <td>The event row in the on-device log and its outbox entry are written in one SQLite transaction (Room on Android, GRDB or SQLite directly on iOS). The UI never shows an event that is not already queued</td>
+        <td>A sync worker reads the device outbox in seq order, posts batches of up to 200, and deletes an entry only when the server says accepted or duplicate. Backoff on failure. Survives process death, reboot, airplane mode, and the OS killing the app for background CPU</td>
+        <td>Event <code>id</code> (UUIDv7), assigned on the device</td>
+        <td>Loudly. An entry older than 24 hours or rejected by the server raises the recording diagnostic on D18 and is listed in W10. It is never dropped; a driver can see the count of unsynced events on D4</td></tr>
+      <tr><td>ELD API to Tenna (E2, E3) and to FMCSA</td>
+        <td>The event insert and its <code>eld.outbox</code> row commit together in Postgres</td>
+        <td>The outbox relay, above</td>
+        <td>Outbox <code>id</code> in the envelope; Tenna dedupes</td>
+        <td>Rows that exhaust retries stay unpublished and page an operator</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Device time is authoritative for <code>at_utc</code>; the server stamps <code>received_at</code>. If the two differ
+    by more than 60 seconds at receipt, the server records a diagnostic note on the batch and the phone raises the timing
+    check (malfunction category T) if the skew persists.</p>
+
+  <p>An idempotent batch, end to end:</p>
+  <ol>
+    <li>The app records an event, assigns the next seq for this driver on this device, and in one local transaction writes it to the log and to the device outbox with a UUIDv7 id.</li>
+    <li>The sync worker takes up to 200 outbox entries in seq order and posts them as one array to <code>/events</code> with the JWT.</li>
+    <li>The server validates the JWT, checks the carrier claim against every row, and in one Postgres transaction inserts each event with <code>ON CONFLICT (id) DO NOTHING</code> together with any <code>eld.outbox</code> rows the event implies.</li>
+    <li>The response marks each id accepted or duplicate, and lists any seq gaps it now sees for that driver.</li>
+    <li>The app deletes accepted and duplicate ids from its outbox. Rejected ids stay and surface on D18 as a recording diagnostic.</li>
+    <li>If the connection drops before the response, the app retries the same batch. Step 3 makes the retry harmless.</li>
+    <li>The server relay publishes the new outbox rows to Tenna and marks them published on acknowledgment.</li>
+  </ol>
+
+  <h3>Micro-frontend (W1–W19)</h3>
+  <p>Same conventions as E1. Long-running work (transfers, audit exports) is modelled as a request resource: the
+    <code>POST</code> returns 202 with a <code>Location</code>, and the client polls or lists it.</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Area</th><th>Endpoints</th><th>Screens</th></tr></thead>
+    <tbody>
+      <tr><td>Drivers and logs</td><td><code>GET /drivers</code>; <code>GET /drivers/{id}/days?from&amp;to</code> (per-day summaries: totals, certification, pending edits); <code>GET /drivers/{id}/events?from&amp;to</code> (shared with E1); <code>GET /events/{id}/versions</code></td><td>W3, W4</td></tr>
+      <tr><td>Proposals</td><td><code>POST /proposals</code>; <code>GET /proposals?status</code>; <code>GET /proposals/{id}</code></td><td>W5, W6</td></tr>
+      <tr><td>Unidentified driving</td><td><code>GET /ud-records?status</code>; <code>PATCH /ud-records/{id}</code> (carrier_reason); <code>PUT /ud-records/{id}/assignment</code> (assigned_driver_id, replaceable while pending)</td><td>W16</td></tr>
+      <tr><td>Roster</td><td><code>GET /assets</code> with ECM-hours availability and VIN-mismatch flags; <code>GET /assets/{id}/odometer-jumps?from&amp;to</code></td><td>W11, W12, W19</td></tr>
+      <tr><td>Malfunctions</td><td><code>GET /malfunctions?status=open</code>; <code>GET /malfunctions/{id}</code></td><td>W10</td></tr>
+      <tr><td>Transfers</td><td><code>POST /transfer-requests</code> (driver_id, from, to up to 30 days, output_file_comment) returns 202; <code>GET /transfer-requests/{id}</code> lists the increments it split into and each transfer's result; <code>GET /transfers?from&amp;to</code></td><td>W14, W17</td></tr>
+      <tr><td>Inspector view</td><td><code>GET /drivers/{id}/inspection-record?from&amp;to</code>, a read-only view in FMCSA display order</td><td>W18</td></tr>
+      <tr><td>Audit export</td><td><code>POST /audit-exports</code> returns 202; <code>GET /audit-exports/{id}</code></td><td>W13. Scope is Q19, <b>open</b></td></tr>
+      <tr><td>Settings</td><td><code>GET</code>, <code>PUT /carrier-policy</code> (singleton per carrier, from the JWT)</td><td>W15</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Compliance outputs</h3>
+  <ul>
+    <li>Output file generation per Appendix A: header, event lists, comments, CMV list, user list, unidentified driver
+      records, malfunction and diagnostic records, with a line check value on every line and a file check value at the end.</li>
+    <li>Roadside transfer (D17): web service first, email co-equal. The officer's code goes in the output file comment. The
+      receipt or error is stored on the transfer row either way.</li>
+    <li>Host-initiated transfer (W17): the same generator behind the same <code>transfer-requests</code> resource, capped at 30 days per request, split automatically into
+      increments the eRODS endpoint accepts.</li>
+  </ul>
+
+  <h3>E2 and E3: egress to Tenna</h3>
+  <p>The ELD emits an envelope to Tenna's notification infrastructure and never a recipient list. Tenna resolves who
+    hears about it from its own org chart and renders its own template. Every envelope is published from
+    <code>eld.outbox</code> by the relay, never directly from a request handler, and includes the outbox id for dedupe.</p>
+<pre>{ "id": "0192a7e4-6c1b-7d3e-9f00-2b4c8e1a5d77",
+  "event_type": "eld.malfunction.raised",
+  "carrier_id": "car_0413",
+  "subject_ids": { "asset_id": "ast_2181", "driver_id": "usr_8f21c4" },
+  "at_utc": "2026-09-09T14:02:11Z",
+  "deep_link": "/eld/malfunctions/mf_2210" }</pre>
+  <p>Candidate event list, proposed, P4 open: malfunction raised, edit proposal answered, unidentified-driving record
+    awaiting review, log certified, inspection performed.</p>
+
+  <h3>Conventions</h3>
+  <ul>
+    <li><b>Errors.</b> RFC 9457 problem details: <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, plus a per-item <code>errors[]</code> on batch endpoints.</li>
+    <li><b>Pagination.</b> Cursor-based, <code>?cursor&amp;limit</code>, limit capped at 500.</li>
+    <li><b>Versioning.</b> Path version (<code>/v1</code>). Additive changes do not bump it. The mobile app sends its version in a header so the server can refuse a build that is too old.</li>
+    <li><b>Rate limits.</b> Per device for E1, per user for the micro-frontend. Generous, because the phone batches. A 429 includes <code>Retry-After</code> and the queue waits that long.</li>
+  </ul>
+
+  <h2 id="s5">5. Contract C: what the ELD needs from Tenna</h2>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Surface</th><th>Fields</th><th>Why the ELD needs it</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><a href="/#s-t1">T1</a> Identity</td><td>Cognito user pool id and app client; the JWT claims the ELD may rely on (sub, carrier, roles); token lifetime</td><td>Sign-in (P2) and every API call</td><td>Pool settled. Offline grace <b>open</b></td></tr>
+      <tr><td><a href="/#s-t2">T2</a> People</td><td><code>{id, name, is_driver, cdl{number, state}, home_terminal, roles[]}</code></td><td>Roster, headers, attribution</td><td>Which attribute marks a driver is <b>open</b> (P1 follow-up). Duplicate CDL must hard-block at provisioning</td></tr>
+      <tr><td><a href="/#s-t3">T3</a> Org</td><td>Carrier name, USDOT, address, terminals with time zone</td><td>Output file header, certification boundary</td><td>Exists in Tenna, needs an endpoint</td></tr>
+      <tr><td><a href="/#s-t4">T4</a> Assets</td><td><code>{id, name, type, vin, tracker{serial}, bus (OBD-II | J1939), ecm_hours_available}</code>, keyed by id or <code>?tracker_serial=</code></td><td>Pairing, VIN cross-check, hours source</td><td>Serial is the join. BLE address is not: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed</td></tr>
+      <tr><td><a href="/#s-t5">T5</a> Sites</td><td>Yard polygons</td><td>Ending a yard move automatically</td><td><b>Source open</b></td></tr>
+      <tr><td><a href="/#s-t6">T6</a> Work orders</td><td>Open work orders for an asset</td><td>D27 shop road test stamp</td><td>New surface</td></tr>
+      <tr><td><a href="/#s-t7">T7</a> DVIR</td><td>Status by asset, launch and return deep links</td><td>D14</td><td>Contract to write</td></tr>
+      <tr><td><a href="/#s-t8">T8</a> Entitlements</td><td>ELD license on the account, supervisor permission, the portal injection point for the micro-frontend</td><td>Sign-in gate, W-screen access</td><td>Injection point is Tamar's</td></tr>
+      <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Shape agreed, list <b>open</b> (P4)</td></tr>
+      <tr><td>Platform</td><td>Postgres instance and <code>eld</code> schema provisioning; AWS account and VPC placement; secrets; CI/CD for the new repos; a way for AppAxis to run the portal locally; the shared component base; the language resource-file convention (Spanish and German exist); server-side error message localization</td><td>Building and deploying at all</td><td>To schedule with Kyle and Tamar</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="s6">6. Key flows</h2>
+
+  <p>Lifelines are Tracker, Phone (the ELD app), ELD API, Tenna, and FMCSA where relevant. Each hop names the contract
+    that handles it.</p>
+
+  <h3>Flow 1 — Pairing and first drive</h3>
+  <div class="tbl-wrap">
+  <svg viewBox="0 0 760 400" role="img" aria-label="Sequence: pairing and first drive"
+       font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
+    <defs><marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/></marker></defs>
+    <g font-weight="700" text-anchor="middle" fill="#1a1a1a">
+      <rect x="40" y="10" width="110" height="30" fill="#f0f0f0" stroke="#999"/><text x="95" y="30">Tracker</text>
+      <rect x="230" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="285" y="30">Phone</text>
+      <rect x="420" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="475" y="30">ELD API</text>
+      <rect x="610" y="10" width="110" height="30" fill="#f0f0f0" stroke="#999"/><text x="665" y="30">Tenna</text>
+    </g>
+    <g stroke="#bbb" stroke-dasharray="4 4"><line x1="95" y1="40" x2="95" y2="390"/><line x1="285" y1="40" x2="285" y2="390"/><line x1="475" y1="40" x2="475" y2="390"/><line x1="665" y1="40" x2="665" y2="390"/></g>
+    <g stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arr1)">
+      <line x1="285" y1="75" x2="95" y2="75"/>
+      <line x1="95" y1="110" x2="285" y2="110"/>
+      <line x1="285" y1="145" x2="475" y2="145"/>
+      <line x1="475" y1="180" x2="665" y2="180"/>
+      <line x1="665" y1="215" x2="475" y2="215"/>
+      <line x1="475" y1="250" x2="285" y2="250"/>
+      <line x1="285" y1="285" x2="95" y2="285"/>
+      <line x1="95" y1="320" x2="285" y2="320"/>
+      <line x1="285" y1="375" x2="475" y2="375"/>
+    </g>
+    <g fill="#1a1a1a" text-anchor="middle">
+      <text x="190" y="69">scan: service 0x1816, name WQ-serial · B1</text>
+      <text x="190" y="104">advertisement, RSSI · B1</text>
+      <text x="380" y="139">GET /assets?tracker_serial · E1</text>
+      <text x="570" y="174">GET assets?tracker_serial · T4</text>
+      <text x="570" y="209">asset id, name, VIN of record</text>
+      <text x="380" y="244">asset: name, type, VIN of record</text>
+      <text x="190" y="279">write 0x0201 to 0x2A57: start TLV · B1</text>
+      <text x="190" y="314">notify 0x2A5B: VIN 0x01 (ignition on)</text>
+      <text x="380" y="369">POST /events: login, pairing, vin_observed · E1</text>
+    </g>
+    <rect x="200" y="333" width="170" height="24" fill="#f0f0f0" stroke="#999"/>
+    <text x="285" y="350" text-anchor="middle" fill="#1a1a1a">compare VIN, flag mismatch</text>
+  </svg>
+  </div>
+  <ul>
+    <li>The serial in the advertised name is the only key the phone has before it connects. T4 resolves it to an asset; if T4 returns nothing, D2 shows the serial and refuses to pair.</li>
+    <li>With the ignition off, the VIN item is empty (Q3). The cross-check runs on the first frame that includes one, which is the first drive, not pairing.</li>
+    <li>A mismatch does not block recording. The event stores <code>vin_observed</code> and the roster (W11) shows the flag until someone fixes the asset record in Tenna.</li>
+    <li>Hops: B1 for everything to the tracker, E1 for the phone to the API, T4 for the API to Tenna.</li>
+  </ul>
+
+  <h3>Flow 2 — Drive detection and sync</h3>
+  <div class="tbl-wrap">
+  <svg viewBox="0 0 760 400" role="img" aria-label="Sequence: drive detection and event sync"
+       font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
+    <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/></marker></defs>
+    <g font-weight="700" text-anchor="middle" fill="#1a1a1a">
+      <rect x="40" y="10" width="110" height="30" fill="#f0f0f0" stroke="#999"/><text x="95" y="30">Tracker</text>
+      <rect x="230" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="285" y="30">Phone</text>
+      <rect x="420" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="475" y="30">ELD API</text>
+      <rect x="610" y="10" width="110" height="30" fill="#f0f0f0" stroke="#999"/><text x="665" y="30">Postgres eld</text>
+    </g>
+    <g stroke="#bbb" stroke-dasharray="4 4"><line x1="95" y1="40" x2="95" y2="390"/><line x1="285" y1="40" x2="285" y2="390"/><line x1="475" y1="40" x2="475" y2="390"/><line x1="665" y1="40" x2="665" y2="390"/></g>
+    <g stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arr2)">
+      <line x1="95" y1="70" x2="285" y2="70"/>
+      <line x1="95" y1="150" x2="285" y2="150"/>
+      <line x1="285" y1="265" x2="475" y2="265"/>
+      <line x1="475" y1="295" x2="665" y2="295"/>
+      <line x1="475" y1="330" x2="285" y2="330"/>
+      <line x1="285" y1="380" x2="475" y2="380"/>
+    </g>
+    <g fill="#1a1a1a" text-anchor="middle">
+      <text x="190" y="64">speed 0x05 above 5 mph · B1</text>
+      <text x="190" y="144">speed 0 for 3 s · B1</text>
+      <text x="380" y="259">POST /events [{id, seq, ...}] · E1</text>
+      <text x="570" y="289">INSERT events + outbox rows, one txn</text>
+      <text x="380" y="324">accepted · duplicate · rejected, seq gaps</text>
+      <text x="380" y="374">later: GET /drivers/{id}/events?from&amp;to (rebuild)</text>
+    </g>
+    <rect x="160" y="85" width="250" height="40" fill="#f0f0f0" stroke="#999"/>
+    <text x="285" y="101" text-anchor="middle" fill="#1a1a1a">Driving event: type 1 code 3, origin 1</text>
+    <text x="285" y="117" text-anchor="middle" fill="#555">seq assigned; log row + outbox entry, one txn</text>
+    <rect x="180" y="165" width="210" height="72" fill="#f0f0f0" stroke="#999"/>
+    <text x="285" y="182" text-anchor="middle" fill="#1a1a1a">5-minute stationary timer</text>
+    <text x="285" y="198" text-anchor="middle" fill="#555">D29 prompt at 5 min, 1 min to answer</text>
+    <text x="285" y="214" text-anchor="middle" fill="#555">no answer: On Duty, origin 1</text>
+    <text x="285" y="230" text-anchor="middle" fill="#555">answer: driver's status, origin 2</text>
+  </svg>
+  </div>
+  <ul>
+    <li>Motion and stop are the ELD's judgement over the speed item. Driving begins above 5 mph. A stop candidate is three seconds at zero.</li>
+    <li>Every event is created and sequenced on the device before it is sent. The host never assigns seq and never reorders.</li>
+    <li>The event and its outbox entry are one local transaction, so an event the driver can see is by definition an event that will be synced. The device outbox is drained only on server acknowledgment.</li>
+    <li>A rebuild after a lost phone is a read from the host, which is why P3 requires every event to reach the host when recorded.</li>
+    <li>Hops: B1, then E1. Nothing in this flow touches Tenna.</li>
+    <li><b>Motion without sign-in (D35).</b> If the phone's GPS says it is moving, an advertising tracker is in range, and this lasts past the threshold, the app shows the sign-in-or-decline screen. The tracker keeps recording as unidentified driving regardless; this is a prompt, not a record.</li>
+  </ul>
+
+  <h3>Flow 3 — Certification</h3>
+  <div class="tbl-wrap">
+  <svg viewBox="0 0 760 300" role="img" aria-label="Sequence: daily certification"
+       font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
+    <defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/></marker></defs>
+    <g font-weight="700" text-anchor="middle" fill="#1a1a1a">
+      <rect x="40" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="95" y="30">Phone</text>
+      <rect x="325" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="380" y="30">ELD API</text>
+      <rect x="610" y="10" width="110" height="30" fill="#f0f0f0" stroke="#999"/><text x="665" y="30">Tenna</text>
+    </g>
+    <g stroke="#bbb" stroke-dasharray="4 4"><line x1="95" y1="40" x2="95" y2="290"/><line x1="380" y1="40" x2="380" y2="290"/><line x1="665" y1="40" x2="665" y2="290"/></g>
+    <g stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arr3)">
+      <line x1="95" y1="125" x2="380" y2="125"/>
+      <line x1="380" y1="200" x2="665" y2="200"/>
+      <line x1="380" y1="275" x2="95" y2="275"/>
+    </g>
+    <g fill="#1a1a1a" text-anchor="middle">
+      <text x="237" y="119">POST /events: type 4 · E1</text>
+      <text x="522" y="194">relay: E2 "log certified" (proposed, P4 open)</text>
+      <text x="237" y="269">recert required after an accepted edit (D12)</text>
+    </g>
+    <rect x="20" y="55" width="220" height="56" fill="#f0f0f0" stroke="#999"/>
+    <text x="130" y="73" text-anchor="middle" fill="#1a1a1a">D12: driver certifies a 24-hour period</text>
+    <text x="130" y="89" text-anchor="middle" fill="#555">type 4, code 1 first, 2–9 recertification</text>
+    <text x="130" y="105" text-anchor="middle" fill="#555">period in home-terminal time (T3)</text>
+    <rect x="265" y="140" width="230" height="40" fill="#f0f0f0" stroke="#999"/>
+    <text x="380" y="157" text-anchor="middle" fill="#1a1a1a">eld.events + eld.certifications + eld.outbox</text>
+    <text x="380" y="173" text-anchor="middle" fill="#555">one transaction</text>
+    <rect x="270" y="215" width="220" height="40" fill="#f0f0f0" stroke="#999"/>
+    <text x="380" y="232" text-anchor="middle" fill="#1a1a1a">edit accepted on a certified day</text>
+    <text x="380" y="248" text-anchor="middle" fill="#555">marks the day uncertified again</text>
+  </svg>
+  </div>
+  <ul>
+    <li>The 24-hour period is defined in the home-terminal zone read from T3, which is why that zone is never stored on the event.</li>
+    <li>A certification is itself a type 4 event with a seq, so it appears in the output file in order.</li>
+    <li>Whether Tenna hears about certifications at all is on the P4 list.</li>
+  </ul>
+
+  <h3>Flow 4 — Edit proposal and annotation</h3>
+  <div class="tbl-wrap">
+  <svg viewBox="0 0 760 420" role="img" aria-label="Sequence: edit proposal from the portal to the driver and back"
+       font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
+    <defs><marker id="arr4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/></marker></defs>
+    <g font-weight="700" text-anchor="middle" fill="#1a1a1a">
+      <rect x="40" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="95" y="30">Portal W5/W6</text>
+      <rect x="230" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="285" y="30">ELD API</text>
+      <rect x="420" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="475" y="30">Phone D20/D21</text>
+      <rect x="610" y="10" width="110" height="30" fill="#f0f0f0" stroke="#999"/><text x="665" y="30">Tenna</text>
+    </g>
+    <g stroke="#bbb" stroke-dasharray="4 4"><line x1="95" y1="40" x2="95" y2="410"/><line x1="285" y1="40" x2="285" y2="410"/><line x1="475" y1="40" x2="475" y2="410"/><line x1="665" y1="40" x2="665" y2="410"/></g>
+    <g stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arr4)">
+      <line x1="95" y1="70" x2="285" y2="70"/>
+      <line x1="285" y1="160" x2="475" y2="160"/>
+      <line x1="475" y1="245" x2="285" y2="245"/>
+      <line x1="285" y1="340" x2="95" y2="340"/>
+      <line x1="285" y1="375" x2="665" y2="375"/>
+    </g>
+    <g fill="#1a1a1a" text-anchor="middle">
+      <text x="190" y="64">POST /proposals {event_id, change, annotation}</text>
+      <text x="380" y="154">push: proposal pending (routing per P4)</text>
+      <text x="380" y="239">PUT /proposals/{id}/decision · E1</text>
+      <text x="190" y="334">W6: status accepted or rejected</text>
+      <text x="475" y="369">relay: E2 "proposal answered" (proposed, P4 open)</text>
+    </g>
+    <rect x="175" y="85" width="220" height="56" fill="#f0f0f0" stroke="#999"/>
+    <text x="285" y="103" text-anchor="middle" fill="#1a1a1a">event_versions row: pending</text>
+    <text x="285" y="119" text-anchor="middle" fill="#555">source event record_status 3</text>
+    <text x="285" y="135" text-anchor="middle" fill="#555">rejects: shortening auto driving time</text>
+    <rect x="365" y="175" width="220" height="56" fill="#f0f0f0" stroke="#999"/>
+    <text x="475" y="193" text-anchor="middle" fill="#1a1a1a">D20 shows proposal and annotation</text>
+    <text x="475" y="209" text-anchor="middle" fill="#555">D21 driver accepts or rejects</text>
+    <text x="475" y="225" text-anchor="middle" fill="#555">no expiry on a pending proposal</text>
+    <rect x="175" y="260" width="220" height="68" fill="#f0f0f0" stroke="#999"/>
+    <text x="285" y="278" text-anchor="middle" fill="#1a1a1a">accept: new event row active,</text>
+    <text x="285" y="294" text-anchor="middle" fill="#555">old row record_status 2, version decided</text>
+    <text x="285" y="310" text-anchor="middle" fill="#555">reject: old row record_status 4</text>
+    <text x="285" y="324" text-anchor="middle" fill="#555">certified day: recert required</text>
+  </svg>
+  </div>
+  <ul>
+    <li>The API refuses, at proposal time, any change that would shorten or reassign automatically recorded driving time. The one exception is ending a drive segment at a power-down the device missed.</li>
+    <li>Wrong-driver reassignment is two proposals, one to each driver, and takes effect only when both accept.</li>
+    <li>The push to the driver is host-originated. Whether it rides the ELD app's own push channel or Tenna's engine is part of P4. The data path does not change either way.</li>
+    <li>Hops: micro-frontend to API (Contract B), API to phone (push, then E1 for the decision), API to Tenna (E2).</li>
+  </ul>
+
+  <h3>Flow 5 — Unidentified driving</h3>
+  <div class="tbl-wrap">
+  <svg viewBox="0 0 760 500" role="img" aria-label="Sequence: unidentified driving from tracker storage to retention"
+       font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
+    <defs><marker id="arr5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/></marker></defs>
+    <g font-weight="700" text-anchor="middle" fill="#1a1a1a">
+      <rect x="40" y="10" width="110" height="30" fill="#f0f0f0" stroke="#999"/><text x="95" y="30">Tracker</text>
+      <rect x="230" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="285" y="30">Phone</text>
+      <rect x="420" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="475" y="30">ELD API</text>
+      <rect x="610" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="665" y="30">Portal W16</text>
+    </g>
+    <g stroke="#bbb" stroke-dasharray="4 4"><line x1="95" y1="40" x2="95" y2="490"/><line x1="285" y1="40" x2="285" y2="490"/><line x1="475" y1="40" x2="475" y2="490"/><line x1="665" y1="40" x2="665" y2="490"/></g>
+    <g stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arr5)">
+      <line x1="285" y1="110" x2="95" y2="110"/>
+      <line x1="95" y1="145" x2="285" y2="145"/>
+      <line x1="285" y1="225" x2="475" y2="225"/>
+      <line x1="475" y1="260" x2="285" y2="260"/>
+      <line x1="285" y1="295" x2="95" y2="295"/>
+      <line x1="285" y1="345" x2="475" y2="345"/>
+      <line x1="665" y1="380" x2="475" y2="380"/>
+      <line x1="475" y1="415" x2="285" y2="415"/>
+      <line x1="285" y1="450" x2="475" y2="450"/>
+    </g>
+    <g fill="#1a1a1a" text-anchor="middle">
+      <text x="190" y="104">write 0x0102: drain · B1</text>
+      <text x="190" y="139">one UDRV event per frame, repeated 2–4×, UDRV_COUNT</text>
+      <text x="380" y="219">POST /ud-records [...] · E1</text>
+      <text x="380" y="254">accepted per natural key</text>
+      <text x="190" y="289">write 0x0103: purge, only after every key accepted</text>
+      <text x="380" y="339">D22 "not me" + remark · E1</text>
+      <text x="570" y="374">PATCH reason, or PUT assignment</text>
+      <text x="380" y="409">push to assigned driver: D34</text>
+      <text x="380" y="444">PUT assignment/decision · E1</text>
+    </g>
+    <rect x="2" y="55" width="192" height="40" fill="#f0f0f0" stroke="#999"/>
+    <text x="95" y="72" text-anchor="middle" fill="#1a1a1a">drives with nobody signed in</text>
+    <text x="95" y="88" text-anchor="middle" fill="#555">stores BEGIN_STOP / END_STOP</text>
+    <rect x="175" y="160" width="220" height="50" fill="#f0f0f0" stroke="#999"/>
+    <text x="285" y="177" text-anchor="middle" fill="#1a1a1a">dedupe on (serial, reason, time)</text>
+    <text x="285" y="193" text-anchor="middle" fill="#555">pair 12/13 into records, 8-day in-cab list</text>
+    <rect x="365" y="462" width="220" height="24" fill="#f0f0f0" stroke="#999"/>
+    <text x="475" y="479" text-anchor="middle" fill="#1a1a1a">retain_until = received_at + 6 months</text>
+  </svg>
+  </div>
+  <ul>
+    <li>The purge interlock is the load-bearing rule: 0x0103 is destructive and unacknowledged, so the phone sends it only after the host has accepted every drained key. A phone that dies mid-drain re-drains and the natural key makes the repeat harmless.</li>
+    <li>The five fixed carrier reasons plus carrier additions come from S5. An assignment to a driver is pending until that driver accepts at D34.</li>
+    <li>The same table serves the 8-day in-cab list on the phone and the 6-month host record. They are two views, not two stores.</li>
+    <li>Hops: B1, E1, Contract B for W16, push then E1 for D34.</li>
+  </ul>
+
+  <h3>Flow 6 — Roadside and host-initiated transfer</h3>
+  <div class="tbl-wrap">
+  <svg viewBox="0 0 760 460" role="img" aria-label="Sequence: roadside inspection and host-initiated eRODS transfer"
+       font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
+    <defs><marker id="arr6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/></marker></defs>
+    <g font-weight="700" text-anchor="middle" fill="#1a1a1a">
+      <rect x="40" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="95" y="30">Phone D15–D17</text>
+      <rect x="230" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="285" y="30">ELD API</text>
+      <rect x="420" y="10" width="110" height="30" fill="#f0f0f0" stroke="#999"/><text x="475" y="30">FMCSA eRODS</text>
+      <rect x="610" y="10" width="110" height="30" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/><text x="665" y="30">Portal W17</text>
+    </g>
+    <g stroke="#bbb" stroke-dasharray="4 4"><line x1="95" y1="40" x2="95" y2="450"/><line x1="285" y1="40" x2="285" y2="450"/><line x1="475" y1="40" x2="475" y2="450"/><line x1="665" y1="40" x2="665" y2="450"/></g>
+    <g stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arr6)">
+      <line x1="95" y1="125" x2="285" y2="125"/>
+      <line x1="285" y1="215" x2="475" y2="215"/>
+      <line x1="475" y1="250" x2="285" y2="250"/>
+      <line x1="285" y1="285" x2="95" y2="285"/>
+      <line x1="665" y1="340" x2="285" y2="340"/>
+      <line x1="285" y1="410" x2="475" y2="410"/>
+    </g>
+    <g fill="#1a1a1a" text-anchor="middle">
+      <text x="190" y="119">POST /transfer-requests {8 days, officer code} · E1</text>
+      <text x="380" y="209">web service (first) or email (co-equal)</text>
+      <text x="380" y="244">receipt, or error</text>
+      <text x="190" y="279">result shown on D17; transfer row either way</text>
+      <text x="475" y="334">POST /transfer-requests {up to 30 days}</text>
+      <text x="380" y="404">one transfer per increment, same path</text>
+    </g>
+    <rect x="8" y="55" width="244" height="56" fill="#f0f0f0" stroke="#999"/>
+    <text x="130" y="73" text-anchor="middle" fill="#1a1a1a">D15 PIN: inspector mode</text>
+    <text x="130" y="89" text-anchor="middle" fill="#555">D16 on-screen display, no signal needed</text>
+    <text x="130" y="105" text-anchor="middle" fill="#555">session logged as method display</text>
+    <rect x="175" y="140" width="220" height="56" fill="#f0f0f0" stroke="#999"/>
+    <text x="285" y="158" text-anchor="middle" fill="#1a1a1a">Appendix A file: line + file check values</text>
+    <text x="285" y="174" text-anchor="middle" fill="#555">sha256, stored to object storage</text>
+    <text x="285" y="190" text-anchor="middle" fill="#555">output_files + transfers + outbox, one txn</text>
+    <rect x="175" y="355" width="220" height="40" fill="#f0f0f0" stroke="#999"/>
+    <text x="285" y="372" text-anchor="middle" fill="#1a1a1a">auto-split into increments</text>
+    <text x="285" y="388" text-anchor="middle" fill="#555">W14 lists every attempt</text>
+  </svg>
+  </div>
+  <ul>
+    <li>The file is generated on the host from the host's copy of the log, which is complete because of P3. The phone only needs to be able to reach the API.</li>
+    <li>With no signal, D16 shows the 8-day record on the phone in the FMCSA display format and the inspector reads it there. The session is still logged.</li>
+    <li>Failed transfers are compliance records. The transfer row and the outbox row that drives the attempt are written together before anything is sent; the relay updates the result. A crash mid-transfer resumes from the outbox instead of losing the request.</li>
+    <li>Hops: E1 for D17, Contract B for W17, the eRODS web service and email for FMCSA.</li>
+  </ul>
+
+  <h2 id="s7">7. Deployment and tech stack</h2>
+
+  <div class="tbl-wrap">
+  <svg viewBox="0 0 760 380" role="img" aria-label="Deployment inside Tenna's AWS account"
+       font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
+    <defs><marker id="arrD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#999"/></marker></defs>
+    <rect x="190" y="10" width="560" height="360" fill="#ffffff" stroke="#999" stroke-dasharray="6 4"/>
+    <text x="205" y="30" font-weight="700" fill="#1a1a1a">Tenna AWS account</text>
+    <rect x="205" y="45" width="530" height="180" fill="#f6f6f6" stroke="#bbb" stroke-dasharray="3 3"/>
+    <text x="220" y="63" fill="#555">VPC</text>
+    <rect x="220" y="80" width="150" height="60" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <text x="295" y="103" text-anchor="middle" font-weight="700" fill="#1a1a1a">ELD API service</text>
+    <text x="295" y="121" text-anchor="middle" fill="#555">API + outbox relay</text>
+    <rect x="400" y="80" width="150" height="60" fill="#f0f0f0" stroke="#999"/>
+    <text x="475" y="103" text-anchor="middle" font-weight="700" fill="#1a1a1a">Tenna Postgres</text>
+    <text x="475" y="121" text-anchor="middle" fill="#555">schema eld · RLS by carrier</text>
+    <rect x="580" y="80" width="140" height="60" fill="#f0f0f0" stroke="#999"/>
+    <text x="650" y="103" text-anchor="middle" font-weight="700" fill="#1a1a1a">Object storage</text>
+    <text x="650" y="121" text-anchor="middle" fill="#555">output files, receipts</text>
+    <rect x="220" y="160" width="150" height="50" fill="#f0f0f0" stroke="#999"/>
+    <text x="295" y="180" text-anchor="middle" font-weight="700" fill="#1a1a1a">Cognito authorizer</text>
+    <text x="295" y="196" text-anchor="middle" fill="#555">shared user pool JWT</text>
+    <rect x="460" y="160" width="260" height="50" fill="#f0f0f0" stroke="#999"/>
+    <text x="590" y="180" text-anchor="middle" font-weight="700" fill="#1a1a1a">Tenna notification infrastructure</text>
+    <text x="590" y="196" text-anchor="middle" fill="#555">E2 / E3 intake · endpoint or topic, Tenna's choice</text>
+    <rect x="205" y="245" width="530" height="105" fill="#f0f0f0" stroke="#999"/>
+    <text x="220" y="265" font-weight="700" fill="#1a1a1a">Portal shell (Tenna hosts)</text>
+    <rect x="220" y="280" width="240" height="55" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <text x="340" y="302" text-anchor="middle" font-weight="700" fill="#1a1a1a">ELD micro-frontend</text>
+    <text x="340" y="320" text-anchor="middle" fill="#555">static build, new Tenna repo (P5)</text>
+    <rect x="480" y="280" width="240" height="55" fill="#ffffff" stroke="#bbb"/>
+    <text x="600" y="302" text-anchor="middle" fill="#1a1a1a">shared component base</text>
+    <text x="600" y="320" text-anchor="middle" fill="#555">framework: Tenna's choice</text>
+    <rect x="10" y="80" width="150" height="60" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <text x="85" y="103" text-anchor="middle" font-weight="700" fill="#1a1a1a">Driver phone</text>
+    <text x="85" y="121" text-anchor="middle" fill="#555">native app, device outbox</text>
+    <rect x="10" y="280" width="150" height="55" fill="#f0f0f0" stroke="#999"/>
+    <text x="85" y="302" text-anchor="middle" font-weight="700" fill="#1a1a1a">FMCSA eRODS</text>
+    <text x="85" y="320" text-anchor="middle" fill="#555">web service · email</text>
+    <g stroke="#999" stroke-width="1.5" marker-end="url(#arrD)">
+      <line x1="160" y1="110" x2="220" y2="110"/>
+      <line x1="370" y1="110" x2="400" y2="110"/>
+      <line x1="550" y1="110" x2="580" y2="110"/>
+      <line x1="295" y1="140" x2="295" y2="160"/>
+      <line x1="350" y1="140" x2="480" y2="160"/>
+      <line x1="420" y1="280" x2="365" y2="140"/>
+      <line x1="220" y1="130" x2="160" y2="290"/>
+    </g>
+    <text x="190" y="100" text-anchor="middle" fill="#555" font-size="11">E1</text>
+    <text x="420" y="152" fill="#555" font-size="11">E2 · E3</text>
+    <text x="430" y="235" fill="#555" font-size="11">Contract B</text>
+    <text x="150" y="215" text-anchor="middle" fill="#555" font-size="11">transfer</text>
+  </svg>
+  </div>
+
+  <h3>To be supplied by Tenna</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Item</th><th>Placeholder</th><th>Who</th></tr></thead>
+    <tbody>
+      <tr><td>Outbox relay hosting</td><td>A long-running worker or a scheduled job polling <code>eld.outbox</code>; either fits, as long as it runs in more than one instance</td><td>Kyle</td></tr>
+      <tr><td>Micro-frontend framework and routing</td><td>Whatever the portal shell composes today</td><td>Tamar</td></tr>
+      <tr><td>Shared component library</td><td>The portal's existing base (P5)</td><td>Tamar</td></tr>
+      <tr><td>API runtime and language</td><td>Tenna's backend standard</td><td>Kyle</td></tr>
+      <tr><td>API gateway and authorizer</td><td>Cognito JWT authorizer in front of the service</td><td>Kyle</td></tr>
+      <tr><td>Infrastructure as code</td><td>Tenna's existing tooling</td><td>Kyle</td></tr>
+      <tr><td>CI/CD for two new repos</td><td>Tenna's existing pipelines</td><td>Kyle</td></tr>
+      <tr><td>Observability</td><td>Logs, metrics, tracing in Tenna's stack. The ELD adds sync lag and transfer failure rate as first-class metrics</td><td>Kyle</td></tr>
+      <tr><td>Mobile: Amplify version, BLE libraries</td><td>Native confirmed. Amplify Swift and Amplify Android for P2; CoreBluetooth and Android BLE directly, no wrapper</td><td>AppAxis proposes, Kumaran confirms</td></tr>
+      <tr><td>i18n convention</td><td>Tenna's resource-file layout (Spanish and German exist)</td><td>Tamar</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Mobile app</h3>
+  <p>Native Swift and Kotlin. Module layout as built in the two ports: <i>domain</i> (protocol parsing, HOS state
+    machine, event records, no platform imports), <i>services</i> (BLE transport, tracker service, session log, sync
+    queue), <i>app</i> (screens). Invariants from the READMEs that matter to Tenna because they explain why the code looks the way it does:</p>
+  <ul>
+    <li>One SQLite database per install (Room on Android, GRDB on iOS), WAL mode, written only from the service thread. Tables mirror the server names where they overlap: readings, events, outbox, ud_records, power_events. Rolling retention is a daily delete by timestamp. The session JSONL used for test evidence is exported from it, not written alongside it.</li>
+    <li>Single-thread confinement for everything service-side. BLE callbacks are marshalled onto one serial executor, so the state machine never sees two events at once.</li>
+    <li>The session log and the device outbox are append-only and durable, written in the same local transaction. Nothing is rewritten in place on the device, and nothing leaves the outbox without a server acknowledgment.</li>
+    <li>The purge interlock: the tracker's stored unidentified driving is purged only after the host acknowledges every record.</li>
+    <li>Frame assembly tolerates a garbage-spewing tracker; a zero-count header is discarded, never indexed.</li>
+  </ul>
+
+  <h3>Environments and repos</h3>
+  <ul>
+    <li>Micro-frontend: new Tenna GitHub repo (P5), built and hosted by Tenna's portal pipeline.</li>
+    <li>Backend: assume the same GitHub organization and the same environment ladder as Tenna's other services. Confirm with Kyle.</li>
+    <li>Mobile: the two native repos AppAxis already runs, moved or mirrored into Tenna's organization before Stage F so the registered software version traces to a Tenna-owned commit.</li>
+    <li>AppAxis needs a way to run the portal shell locally with the micro-frontend mounted, and a non-production Postgres with the <code>eld</code> schema.</li>
+  </ul>
+
+  <h2 id="s8">8. Compliance mapping</h2>
+
+  <p>The eight RTM categories from the <a href="/certification">Certification Roadmap</a>, with the component that
+    satisfies each and the stage that proves it. Tom's University of Maryland test-procedure table of contents may
+    reshape the section ranges; the components do not move.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>RTM category</th><th>Appendix 4.x</th><th>Component</th><th>Stage</th><th>Evidence</th></tr></thead>
+    <tbody>
+      <tr><td>Accounts</td><td>4.1</td><td>Tenna T1, T2 (accounts, driver flag, CDL uniqueness); D1, D3 sign-in; eld.login_sessions</td><td>C, E</td><td>Harness run; multi-driver output file</td></tr>
+      <tr><td>Vehicle interface</td><td>4.2, 4.3.1</td><td>B1 tracker link; services layer in the app</td><td>A</td><td>Test workbooks, device session logs</td></tr>
+      <tr><td>ELD inputs</td><td>4.3</td><td>S1 stamping (odometer, hours, position, VIN); D5–D7 manual entry; T3 header fields</td><td>A, C</td><td>Session logs; harness</td></tr>
+      <tr><td>Processing</td><td>4.4</td><td>HOS engine (domain module); D29 stationary prompt; S5 policy</td><td>C</td><td>Harness, one test per 4.4.x id</td></tr>
+      <tr><td>Recording</td><td>4.5</td><td>S1 event log, seq, estimated-value flags; device and server outbox; S2 versions; S3 UD records; eld.certifications</td><td>C, D</td><td>Harness; UD loop closed on test fleet</td></tr>
+      <tr><td>Monitoring</td><td>4.6</td><td>Malfunction engine; eld.malfunctions; D18, D19; W10</td><td>C, E</td><td>Each of eight categories triggered, displayed, cleared</td></tr>
+      <tr><td>ELD outputs</td><td>4.7, 4.8</td><td>Output-file generator; D16 display; W18 inspector view</td><td>C, E</td><td>File validates against FMCSA spec on every build</td></tr>
+      <tr><td>Data transfer</td><td>4.9, 4.10</td><td>Transfer service (web, email); D17; W17; eld.transfers</td><td>D</td><td>eRODS test endpoint confirmations</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="s9">9. Open items</h2>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Item</th><th>Needed</th><th>Blocks</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td><a href="/decisions#q1">Q1</a> duty status on link loss</td><td>Which component is the ELD of record during a gap; retroactive stop/start treatment</td><td>HOS engine; not_before_utc semantics</td><td>Tom</td></tr>
+      <tr><td><a href="/decisions#q19">Q19</a> audit export scope</td><td>What the one-click export contains</td><td>W13; <code>POST /audit-exports</code></td><td>Tom, Tenna product</td></tr>
+      <tr><td><a href="/decisions#p3">P3</a> raw-reading retention</td><td>Tom's agreement to 10 days rolling on the device (section 2)</td><td>Certification Roadmap Stage B text; Wireframes v5 note</td><td>Tom, Thursday 10 Sep</td></tr>
+      <tr><td><a href="/decisions#p4">P4</a> event list</td><td>Which E2 events Tenna consumes, and where host-to-driver pushes ride</td><td>Egress; W1, W2, W8, W10</td><td>Tenna product</td></tr>
+      <tr><td>Registration mechanics</td><td>Per-OS registration, ELD identifier rules, version string rules</td><td>eld.devices columns; Stage F</td><td>Tom</td></tr>
+      <tr><td><a href="/decisions#q17">Q17</a> retention scoping</td><td>Whether the carrier wants longer than 6 months on the host</td><td>Retention policy, storage estimate</td><td>Tenna product</td></tr>
+      <tr><td>Offline sign-in grace</td><td>How long a cached T1 session is honoured without the pool</td><td>D1; sync worker behaviour</td><td>Kumaran</td></tr>
+      <tr><td>T5 geofence source</td><td>Tenna Sites over the API, or drawn in the ELD</td><td>eld.carrier_policy.yard_geofence_source; D9</td><td>Tamar</td></tr>
+      <tr><td>Tracker firmware system of record</td><td>Whether Tenna records it as an asset attribute</td><td>T4 field list</td><td>Kyle</td></tr>
+      <tr><td><a href="/decisions#q2">Q2</a> engine-hours ECM baseline</td><td>Which assets expose ECM hours; accumulated-hours fallback rules</td><td>hours_source; W11 flag</td><td>Tom, Geometris</td></tr>
+      <tr><td><a href="/decisions#q5">Q5</a> BLE has no authentication</td><td>Accepted risk statement, or a mitigation</td><td>Security review of B1</td><td>Tenna engineering</td></tr>
+      <tr><td><a href="/decisions#q9">Q9</a> two phones, one tracker</td><td>Who owns the link when two drivers connect</td><td>Active-driver designation; seq assignment</td><td>AppAxis, Tom</td></tr>
+      <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and opaque Tenna ids are the keys across the phone, the API and the portal</td><td>Contract A and B as written</td><td>Kyle, Tamar</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+<footer>
+  AppAxis · hello@appaxis.com
+</footer>
+
+</body>
+</html>
