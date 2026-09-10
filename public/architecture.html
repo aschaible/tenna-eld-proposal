@@ -622,7 +622,7 @@
       <tr><td><a href="/#s-t7">T7</a> DVIR</td><td>Status by asset, launch and return deep links</td><td>D14</td><td>Contract to write</td></tr>
       <tr><td><a href="/#s-t8">T8</a> Entitlements</td><td>ELD license on the account, supervisor permission, the portal injection point for the micro-frontend</td><td>Sign-in gate, W-screen access</td><td>Injection point is Tamar's</td></tr>
       <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Shape agreed, list <b>open</b> (P4)</td></tr>
-      <tr><td>Platform</td><td>Postgres instance and <code>eld</code> schema provisioning; AWS account and VPC placement; secrets; CI/CD for the new repos; a way for AppAxis to run the portal locally; the shared component base; the language resource-file convention (Spanish and German exist); server-side error message localization</td><td>Building and deploying at all</td><td>To schedule with Kyle and Tamar</td></tr>
+      <tr><td>Platform</td><td>Postgres instance and <code>eld</code> schema provisioning; AWS account and VPC placement; secrets; CI/CD for the new repos; a way for AppAxis to run the portal locally; the shared component base</td><td>Building and deploying at all</td><td>To schedule with Kyle and Tamar</td></tr>
     </tbody>
   </table>
   </div>
@@ -968,18 +968,17 @@
   <h3>To be supplied by Tenna</h3>
   <div class="tbl-wrap">
   <table>
-    <thead><tr><th>Item</th><th>Placeholder</th><th>Who</th></tr></thead>
+    <thead><tr><th>Item</th><th>Placeholder</th></tr></thead>
     <tbody>
-      <tr><td>Outbox relay hosting</td><td>A long-running worker or a scheduled job polling <code>eld.outbox</code>; either fits, as long as it runs in more than one instance</td><td>Kyle</td></tr>
-      <tr><td>Micro-frontend framework and routing</td><td>Whatever the portal shell composes today</td><td>Tamar</td></tr>
-      <tr><td>Shared component library</td><td>The portal's existing base (P5)</td><td>Tamar</td></tr>
-      <tr><td>API runtime and language</td><td>Tenna's backend standard</td><td>Kyle</td></tr>
-      <tr><td>API gateway and authorizer</td><td>Cognito JWT authorizer in front of the service</td><td>Kyle</td></tr>
-      <tr><td>Infrastructure as code</td><td>Tenna's existing tooling</td><td>Kyle</td></tr>
-      <tr><td>CI/CD for two new repos</td><td>Tenna's existing pipelines</td><td>Kyle</td></tr>
-      <tr><td>Observability</td><td>Logs, metrics, tracing in Tenna's stack. The ELD adds sync lag and transfer failure rate as first-class metrics</td><td>Kyle</td></tr>
-      <tr><td>Mobile: Amplify version, BLE libraries</td><td>Native confirmed. Amplify Swift and Amplify Android for P2; CoreBluetooth and Android BLE directly, no wrapper</td><td>AppAxis proposes, Kumaran confirms</td></tr>
-      <tr><td>i18n convention</td><td>Tenna's resource-file layout (Spanish and German exist)</td><td>Tamar</td></tr>
+      <tr><td>Outbox relay hosting</td><td>A long-running worker or a scheduled job polling <code>eld.outbox</code>; either fits, as long as it runs in more than one instance</td></tr>
+      <tr><td>Micro-frontend framework and routing</td><td>Whatever the portal shell composes today</td></tr>
+      <tr><td>Shared component library</td><td>The portal's existing base (P5)</td></tr>
+      <tr><td>API runtime and language</td><td>Tenna's backend standard</td></tr>
+      <tr><td>API gateway and authorizer</td><td>Cognito JWT authorizer in front of the service</td></tr>
+      <tr><td>Infrastructure as code</td><td>Tenna's existing tooling</td></tr>
+      <tr><td>CI/CD for two new repos</td><td>Tenna's existing pipelines</td></tr>
+      <tr><td>Observability</td><td>Logs, metrics, tracing in Tenna's stack. The ELD adds sync lag and transfer failure rate as first-class metrics</td></tr>
+      <tr><td>Mobile: Amplify version, BLE libraries</td><td>Native confirmed. Amplify Swift and Amplify Android for P2; CoreBluetooth and Android BLE directly, no wrapper</td></tr>
     </tbody>
   </table>
   </div>
