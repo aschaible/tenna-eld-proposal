@@ -267,108 +267,285 @@
     proposals, not copies of working code.</p>
 
   <div class="tbl-wrap">
-  <svg viewBox="0 0 760 585" role="img" aria-label="Schema diagram: eld tables, their foreign keys, and the Tenna records they reference by id"
+  <svg viewBox="0 0 760 867" role="img" aria-label="Schema diagram: eld tables with columns and types, their foreign keys, and the Tenna records they reference by id"
        font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
     <defs><marker id="arrS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/></marker>
     <marker id="arrSd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#999"/></marker></defs>
-    <line x1="192" y1="12" x2="192" y2="480" stroke="#999" stroke-dasharray="6 4"/>
-    <text x="91" y="30" text-anchor="middle" font-weight="700" fill="#555">Tenna · reached over API</text>
-    <text x="475" y="22" text-anchor="middle" font-weight="700" fill="#555">schema eld</text>
-    <rect x="16" y="60" width="150" height="54" fill="#f0f0f0" stroke="#999"/>
-    <text x="91" y="77" text-anchor="middle" font-weight="700" fill="#1a1a1a">users</text>
-    <text x="91" y="92" text-anchor="middle" fill="#555" font-size="10.5">shared table · T1, T2</text>
-    <text x="91" y="105" text-anchor="middle" fill="#555" font-size="10.5">driver_id, *_by</text>
-    <rect x="16" y="180" width="150" height="54" fill="#f0f0f0" stroke="#999"/>
-    <text x="91" y="197" text-anchor="middle" font-weight="700" fill="#1a1a1a">carriers</text>
-    <text x="91" y="212" text-anchor="middle" fill="#555" font-size="10.5">T3</text>
-    <text x="91" y="225" text-anchor="middle" fill="#555" font-size="10.5">carrier_id on every eld table</text>
-    <rect x="16" y="300" width="150" height="54" fill="#f0f0f0" stroke="#999"/>
-    <text x="91" y="317" text-anchor="middle" font-weight="700" fill="#1a1a1a">assets</text>
-    <text x="91" y="332" text-anchor="middle" fill="#555" font-size="10.5">T4</text>
-    <text x="91" y="345" text-anchor="middle" fill="#555" font-size="10.5">asset_id, tracker serial</text>
-    <rect x="215" y="40" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="290" y="57" text-anchor="middle" font-weight="700" fill="#1a1a1a">devices</text>
-    <text x="290" y="72" text-anchor="middle" fill="#555" font-size="10.5">id, platform, app_version</text>
-    <text x="290" y="85" text-anchor="middle" fill="#555" font-size="10.5">eld_identifier</text>
-    <rect x="215" y="130" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="290" y="147" text-anchor="middle" font-weight="700" fill="#1a1a1a">tracker_links</text>
-    <text x="290" y="162" text-anchor="middle" fill="#555" font-size="10.5">tracker_serial, asset_id</text>
-    <text x="290" y="175" text-anchor="middle" fill="#555" font-size="10.5">protocol_version</text>
-    <rect x="215" y="230" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="290" y="247" text-anchor="middle" font-weight="700" fill="#1a1a1a">ud_records</text>
-    <text x="290" y="262" text-anchor="middle" fill="#555" font-size="10.5">UNIQUE(serial, reason, time)</text>
-    <text x="290" y="275" text-anchor="middle" fill="#555" font-size="10.5">accepted_state, retain_until</text>
-    <rect x="215" y="330" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="290" y="347" text-anchor="middle" font-weight="700" fill="#1a1a1a">power_events</text>
-    <text x="290" y="362" text-anchor="middle" fill="#555" font-size="10.5">event_id, kind, at_utc</text>
-    <rect x="400" y="110" width="170" height="84" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="485" y="127" text-anchor="middle" font-weight="700" fill="#1a1a1a">events</text>
-    <text x="485" y="142" text-anchor="middle" fill="#555" font-size="10.5">id (UUIDv7), seq, device_id</text>
-    <text x="485" y="155" text-anchor="middle" fill="#555" font-size="10.5">driver_id, asset_id, type, code</text>
-    <text x="485" y="168" text-anchor="middle" fill="#555" font-size="10.5">record_status, at_utc, not_before</text>
-    <text x="485" y="181" text-anchor="middle" fill="#555" font-size="10.5">append-only</text>
-    <rect x="400" y="240" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="475" y="257" text-anchor="middle" font-weight="700" fill="#1a1a1a">certifications</text>
-    <text x="475" y="272" text-anchor="middle" fill="#555" font-size="10.5">event_id, period_date</text>
-    <text x="475" y="285" text-anchor="middle" fill="#555" font-size="10.5">certification_number</text>
-    <rect x="400" y="330" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="475" y="347" text-anchor="middle" font-weight="700" fill="#1a1a1a">malfunctions</text>
-    <text x="475" y="362" text-anchor="middle" fill="#555" font-size="10.5">raised_event_id, category</text>
-    <text x="475" y="375" text-anchor="middle" fill="#555" font-size="10.5">raised_at, cleared_at</text>
-    <rect x="400" y="420" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="475" y="437" text-anchor="middle" font-weight="700" fill="#1a1a1a">output_files</text>
-    <text x="475" y="452" text-anchor="middle" fill="#555" font-size="10.5">driver_id, from_day, to_day</text>
-    <text x="475" y="465" text-anchor="middle" fill="#555" font-size="10.5">file_sha256, object_key</text>
-    <rect x="590" y="40" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="665" y="57" text-anchor="middle" font-weight="700" fill="#1a1a1a">carrier_policy</text>
-    <text x="665" y="72" text-anchor="middle" fill="#555" font-size="10.5">carrier_id (PK)</text>
-    <text x="665" y="85" text-anchor="middle" fill="#555" font-size="10.5">cycle_rule, ud_reasons[]</text>
-    <rect x="590" y="130" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="665" y="147" text-anchor="middle" font-weight="700" fill="#1a1a1a">outbox</text>
-    <text x="665" y="162" text-anchor="middle" fill="#555" font-size="10.5">aggregate_type, aggregate_id</text>
-    <text x="665" y="175" text-anchor="middle" fill="#555" font-size="10.5">payload, published_at</text>
-    <rect x="590" y="240" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="665" y="257" text-anchor="middle" font-weight="700" fill="#1a1a1a">login_sessions</text>
-    <text x="665" y="272" text-anchor="middle" fill="#555" font-size="10.5">login and logout event ids</text>
-    <rect x="590" y="330" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="665" y="347" text-anchor="middle" font-weight="700" fill="#1a1a1a">event_versions</text>
-    <text x="665" y="362" text-anchor="middle" fill="#555" font-size="10.5">event_id, prior_version_id</text>
-    <text x="665" y="375" text-anchor="middle" fill="#555" font-size="10.5">decision, annotation</text>
-    <rect x="590" y="420" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
-    <text x="665" y="437" text-anchor="middle" font-weight="700" fill="#1a1a1a">transfers</text>
-    <text x="665" y="452" text-anchor="middle" fill="#555" font-size="10.5">output_file_id, method</text>
-    <text x="665" y="465" text-anchor="middle" fill="#555" font-size="10.5">result, receipt</text>
+    <line x1="195" y1="12" x2="195" y2="782" stroke="#999" stroke-dasharray="6 4"/>
+    <text x="95" y="26" text-anchor="middle" font-weight="700" fill="#555" font-size="11">Tenna · read over API</text>
+    <text x="480" y="26" text-anchor="middle" font-weight="700" fill="#555" font-size="11">schema eld</text>
+    <rect x="10" y="40" width="170" height="84" fill="#ffffff" stroke="#999" stroke-width="1"/>
+    <rect x="10" y="40" width="170" height="22" fill="#f0f0f0" stroke="#999" stroke-width="1"/>
+    <text x="95" y="55" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">users (Tenna)</text>
+    <text x="17" y="73" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="173" y="73" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="17" y="87" font-size="10" fill="#1a1a1a">name</text>
+    <text x="173" y="87" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="17" y="101" font-size="10" fill="#1a1a1a">is_driver</text>
+    <text x="173" y="101" text-anchor="end" font-size="10" fill="#555">boolean</text>
+    <text x="17" y="115" font-size="10" fill="#1a1a1a">cdl_number, cdl_state</text>
+    <text x="173" y="115" text-anchor="end" font-size="10" fill="#555">text</text>
+    <rect x="10" y="180" width="170" height="84" fill="#ffffff" stroke="#999" stroke-width="1"/>
+    <rect x="10" y="180" width="170" height="22" fill="#f0f0f0" stroke="#999" stroke-width="1"/>
+    <text x="95" y="195" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">assets (Tenna)</text>
+    <text x="17" y="213" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="173" y="213" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="17" y="227" font-size="10" fill="#1a1a1a">name, type</text>
+    <text x="173" y="227" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="17" y="241" font-size="10" fill="#1a1a1a">vin</text>
+    <text x="173" y="241" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="17" y="255" font-size="10" fill="#1a1a1a">tracker_serial</text>
+    <text x="173" y="255" text-anchor="end" font-size="10" fill="#555">text</text>
+    <rect x="10" y="320" width="170" height="70" fill="#ffffff" stroke="#999" stroke-width="1"/>
+    <rect x="10" y="320" width="170" height="22" fill="#f0f0f0" stroke="#999" stroke-width="1"/>
+    <text x="95" y="335" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">carriers (Tenna)</text>
+    <text x="17" y="353" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="173" y="353" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="17" y="367" font-size="10" fill="#1a1a1a">name, usdot</text>
+    <text x="173" y="367" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="17" y="381" font-size="10" fill="#1a1a1a">terminals[].tz</text>
+    <text x="173" y="381" text-anchor="end" font-size="10" fill="#555">text</text>
+    <rect x="210" y="40" width="170" height="98" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="210" y="40" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="295" y="55" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.devices</text>
+    <text x="217" y="73" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="373" y="73" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="217" y="87" font-size="10" fill="#1a1a1a">platform</text>
+    <text x="373" y="87" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="217" y="101" font-size="10" fill="#1a1a1a">app_version</text>
+    <text x="373" y="101" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="217" y="115" font-size="10" fill="#1a1a1a">eld_identifier</text>
+    <text x="373" y="115" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="217" y="129" font-size="10" fill="#1a1a1a">registered_at</text>
+    <text x="373" y="129" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <rect x="210" y="160" width="170" height="98" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="210" y="160" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="295" y="175" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.tracker_links</text>
+    <text x="217" y="193" font-size="10" fill="#1a1a1a">tracker_serial (PK)</text>
+    <text x="373" y="193" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="217" y="207" font-size="10" fill="#1a1a1a">asset_id</text>
+    <text x="373" y="207" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="217" y="221" font-size="10" fill="#1a1a1a">carrier_id</text>
+    <text x="373" y="221" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="217" y="235" font-size="10" fill="#1a1a1a">protocol_version</text>
+    <text x="373" y="235" text-anchor="end" font-size="10" fill="#555">smallint</text>
+    <text x="217" y="249" font-size="10" fill="#1a1a1a">ble_address_observed</text>
+    <text x="373" y="249" text-anchor="end" font-size="10" fill="#555">text</text>
+    <rect x="210" y="280" width="170" height="154" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="210" y="280" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="295" y="295" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.ud_records</text>
+    <text x="217" y="313" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="373" y="313" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="217" y="327" font-size="10" fill="#1a1a1a">tracker_serial (FK)</text>
+    <text x="373" y="327" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="217" y="341" font-size="10" fill="#1a1a1a">reason, time_epoch</text>
+    <text x="373" y="341" text-anchor="end" font-size="10" fill="#555">smallint, bigint</text>
+    <text x="217" y="355" font-size="10" fill="#1a1a1a">start_at, end_at</text>
+    <text x="373" y="355" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <text x="217" y="369" font-size="10" fill="#1a1a1a">accepted_state</text>
+    <text x="373" y="369" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="217" y="383" font-size="10" fill="#1a1a1a">carrier_reason</text>
+    <text x="373" y="383" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="217" y="397" font-size="10" fill="#1a1a1a">assigned_driver_id</text>
+    <text x="373" y="397" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="217" y="411" font-size="10" fill="#1a1a1a">retain_until</text>
+    <text x="373" y="411" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <text x="217" y="425" font-size="10" fill="#1a1a1a">source_device_id (FK)</text>
+    <text x="373" y="425" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <rect x="210" y="440" width="170" height="98" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="210" y="440" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="295" y="455" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.power_events</text>
+    <text x="217" y="473" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="373" y="473" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="217" y="487" font-size="10" fill="#1a1a1a">event_id (FK)</text>
+    <text x="373" y="487" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="217" y="501" font-size="10" fill="#1a1a1a">asset_id</text>
+    <text x="373" y="501" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="217" y="515" font-size="10" fill="#1a1a1a">kind</text>
+    <text x="373" y="515" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="217" y="529" font-size="10" fill="#1a1a1a">at_utc</text>
+    <text x="373" y="529" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <rect x="395" y="130" width="170" height="98" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="395" y="130" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="480" y="145" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.certifications</text>
+    <text x="402" y="163" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="558" y="163" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="402" y="177" font-size="10" fill="#1a1a1a">event_id (FK)</text>
+    <text x="558" y="177" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="402" y="191" font-size="10" fill="#1a1a1a">driver_id</text>
+    <text x="558" y="191" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="402" y="205" font-size="10" fill="#1a1a1a">period_date</text>
+    <text x="558" y="205" text-anchor="end" font-size="10" fill="#555">date</text>
+    <text x="402" y="219" font-size="10" fill="#1a1a1a">certification_number</text>
+    <text x="558" y="219" text-anchor="end" font-size="10" fill="#555">smallint</text>
+    <rect x="395" y="250" width="170" height="238" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="395" y="250" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="480" y="265" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.events</text>
+    <text x="402" y="283" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="558" y="283" text-anchor="end" font-size="10" fill="#555">uuid v7</text>
+    <text x="402" y="297" font-size="10" fill="#1a1a1a">seq</text>
+    <text x="558" y="297" text-anchor="end" font-size="10" fill="#555">integer</text>
+    <text x="402" y="311" font-size="10" fill="#1a1a1a">carrier_id</text>
+    <text x="558" y="311" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="402" y="325" font-size="10" fill="#1a1a1a">driver_id</text>
+    <text x="558" y="325" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="402" y="339" font-size="10" fill="#1a1a1a">asset_id</text>
+    <text x="558" y="339" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="402" y="353" font-size="10" fill="#1a1a1a">device_id (FK)</text>
+    <text x="558" y="353" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="402" y="367" font-size="10" fill="#1a1a1a">event_type, event_code</text>
+    <text x="558" y="367" text-anchor="end" font-size="10" fill="#555">smallint</text>
+    <text x="402" y="381" font-size="10" fill="#1a1a1a">record_status</text>
+    <text x="558" y="381" text-anchor="end" font-size="10" fill="#555">smallint</text>
+    <text x="402" y="395" font-size="10" fill="#1a1a1a">record_origin</text>
+    <text x="558" y="395" text-anchor="end" font-size="10" fill="#555">smallint</text>
+    <text x="402" y="409" font-size="10" fill="#1a1a1a">at_utc</text>
+    <text x="558" y="409" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <text x="402" y="423" font-size="10" fill="#1a1a1a">not_before_utc</text>
+    <text x="558" y="423" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <text x="402" y="437" font-size="10" fill="#1a1a1a">odometer, engine_hrs</text>
+    <text x="558" y="437" text-anchor="end" font-size="10" fill="#555">numeric</text>
+    <text x="402" y="451" font-size="10" fill="#1a1a1a">lat, lon</text>
+    <text x="558" y="451" text-anchor="end" font-size="10" fill="#555">numeric</text>
+    <text x="402" y="465" font-size="10" fill="#1a1a1a">vin_observed</text>
+    <text x="558" y="465" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="402" y="479" font-size="10" fill="#1a1a1a">received_at</text>
+    <text x="558" y="479" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <rect x="395" y="518" width="170" height="112" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="395" y="518" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="480" y="533" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.malfunctions</text>
+    <text x="402" y="551" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="558" y="551" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="402" y="565" font-size="10" fill="#1a1a1a">raised_event_id (FK)</text>
+    <text x="558" y="565" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="402" y="579" font-size="10" fill="#1a1a1a">cleared_event_id (FK)</text>
+    <text x="558" y="579" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="402" y="593" font-size="10" fill="#1a1a1a">category</text>
+    <text x="558" y="593" text-anchor="end" font-size="10" fill="#555">char(1)</text>
+    <text x="402" y="607" font-size="10" fill="#1a1a1a">raised_at, cleared_at</text>
+    <text x="558" y="607" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <text x="402" y="621" font-size="10" fill="#1a1a1a">remediate_by</text>
+    <text x="558" y="621" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <rect x="395" y="660" width="170" height="112" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="395" y="660" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="480" y="675" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.output_files</text>
+    <text x="402" y="693" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="558" y="693" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="402" y="707" font-size="10" fill="#1a1a1a">driver_id</text>
+    <text x="558" y="707" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="402" y="721" font-size="10" fill="#1a1a1a">from_day, to_day</text>
+    <text x="558" y="721" text-anchor="end" font-size="10" fill="#555">date</text>
+    <text x="402" y="735" font-size="10" fill="#1a1a1a">file_sha256</text>
+    <text x="558" y="735" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="402" y="749" font-size="10" fill="#1a1a1a">object_key</text>
+    <text x="558" y="749" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="402" y="763" font-size="10" fill="#1a1a1a">generated_at</text>
+    <text x="558" y="763" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <rect x="580" y="40" width="170" height="98" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="580" y="40" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="665" y="55" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.carrier_policy</text>
+    <text x="587" y="73" font-size="10" fill="#1a1a1a">carrier_id (PK)</text>
+    <text x="743" y="73" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="587" y="87" font-size="10" fill="#1a1a1a">cycle_rule</text>
+    <text x="743" y="87" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="587" y="101" font-size="10" fill="#1a1a1a">pc_allowed, ym_allowed</text>
+    <text x="743" y="101" text-anchor="end" font-size="10" fill="#555">boolean</text>
+    <text x="587" y="115" font-size="10" fill="#1a1a1a">ud_reasons</text>
+    <text x="743" y="115" text-anchor="end" font-size="10" fill="#555">text[]</text>
+    <text x="587" y="129" font-size="10" fill="#1a1a1a">yard_geofence_source</text>
+    <text x="743" y="129" text-anchor="end" font-size="10" fill="#555">text</text>
+    <rect x="580" y="158" width="170" height="126" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="580" y="158" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="665" y="173" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.outbox</text>
+    <text x="587" y="191" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="743" y="191" text-anchor="end" font-size="10" fill="#555">uuid v7</text>
+    <text x="587" y="205" font-size="10" fill="#1a1a1a">carrier_id</text>
+    <text x="743" y="205" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="587" y="219" font-size="10" fill="#1a1a1a">aggregate_type</text>
+    <text x="743" y="219" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="587" y="233" font-size="10" fill="#1a1a1a">aggregate_id</text>
+    <text x="743" y="233" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="247" font-size="10" fill="#1a1a1a">message_type</text>
+    <text x="743" y="247" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="587" y="261" font-size="10" fill="#1a1a1a">payload</text>
+    <text x="743" y="261" text-anchor="end" font-size="10" fill="#555">jsonb</text>
+    <text x="587" y="275" font-size="10" fill="#1a1a1a">published_at</text>
+    <text x="743" y="275" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <rect x="580" y="304" width="170" height="112" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="580" y="304" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="665" y="319" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.login_sessions</text>
+    <text x="587" y="337" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="743" y="337" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="351" font-size="10" fill="#1a1a1a">driver_id</text>
+    <text x="743" y="351" text-anchor="end" font-size="10" fill="#555">text · Tenna</text>
+    <text x="587" y="365" font-size="10" fill="#1a1a1a">device_id (FK)</text>
+    <text x="743" y="365" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="379" font-size="10" fill="#1a1a1a">login_event_id (FK)</text>
+    <text x="743" y="379" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="393" font-size="10" fill="#1a1a1a">logout_event_id (FK)</text>
+    <text x="743" y="393" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="407" font-size="10" fill="#1a1a1a">started_at, ended_at</text>
+    <text x="743" y="407" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <rect x="580" y="436" width="170" height="126" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="580" y="436" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="665" y="451" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.event_versions</text>
+    <text x="587" y="469" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="743" y="469" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="483" font-size="10" fill="#1a1a1a">event_id (FK)</text>
+    <text x="743" y="483" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="497" font-size="10" fill="#1a1a1a">prior_version_id (FK)</text>
+    <text x="743" y="497" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="511" font-size="10" fill="#1a1a1a">version</text>
+    <text x="743" y="511" text-anchor="end" font-size="10" fill="#555">integer</text>
+    <text x="587" y="525" font-size="10" fill="#1a1a1a">proposed / decided_by</text>
+    <text x="743" y="525" text-anchor="end" font-size="10" fill="#555">Tenna ids</text>
+    <text x="587" y="539" font-size="10" fill="#1a1a1a">decision</text>
+    <text x="743" y="539" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="587" y="553" font-size="10" fill="#1a1a1a">annotation</text>
+    <text x="743" y="553" text-anchor="end" font-size="10" fill="#555">text</text>
+    <rect x="580" y="582" width="170" height="112" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
+    <rect x="580" y="582" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
+    <text x="665" y="597" text-anchor="middle" font-weight="700" font-size="11.5" fill="#1a1a1a">eld.transfers</text>
+    <text x="587" y="615" font-size="10" fill="#1a1a1a">id (PK)</text>
+    <text x="743" y="615" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="629" font-size="10" fill="#1a1a1a">output_file_id (FK)</text>
+    <text x="743" y="629" text-anchor="end" font-size="10" fill="#555">uuid</text>
+    <text x="587" y="643" font-size="10" fill="#1a1a1a">method</text>
+    <text x="743" y="643" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="587" y="657" font-size="10" fill="#1a1a1a">output_file_comment</text>
+    <text x="743" y="657" text-anchor="end" font-size="10" fill="#555">text</text>
+    <text x="587" y="671" font-size="10" fill="#1a1a1a">attempted_at</text>
+    <text x="743" y="671" text-anchor="end" font-size="10" fill="#555">timestamptz</text>
+    <text x="587" y="685" font-size="10" fill="#1a1a1a">result, receipt</text>
+    <text x="743" y="685" text-anchor="end" font-size="10" fill="#555">text</text>
     <g stroke="#1a1a1a" stroke-width="1.2" fill="none" marker-end="url(#arrS)">
-      <line x1="415" y1="110" x2="345" y2="94"/>
-      <line x1="290" y1="230" x2="290" y2="184"/>
-      <line x1="365" y1="345" x2="405" y2="194"/>
-      <line x1="475" y1="240" x2="475" y2="194"/>
-      <path d="M545,330 H565 V194"/>
-      <line x1="590" y1="258" x2="570" y2="190"/>
-      <line x1="590" y1="345" x2="575" y2="194"/>
-      <line x1="590" y1="447" x2="550" y2="447"/>
+      <line x1="395" y1="280" x2="380" y2="100"/>
+      <line x1="295" y1="280" x2="295" y2="258"/>
+      <line x1="380" y1="470" x2="395" y2="458"/>
+      <line x1="480" y1="228" x2="480" y2="250"/>
+      <line x1="480" y1="518" x2="480" y2="488"/>
+      <line x1="580" y1="354" x2="565" y2="354"/>
+      <line x1="580" y1="466" x2="565" y2="468"/>
+      <line x1="580" y1="632" x2="565" y2="710"/>
     </g>
     <g stroke="#999" stroke-width="1.2" stroke-dasharray="5 4" fill="none" marker-end="url(#arrSd)">
-      <line x1="400" y1="128" x2="166" y2="90"/>
-      <line x1="215" y1="160" x2="166" y2="320"/>
-      <line x1="590" y1="157" x2="570" y2="157"/>
+      <line x1="210" y1="200" x2="180" y2="220"/>
+      <line x1="580" y1="263" x2="565" y2="263"/>
     </g>
-    <text x="300" y="112" fill="#555" font-size="10.5">driver_id</text>
-    <text x="150" y="245" fill="#555" font-size="10.5">asset_id</text>
-    <text x="330" y="212" fill="#555" font-size="10.5">device_id</text>
-    <line x1="215" y1="510" x2="255" y2="510" stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arrS)"/>
-    <text x="262" y="514" fill="#1a1a1a" font-size="11">foreign key inside schema eld</text>
-    <line x1="215" y1="535" x2="255" y2="535" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrSd)"/>
-    <text x="262" y="539" fill="#1a1a1a" font-size="11">Tenna id stored as text and never interpreted; the record is read through the T-surface API, no foreign key</text>
-    <text x="215" y="558" fill="#555" font-size="11">Not drawn: carrier_id on every eld table to carriers; outbox.aggregate_id to ud_records,</text>
-    <text x="215" y="573" fill="#555" font-size="11">malfunctions and transfers; ud_records.source_device_id to devices.</text>
+    <line x1="210" y1="802" x2="250" y2="802" stroke="#1a1a1a" stroke-width="1.2" marker-end="url(#arrS)"/>
+    <text x="257" y="806" fill="#1a1a1a" font-size="11">foreign key inside schema eld (FK)</text>
+    <line x1="210" y1="824" x2="250" y2="824" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrSd)"/>
+    <text x="257" y="828" fill="#1a1a1a" font-size="11">reference by id only, no foreign key. Rows typed "text · Tenna" hold a Tenna id stored as given</text>
+    <text x="210" y="846" fill="#555" font-size="11">Not drawn: carrier_id on every eld table to carriers; outbox.aggregate_id also to ud_records, malfunctions</text>
+    <text x="210" y="861" fill="#555" font-size="11">and transfers; ud_records.source_device_id to devices.</text>
   </svg>
   </div>
-  <p>Solid arrows are real foreign keys inside the <code>eld</code> schema. Dashed arrows cross into Tenna and are ids
-    only: the ELD stores the Tenna user, carrier or asset id as text and reads the record through T2, T3 or T4 when it
-    needs a name. There are no foreign keys into Tenna's tables and no joins across the schema boundary, so Tenna can
-    change its own schema without touching the ELD. The shared users table is the one exception to the split, and even
-    there the ELD keeps only the id.</p>
+  <p>Solid arrows are foreign keys inside the <code>eld</code> schema. Rows typed "text · Tenna" hold a Tenna user,
+    carrier or asset id stored exactly as Tenna issued it; the ELD reads the record through T2, T3 or T4 when it needs
+    a name, and there are no foreign keys into Tenna's tables and no joins across the schema boundary. Tenna can change
+    its own schema without touching the ELD. The shared users table is the one exception to the split, and even there
+    the ELD keeps only the id. Column lists show the keys and the columns that matter for the relationships; the full
+    lists follow below.</p>
 
   <h3>Devices and tracker links</h3>
   <div class="tbl-wrap">
