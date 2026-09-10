@@ -171,15 +171,15 @@
   </svg>
   </div>
 
-  <p>Blue outlines are what AppAxis builds. Grey boxes exist today or are Tenna's to build. The one shared table is
-    users. Everything else the ELD needs from Tenna it reads over an API when it needs it and does not copy.</p>
+  <p>Blue outlines are what AppAxis builds. Grey boxes already exist or are Tenna's to build. The one shared table is
+    users. The ELD reads everything else it needs from Tenna over an API at the time it needs it, and does not keep a copy.</p>
 
   <h3>Four rules of the split</h3>
   <ol>
     <li>Tenna IDs are the join keys. The ELD stores a reference and never copies a Tenna-owned record into its schema.</li>
     <li>On-demand reads, not bulk sync. Nothing is copied on a schedule, so the ELD never holds a stale person or asset.</li>
     <li>New, purpose-built APIs (T1–T8) rather than direct access to Tenna's existing ones, each scoped to what the ELD needs.</li>
-    <li>The certifiable record stays in the ELD schema. Tenna receives copies of events (E2), never the record of truth.</li>
+    <li>The certifiable record stays in the ELD schema. Tenna receives copies of events (E2), never the authoritative record.</li>
   </ol>
 
   <h3>Assumptions</h3>
@@ -188,8 +188,8 @@
     <li>Runtime, framework and API gateway are Tenna's choice. They are placeholders in section 7 until Tenna fills them in.</li>
     <li>A Cognito JWT from the shared user pool is the bearer credential for both the mobile app and the micro-frontend.
       The ELD API validates it with the pool's public keys and reads carrier and role claims from it.</li>
-    <li>Driver events are never lost by design: the transactional outbox pattern is used on the phone and on the server (section 4). This is an architectural commitment, not a tuning choice.</li>
-    <li>The ELD backend lives in a repo Tenna owns, alongside the micro-frontend repo P5 already calls for. Confirm.</li>
+    <li>Driver events are never lost by design: the transactional outbox pattern is used on the phone and on the server (section 4). This is a design requirement, not a setting.</li>
+    <li>The ELD backend lives in a repo Tenna owns, alongside the micro-frontend repo P5 already calls for. To be confirmed.</li>
   </ul>
 
   <h2 id="s2">2. Ownership split</h2>
@@ -212,20 +212,20 @@
       <tr><th colspan="5">Vehicle and device</th></tr>
       <tr><td>Asset name and type</td><td>Tenna platform</td><td>Tenna</td><td>T4</td><td></td></tr>
       <tr><td>VIN</td><td>Tracker (observed), Tenna (of record)</td><td>Tenna, ELD stamps what it read</td><td>B1, T4</td><td>Mismatch flagged on the event and in W11</td></tr>
-      <tr><td>Tracker serial (item 0x0F)</td><td>Tracker</td><td>Tenna</td><td>B1, T4</td><td>The join everything hangs on</td></tr>
+      <tr><td>Tracker serial (item 0x0F)</td><td>Tracker</td><td>Tenna</td><td>B1, T4</td><td>The key that links a tracker to a vehicle</td></tr>
       <tr><td>Tracker BLE address (char. 0x2A59)</td><td>Tracker</td><td>ELD</td><td>B1</td><td>A connection detail, not a business key</td></tr>
       <tr><td>Tracker protocol version</td><td>Tracker (inferred)</td><td>ELD</td><td>B1</td><td></td></tr>
       <tr><td>Tracker firmware version</td><td>Tenna platform</td><td><b>Open</b></td><td>T4</td><td>No BLE characteristic exposes it</td></tr>
       <tr><th colspan="5">Telemetry</th></tr>
-      <tr><td>Odometer, engine hours</td><td>Tracker</td><td>ELD</td><td>B1, S1</td><td>Owned as stamped on events, not as streamed</td></tr>
+      <tr><td>Odometer, engine hours</td><td>Tracker</td><td>ELD</td><td>B1, S1</td><td>The ELD owns the values stamped on events, not the live stream</td></tr>
       <tr><td>Engine power state</td><td>Derived (RPM over 200)</td><td>ELD</td><td>B1, S1</td><td></td></tr>
-      <tr><td>Road speed and motion state</td><td>Tracker</td><td>ELD</td><td>B1</td><td>The moving-or-not judgement is the ELD's</td></tr>
+      <tr><td>Road speed and motion state</td><td>Tracker</td><td>ELD</td><td>B1</td><td>The ELD decides whether the vehicle is moving</td></tr>
       <tr><td>Position (lat, lon)</td><td>Tracker</td><td>ELD, as stamped on events</td><td>B1, S1</td><td>Raw stream not retained (P3, 8 Sep). Corrected from the Wireframes table</td></tr>
       <tr><td>Geocoded place name</td><td>Derived</td><td>ELD</td><td>S1</td><td></td></tr>
       <tr><th colspan="5">HOS record</th></tr>
       <tr><td>Duty-status events, derived clocks, sequence number</td><td>Derived</td><td>ELD</td><td>S1, E1</td><td></td></tr>
       <tr><td>Annotations, certifications, edits and edit history</td><td>Entered</td><td>ELD</td><td>S2</td><td></td></tr>
-      <tr><td>HOS violations, malfunctions and diagnostics</td><td>Derived</td><td>ELD</td><td>S1, E2</td><td>Egress gated on P4</td></tr>
+      <tr><td>HOS violations, malfunctions and diagnostics</td><td>Derived</td><td>ELD</td><td>S1, E2</td><td>Sent to Tenna only once P4 is settled</td></tr>
       <tr><td>Unidentified-driving records and their dispositions</td><td>Tracker, then Entered</td><td>ELD</td><td>B1, S3</td><td></td></tr>
       <tr><td>Non-HOS move stamps, work order reference</td><td>Entered, Tenna platform</td><td>ELD, Tenna</td><td>S3, T6</td><td>T6 is new</td></tr>
       <tr><th colspan="5">Compliance outputs</th></tr>
@@ -364,9 +364,9 @@
       <tr><td>aggregate_type, aggregate_id</td><td>text, uuid</td><td>What the message is about: event, ud_record, malfunction, transfer, proposal</td></tr>
       <tr><td>message_type</td><td>text</td><td>The E2 event_type, for example eld.malfunction.raised</td></tr>
       <tr><td>payload</td><td>jsonb</td><td>The E2/E3 envelope, fully rendered at write time so the relay needs no joins</td></tr>
-      <tr><td>created_at</td><td>timestamptz</td><td>Same transaction as the row it announces</td></tr>
+      <tr><td>created_at</td><td>timestamptz</td><td>Written in the same transaction as the row it describes</td></tr>
       <tr><td>published_at</td><td>timestamptz</td><td>Null until Tenna's intake acknowledges. Published rows are pruned after 7 days</td></tr>
-      <tr><td>attempts, next_attempt_at, last_error</td><td>integer, timestamptz, text</td><td>Backoff state. A row that exhausts attempts stays put and raises an operator alert; it is never dropped</td></tr>
+      <tr><td>attempts, next_attempt_at, last_error</td><td>integer, timestamptz, text</td><td>Backoff state. A row that runs out of attempts is kept and raises an operator alert; it is never dropped</td></tr>
     </tbody>
   </table>
   </div>
@@ -376,10 +376,10 @@
       notification was lost, and no window in which Tenna is told about an event that was rolled back.</li>
     <li>A relay worker polls unpublished rows (ordered by id, <code>FOR UPDATE SKIP LOCKED</code> so several instances
       can run), posts them to Tenna's intake, and sets <code>published_at</code> on acknowledgment. Delivery is
-      at-least-once; Tenna dedupes on the outbox id, which travels in the envelope.</li>
+      at-least-once; Tenna dedupes on the outbox id, which is included in the envelope.</li>
     <li>The same table also holds internal work that must not be lost: transfer requests and
-      eRODS transfer attempts are enqueued here and executed by the same relay, so a crash between "transfer row
-      written" and "file sent" resumes rather than disappears.</li>
+      eRODS transfer attempts are enqueued here and executed by the same relay, so if the service crashes after writing the transfer row but before
+      sending the file, the work resumes instead of being lost.</li>
   </ul>
 
   <h3>Certifications, login sessions, power events</h3>
@@ -418,7 +418,7 @@
     <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
     <tbody>
       <tr><td>id</td><td>uuid</td><td></td></tr>
-      <tr><td>tracker_serial, reason, time_epoch_sec</td><td>text, smallint, bigint</td><td>The natural key from the drained UDRV frame. UNIQUE, which is the dedupe: the tracker repeats each frame 2–4 times</td></tr>
+      <tr><td>tracker_serial, reason, time_epoch_sec</td><td>text, smallint, bigint</td><td>The natural key from the drained UDRV frame. UNIQUE, which is what removes duplicates: the tracker repeats each frame 2–4 times</td></tr>
       <tr><td>carrier_id, asset_id</td><td>text</td><td>asset resolved through eld.tracker_links at receipt</td></tr>
       <tr><td>start_at, end_at</td><td>timestamptz</td><td>From the BEGIN_STOP / END_STOP pair (reason codes 12, 13). Device clock</td></tr>
       <tr><td>loc_time_epoch_sec</td><td>bigint</td><td>UDRV_LOCTIME as received, kept separately because it is the tracker's clock</td></tr>
@@ -518,24 +518,24 @@
   </table>
   </div>
 
-  <h3>Never losing a driver event: the outbox pattern, twice</h3>
+  <h3>Never losing a driver event: the outbox pattern at both hops</h3>
   <p>A driver event can be lost at two hops: between the app recording it and the network, and between the ELD API
     storing it and anything downstream. Both hops use the transactional outbox pattern, so a record and the intent
     to deliver it are always written together.</p>
   <div class="tbl-wrap">
   <table>
-    <thead><tr><th>Hop</th><th>Transaction</th><th>Relay</th><th>Idempotency</th><th>Fails how</th></tr></thead>
+    <thead><tr><th>Hop</th><th>Transaction</th><th>Relay</th><th>Idempotency</th><th>On failure</th></tr></thead>
     <tbody>
       <tr><td>Phone to ELD API (E1)</td>
         <td>The event row in the on-device log and its outbox entry are written in one SQLite transaction (Room on Android, GRDB or SQLite directly on iOS). The UI never shows an event that is not already queued</td>
         <td>A sync worker reads the device outbox in seq order, posts batches of up to 200, and deletes an entry only when the server says accepted or duplicate. Backoff on failure. Survives process death, reboot, airplane mode, and the OS killing the app for background CPU</td>
         <td>Event <code>id</code> (UUIDv7), assigned on the device</td>
-        <td>Loudly. An entry older than 24 hours or rejected by the server raises the recording diagnostic on D18 and is listed in W10. It is never dropped; a driver can see the count of unsynced events on D4</td></tr>
+        <td>Visibly. An entry older than 24 hours or rejected by the server raises the recording diagnostic on D18 and is listed in W10. It is never dropped; a driver can see the count of unsynced events on D4</td></tr>
       <tr><td>ELD API to Tenna (E2, E3) and to FMCSA</td>
         <td>The event insert and its <code>eld.outbox</code> row commit together in Postgres</td>
         <td>The outbox relay, above</td>
         <td>Outbox <code>id</code> in the envelope; Tenna dedupes</td>
-        <td>Rows that exhaust retries stay unpublished and page an operator</td></tr>
+        <td>Rows that exhaust retries stay unpublished and alert an operator</td></tr>
     </tbody>
   </table>
   </div>
@@ -602,7 +602,7 @@
     <li><b>Errors.</b> RFC 9457 problem details: <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, plus a per-item <code>errors[]</code> on batch endpoints.</li>
     <li><b>Pagination.</b> Cursor-based, <code>?cursor&amp;limit</code>, limit capped at 500.</li>
     <li><b>Versioning.</b> Path version (<code>/v1</code>). Additive changes do not bump it. The mobile app sends its version in a header so the server can refuse a build that is too old.</li>
-    <li><b>Rate limits.</b> Per device for E1, per user for the micro-frontend. Generous, because the phone batches. A 429 includes <code>Retry-After</code> and the queue waits that long.</li>
+    <li><b>Rate limits.</b> Per device for E1, per user for the micro-frontend. Generous, because the phone sends in batches. A 429 includes <code>Retry-After</code> and the queue waits that long.</li>
   </ul>
 
   <h2 id="s5">5. Contract C: what the ELD needs from Tenna</h2>
@@ -617,10 +617,10 @@
       <tr><td><a href="/#s-t4">T4</a> Assets</td><td><code>{id, name, type, vin, tracker{serial}, bus (OBD-II | J1939), ecm_hours_available}</code>, keyed by id or <code>?tracker_serial=</code></td><td>Pairing, VIN cross-check, hours source</td><td>Serial is the join. BLE address is not: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed</td></tr>
       <tr><td><a href="/#s-t5">T5</a> Sites</td><td>Yard polygons</td><td>Ending a yard move automatically</td><td><b>Source open</b></td></tr>
       <tr><td><a href="/#s-t6">T6</a> Work orders</td><td>Open work orders for an asset</td><td>D27 shop road test stamp</td><td>New surface</td></tr>
-      <tr><td><a href="/#s-t7">T7</a> DVIR</td><td>Status by asset, launch and return deep links</td><td>D14</td><td>Contract to write</td></tr>
-      <tr><td><a href="/#s-t8">T8</a> Entitlements</td><td>ELD license on the account, supervisor permission, the portal injection point for the micro-frontend</td><td>Sign-in gate, W-screen access</td><td>Injection point is Tamar's</td></tr>
+      <tr><td><a href="/#s-t7">T7</a> DVIR</td><td>Status by asset, launch and return deep links</td><td>D14</td><td>Contract still to be written</td></tr>
+      <tr><td><a href="/#s-t8">T8</a> Entitlements</td><td>ELD license on the account, supervisor permission, the portal injection point for the micro-frontend</td><td>Sign-in gate, W-screen access</td><td>Tamar owns the injection point</td></tr>
       <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Shape agreed, list <b>open</b> (P4)</td></tr>
-      <tr><td>Platform</td><td>Postgres instance and <code>eld</code> schema provisioning; AWS account and VPC placement; secrets; CI/CD for the new repos; a way for AppAxis to run the portal locally; the shared component base</td><td>Building and deploying at all</td><td>To schedule with Kyle and Tamar</td></tr>
+      <tr><td>Platform</td><td>Postgres instance and <code>eld</code> schema provisioning; AWS account and VPC placement; secrets; CI/CD for the new repos; a way for AppAxis to run the portal locally; the shared component base</td><td>Building and deploying</td><td>To schedule with Kyle and Tamar</td></tr>
     </tbody>
   </table>
   </div>
@@ -714,7 +714,7 @@
   </svg>
   </div>
   <ul>
-    <li>Motion and stop are the ELD's judgement over the speed item. Driving begins above 5 mph. A stop candidate is three seconds at zero.</li>
+    <li>The ELD decides motion and stops from the speed item. Driving begins above 5 mph. A stop is suspected after three seconds at zero speed.</li>
     <li>Every event is created and sequenced on the device before it is sent. The host never assigns seq and never reorders.</li>
     <li>The event and its outbox entry are one local transaction, so an event the driver can see is by definition an event that will be synced. The device outbox is drained only on server acknowledgment.</li>
     <li>A rebuild after a lost phone is a read from the host, which is why P3 requires every event to reach the host when recorded.</li>
@@ -805,7 +805,7 @@
   <ul>
     <li>The API refuses, at proposal time, any change that would shorten or reassign automatically recorded driving time. The one exception is ending a drive segment at a power-down the device missed.</li>
     <li>Wrong-driver reassignment is two proposals, one to each driver, and takes effect only when both accept.</li>
-    <li>The push to the driver is host-originated. Whether it rides the ELD app's own push channel or Tenna's engine is part of P4. The data path does not change either way.</li>
+    <li>The push to the driver is host-originated. Whether it goes through the ELD app's own push channel or Tenna's engine is part of P4. The data path does not change either way.</li>
     <li>Hops: micro-frontend to API (Contract B), API to phone (push, then E1 for the decision), API to Tenna (E2).</li>
   </ul>
 
@@ -990,13 +990,13 @@
     <li>Single-thread confinement for everything service-side. BLE callbacks are marshalled onto one serial executor, so the state machine never sees two events at once.</li>
     <li>The session log and the device outbox are append-only and durable, written in the same local transaction. Nothing is rewritten in place on the device, and nothing leaves the outbox without a server acknowledgment.</li>
     <li>The purge interlock: the tracker's stored unidentified driving is purged only after the host acknowledges every record.</li>
-    <li>Frame assembly tolerates a garbage-spewing tracker; a zero-count header is discarded, never indexed.</li>
+    <li>Frame assembly tolerates a tracker that sends garbage; a zero-count header is discarded, never indexed.</li>
   </ul>
 
   <h3>Environments and repos</h3>
   <ul>
     <li>Micro-frontend: new Tenna GitHub repo (P5), built and hosted by Tenna's portal pipeline.</li>
-    <li>Backend: assume the same GitHub organization and the same environment ladder as Tenna's other services. Confirm with Kyle.</li>
+    <li>Backend: assume the same GitHub organization and the same set of environments as Tenna's other services. Confirm with Kyle.</li>
     <li>Mobile: the two native repos AppAxis already runs, moved or mirrored into Tenna's organization before Stage F so the registered software version traces to a Tenna-owned commit.</li>
     <li>AppAxis needs a way to run the portal shell locally with the micro-frontend mounted, and a non-production Postgres with the <code>eld</code> schema.</li>
   </ul>
@@ -1032,10 +1032,10 @@
       <tr><td><a href="/decisions#q1">Q1</a> duty status on link loss</td><td>Which component is the ELD of record during a gap; retroactive stop/start treatment</td><td>HOS engine; not_before_utc semantics</td><td>Tom</td></tr>
       <tr><td><a href="/decisions#q19">Q19</a> audit export scope</td><td>What the one-click export contains</td><td>W13; <code>POST /audit-exports</code></td><td>Tom, Tenna product</td></tr>
       <tr><td><a href="/decisions#p3">P3</a> raw-reading retention</td><td>Tom's agreement to 10 days rolling on the device (section 2)</td><td>Certification Roadmap Stage B text; Wireframes v5 note</td><td>Tom, Thursday 10 Sep</td></tr>
-      <tr><td><a href="/decisions#p4">P4</a> event list</td><td>Which E2 events Tenna consumes, and where host-to-driver pushes ride</td><td>Egress; W1, W2, W8, W10</td><td>Tenna product</td></tr>
+      <tr><td><a href="/decisions#p4">P4</a> event list</td><td>Which E2 events Tenna consumes, and how host-to-driver pushes are delivered</td><td>Egress; W1, W2, W8, W10</td><td>Tenna product</td></tr>
       <tr><td>Registration mechanics</td><td>Per-OS registration, ELD identifier rules, version string rules</td><td>eld.devices columns; Stage F</td><td>Tom</td></tr>
       <tr><td><a href="/decisions#q17">Q17</a> retention scoping</td><td>Whether the carrier wants longer than 6 months on the host</td><td>Retention policy, storage estimate</td><td>Tenna product</td></tr>
-      <tr><td>Offline sign-in grace</td><td>How long a cached T1 session is honoured without the pool</td><td>D1; sync worker behaviour</td><td>Kumaran</td></tr>
+      <tr><td>Offline sign-in grace</td><td>How long a cached T1 session is accepted without reaching the pool</td><td>D1; sync worker behaviour</td><td>Kumaran</td></tr>
       <tr><td>T5 geofence source</td><td>Tenna Sites over the API, or drawn in the ELD</td><td>eld.carrier_policy.yard_geofence_source; D9</td><td>Tamar</td></tr>
       <tr><td>Tracker firmware system of record</td><td>Whether Tenna records it as an asset attribute</td><td>T4 field list</td><td>Kyle</td></tr>
       <tr><td><a href="/decisions#q2">Q2</a> engine-hours ECM baseline</td><td>Which assets expose ECM hours; accumulated-hours fallback rules</td><td>hours_source; W11 flag</td><td>Tom, Geometris</td></tr>
