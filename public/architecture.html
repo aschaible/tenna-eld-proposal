@@ -329,7 +329,7 @@
     <text x="665" y="175" text-anchor="middle" fill="#555" font-size="10.5">payload, published_at</text>
     <rect x="590" y="240" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
     <text x="665" y="257" text-anchor="middle" font-weight="700" fill="#1a1a1a">login_sessions</text>
-    <text x="665" y="272" text-anchor="middle" fill="#555" font-size="10.5">login_event_id, logout_event_id</text>
+    <text x="665" y="272" text-anchor="middle" fill="#555" font-size="10.5">login and logout event ids</text>
     <rect x="590" y="330" width="150" height="54" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
     <text x="665" y="347" text-anchor="middle" font-weight="700" fill="#1a1a1a">event_versions</text>
     <text x="665" y="362" text-anchor="middle" fill="#555" font-size="10.5">event_id, prior_version_id</text>
@@ -360,8 +360,8 @@
     <text x="262" y="514" fill="#1a1a1a" font-size="11">foreign key inside schema eld</text>
     <line x1="215" y1="535" x2="255" y2="535" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrSd)"/>
     <text x="262" y="539" fill="#1a1a1a" font-size="11">Tenna id stored as opaque text, resolved through the T-surface API, no foreign key</text>
-    <text x="215" y="558" fill="#555" font-size="11">Not drawn: carrier_id on every eld table to carriers; outbox.aggregate_id to ud_records, malfunctions and transfers;</text>
-    <text x="215" y="573" fill="#555" font-size="11">ud_records.source_device_id to devices.</text>
+    <text x="215" y="558" fill="#555" font-size="11">Not drawn: carrier_id on every eld table to carriers; outbox.aggregate_id to ud_records,</text>
+    <text x="215" y="573" fill="#555" font-size="11">malfunctions and transfers; ud_records.source_device_id to devices.</text>
   </svg>
   </div>
   <p>Solid arrows are real foreign keys inside the <code>eld</code> schema. Dashed arrows cross into Tenna and are ids
