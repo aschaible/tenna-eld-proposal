@@ -139,14 +139,17 @@
     <p class="who">Owner: <b>Joint</b> — Tom Cuthbertson rules, AppAxis drafts, Tenna signs off · Phase 2 exit</p>
     <ul>
       <li>Settled 8 and 10 September: P3 raw data (host receives events only, the moment they are recorded; the phone
-        keeps ten days of raw readings that never leave it), Q15–Q17 unidentified driving (manual carrier review, carrier
-        assigns with driver acceptance, five standard reasons plus carrier-defined, a driver's rejection removes the record
-        from the cab), Q18 transfer method (Telematics: web services and email, elected), Q19 audit export (the Appendix A
-        output file only, in 30-day increments), Q20 host inspector view (build), Q23 VIN (vehicle wins), Q24 biometric
-        sign-in (sufficient under Appendix A 4.1.3), D35 motion-without-sign-in screen (required). Concurrent co-driver
-        authentication is required by 4.1.4(b).</li>
-      <li>Open: Q1 duty status on link loss (planned walk-off and unplanned dropout, three rulings needed), D29
-        stationary-prompt parameters, acceptance criteria approval, registration re-submission triggers (Stage F).</li>
+        keeps ten days of raw readings that never leave it), Q1 duty status on link loss (no automatic change; the
+        stationary prompt is the only automatic On Duty, and an answered prompt backdates to first zero speed), Q15–Q17
+        unidentified driving (manual carrier review, carrier assigns with driver acceptance, five standard reasons plus
+        carrier-defined; unaccepted records stay on the vehicle for eight days and are re-offered to each driver who
+        signs in), Q18 transfer method (Telematics: web services and email, elected), Q19 audit export (the Appendix A
+        output file only, in 30-day increments), Q20 host inspector view (build), Q23 VIN (vehicle wins), D35
+        motion-without-sign-in screen (required; speed above 5 mph is the motion test), co-driver (both signed into one
+        device, required by Appendix A 4.1.4(b)).</li>
+      <li>Open: Q24 biometric sign-in to the ELD application (Tom Cuthbertson's position is user code and password; he is
+        asking his FMCSA contact for a yes or no), D29 stationary-prompt parameters, acceptance criteria approval,
+        registration re-submission triggers (Stage F).</li>
       <li>Fold answers into the HOS engine specification, the data-retention design, and the decision log.</li>
     </ul>
     <p class="gate"><b>Exit.</b> Scope lock signed with every open item answered in writing. Tom Cuthbertson rules in
@@ -176,6 +179,16 @@
     <ul>
       <li>Telematics transfer to eRODS (4.9, 4.10.1.1 web services, 4.10.1.2 email) from the driver at roadside (D17)
         and from the back office (W17, one month per request). No-signal path: inspection display on the phone (D16).</li>
+      <li>Per FMCSA's ELD Data Transfer Requirements sheet (Tom Cuthbertson, 10 September): web services is a SOAP
+        submission of the client certificate, the output file and the output file comment, with a test flag that keeps
+        submissions away from inspectors; email is S/MIME, AES-256 encrypted with FMCSA's public key and signed with the
+        provider's private key, subject "ELD records from &lt;registration id&gt;:&lt;ELD identifier&gt;", "TEST:" prefix
+        while testing. FMCSA issues a test certificate, sample ELD identifier and sample registration id before
+        registration, so transfer development does not wait on Stage F. Key handling lives on the ELD backend, not the
+        phone.</li>
+      <li>Generate the output file continuously through testing and run every file through FMCSA's file validator, then
+        web eRODS. Both tools need the provider account (Stage E), so open it once the app is running in trucks
+        internally, not before.</li>
       <li>Unidentified-driving loop end to end: tracker capture, 8-day in-cab list, driver accept or reject (D22),
         carrier reason or reassignment (W16), driver confirmation (D34), 6-month retention.</li>
       <li>Edit and annotation versioning with originals preserved and full attribution. Wrong-driver segment
@@ -190,8 +203,14 @@
     <h3>Stage E — Certification-readiness verification</h3>
     <p class="who">Owner: <b>AppAxis assembles, Tom Cuthbertson accepts</b> · Phase 5, weeks 16–17</p>
     <ul>
+      <li>Open the FMCSA ELD provider account (eld.fmcsa.dot.gov/Provider) at the start of this stage, once code is
+        running in trucks internally. It unlocks the file validator and web eRODS, and the account walkthrough carries
+        the certifying statement, the development statement, the driver manual and the cab card. Tom Cuthbertson is
+        sending the account walkthrough and outline documents.</li>
       <li>Evidence package in the FMCSA test-plan report format, decided 10 September: per RTM requirement, date, tester,
         pass or fail per step, comments, re-run set, regression after each fix.</li>
+      <li>Output files from the road tests pass the validator clean or with warnings only, then load and read sensibly
+        in web eRODS. Tom's acceptance review starts there.</li>
       <li>Full RTM harness run on the integrated release build, archived.</li>
       <li>FMCSA test procedures executed manually in a commercial vehicle over a multi-day drive, following the
         RTM and chapter outline, on the customer device matrix. Report in the test plan's format: date, tester,
@@ -200,8 +219,9 @@
         driver cases.</li>
       <li>Malfunction and diagnostic evidence: each of the eight categories triggered, displayed, and cleared.</li>
       <li>Certifying statement test description drafted from the above.</li>
-      <li>In-cab documents per 395.22(g)–(h): user manual, data-transfer instruction sheet, malfunction instruction
-        sheet, blank paper logs. Public user-instructions page, reachable without login.</li>
+      <li>In-cab documents per 395.22(g)–(h): user manual, cab card with the transfer-to-enforcement and malfunction
+        instructions, blank paper logs. Public user-instructions page, reachable without login. Tom: FMCSA is strict on
+        the manual and the cab card; the registered-devices list on the FMCSA site has examples of both.</li>
     </ul>
     <p class="gate"><b>Exit.</b> Tom Cuthbertson accepts the evidence package as sufficient to sign. Evidence: the
       package and written acceptance. Records retained two years minimum.</p>
@@ -214,8 +234,12 @@
       <li>Registration (Appendix 5.1): provider name, address, contact, ELD identifier, model name, software version,
         operating systems, transfer method (Telematics), public instructions URL, public contact. Certifying
         statement (5.2) referencing the Stage E test description.</li>
-      <li>To verify with Tom Cuthbertson: one registration per operating system or one combined; ELD identifier constraints;
-        version-string changes that require re-submission; content required at the public URL; who signs for Tenna.</li>
+      <li>Decided 10 September: one registration and one ELD identifier covering both operating systems; the public URL
+        holds the user manual, the transfer and malfunction sheets, and a contact. Still with Tom Cuthbertson: which
+        version changes require re-submission (5.1.2).</li>
+      <li>FMCSA has revoked about 80 registrations this year, targeting chameleon and white-label devices. The
+        registration is a self-certification with a statement of how the device was tested; the Stage E evidence is
+        what defends it.</li>
       <li>Listing appears within one to five business days. Pilot runs in parallel.</li>
       <li>Keep registration current (5.1.2). Maintenance runbook: FMCSA guidance changes, re-submission on major
         version, app-store re-review, driver-reported edge cases, annual user-guide refresh, response procedure for a
@@ -244,7 +268,7 @@
         <td>Open items answered in writing; scope lock signed</td>
         <td>Signed scope-lock package, decision log</td>
         <td>Joint</td>
-        <td>P3, Q15–Q20, Q23, Q24 settled 8 and 10 Sep; Q1, D29, criteria, re-submission triggers open</td>
+        <td>P3, Q1, Q15–Q20, Q23 settled 8 and 10 Sep; Q24 reopened (FMCSA answer pending), D29, criteria, re-submission triggers open</td>
       </tr>
       <tr>
         <td>C</td>
@@ -255,14 +279,14 @@
       </tr>
       <tr>
         <td>D</td>
-        <td>Roadside and host transfers accepted by eRODS test endpoint; unidentified-driving loop closed</td>
+        <td>Roadside and host transfers accepted by the eRODS test endpoint using FMCSA test credentials; unidentified-driving loop closed</td>
         <td>Transfer confirmations, test-fleet record</td>
         <td>AppAxis</td>
         <td>Phase 4</td>
       </tr>
       <tr>
         <td>E</td>
-        <td>Evidence package complete, FMCSA procedures run in-vehicle, accepted by Tom Cuthbertson</td>
+        <td>Provider account open; output files pass the validator and web eRODS; evidence package complete, FMCSA procedures run in-vehicle, accepted by Tom Cuthbertson</td>
         <td>Evidence package, written acceptance</td>
         <td>AppAxis, then Tom Cuthbertson</td>
         <td>Phase 5</td>
@@ -283,14 +307,14 @@
   <table>
     <thead><tr><th>Item</th><th>Needed</th><th>Blocks</th></tr></thead>
     <tbody>
-      <tr><td>Q1 — duty status when the phone loses the vehicle link</td>
-        <td>Planned walk-off: may the app close Driving at the tracker's stop time automatically. Unplanned dropout: may
-          drained records that fill the same signed-in driver's gap attach to that driver automatically. Both: does
-          link-loss time count toward the 4.6.1.1 malfunction clock when the tracker kept recording</td>
-        <td>Stage B; Phase 3 HOS engine</td></tr>
+      <tr><td>Q24 — biometric sign-in to the ELD application</td>
+        <td>Tom Cuthbertson's reading: user code and password, tied to the host account; a biometric may unlock the
+          phone, not the ELD app. He is asking his FMCSA contact for a yes or no. Product position (Adam, 10 Sep) was
+          biometric for the saved session on personal phones</td>
+        <td>Stage B; D1</td></tr>
 
       <tr><td>D29 — stationary prompt parameters</td>
-        <td>Window, timeout, recorded origin</td><td>Stage B; state machine</td></tr>
+        <td>Confirmed 10 Sep: 3 s at zero speed starts a 5-minute timer, prompt, 1 minute unanswered switches to On Duty, vehicle must be running; an answered prompt backdates to first zero speed. Remaining: recorded origin codes and the restart rule at a long signal</td><td>Stage B; state machine</td></tr>
       <tr><td>Acceptance criteria</td>
         <td>Approval, correction, or additions by Tom Cuthbertson to the test inventory</td><td>Stage A exit</td></tr>
 

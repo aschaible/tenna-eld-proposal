@@ -720,6 +720,44 @@
       </div>
     </div>
 
+    <div data-rev-from="v6">
+      <div class="eyebrow">Revision 9/10/2026</div>
+      <h2 style="margin-bottom:6px;">What changed</h2>
+      <p class="lede" style="margin-bottom:18px;">The 10 September call with Tom Cuthbertson answered Q1, corrected two things this package had drawn, and reopened one. Adam now owns the product requirements (Jose, 9 September), so decisions that did not need a compliance ruling are recorded as decisions. The 9/8 package is unchanged and still readable in full.</p>
+
+      <div class="legend-grid">
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D29 &middot; Q1</span>
+          <p><b>Link loss does not change duty status.</b> Tom: if the driver walks off with the phone while in Driving and never sets himself On Duty, he stays in Driving. The automatic switch to On Duty exists only for the stationary case with the vehicle running: zero speed for three seconds starts the five-minute timer, the prompt fires, and after one unanswered minute the status changes. If the driver answers On Duty, the change is recorded from when the vehicle first hit zero speed, not when he tapped. <a href="#d29">D29</a> says so; the reconnect-prompt idea on <a href="#d4">D4</a> and <a href="#d5">D5</a> is withdrawn.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D22</span>
+          <p><b>Rejected records do not leave the cab.</b> Tom: anything unaccepted stays on the vehicle for eight days. A driver who says not mine stops seeing it, but the next driver to sign in is asked again, until someone accepts it or eight days pass. The records live at the host and the app pulls them down at every login; the host never creates the log, it only holds the unidentified queue.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D1 &middot; Q24</span>
+          <p><b>Biometric sign-in is back to open.</b> Tom would not sign off a biometric unlock into the ELD application itself: FMCSA wants the driver holding a user code and password tied to the host account. He is asking his agency contact for a yes or no. <a href="#d1">D1</a> keeps the drawing with the toggle marked pending.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D3 &middot; D33</span>
+          <p><b>Co-driver: both signed in, on one device.</b> Applied from the 8 September call and reaffirmed today, and required by Appendix A 4.1.4(b). Both drivers log into the same device; one is primary, one secondary; a driver can be signed into one ELD at a time. Two phones in one truck is the over-clever design Tom warns against. The swap needs no password.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D35 &middot; D2</span>
+          <p><b>Motion is speed, and pairing needs a login.</b> The trigger is road speed above 5 mph, not a duration. Since a driver must be signed in to pick a tracker, the "paired but not signed in" case cannot arise; when a session has expired the app does not pair. Crew members who are not signed in are the carrier's operational problem, and they catch up with their own on and off duty edits.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">W13</span>
+          <p><b>Audit export is the output file, only.</b> The regulation defines the artifact: one Appendix A output file per driver. <a href="#w13">W13</a> becomes drivers, dates, generate, in 30-day increments through the same generator as <a href="#w17">W17</a>. The checkbox bundle is gone.</p>
+        </div>
+      </div>
+
+      <div class="anatomy" style="margin-top:16px;">
+        <p><b>Also from the call:</b> a driver has up to one minute after login for the ELD to be fully operational, so the recommended order in the driver manual is key on, then log in. The 30-minute malfunction threshold is cumulative missing data in 24 hours, not consecutive. Two test cases Tom asked for, Bluetooth interference and other Bluetooth devices in the cab, are in the test plan.</p>
+        <p><b>Not applied:</b> nothing from the call is held back this time.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1058,7 +1096,8 @@
               <div class="ph-note" style="text-align:center; margin-top:10px;"><span data-revi-until="v2">Carrier: Blue Ash Construction Co. · USDOT 3172584<br/></span>v0.9.0 · rev e9262cb</div>
               <div data-rev-from="v3">
                 <div class="ph-state">Next launch &middot; personal phone</div>
-                <div class="ph-confirm is-ok"><i>&#10003;</i><span>Face ID &middot; m.alvarez<small>unlocks the saved session. The password comes back weekly, and after any logout</small></span></div>
+                <div class="ph-confirm is-ok" data-rev-until="v5"><i>&#10003;</i><span>Face ID &middot; m.alvarez<small>unlocks the saved session. The password comes back weekly, and after any logout</small></span></div>
+                <div class="ph-confirm" data-rev-from="v6"><i>?</i><span>Face ID &middot; m.alvarez<small>drawn, not settled. Tom Cuthbertson is asking FMCSA whether a biometric may open the ELD app; until then, user code and password (Q24)</small></span></div>
                 <div class="ph-state">Shared cab tablet, or a co-driver</div>
                 <div class="ph-confirm"><i>&#9675;</i><span>Password every time<small>a device enrols one face, so it cannot tell two drivers apart</small></span></div>
               </div>
@@ -1068,7 +1107,8 @@
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D1</span><h4 class="wf-name">Login</h4><span class="tag t-gated" data-revi-until="v2">Gated · P1</span><span class="tag t-gated" data-revi-until="v2">Gated · P2</span><span class="tag t-settled" data-revi-from="v3">Settled &middot; P1&nbsp;&middot;&nbsp;P2</span></div>
           <p class="wf-purpose" data-rev-until="v2">Driver signs in with carrier-issued credentials and lands on the HOS dashboard (D4). Drawn as a native credential form; if P2 lands on Tenna Cognito/OIDC, this becomes a hosted OIDC flow instead and the password never touches the app.</p>
-          <p class="wf-purpose" data-rev-from="v3">Driver signs in with Tenna credentials and lands on the dashboard (D4). A native form against the shared Cognito pool, with Face ID for the next time. No carrier name until the token comes back.</p>
+          <p class="wf-purpose" data-rev-from="v3" data-rev-until="v5">Driver signs in with Tenna credentials and lands on the dashboard (D4). A native form against the shared Cognito pool, with Face ID for the next time. No carrier name until the token comes back.</p>
+          <p class="wf-purpose" data-rev-from="v6">Driver signs in with Tenna credentials and lands on the dashboard (D4). A native form against the shared Cognito pool. Face ID for the next launch is drawn but pending an FMCSA answer (Q24): Tom Cuthbertson's position is user code and password for the ELD application itself. No carrier name until the token comes back.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -1211,8 +1251,10 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li data-rev-until="v2"><a class="qref" href="/decisions#p1">P1</a> Does Tenna's user model tolerate two concurrent sessions on one device? If drivers are full Tenna users, co-driver support constrains the auth design (P2), not just this screen.</li>
-              <li data-rev-from="v3"><a class="qref" href="/decisions#p1">P1</a> Does the Cognito pool allow two concurrent sessions on one device, refreshed independently? Team driving needs it. Now that drivers are Tenna users this constrains the auth design, not just this screen.</li>
-              <li data-rev-from="v3"><a class="qref" href="/decisions#q24">Q24</a> A device enrols one face, so the co-driver types a password here whatever D1 offers. Confirm that is acceptable rather than a defect someone reports later.</li>
+              <li data-rev-from="v3" data-rev-until="v5"><a class="qref" href="/decisions#p1">P1</a> Does the Cognito pool allow two concurrent sessions on one device, refreshed independently? Team driving needs it. Now that drivers are Tenna users this constrains the auth design, not just this screen.</li>
+              <li data-rev-from="v3" data-rev-until="v5"><a class="qref" href="/decisions#q24">Q24</a> A device enrols one face, so the co-driver types a password here whatever D1 offers. Confirm that is acceptable rather than a defect someone reports later.</li>
+              <li data-rev-from="v6"><b>Settled 9/10.</b> Both drivers sign into the same device, one primary and one secondary; Appendix A 4.1.4(b) requires concurrent authentication for team drivers and Tom Cuthbertson confirmed it. A driver may be signed into one ELD at a time. The Cognito pool must hold two sessions on one device, refreshed independently: a T1 requirement for Kumaran, no longer a question.</li>
+              <li data-rev-from="v6">The co-driver types a password here regardless of what D1 offers for the primary. Tom's position is that the ELD app login is user code and password anyway (Q24).</li>
             </ul>
           </div>
         </div>
@@ -1231,14 +1273,25 @@
               </div>
               <div class="ph-btn" style="border-color:#fff; color:#fff;">Sign in</div>
               <div class="ph-note" data-rev-until="v4" style="color:#7A828F;">The tracker records this drive either way. This message returns until the vehicle stops or someone signs in. Nothing else in the app is available.</div>
-              <div class="ph-note" data-rev-from="v5" style="color:#7A828F;">Shown because: your phone has been moving for a while &middot; a Tenna tracker is in range &middot; nobody is connected to it. Not the driver? Sign in and mark this drive as not yours.</div>
+              <div class="ph-note" data-rev-from="v5" data-rev-until="v5" style="color:#7A828F;">Shown because: your phone has been moving for a while &middot; a Tenna tracker is in range &middot; nobody is connected to it. Not the driver? Sign in and mark this drive as not yours.</div>
+              <div class="ph-note" data-rev-from="v6" style="color:#7A828F;">Shown because: this vehicle is above 5 mph &middot; a Tenna tracker is in range &middot; nobody is connected to it. Not the driver? Sign in and mark this drive as not yours.</div>
             </div>
           </div></div>
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D35</span><h4 class="wf-name">Motion Without Sign-In</h4><span class="rev-badge">new 9/3</span><span class="rev-badge rev-changed" data-revi-from="v5">required 9/8</span></div>
           <p class="wf-purpose" data-rev-until="v4">The foreground warning the advisor requires when the vehicle moves with nobody signed in, or signed in but not paired. Nothing else in the app is reachable from it except sign-in.</p>
-          <p class="wf-purpose" data-rev-from="v5">Required. Shown when the phone senses sustained motion, is near a tracker nobody is connected to, and both last long enough to rule out a truck driving past. Nothing else in the app is reachable from it except sign-in.</p>
+          <p class="wf-purpose" data-rev-from="v5" data-rev-until="v5">Required. Shown when the phone senses sustained motion, is near a tracker nobody is connected to, and both last long enough to rule out a truck driving past. Nothing else in the app is reachable from it except sign-in.</p>
+          <p class="wf-purpose" data-rev-from="v6">Required. Shown when the phone is moving above 5 mph, is near a tracker nobody is connected to, and the two coincide long enough to rule out a truck driving past. Nothing else in the app is reachable from it except sign-in. In practice this screen is rare: a driver must be signed in to pair, and an expired session never pairs.</p>
+          <div class="rev-what" data-rev-from="v6">
+            <span class="rev-what-h">Changed 9/10 &middot; speed, not duration; login before pairing</span>
+            <ul>
+              <li><b>Motion is a speed.</b> Tom: <i>&ldquo;If the speed sensor says I'm doing more than 5 miles an hour, it's a drive segment.&rdquo;</i> The duration is only there to filter a truck driving past someone standing in the yard; two to three minutes is Adam's call and Tom said not to agonise over it.</li>
+              <li><b>Paired but not signed in cannot happen.</b> The driver picks the tracker after login, so pairing implies a session. If the session has expired, the app does not pair. Tom agreed: login, then pair.</li>
+              <li><b>Crew members who did not sign in are the carrier's problem.</b> They keep their own duty time and catch up with on and off duty edits (<a href="#d12">D12</a>). Whoever was driving with nobody signed in is unidentified driving, which is what this screen is for.</li>
+              <li><b>One minute to operational.</b> After login the regulation gives the ELD one minute to be fully operational, ignition on and tracker connected. The driver manual will say: key on, then log in.</li>
+            </ul>
+          </div>
           <div class="rev-what" data-rev-from="v5">
             <span class="rev-what-h">Changed 9/8 &middot; required, with a three-part trigger</span>
             <ul>
@@ -1345,8 +1398,9 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li data-rev-until="v2"><a class="qref" href="/decisions#q1">Q1</a> The ordinary stop breaks the link: driver parks and walks away with the phone. Status stays DRIVING because the 5-minute stationary window never completes on the phone's side. What should this screen show, and may the tracker's stored stop evidence settle the status retroactively? Blocking Phase 3 design.</li>
-              <li data-rev-from="v3"><a class="qref" href="/decisions#q1">Q1</a> A driver parks and walks away with the phone, so the link breaks and status stays DRIVING: the 5-minute stationary window never finishes. What should this screen show? Blocking Phase 3 design.</li>
-              <li data-rev-from="v3"><a class="qref" href="/decisions#q1">Q1</a> May the tracker's stored stop evidence settle that status after the fact, once the phone reconnects and drains the queue?</li>
+              <li data-rev-from="v3" data-rev-until="v5"><a class="qref" href="/decisions#q1">Q1</a> A driver parks and walks away with the phone, so the link breaks and status stays DRIVING: the 5-minute stationary window never finishes. What should this screen show? Blocking Phase 3 design.</li>
+              <li data-rev-from="v3" data-rev-until="v5"><a class="qref" href="/decisions#q1">Q1</a> May the tracker's stored stop evidence settle that status after the fact, once the phone reconnects and drains the queue?</li>
+              <li data-rev-from="v6"><b>Q1 answered 9/10.</b> This screen shows Driving, because that is the status. The tracker's stored stop does not change it. A phone that dies mid-drive is still a logged-in driver in Driving, not unidentified driving; unidentified starts only when the vehicle moves with nobody signed in. Missing data counts toward the 30-minutes-in-24-hours malfunction as a cumulative total, not a single gap.</li>
               <li>When the link is lost, the odometer and location freeze; the wireframe shows last-frame age so staleness is honest. Is that the right treatment?</li>
             </ul>
           </div>
@@ -1397,7 +1451,8 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#q1">Q1</a> Where the automatic switch to ON (5 min stationary + 1 min unanswered prompt) can't run because the link dropped, does this sheet surface a "confirm what happened while disconnected" prompt on reconnect?</li>
+              <li data-rev-until="v5"><a class="qref" href="/decisions#q1">Q1</a> Where the automatic switch to ON (5 min stationary + 1 min unanswered prompt) can't run because the link dropped, does this sheet surface a "confirm what happened while disconnected" prompt on reconnect?</li>
+              <li data-rev-from="v6"><b>Q1 answered 9/10.</b> No reconnect prompt. Status stays as the driver left it; the driver edits On or Off Duty after the fact if he forgot. Tom: the driver keeps his own duty time, the ELD does not guess it.</li>
             </ul>
           </div>
         </div>
@@ -1447,7 +1502,8 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><b>New screen &middot;</b> The specification calls defects here among the most common revocation triggers. Confirm the 60-second window and the recorded origin with Tenna&rsquo;s FMCSA advisor before build.</li>
-              <li><a class="qref" href="/decisions#q1">Q1</a> The link drops when a driver parks and walks away with the phone, so this prompt never fires. Does the tracker&rsquo;s stored stop evidence let the ELD run it late, on reconnect?</li>
+              <li data-rev-until="v5"><a class="qref" href="/decisions#q1">Q1</a> The link drops when a driver parks and walks away with the phone, so this prompt never fires. Does the tracker&rsquo;s stored stop evidence let the ELD run it late, on reconnect?</li>
+              <li data-rev-from="v6"><b>Q1 answered 9/10.</b> No. If the link drops before this prompt runs, the status stays Driving; the driver, not the ELD, is responsible for going On Duty when he leaves the cab. The automatic change exists only for the stationary-with-engine-running case this screen draws. When the driver answers On Duty, the duty change is recorded from the moment the vehicle first reached zero speed, not from the tap.</li>
               <li>A driver at a long light may dismiss this without a status change. How many dismissals in a row before the ELD stops asking and just transitions?</li>
               <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> An idle shutdown does not move the driver to On Duty or change this prompt. It is an engine power-down event, recorded as such; duty status stays whatever it was. A drive left open past key-off is fixed from the host (<a href="#w4">W4</a>).</li>
             </ul>
@@ -1497,7 +1553,8 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><b>New screen &middot;</b> May a swap be made while the tracker reports motion, or only at a stop? Attribution of driving time depends on the answer, and so does whether a passenger can take the phone.</li>
-              <li>Does a swap need the incoming driver&rsquo;s password, or is the session already open enough? D3 signs both in; this screen only says which one is driving.</li>
+              <li data-rev-until="v5">Does a swap need the incoming driver&rsquo;s password, or is the session already open enough? D3 signs both in; this screen only says which one is driving.</li>
+              <li data-rev-from="v6"><b>Settled 9/8, applied 9/10.</b> No password for a swap; both sessions are already open. The real risk Tom named is the second driver driving without swapping, which the wrong-driver segment fix on <a href="#d12">D12</a> and <a href="#w5">W5</a> repairs after the fact.</li>
             </ul>
           </div>
         </div>
@@ -2602,11 +2659,11 @@
                   <div class="ph-btn ghost" style="padding:6px;">Not mine</div>
                 </div>
               </div>
-              <div class="ph-note">Claiming adds the driving time to your log. Rejected records go to your carrier for assignment.</div>
+              <div class="ph-note"><span data-revi-until="v5">Claiming adds the driving time to your log. Rejected records go to your carrier for assignment.</span><span data-revi-from="v6">Claiming adds the driving time to your log. A record you reject stays on this vehicle for the next driver to answer, and your carrier sees it too.</span></div>
             </div>
             <div data-rev-from="v2" class="ph-appbar"><span class="t">Unidentified driving</span><span class="r">last 8 days<br/>11 unaccepted</span></div>
             <div data-rev-from="v2" class="ph-body" style="gap:8px;">
-              <div class="ph-banner">From Unit 218's tracker · last 8 days of unaccepted records only. Anything older, and anything you say is not yours, is handled by your carrier.</div>
+              <div class="ph-banner"><span data-revi-until="v5">From Unit 218's tracker · last 8 days of unaccepted records only. Anything older, and anything you say is not yours, is handled by your carrier.</span><span data-revi-from="v6">Unit 218 · last 8 days of unaccepted records, pulled from your carrier at sign-in. A record stays here until a driver accepts it or eight days pass.</span></div>
               <div class="ph-row2">
                 <div class="ph-btn" style="padding:6px;">Select all</div>
                 <div class="ph-btn ghost" style="padding:6px;">None of these are mine</div>
@@ -2624,7 +2681,7 @@
               <div class="ph-label">Tue Aug 18 · 8 records</div>
               <div class="ph-li"><span class="a">7:02 → 7:31 PM · 12.4 mi<small>Blue Ash → Loveland, OH</small></span><span class="b">☐</span></div>
               <div class="ph-li"><span class="a">+ 7 more, all under 1 mi<small>Blue Ash yard · 6:04 – 6:52 AM</small></span><span class="b">expand</span></div>
-              <div class="ph-note">Claiming adds the driving time to your log. <span data-revi-until="v3">Saying a record is not yours asks you one quick question about why, then sends it to your carrier.</span><span data-revi-from="v4">Saying a record is not yours asks for a short note in your own words, then sends it to your carrier.</span> You are not responsible for clearing this list.</div>
+              <div class="ph-note">Claiming adds the driving time to your log. <span data-revi-until="v3">Saying a record is not yours asks you one quick question about why, then sends it to your carrier.</span><span data-revi-from="v4" data-revi-until="v5">Saying a record is not yours asks for a short note in your own words, then sends it to your carrier.</span><span data-revi-from="v6">Saying a record is not yours asks for a short note in your own words. The record stays on this vehicle's list for the next driver; your carrier reviews it either way.</span> You are not responsible for clearing this list.</div>
             </div>
           </div></div>
         </div>
@@ -2633,7 +2690,15 @@
           <p class="wf-purpose" data-rev-until="v1">Driving events with no logged-in driver, drained from the tracker's store-and-forward queue on reconnect. The driver claims what's theirs; rejections route to the carrier. A required workflow; unassigned driving is a top audit finding.</p>
           <p class="wf-purpose" data-rev-from="v2" data-rev-until="v2">The last 8 days of <i>unaccepted</i> driving events with no logged-in driver, grouped by day, with bulk actions for the high-volume case. The driver answers two questions and nothing more: is this mine, and if not, what was it. Review, annotation, assignment, and the 6-month record are the carrier's duty on the host (<a href="#w16">W16</a>).</p>
           <p class="wf-purpose" data-rev-from="v3" data-rev-until="v3">The last 8 days of <i>unaccepted</i> driving with nobody signed in, grouped by day. The driver answers two questions: is this mine, and if not, what was it. Everything after that is the carrier's (<a href="#w16">W16</a>).</p>
-          <p class="wf-purpose" data-rev-from="v4">The last 8 days of <i>unaccepted</i> driving with nobody signed in, grouped by day. The driver answers one question: is this mine. A no needs a remark; everything after that is the carrier's (<a href="#w16">W16</a>).</p>
+          <p class="wf-purpose" data-rev-from="v4" data-rev-until="v5">The last 8 days of <i>unaccepted</i> driving with nobody signed in, grouped by day. The driver answers one question: is this mine. A no needs a remark; everything after that is the carrier's (<a href="#w16">W16</a>).</p>
+          <p class="wf-purpose" data-rev-from="v6">The last 8 days of <i>unaccepted</i> driving with nobody signed in, grouped by day, tied to the vehicle and pulled from the host at every sign-in. The driver answers one question: is this mine. A no needs a remark and hides the record from that driver only; it stays on the vehicle's list for the next driver until someone accepts it or eight days pass. Classification and assignment are the carrier's (<a href="#w16">W16</a>).</p>
+          <div class="rev-what" data-rev-from="v6">
+            <span class="rev-what-h">Changed 9/10 &middot; rejection does not clear the record</span>
+            <ul>
+              <li><b>Unaccepted means unaccepted.</b> Tom: <i>&ldquo;Any unidentified stays on the vehicle for up to 8 days. If it's not accepted&hellip; if it's another driver and he logs in, it's going to say, hey, I got unidentified. Do you want to accept it?&rdquo;</i> The 10 September product decision that a rejection removed the record from the cab is reversed.</li>
+              <li><b>The host holds the queue, the app syncs it at login.</b> The tracker cannot re-serve these records once drained, so the list is rebuilt from the host at every sign-in. Tom: <i>&ldquo;Don't rely on a host to create the log. Just rely on a host to bring down that unidentified.&rdquo;</i></li>
+            </ul>
+          </div>
           <div class="rev-what" data-rev-from="v2">
             <span class="rev-what-h">Changed 8/28 · four changes</span>
             <ul>
@@ -4079,6 +4144,7 @@
                 <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">DOT audit export <span class="sub">bulk package</span></div>
                   <div class="wb-filter"><span class="wb-fld">Audit period: Feb 20 – Aug 20 ▾</span><span class="wb-fld">Drivers: all (14) ▾</span></div>
+                  <div data-rev-until="v5">
                   <div class="wb-box"><div class="h">Include</div>
                     ☑ Daily logs &amp; certifications&nbsp;&nbsp; ☑ Full event records&nbsp;&nbsp; ☑ Edit histories<br/>
                     ☑ Malfunctions &amp; diagnostics&nbsp;&nbsp; ☑ Unidentified driving&nbsp;&nbsp; ☑ Transfer records<br/>
@@ -4086,6 +4152,15 @@
                   </div>
                   <div class="wb-box" style="margin-top:9px;"><div class="h">Package preview</div>
                     14 drivers · 182 days · 2,341 log days · FMCSA output files + index &amp; summary PDF
+                  </div>
+                  </div>
+                  <div data-rev-from="v6">
+                  <div class="wb-box"><div class="h">What is exported</div>
+                    One FMCSA output file per driver per 30-day increment (Appendix A 4.8.2, eleven segments, ASCII CSV). Nothing else.
+                  </div>
+                  <div class="wb-box" style="margin-top:9px;"><div class="h">Preview</div>
+                    14 drivers · Feb 20 – Aug 20 · 7 increments each · 98 files · same generator as W17
+                  </div>
                   </div>
                   <div class="wb-filter" style="margin-top:9px;"><span class="wb-btn primary">Generate audit package</span></div>
                 </div>
@@ -4095,7 +4170,15 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">W13</span><h4 class="wf-name">DOT Audit Export</h4><span class="tag t-gated" data-revi-until="v4">Gated · P3</span><span class="tag t-settled" data-revi-from="v5">Settled &middot; P3</span></div>
-          <p class="wf-purpose">Bulk export of logs, events, edits, malfunctions, and unidentified driving for an audit period: the fleet-wide version of W7, packaged the way an auditor asks for it.</p>
+          <p class="wf-purpose" data-rev-until="v5">Bulk export of logs, events, edits, malfunctions, and unidentified driving for an audit period: the fleet-wide version of W7, packaged the way an auditor asks for it.</p>
+          <p class="wf-purpose" data-rev-from="v6">Output files for chosen drivers and dates, in 30-day increments, through the same generator as <a href="#w17">W17</a>. The regulation defines the artifact, so this screen offers nothing else.</p>
+          <div class="rev-what" data-rev-from="v6">
+            <span class="rev-what-h">Changed 9/10 &middot; narrowed to the output file (Q19)</span>
+            <ul>
+              <li><b>The rule already says what an auditor gets.</b> Appendix A 4.8.2: one comma-delimited ASCII file per driver with eleven fixed segments, the current day plus seven at roadside and any retained range for a carrier request. §395.11 supporting documents are the carrier's dispatch, billing and payroll records, not the ELD's.</li>
+              <li><b>Everything else here was extra.</b> Separate event and edit dumps are already inside the file as record status and origin; transfer logs and a summary PDF are internal reports. Tom's 8/17 concern that W13 handed over too much was right. Product decision, Adam, 10 September.</li>
+            </ul>
+          </div>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
@@ -4117,7 +4200,8 @@
               <li><a class="qref" href="/decisions#p3">P3</a> The grayed checkbox is the decision in miniature: can an audit package include point data, and which system serves it?</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28 · is this screen over-scoped?</b> On specification item W13 the memo says: <i>"Seems that there is too much to have available for DOT audit. Further discussion on this to confirm understanding of the intent."</i> Fair reading of the concern: a bundle that ships everything the system holds invites an auditor into material they did not ask for, and a 2,341-log-day package is not what a work-paper request looks like. Held unchanged pending that conversation. The checkbox list is the thing to walk through line by line, and the honest answer may be that W13 becomes narrower and <a href="#w17">W17</a> carries the real audit workflow.</li>
               <li data-rev-from="v3"><b>New 8/28 &middot; is this screen over-scoped?</b> The memo on W13: <i>&ldquo;Seems that there is too much to have available for DOT audit. Further discussion on this to confirm understanding of the intent.&rdquo;</i></li>
-              <li data-rev-from="v3">A bundle that ships everything invites an auditor into material they did not ask for. Held unchanged pending that conversation. W13 may end up narrower, with <a href="#w17">W17</a> carrying the real audit workflow.</li>
+              <li data-rev-from="v3" data-rev-until="v5">A bundle that ships everything invites an auditor into material they did not ask for. Held unchanged pending that conversation. W13 may end up narrower, with <a href="#w17">W17</a> carrying the real audit workflow.</li>
+              <li data-rev-from="v6"><b>Settled 9/10.</b> Narrowed to output files only. The one residual question to Tom: has an investigator ever asked an ELD provider for anything beyond the output files?</li>
             </ul>
           </div>
         </div>

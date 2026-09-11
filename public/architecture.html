@@ -74,7 +74,7 @@
 <div class="doc">
 
   <h1>Architecture</h1>
-  <p class="docmeta">Updated 10 September 2026 · Confidential</p>
+  <p class="docmeta">Updated 10 September 2026 (evening) · Confidential</p>
   <p class="docmeta">On this page:
     <a href="#s1">1. Context</a> ·
     <a href="#s2">2. Ownership split</a> ·
@@ -861,6 +861,11 @@
       records, malfunction and diagnostic records, with a line check value on every line and a file check value at the end.</li>
     <li>Roadside transfer (D17): web service first, email co-equal. The officer's code goes in the output file comment. The
       receipt or error is stored on the transfer row either way.</li>
+    <li>Transport, per FMCSA's ELD Data Transfer Requirements sheet (10 September): web services is a SOAP call carrying the
+      client certificate, the output file and the comment, with a test flag; email is S/MIME, AES-256 encrypted to FMCSA's
+      public key and signed with the provider's private key, subject "ELD records from &lt;registration id&gt;:&lt;ELD
+      identifier&gt;". Both keys live in the ELD backend's secret store, never on the phone. FMCSA issues a test
+      certificate and sample identifiers before registration.</li>
     <li>Host-initiated transfer (W17): the same generator behind the same <code>transfer-requests</code> resource, capped at 30 days per request, split automatically into
       increments the eRODS endpoint accepts.</li>
   </ul>
@@ -1310,7 +1315,7 @@
   <table>
     <thead><tr><th>Item</th><th>Needed</th><th>Blocks</th><th>Owner</th></tr></thead>
     <tbody>
-      <tr><td><a href="/decisions#q1">Q1</a> duty status on link loss</td><td>Which component is the ELD of record during a gap; retroactive stop/start treatment</td><td>HOS engine; not_before_utc semantics</td><td>Tom</td></tr>
+      <tr><td><a href="/decisions#q24">Q24</a> biometric sign-in to the ELD app</td><td>FMCSA yes or no, via Tom's agency contact. Tom's reading: user code and password for the app; biometric may unlock the phone only</td><td>D1 sign-in flow; T1 session caching</td><td>Tom, FMCSA</td></tr>
 
 
       <tr><td><a href="/decisions#p4">P4</a> event list</td><td>Which E2 events Tenna consumes, and how host-to-driver pushes are delivered</td><td>Egress; W1, W2, W8, W10</td><td>Tenna product</td></tr>

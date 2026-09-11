@@ -152,7 +152,7 @@
     <p class="docmeta" data-rev-from="v6">Updated 10 September 2026 · Confidential</p>
     <p class="docmeta">On this page: <a href="#product">Product decisions</a> · <a href="#open">Awaiting an answer</a> · <a href="#answered">Settled</a> · <a href="#meetings">Meetings</a> · <a href="#whats-changed">What changed</a></p>
     <p class="lede">
-      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2: building against real Geometris WQ hardware surfaces things a specification cannot. <span data-revi-until="v1">Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/">Wireframes page&nbsp;↗</a>.</span><span data-revi-from="v2" data-revi-until="v2">Newest group: six questions (Q15–Q20) out of the <a href="#meetings">August 17 FMCSA compliance review of host reporting</a>, most of them for Tenna's compliance advisor, plus two long-standing questions the same memo settled. The five <a href="#product">product decisions</a> from the August 13 kickoff are unchanged and still queued.</span><span data-revi-from="v3" data-revi-until="v5">Newest entry: the <a href="#meetings">28 August huddle</a>, which settled three of the five <a href="#product">product decisions</a> in the room. P3 and P4 stay open, and the sixteen questions below are unchanged.</span><span data-revi-from="v6"> Newest entries: the <a href="#meetings">3 and 8 September consultant sessions</a> and the 10 September product decisions, which settled P3 and six questions. P4 stays open, Q1 is restated with its scenarios, and twelve questions remain below.</span>
+      One shared record of every question the build has raised, who owns the answer, and what was decided. Questions stay in the log after they are answered, with the evidence that settled them, so the reasoning behind a decision does not get lost three months later. Most entries come from Phase 2: building against real Geometris WQ hardware surfaces things a specification cannot. <span data-revi-until="v1">Newest group: <a href="#product">five product decisions</a> from the August 13 platform kickoff, queued for the August 20 session and wireframed on the <a href="/">Wireframes page&nbsp;↗</a>.</span><span data-revi-from="v2" data-revi-until="v2">Newest group: six questions (Q15–Q20) out of the <a href="#meetings">August 17 FMCSA compliance review of host reporting</a>, most of them for Tenna's compliance advisor, plus two long-standing questions the same memo settled. The five <a href="#product">product decisions</a> from the August 13 kickoff are unchanged and still queued.</span><span data-revi-from="v3" data-revi-until="v5">Newest entry: the <a href="#meetings">28 August huddle</a>, which settled three of the five <a href="#product">product decisions</a> in the room. P3 and P4 stay open, and the sixteen questions below are unchanged.</span><span data-revi-from="v6"> Newest entries: the <a href="#meetings">3 and 8 September consultant sessions</a> and the 10 September product decisions, which settled P3 and six questions. P4 stays open, Q1 is answered, Q24 is reopened on Tom's objection, and twelve questions remain below.</span>
     </p>
     <p class="statline" data-rev-until="v1">5 product decisions · 1 blocking Phase 3 · 10 awaiting an answer · 4 settled by test · 2 meetings logged</p>
     <p class="statline" data-rev-from="v2" data-rev-until="v2">5 product decisions · 1 blocking Phase 3 · 16 awaiting an answer · 6 settled · 3 meetings logged</p>
@@ -218,14 +218,19 @@
       removes an unidentified record from the cab and the carrier finishes it in W16; retention is the carrier's,
       per driver, under §395.8(k). <a href="#q18s">Q18</a>, Telematics transfer, web services and email, elected.
       <a href="#q19s">Q19</a>, the audit export is the Appendix A output file and nothing else. <a href="#q20s">Q20</a>,
-      the host inspector view is built. <a href="#q23s">Q23</a>, the vehicle's VIN wins a mismatch. <a href="#q24s">Q24</a>,
-      biometric sign-in satisfies 4.1.3 and the rest is product policy.</p>
+      the host inspector view is built. <a href="#q23s">Q23</a>, the vehicle's VIN wins a mismatch. <a href="#q24s">Q24</a>
+      was decided the same way in the morning and reopened that afternoon: Tom Cuthbertson wants user code and
+      password for the ELD app and is asking FMCSA.</p>
       <p><b>Two closed by the regulation itself.</b> Concurrent authentication for team drivers is required by Appendix A
       4.1.4(b), which corrects the 8 September reading that either approach was legal. The 6-month retention unit is
       the carrier, per driver.</p>
-      <p><b>Q1 restated.</b> The duty-status-on-link-loss question now carries the two scenarios that produce it, the
-      planned walk-off and the unplanned dropout, and the three rulings needed from the consultant. It remains the
-      Phase 3 HOS-engine blocker.</p>
+      <p><b>Q1 answered.</b> Tom Cuthbertson, 10 September: nothing changes duty status automatically except the
+      stationary prompt with the vehicle running, and an answered prompt backdates to first zero speed. A driver who
+      walks off in Driving stays in Driving and edits later. A dead phone on a logged-in driver is not unidentified
+      driving. The Phase 3 HOS-engine blocker is cleared. → <a href="#q1s">Q1</a></p>
+      <p><b>Q17 corrected the same day.</b> The morning's product decision that a rejection clears a record from the
+      cab was reversed by Tom that afternoon: unaccepted records stay on the vehicle for eight days and are re-offered
+      to each driver who signs in, synced from the host at login.</p>
       <p><b>Three meetings logged.</b> The <a href="#meetings">3 and 8 September consultant sessions</a> and the 10 September
       product decisions. The 8/28, 9/2 and later revisions stay readable through the control at the bottom right.</p>
     </div>
@@ -453,7 +458,7 @@
 
     <div class="qlist" id="qlist">
 
-      <article class="q blocking" data-owner="compliance" id="q1">
+      <article class="q blocking" data-owner="compliance" id="q1" data-rev-until="v5">
         <div class="q-head">
           <span class="q-id">Q1</span>
           <h3 class="q-title">Duty status when the phone loses its link to the vehicle</h3>
@@ -956,7 +961,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
     <div class="eyebrow">Settled</div>
     <h2 data-rev-until="v1">Four answered by hardware, not by assumption.</h2>
     <h2 data-rev-from="v2" data-rev-until="v5">Six settled: four by hardware, two by the compliance review.</h2>
-    <h2 data-rev-from="v6">Twelve settled: four by hardware, two by the compliance review, six by the product owner on 10 September.</h2>
+    <h2 data-rev-from="v6">Twelve settled: four by hardware, two by the compliance review, six on 10 September. One reopened.</h2>
     <p class="lede" data-rev-until="v1">
       Each of these was an ambiguity in the protocol document that a literal reading would have resolved the wrong way: silently, with no error to signal it. They stay in the log with their evidence so the reasoning survives.
     </p>
@@ -1104,6 +1109,24 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           </div>
         </div>
       </article>
+      <article class="q answered" data-rev-from="v6" id="q1s">
+        <div class="q-head">
+          <span class="q-id">Q1</span>
+          <h3 class="q-title">Duty status when the phone loses the tracker</h3>
+          <div class="q-chips">
+            <span class="chip owner-compliance">ELD Compliance</span>
+            <span class="chip st-answered">Answered 10 Sep</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>The Phase 3 blocker, put to Tom Cuthbertson as two scenarios. Planned: the driver parks, leaves the engine running, walks into the office with the phone and the link drops before the stationary prompt can run. Unplanned: the phone dies mid-drive and the truck keeps moving.</p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p>Nothing changes duty status on its own except the stationary prompt with the vehicle running. Zero speed for three seconds starts a five-minute timer; the prompt asks Driving or On Duty; one unanswered minute switches to On Duty automatically. If the driver answers On Duty, the change is recorded from the moment speed first hit zero, which Tom fought the agency to establish. If the driver walks away in Driving without setting On Duty, he stays in Driving; keeping his duty time is his responsibility, and he edits it afterwards. The tracker's stored stop does not retroactively change the status, and there is no reconnect prompt. A dead phone on a logged-in driver is still that driver in Driving, not unidentified driving; unidentified begins only when the vehicle moves with nobody signed in. Missing data counts toward the 30-minutes-in-24-hours malfunction cumulatively, not as one gap. While in motion the ELD accepts no keyboard input at all.</p>
+          </div>
+          <div class="q-foot"><span>Unblocks the Phase 3 HOS engine. Applied to <a href="/#d29">D29</a>, <a href="/#d4">D4</a>, <a href="/#d5">D5</a>; the reconnect-prompt idea is withdrawn. Malfunction clock rule goes to the <a href="/architecture#s3">eld.malfunctions</a> design.</span></div>
+        </div>
+      </article>
       <article class="q answered" data-rev-from="v6" id="q17s">
         <div class="q-head">
           <span class="q-id">Q17</span>
@@ -1118,9 +1141,9 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <p>Three definitional questions, two of them answered by reading the rule closely and one by product decision. §395.8(k) places the six-month retention duty on the motor carrier for each of its drivers, so the unit is the carrier, per driver, and "date of receipt" is receipt by the carrier's system, which for this product is the host.</p>
           <div class="q-evidence">
             <span class="q-label">Answer</span>
-            <p>A driver's "not me" on D22 removes the record from the in-cab 8-day list; from then on it lives only in W16, where the carrier annotates a reason or assigns a driver who then accepts on D34. Retention is modelled at the record level with a six-month clock from host receipt and the source device stamped on each record, which satisfies a per-carrier reading and still answers a per-device audit question. The in-cab window runs from the tracker's event time, the same calendar as the log.</p>
+            <p>A driver's "not me" on D22 hides the record from that driver but does not clear it: Tom Cuthbertson, 10 September, <i>"any unidentified stays on the vehicle for up to 8 days. If it's not accepted&hellip; it still remains on the ELD in the vehicle."</i> Each driver who signs into that vehicle is asked until someone accepts it or eight days pass. Because the tracker cannot re-serve drained records, the list is tied to the vehicle at the host and pulled down at every login; the host holds the queue, it never creates the log. The carrier works the same records in W16 in parallel. Retention is modelled at the record level with a six-month clock from host receipt and the source device stamped on each record, which satisfies a per-carrier reading and still answers a per-device audit question. The in-cab window runs from the tracker's event time, the same calendar as the log.</p>
           </div>
-          <div class="q-foot"><span>Decided by Adam 10 September. Drawn on <a href="/#d22">D22</a>, <a href="/#w16">W16</a>; schema in the <a href="/architecture#s3">architecture page</a>, table eld.ud_records.</span></div>
+          <div class="q-foot"><span>Retention decided by Adam 10 September; the rejection behaviour is Tom's ruling the same afternoon, reversing the morning's product decision. Drawn on <a href="/#d22">D22</a>, <a href="/#w16">W16</a>; schema in the <a href="/architecture#s3">architecture page</a>, table eld.ud_records.</span></div>
         </div>
       </article>
       <article class="q answered" data-rev-from="v6" id="q18s">
@@ -1197,22 +1220,22 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <div class="q-foot"><span>Decided by Adam 10 September on Tom's ruling. <a href="/#d2">D2</a>, <a href="/#w12">W12</a>; column vin_observed in the <a href="/architecture#s3">schema</a>.</span></div>
         </div>
       </article>
-      <article class="q answered" data-rev-from="v6" id="q24s">
+      <article class="q open" data-rev-from="v6" id="q24s">
         <div class="q-head">
           <span class="q-id">Q24</span>
           <h3 class="q-title">What a Face ID sign-in proves about who produced the record</h3>
           <div class="q-chips">
             <span class="chip owner-tenna">Product</span>
-            <span class="chip st-answered">Settled 10 Sep</span>
+            <span class="chip st-open">Reopened 10 Sep</span>
           </div>
         </div>
         <div class="q-body">
-          <p>Appendix A 4.1.3 requires user authentication at login and does not name a method. A biometric unlock of a cached session therefore satisfies the rule; how far to allow it is a product question about shared devices, not a compliance one.</p>
+          <p>Appendix A 4.1.3 requires user authentication at login and does not name a method, so the product position on the morning of 10 September was that a biometric unlock of a cached session satisfies the rule. Tom Cuthbertson disagreed that afternoon: a biometric may open the phone, but the ELD application itself should take a user code and password tied to the host account, because the agency wants the driver holding that responsibility. He knows of no listed product that does otherwise, allows that he may be conservative after the OOIDA suit, and is asking his FMCSA contact for a yes or no.</p>
           <div class="q-evidence">
-            <span class="q-label">Answer</span>
-            <p>Biometric sign-in is enough. It ships for personal devices, is switched off by carrier policy for shared ones (W15), and the ELD records which sign-ins were biometric so an auditor can see it. No passkeys, no second factor beyond the Cognito password on first sign-in.</p>
+            <span class="q-label">Where it stands</span>
+            <p>Open, pending the FMCSA answer. If yes: biometric sign-in It ships for personal devices, is switched off by carrier policy for shared ones (W15), and the ELD records which sign-ins were biometric so an auditor can see it. No passkeys, no second factor beyond the Cognito password on first sign-in.</p>
           </div>
-          <div class="q-foot"><span>Decided by Adam 10 September as product owner. <a href="/#d1">D1</a>, <a href="/#w15">W15</a>.</span></div>
+          <div class="q-foot"><span>Product position recorded 10 September; ruling pending. <a href="/#d1">D1</a>, <a href="/#w15">W15</a>.</span></div>
         </div>
       </article>
     </div>
@@ -1403,7 +1426,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
         <div class="tl-card">
           <h3>Product decisions recorded</h3>
           <div class="tl-who">Adam Schaible (AppAxis), as product owner per Jose Cueva, 9 September</div>
-          <p>Ahead of the third consultant session, the items that no longer needed a ruling were decided and the remaining questions to Tom were narrowed to Q1, re-submission triggers, and a handful of confirmations.</p>
+          <p>Ahead of the third consultant session, the items that no longer needed a ruling were decided and the remaining questions to Tom were narrowed to Q1, re-submission triggers, and a handful of confirmations. The session itself (Tom Cuthbertson and Adam; Jose and Sunil out, recorded) then answered Q1, reversed the Q17 rejection decision, reopened Q24, confirmed co-driver and D35 handling, and walked the roadmap: open the FMCSA provider account when code runs in trucks internally, run every output file through the validator and web eRODS, and expect FMCSA to scrutinise the manual and cab card. Tom sent FMCSA's ELD Data Transfer Requirements sheet and the provider portal link afterwards. Next session Monday 14 September, 2:30 PM ET.</p>
           <div class="outcome">
             <span class="q-label">Decided</span>
             <p>
@@ -1413,7 +1436,9 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
               <b>Q19</b> audit export is the output file only. → <a href="#q19s">Q19</a> ·
               <b>Q20</b> W18 built. → <a href="#q20s">Q20</a><br/>
               <b>Q23</b> vehicle VIN wins. → <a href="#q23s">Q23</a> ·
-              <b>Q24</b> biometric is enough under 4.1.3. → <a href="#q24s">Q24</a><br/>
+              <b>Q24</b> biometric, then reopened by Tom the same afternoon. → <a href="#q24s">Q24</a><br/>
+              <b>Q1</b> answered by Tom in the session. → <a href="#q1s">Q1</a> ·
+              <b>Q17</b> rejection rule reversed by Tom in the session. → <a href="#q17s">Q17</a><br/>
               <b>Registration</b> one registration and one ELD identifier covering both operating systems; the public URL holds only what the rule names. Stage B is signed by Tenna on Tom's written rulings; Stage E evidence follows the FMCSA test-plan report format.<br/>
               <b>Tracker purge</b> is automatic once the host has acknowledged every drained record, after the 10 September drive showed two of three trackers re-deliver stored events until purged.
             </p>
