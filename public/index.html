@@ -875,7 +875,8 @@
         <div class="p-head">
           <span class="p-id">P3</span>
           <h3 class="p-title" data-rev-until="v4">Does Tenna keep the raw tracker data, and if so, where?</h3>
-          <h3 class="p-title" data-rev-from="v5">Settled: nobody keeps the raw tracker data. The phone keeps the last few readings; the host gets every event.</h3>
+          <h3 class="p-title" data-rev-from="v5" data-rev-until="v5">Settled: nobody keeps the raw tracker data. The phone keeps the last few readings; the host gets every event.</h3>
+          <h3 class="p-title" data-rev-from="v6">Settled: the host gets every event and nothing raw. The phone keeps ten days of its own readings, which never leave it.</h3>
         </div>
         <p class="p-quote" data-rev-until="v4">
           The second-by-second readings from the tracker (position, speed, odometer) won't go through Tenna's existing data pipeline. So: does Tenna need to keep those raw readings at all? And if yes, does Tenna store and process them, or does the ELD hold them?
@@ -888,7 +889,8 @@
           <div class="p-opt"><b>B · Tenna keeps the raw data</b> The raw readings flow into Tenna and are stored alongside its other asset data, through a new connection built for this.</div>
         </div>
         <div class="p-opts" data-rev-from="v5">
-          <div class="p-opt"><b>What was decided</b> The phone keeps roughly the last three tracker readings, enough to stamp the next event within the 5-second rule. Neither the phone nor the host stores the stream.</div>
+          <div class="p-opt" data-rev-until="v5"><b>What was decided</b> The phone keeps roughly the last three tracker readings, enough to stamp the next event within the 5-second rule. Neither the phone nor the host stores the stream.</div>
+          <div class="p-opt" data-rev-from="v6"><b>What was decided</b> Every event goes to the host the moment it is recorded, so a lost phone is rebuilt from the host. Nothing raw is sent up. The phone keeps ten days of raw readings, rolling, in its local store, for re-parsing and log submission (Adam, 10 September, replacing Tom's "last few readings" and the roadmap's "24 hours"). Tom was asked only whether device-side retention creates audit exposure he knows of.</div>
           <div class="p-opt"><b>What follows from it</b> Every event goes to the host the moment it is recorded, so a lost phone can be rebuilt from the host. W7 and W13 drop their raw-telemetry rows. Crash diagnostics may keep a short local buffer, but it is not compliance data.</div>
         </div>
         <div class="p-gates" data-rev-until="v4">
@@ -5098,7 +5100,8 @@ eld.transfers(id, output_file_id, method, caller,
           <tr><td class="el">Engine power state (on / off events)<small>the ELD derives it from RPM; the tracker broadcasts no ignition item</small></td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a><a class="src-chip" href="#s-s1">S1</a></td></tr>
           <tr><td class="el">Road speed / motion state<small>speed is item 0x05; the moving-or-not judgement is the ELD's</small></td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a></td></tr>
           <tr><td class="el">Stop evidence (BEGIN_STOP / END_STOP)<small>reason codes 12 and 13 inside drained events, not stream items</small></td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a></td></tr>
-          <tr><td class="el">Position (lat / lon)</td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-gated">P3 unresolved</span><small>retention is the open question, not origin</small></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a><a class="src-chip" href="#s-s1">S1</a></td></tr>
+          <tr data-rev-until="v5"><td class="el">Position (lat / lon)</td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-gated">P3 unresolved</span><small>retention is the open question, not origin</small></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a><a class="src-chip" href="#s-s1">S1</a></td></tr>
+          <tr data-rev-from="v6"><td class="el">Position (lat / lon)</td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-eld">ELD</span><small>owned as stamped on events; the raw stream stays on the phone for ten days and is never sent (P3, settled)</small></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a><a class="src-chip" href="#s-s1">S1</a></td></tr>
           <tr><td class="el">Geocoded place name</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-s1">S1</a></td></tr>
           <tr class="cat"><td colspan="4">HOS record &middot; the certifiable core</td></tr>
           <tr><td class="el">Duty-status events</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small>automatic from motion, or entered by the driver</small></td><td class="ap"><a class="src-chip" href="#s-s1">S1</a><a class="src-chip" href="#s-e1">E1</a></td></tr>
@@ -5127,7 +5130,8 @@ eld.transfers(id, output_file_id, method, caller,
           <tr><td class="el">Transfer records<small>roadside and host-initiated</small></td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-s4">S4</a></td></tr>
           <tr><td class="el">Pre-audit request &amp; increment plan</td><td><span class="o-chip o-enter">Entered</span></td><td><span class="tag t-eld">ELD</span><small>the FMCSA work-paper driver list, keyed to T2</small></td><td class="ap"><a class="src-chip" href="#s-s4">S4</a></td></tr>
           <tr><td class="el">Transfer family election<small>Telematics</small></td><td><span class="o-chip o-enter">Entered</span></td><td><span class="tag t-eld">ELD</span><small>declared once at certification</small></td><td class="ap"><a class="src-chip" href="#s-s4">S4</a></td></tr>
-          <tr><td class="el">DOT audit bundle</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-gated">P3 unresolved</span><small>what raw data it must contain is the P3 question</small></td><td class="ap"><a class="src-chip" href="#s-s4">S4</a></td></tr>
+          <tr data-rev-until="v5"><td class="el">DOT audit bundle</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-gated">P3 unresolved</span><small>what raw data it must contain is the P3 question</small></td><td class="ap"><a class="src-chip" href="#s-s4">S4</a></td></tr>
+          <tr data-rev-from="v6"><td class="el">DOT audit export</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small>Appendix A output files only, in 30-day increments (Q19, settled 9/10)</small></td><td class="ap"><a class="src-chip" href="#s-s4">S4</a></td></tr>
           <tr><td class="el">8-day inspection record (display format)</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-s4">S4</a><a class="src-chip" href="#s-s1">S1</a></td></tr>
           <tr class="cat"><td colspan="4">Cross-system</td></tr>
           <tr><td class="el">ELD events into Tenna<small>alarms &amp; exceptions</small></td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small>Tenna receives a copy; the ELD stays authoritative</small></td><td class="ap"><a class="src-chip" href="#s-e2">E2</a></td></tr>
@@ -5140,11 +5144,12 @@ eld.transfers(id, output_file_id, method, caller,
     </div>
 
     <div class="anatomy" style="margin-top:20px;">
-      <p><b>What this deliberately does not settle.</b> Position and raw tracker data carry an open system of record
+      <p data-rev-until="v5"><b>What this deliberately does not settle.</b> Position and raw tracker data carry an open system of record
       rather than a guess: that is <a href="#pd3">P3</a>, and it waits on the retention answer Adam owes Tamar from
       the compliance consultant. The <a href="#s-e2">E2</a> event set is agreed in shape and not in content, which is
       <a href="#pd4">P4</a>. Yard geofences keep the question they already had, Tenna Sites over the API against an
       ELD-drawn fallback. Marking three rows open is more useful than filling them in and being wrong.</p>
+      <p data-rev-from="v6"><b>What is still open here.</b> Position and the audit export are settled (P3 on 8 and 10 September, Q19 on 10 September). The <a href="/decisions#p4">P4</a> event set is agreed in shape and not in content, and yard geofences keep their question, Tenna Sites over the API against an ELD-drawn fallback. Two open rows is the honest count.</p>
       <p><b>And what it is for.</b> Tamar asked that the data pipeline move in parallel with the requirements rather
       than behind them, and Kyle agreed: the sooner the technical details are settled, the better the shape of the
       four weeks. This is the input to that conversation. If Kyle or Tamar supply the real schema, the sketches get
