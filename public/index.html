@@ -758,6 +758,42 @@
       </div>
     </div>
 
+    <div data-rev-from="v7">
+      <div class="eyebrow">Revision 9/11/2026</div>
+      <h2 style="margin-bottom:6px;">What changed</h2>
+      <p class="lede" style="margin-bottom:18px;">Every one of the 354 requirements in FMCSA's ELD test plan was checked against these screens and the architecture. 210 were already covered, 85 partly. Three places the design did the wrong thing are fixed in the architecture, and the seven pieces of interface the rule requires that were not drawn are drawn here. The 9/10 package is unchanged and still readable in full.</p>
+      <div class="legend-grid">
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge">D36</span>
+          <p><b>Trip details.</b> Power unit, trailer numbers and shipping document number are required on every event and in the output-file header (4.3.2.1). New step after pairing, pre-filled from the Tenna asset, blank allowed. Whether Tenna's customers have shipping documents at all is with Sunil.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge">D37</span>
+          <p><b>Personal conveyance continues?</b> Any special-duty indication resets to none on a power cycle; personal conveyance may continue only if the driver confirms at the next ignition (4.3.2.2.2, 4.7.3). New one-question prompt.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D7 &middot; D12</span>
+          <p><b>Manual location when there is no fix.</b> A duty change with no valid position must prompt for a typed location and record M in the coordinate fields (4.3.2.7, 4.6.1.4). A field that appears only in that condition.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">Header &middot; D18 &middot; D19</span>
+          <p><b>Indicators that never go away.</b> One malfunction indicator visible to every driver whenever the ELD is powered, and a separate diagnostic indicator for the signed-in driver (4.6.2.1, 4.6.3.1). Two chips in the app header on every screen, D16 included. D18 and D19 remain the notices.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">W15 &middot; D1 &middot; D30</span>
+          <p><b>Per-driver permissions and exempt drivers.</b> Personal conveyance and yard move default to off for a new driver and are set per driver; changes are shown to the driver at login (4.3.3.1.1). A carrier may mark a driver exempt with a required annotation, shown at login and logout (4.3.3.1.2). Whether Tenna wants exemption visible is with Sunil.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D9 &middot; D24 &middot; D16 &middot; W17 &middot; W10</span>
+          <p><b>Smaller additions.</b> "Send me my records" on D9 (4.7.2). Sleeper-berth mute on D24 (4.7.1). D16 gains the unidentified-driver profile report, the PC and yard-move overlay, and the missing header fields (4.8.1.3). W17 filters by vehicle (4.9.2). W10 shows the seven-day transfer self-test (4.6.1.7).</p>
+        </div>
+      </div>
+      <div class="anatomy" style="margin-top:16px;">
+        <p><b>Fixed in the architecture, not on a screen:</b> the event sequence number is one counter per device across all drivers, wrapping at 65,536 (4.4.4.1); position is recorded at two decimals, one during personal conveyance, with miles and hours blank during personal conveyance (4.3.1.6, 4.7.3); no manual entry by the driving driver while the vehicle moves, and no driver swap in motion (4.3.2), which closes the D33 question.</p>
+        <p><b>Reference:</b> the requirement-by-requirement workbook and the gap report are in the project's communication folder; the certification roadmap Stage C carries the totals.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1133,6 +1169,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> After sign-in and before <a href="#d4">D4</a>: past days needing certification are prompted explicitly (4.3.2.3-4), an exempt driver sees their exemption (4.3.3.1.2-5), and any change to their personal-conveyance or yard-move permission since last login is shown (4.3.3.1.1-4). Then <a href="#d36">D36</a> if trip details are missing.</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#p1">P1</a> Is the thing typed here a Tenna user or an ELD driver credential? Everything on this screen follows from that.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#p1">P1</a> What does a Tenna user without the ELD entitlement see here? A driver told only that login failed will call dispatch, when the real answer is that the account is not licensed.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q24">Q24</a> Face ID unlocks a saved token; it is not proof to Cognito that this face signed in. On a shared cab tablet one enrolled face opens any driver&rsquo;s session.</li>
@@ -1206,6 +1243,51 @@
               <li data-rev-from="v3"><a class="qref" href="/decisions#q3">Q3</a> With the ignition off the tracker returns an empty VIN and a zero odometer, which is exactly the state a driver pairs in. What should the screen show until ignition?</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#q5">Q5</a> The BLE protocol has no authentication; "pairing" here is an app-level concept, not a security boundary. Any phone in range can connect to the tracker.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q5">Q5</a> The BLE protocol has no authentication. Pairing here is an app convention, not a security control: any phone in range can connect to the tracker.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-item" id="d36" data-rev-from="v7">
+        <div class="wf-frame-col">
+          <div class="wf-phone"><div class="wf-screen">
+            <div class="ph-status"><span>2:41 PM</span><span>▪▪▪ 5G · 84%</span></div>
+            <div class="ph-appbar"><span class="t">Trip details</span><span class="r">Unit 218<br/>paired</span></div>
+            <div class="ph-body">
+              <div class="ph-label">Power unit</div>
+              <div class="ph-field filled">Unit 218 · Ford F-150 <small style="color:var(--wf-mid);">from Tenna</small></div>
+              <div class="ph-label">Trailer number(s) <small style="color:var(--wf-mid);">optional</small></div>
+              <div class="ph-field">T-4471</div>
+              <div class="ph-label">Shipping document <small style="color:var(--wf-mid);">optional</small></div>
+              <div class="ph-field">—</div>
+              <div class="ph-note">These go on every record for this shift and on the roadside report. Change them any time from the dashboard.</div>
+              <div class="ph-btn primary">Continue</div>
+              <div class="ph-banner">Your carrier pre-fills what it knows. You can correct it.</div>
+            </div>
+          </div></div>
+        </div>
+        <div class="wf-annot">
+          <div class="wf-head"><span class="wf-id">D36</span><h4 class="wf-name">Trip Details</h4><span class="rev-badge">new 9/11</span></div>
+          <p class="wf-purpose">Power unit, trailer numbers and shipping document number, shown once after pairing and again at login. Appendix A 4.3.2.1 requires a way for the driver to enter them and, when the carrier pre-fills them, to review and correct them. They ride on every event (4.5.1.x) and in the output-file header (4.8.2.1.1).</p>
+          <div>
+            <span class="wf-label">Data elements</span>
+            <ul class="wf-elems">
+              <li><span>Power unit number<small style="display:block; color:var(--muted); font-size:11px;">the Tenna asset resolved at pairing; editable text if the roster has none</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Trailer number(s), shipping document number<small style="display:block; color:var(--muted); font-size:11px;">blank allowed; stamped on every event until changed</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+            </ul>
+          </div>
+          <div class="wf-src">
+            <span class="wf-label">Where this data comes from</span>
+            <ul>
+              <li><a class="src-chip" href="#s-t4">T4 &middot; Assets</a><span>the unit name and type pre-filled from the asset record</span></li>
+              <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>the values as stamped on each event, columns trailer_numbers and shipping_doc</span></li>
+            </ul>
+          </div>
+          <div class="wf-qs">
+            <span class="wf-label">Open questions</span>
+            <ul>
+              <li><b>Product, with Sunil 9/11.</b> Do Tenna's customers have shipping documents at all? A construction fleet moving its own equipment may not. If a job number should stand in, that is the field's label. Drawn optional and blank by default.</li>
+              <li>Where does a change mid-shift live: a row on <a href="#d4">D4</a>, or inside <a href="#d23">D23</a>? Drawn as reachable from the dashboard.</li>
             </ul>
           </div>
         </div>
@@ -1453,6 +1535,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.3.2-1 and 4.3.2-2: while the vehicle moves, the driving driver may enter nothing, on any screen, not only here. A signed-in co-driver may still edit their own records (4.3.2-4).</li>
               <li data-rev-until="v5"><a class="qref" href="/decisions#q1">Q1</a> Where the automatic switch to ON (5 min stationary + 1 min unanswered prompt) can't run because the link dropped, does this sheet surface a "confirm what happened while disconnected" prompt on reconnect?</li>
               <li data-rev-from="v6"><b>Q1 answered 9/10.</b> No reconnect prompt. Status stays as the driver left it; the driver edits On or Off Duty after the fact if he forgot. Tom: the driver keeps his own duty time, the ELD does not guess it.</li>
             </ul>
@@ -1554,6 +1637,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Settled 9/11 &middot;</b> No swap while the vehicle is in motion. Appendix A 4.3.2-5 says so directly. The button is disabled above zero speed.</li>
               <li><b>New screen &middot;</b> May a swap be made while the tracker reports motion, or only at a stop? Attribution of driving time depends on the answer, and so does whether a passenger can take the phone.</li>
               <li data-rev-until="v5">Does a swap need the incoming driver&rsquo;s password, or is the session already open enough? D3 signs both in; this screen only says which one is driving.</li>
               <li data-rev-from="v6"><b>Settled 9/8, applied 9/10.</b> No password for a swap; both sessions are already open. The real risk Tom named is the second driver driving without swapping, which the wrong-driver segment fix on <a href="#d12">D12</a> and <a href="#w5">W5</a> repairs after the fact.</li>
@@ -1611,6 +1695,48 @@
         </div>
       </div>
 
+      <div class="wf-item" id="d37" data-rev-from="v7">
+        <div class="wf-frame-col">
+          <div class="wf-phone"><div class="wf-screen">
+            <div class="ph-sheet-scrim"></div>
+            <div class="ph-sheet">
+              <div class="ph-grip"></div>
+              <div style="font-size:11.5px; font-weight:800; color:var(--wf-dark); text-align:center;">Still personal conveyance?</div>
+              <div class="ph-note" style="text-align:center;">Engine started · 6:12 AM · Unit 218<br/>You were in personal conveyance when the engine last shut off.</div>
+              <div class="ph-btn primary">Yes, continue personal conveyance</div>
+              <div class="ph-btn">No · back to normal recording</div>
+              <div class="ph-banner">If you drive off without answering, recording returns to normal and this is logged as automatic.</div>
+              <div class="ph-state">Yard move</div>
+              <div class="ph-confirm"><i>&#9675;</i><span>Always resets<small>a yard move never survives a power cycle; start it again from D6 if you are still in the yard</small></span></div>
+            </div>
+          </div></div>
+        </div>
+        <div class="wf-annot">
+          <div class="wf-head"><span class="wf-id">D37</span><h4 class="wf-name">Personal Conveyance Continues?</h4><span class="rev-badge">new 9/11</span></div>
+          <p class="wf-purpose">Appendix A 4.3.2.2.2: a driver's special-duty indication resets to none whenever the ELD or the engine goes through a power cycle. Personal conveyance is the one exception, and only if the driver confirms it at the beginning of the new ignition cycle before the vehicle moves (4.7.3-5). Unconfirmed and moving means none.</p>
+          <div>
+            <span class="wf-label">Data elements</span>
+            <ul class="wf-elems">
+              <li><span>Engine power-up event that raised the prompt</span><span class="tags"><span class="tag t-ble">Tracker &middot; BLE</span><span class="tag t-eld">ELD-owned</span></span></li>
+              <li><span>Confirmation, refusal, or timeout by motion<small style="display:block; color:var(--muted); font-size:11px;">a confirmed continuation is a new type 3 event; a timeout is recorded as automatic</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+            </ul>
+          </div>
+          <div class="wf-src">
+            <span class="wf-label">Where this data comes from</span>
+            <ul>
+              <li><a class="src-chip" href="#s-b1">B1 &middot; BLE</a><span>RPM over 200 after a power-down is the ignition cycle boundary</span></li>
+              <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>the type 3 event either way, so the output file shows the decision</span></li>
+            </ul>
+          </div>
+          <div class="wf-qs">
+            <span class="wf-label">Open questions</span>
+            <ul>
+              <li><b>New screen &middot;</b> The rule says "prior to placing the vehicle in motion." Drawn as a sheet over <a href="#d4">D4</a> that stays until answered or the vehicle passes 5 mph.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div class="wf-item" id="d7">
         <div class="wf-frame-col">
           <div class="wf-phone"><div class="wf-screen">
@@ -1623,6 +1749,11 @@
               <div class="ph-label">Why are you making this change?</div>
               <div class="ph-field filled" style="min-height:64px;">Arrived at Kenwood jobsite, staging materials</div>
               <div class="ph-note" style="text-align:right;">44 characters · minimum 8 ✓</div>
+              <div data-rev-from="v7">
+                <div class="ph-label">Where are you? <small style="color:var(--wf-mid);">no GPS fix for 12 min</small></div>
+                <div class="ph-field">Kenwood jobsite, Kenwood OH</div>
+                <div class="ph-note">Asked only when the tracker has no valid position. Recorded as a manual location.</div>
+              </div>
               <div class="ph-btn primary">Save status change</div>
               <div class="ph-btn ghost">Back</div>
             </div>
@@ -1636,6 +1767,7 @@
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Annotation text (≥ 8 chars), bound to the event</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
+              <li data-rev-from="v7"><span>Manual location text<small style="display:block; color:var(--muted); font-size:11px;">only when no valid fix exists at the change (4.3.2.7); the output file shows M in the coordinate fields</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Event context shown for confirmation</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
             </ul>
           </div>
@@ -1649,6 +1781,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> A location field appears when the last valid fix is stale or missing, per 4.6.1.4-7. If the driver skips it and the vehicle moves, the ELD records a missing-data diagnostic instead. The same field is on <a href="#d12">D12</a> for entered records.</li>
               <li>Should carriers be able to define quick-pick annotation presets ("Fueling", "Jobsite arrival") in W15, or is free text always required?</li>
             </ul>
           </div>
@@ -1819,6 +1952,7 @@
               <div class="ph-li"><span class="a">Sat Aug 15<small>D 4:05 · ON 2:31</small></span><span class="b">● NOT<br/>CERTIFIED</span></div>
               <div class="ph-li"><span class="a">Fri Aug 14<small>D 7:19 · ON 2:47</small></span><span class="b">✓ certified</span></div>
               <div class="ph-li"><span class="a">Thu Aug 13<small>D 6:58 · ON 1:33</small></span><span class="b">✓ certified</span></div>
+              <div data-rev-from="v7" class="ph-li"><span class="a">Send me my records<small>the FMCSA file for these 8 days, emailed to you</small></span><span class="b">→</span></div>
             </div>
           </div></div>
         </div>
@@ -1844,6 +1978,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.7.2 gives a driver the right to a copy of their own records in the output-file format without going through the carrier. Drawn as an emailed file generated by the host; delivery channel is with Sunil.</li>
               <li data-rev-until="v1">Drivers see 8 days here; the carrier keeps 6 months (W3). Should the driver be able to browse beyond 8 days read-only, or is that web-only?</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>Settled 8/28 · 8 days on the phone.</b> The August 17 memo draws the line the regulation draws: the in-vehicle device carries the working window, the host carries the 6-month record. Longer history stays web-only (<a href="#w3">W3</a>), and no deeper browse gets built into the app.</li>
               <li data-rev-from="v3"><b>Settled 8/28 &middot; 8 days on the phone.</b> The memo draws the line the regulation draws: the in-vehicle device carries the working window, the host carries the 6-month record. Longer history stays web-only (<a href="#w3">W3</a>).</li>
@@ -2000,6 +2135,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.3.2.8.2: this screen must refuse to edit or create intermediate logs, login and logout events, engine power up and shut down, and malfunction or diagnostic events; may never shorten automatically recorded driving; and may reassign a record only in the co-driver and unidentified-driver cases. A manual location field (as on <a href="#d7">D7</a>) appears for entered records with no fix.</li>
               <li>None open: the constraint set here is fixed by §395.30/§395.32. This screen is certifiable-logic-driven end to end.</li>
             </ul>
           </div>
@@ -2180,7 +2316,9 @@
                 <span data-revi-until="v1">ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · odo 126,502.5 · eng-hrs –<br/>
                 Unident.&nbsp;2 unassigned driving records</span><span data-revi-from="v2">ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · reg. TENNA01<br/>
                 Odo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;126,502.5 mi · eng 4,187.6 h <i style="font-style:normal; color:#9AA1AD;">last valid 2:35 PM</i><br/>
-                Unident.&nbsp;2 unaccepted records · last 8 days</span>
+                Unident.&nbsp;2 unaccepted records · last 8 days</span><span data-revi-from="v7"><br/>
+                Trailer&nbsp;&nbsp;T-4471 · Ship doc – · Exempt No<br/>
+                TZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-4 · Mfr TENNA · MALF none · DIAG none</span>
               </div>
               <svg class="ph-grid-svg" viewBox="0 0 272 96" role="img" aria-label="officer duty grid">
                 <g stroke="#E9EBEF" stroke-width="1">
@@ -2202,6 +2340,12 @@
               </div>
               <div data-rev-until="v1" class="ph-note">Full event list follows; officer scrolls. FMCSA-required display format, all 8 days.</div>
               <div data-rev-from="v2" class="ph-note">Sequence number, elapsed engine hours, and accumulated vehicle miles on every row per §4.5.1.1. Full list follows; officer scrolls. All 8 days.</div>
+              <div data-rev-from="v7" class="ph-card" style="font-family:'JetBrains Mono',monospace; font-size:7.5px; line-height:1.7; padding:8px 9px;">
+                <span style="color:#9AA1AD; font-weight:700;">UNIDENTIFIED DRIVER PROFILE · 2 records</span><br/>
+                0139&nbsp; Aug 18 19:02&nbsp; D&nbsp;&nbsp; 12.4 mi&nbsp; unaccepted<br/>
+                0140&nbsp; Aug 19 06:12&nbsp; D&nbsp;&nbsp;&nbsp; 2.1 mi&nbsp; unaccepted
+              </div>
+              <div data-rev-from="v7" class="ph-note">Grid overlays personal conveyance and yard move as dashed segments. Unidentified profile shown as its own report per 4.8.1.3.</div>
               <div class="ph-btn primary">Transfer to officer →</div>
             </div>
           </div></div>
@@ -2250,6 +2394,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.8.1.3 lists the header fields the display must show. Added: trailer ID, shipping document, exempt status, time-zone offset, ELD manufacturer, malfunction and diagnostic indicators. The unidentified-driver profile is a separate report, not a count, and personal conveyance and yard move are overlaid on the grid in a different line style.</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#q3">Q3</a> With the ignition off (the normal state during an inspection), the tracker reports <span class="mono" style="font-size:11px;">0</span> for odometer and an empty VIN. The display must carry last-valid values and mark them as such; a plausible zero on this screen is worse than a blank.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q3">Q3</a> At an inspection the ignition is off, so the tracker reports a zero odometer and an empty VIN. The display must show last-valid values and mark them as such.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q3">Q3</a> A plausible zero on the officer's screen is worse than a blank. Which of the two does the display show when there is no last-valid value at all?</li>
@@ -2427,6 +2572,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.6.2.1: one malfunction indicator, continuously visible to every driver while the ELD is powered, on the display. This notice is not that. A red chip sits in the app header on every screen, including <a href="#d16">D16</a>, until the malfunction clears.</li>
               <li><a class="qref" href="/decisions#p4">P4</a> A malfunction is the strongest candidate for pushing into Tenna's own alarm surfaces: an 8-day remediation clock a fleet manager doesn't see is how devices end up on FMCSA's revocation list.</li>
             </ul>
           </div>
@@ -2479,6 +2625,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.6.3.1: a separate diagnostic indicator, shown only to the driver it applies to. An amber chip in the header on every screen, next to the malfunction chip. An unidentified-driving diagnostic lights it for every driver on that ELD for seven days (4.6.1.6).</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#q1">Q1</a> For a phone-based recorder, an ordinary parked stop looks like an engine-sync gap. Where is the threshold between "normal BLE disconnection" and "raise a §4.6 diagnostic"? This is a compliance judgement, not an engineering one.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q1">Q1</a> For a phone-based recorder an ordinary parked stop looks like an engine-sync gap. Where is the threshold between a normal BLE disconnection and a §4.6 diagnostic? A compliance judgement, not an engineering one.</li>
             </ul>
@@ -2745,6 +2892,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.4.4.2.4-2: when a driver claims a record, the ELD must ask for any element the unidentified record lacks (for example the shipping document from <a href="#d36">D36</a>). One short fill-in step on the claim path.</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#q4">Q4</a> The tracker drains one stored event per 4–11 s and redelivers the whole backlog on every reconnect (46 events took minutes in the field). Capacity, retention, and a bulk-transfer mode are all open with Geometris.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q4">Q4</a> The tracker drains one stored event every 4&ndash;11 s and redelivers the whole backlog on each reconnect: 46 events took minutes in the field. Capacity, retention and a bulk-transfer mode are open with Geometris.</li>
               <li><a class="qref" href="/decisions#q9">Q9</a> Two phones on one tracker: can both drain the queue? Can one purge it out from under the other?</li>
@@ -2982,6 +3130,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> An exempt driver sees their exemption here as well as at login (4.3.3.1.2-5).</li>
               <li><b>New screen &middot;</b> Does logging out unpair the truck, or leave it paired for the next driver? Sticky pairing (D2) exists to reduce unidentified driving, and logout is where those two rules meet.</li>
               <li>May a driver log out with days still uncertified? Blocking it is cleaner for the carrier and wrong at 6 PM on a Friday. Drawn as a warning, not a block.</li>
               <li><a class="qref" href="/decisions#p2">P2</a> How long may the cached session survive a logout for an offline driver? Same offline-grace question D1 asks, from the other end.</li>
@@ -3003,6 +3152,7 @@
               <div class="ph-toggle"><span>Large text mode</span><span class="sw"></span></div>
               <div class="ph-toggle"><span>Language · English</span><span class="b" style="font-size:9px; color:var(--wf-mid);">EN ▾</span></div>
               <div data-rev-from="v3" class="ph-toggle"><span>Sign in with Face ID<small style="display:block; font-weight:600; font-size:8px; color:var(--wf-mid);">off on shared tablets, and your carrier can lock it</small></span><span class="sw on"></span></div>
+              <div data-rev-from="v7" class="ph-toggle"><span>Mute alerts in sleeper berth<small style="display:block; font-weight:600; font-size:8px; color:var(--wf-mid);">automatic while your status is SB and no co-driver is driving</small></span><span class="sw on"></span></div>
               <div class="ph-li"><span class="a">Reset inspection PIN</span><span class="b">→</span></div>
               <div class="ph-note">Compliance behavior is never a setting. Nothing here changes what the ELD records.</div>
             </div>
@@ -3027,6 +3177,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.7.1: when the driver is in sleeper berth and no co-driver is driving, the ELD must let the driver mute it or mute itself. Drawn automatic with an override.</li>
               <li>Which of these should carrier policy be able to lock (e.g. warnings always on)? Belongs in the W15 discussion.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q24">Q24</a> Biometric sign-in is the first setting here that changes who can produce a record, so it is the first one carrier policy has a real reason to lock.</li>
             </ul>
@@ -3938,6 +4089,7 @@
                       <tr><td><b>Unit 207</b> · WQ-…0355</td><td><span class="wb-pill dark">P · Power</span></td><td>Aug 18, 2:38 PM</td><td><div class="wb-bar" style="width:60px;"><i style="width:75%;"></i></div> 6 d left</td><td>K. Burns ✓ ack</td><td><span class="wb-pill out">Open</span></td></tr>
                       <tr><td><b>Unit 231</b> · WQ-…0301</td><td><span class="wb-pill dark">E · Engine sync</span></td><td>Aug 20, 9:12 AM</td><td><div class="wb-bar" style="width:60px;"><i style="width:97%;"></i></div> 7 d 18 h</td><td>R. Delgado ✓ ack</td><td><span class="wb-pill out">Open</span></td></tr>
                       <tr><td><b>Unit 224</b> · WQ-…0266</td><td><span class="wb-pill">T · Timing</span></td><td>Aug 09</td><td>resolved Aug 10</td><td>–</td><td><span class="wb-pill">Resolved</span></td></tr>
+                      <tr data-rev-from="v7"><td><b>All devices</b> · transfer self-test</td><td><span class="wb-pill out">S · Transfer</span></td><td>Aug 19 · TEST flag</td><td>next due Aug 26</td><td>–</td><td><span class="wb-pill">14 / 14 passing</span></td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">A malfunction that outlives its 8-day clock is an out-of-service ELD. This table exists so that never happens quietly.</div>
@@ -3968,6 +4120,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.6.1.7: the ELD must self-test its transfer mechanism at least every 7 days (a TEST-flagged submission), daily after a failure, and raise a data-transfer malfunction after three consecutive failures. The host runs it per device and this table shows the state.</li>
               <li><a class="qref" href="/decisions#p4">P4</a> The strongest P4 case on the page: should an expiring remediation clock escalate through Tenna's notification machinery (it exists) rather than waiting to be noticed here?</li>
             </ul>
           </div>
@@ -4295,6 +4448,7 @@
                   <div class="wb-h">eRODS transfer to FMCSA <span class="sub">pre-audit request &middot; not a roadside inspection</span></div>
                   <div class="wb-filter">
                     <span class="wb-fld">Drivers: M. Alvarez, K. Burns &#9662;</span>
+                    <span class="wb-fld" data-rev-from="v7">Vehicles: all &#9662;</span>
                     <span class="wb-fld">Feb 20 &ndash; Aug 20 (182 d) &#9662;</span>
                     <span class="wb-fld">Comment: audit BA-2026-114 &#9662;</span>
                   </div>
@@ -4356,6 +4510,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.9.2 requires files on demand for a subset of drivers, a subset of vehicles, or a period. Vehicle filter added.</li>
               <li data-rev-until="v2">Does a host-initiated transfer use the same eRODS endpoint and the same output-file comment
               convention as a roadside transfer, or does FMCSA treat a pre-audit submission differently? A question for
               the FMCSA advisor; it decides whether this is a new service or a second caller of an existing one.</li>
@@ -4558,7 +4713,7 @@
                       Cycle default: 70 h / 8 days ▾<br/>Warning lead time: 30 min ▾<br/>Time zone: home terminal ▾
                     </div>
                     <div class="wb-box"><div class="h">Special duty permissions</div>
-                      Personal conveyance: ☑ all drivers<br/>Yard move: ☑ by driver group ▾<br/>Annotation presets: 4 defined ▾
+                      <span data-revi-until="v6">Personal conveyance: ☑ all drivers<br/>Yard move: ☑ by driver group ▾<br/></span><span data-revi-from="v7">Personal conveyance: per driver · 9 of 14 on ▾<br/>Yard move: per driver · 11 of 14 on ▾<br/>New drivers start with both off. Changes are shown to the driver at next login.<br/></span>Annotation presets: 4 defined ▾
                     </div>
                   </div>
                   <div class="wb-box" style="margin-top:9px;"><div class="h">Yard-move geofences</div>
@@ -4570,6 +4725,10 @@
                     Suggested reasons: <span class="wb-pill out">Mechanic road test</span> <span class="wb-pill out">Yard movement</span> <span class="wb-pill out">Yard relocation</span> <span class="wb-pill out">OEM / warranty</span> <span class="wb-pill">+ add</span><br/>
                     Review reminder: every 3 days &#9662; &nbsp;·&nbsp; Let drivers name another driver: &#9744; off<br/>
                     Non-HOS move roles: &#9745; Mechanics &nbsp; &#9745; Yard operators &nbsp; &#9744; Vendors
+                  </div>
+                  <div data-rev-from="v7" class="wb-box" style="margin-top:9px;"><div class="h">Exempt drivers <span class="wb-pill out">0 of 14</span></div>
+                    Mark a driver exempt from ELD use ▾ &nbsp;·&nbsp; annotation required &nbsp;·&nbsp; shown to the driver at login and logout<br/>
+                    <span style="font-size:8px;">Exempt drivers are still recorded. Missing-data and transfer diagnostics are suspended for them. Enforcement scrutinises exempt accounts; use only where §395.1 applies.</span>
                   </div>
                   <div class="wb-note">Compliance rules are not configurable; these settings choose among legal behaviors, never around them.</div>
                 </div>
@@ -4606,6 +4765,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.3.3.1.1: personal conveyance and yard move are configured per driver and default to off for a new account; every change is recorded and shown to the driver at the next login. 4.3.3.1.2: the carrier must be able to mark a driver exempt, default not exempt, annotation required, indicated at login and logout. Whether Tenna wants exemption prominent or buried is with Sunil.</li>
               <li>Tenna already models sites and geofences. Do yard-move fences reference Tenna sites over the API (one source of truth) or get drawn here? The wireframe shows both to force the choice.</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28 ·</b> Is the reason taxonomy carrier-editable, as drawn, or fixed across the customer base? Editable serves the individual carrier; fixed keeps unidentified-driving reporting comparable and makes any future benchmarking possible. Recommendation: fixed core list from the memo, with one carrier-defined "other" slot.</li>
               <li data-rev-from="v3" data-rev-until="v4"><b>New 8/28 &middot;</b> Is the reason list carrier-editable, as drawn, or fixed across the customer base? Fixed keeps unidentified-driving reporting comparable. Recommendation: the memo's core list, plus one carrier-defined slot.</li>

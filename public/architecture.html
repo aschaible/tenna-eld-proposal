@@ -74,7 +74,7 @@
 <div class="doc">
 
   <h1>Architecture</h1>
-  <p class="docmeta">Updated 10 September 2026 (evening) · Confidential</p>
+  <p class="docmeta">Updated 11 September 2026 · Confidential</p>
   <p class="docmeta">On this page:
     <a href="#s1">1. Context</a> ·
     <a href="#s2">2. Ownership split</a> ·
@@ -581,7 +581,7 @@
     <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
     <tbody>
       <tr><td>id</td><td>uuid</td><td>Client-generated UUIDv7. Primary key and the idempotency key for E1</td></tr>
-      <tr><td>seq</td><td>integer</td><td>Per driver, per ELD, assigned on the device (§4.5.1.1). Unique on (device_id, driver_id, seq)</td></tr>
+      <tr><td>seq</td><td>integer</td><td>One continuous counter per ELD device across every user, including the unidentified profile, and across power cycles (Appendix A 4.4.4.1). Assigned on the device, persisted with the event (product must-fix MF-1). Unique on (device_id, seq). Rendered in the output file as hex 0000 to FFFF, wrapping at 65,536; the database keeps the unbounded integer</td></tr>
       <tr><td>carrier_id</td><td>text</td><td>Tenant key, on every row</td></tr>
       <tr><td>driver_id</td><td>text</td><td>Tenna user id. Null for unidentified-driver events</td></tr>
       <tr><td>asset_id</td><td>text</td><td>Tenna asset id, stored as given</td></tr>
@@ -592,13 +592,16 @@
       <tr><td>record_origin</td><td>smallint</td><td>1 automatic, 2 driver, 3 other authenticated user, 4 unidentified</td></tr>
       <tr><td>at_utc</td><td>timestamptz</td><td>Device clock. The app's epoch-ms timestamp</td></tr>
       <tr><td>not_before_utc</td><td>timestamptz</td><td>From the app's notBefore. Set when the transition fell in a telemetry gap: the change happened in [not_before_utc, at_utc]. Null when observed directly</td></tr>
-      <tr><td>odometer_mi</td><td>numeric(9,1)</td><td>Null when the tracker could not supply it</td></tr>
+      <tr><td>odometer_mi</td><td>numeric(9,1)</td><td>Null when the tracker could not supply it, and left blank on every event during personal conveyance except power up and shut down (4.7.3)</td></tr>
       <tr><td>odometer_is_relative</td><td>boolean</td><td>True when the value is estimated, not read. Stored next to the value</td></tr>
-      <tr><td>engine_hours</td><td>numeric(9,1)</td><td></td></tr>
+      <tr><td>engine_hours</td><td>numeric(9,1)</td><td>Blank during personal conveyance except power events (4.7.3)</td></tr>
       <tr><td>engine_hours_accumulated</td><td>boolean</td><td>True when the ELD added up the hours itself instead of reading them from the ECM</td></tr>
       <tr><td>hours_source</td><td>text</td><td>ecm | tracker_calculated (Q2)</td></tr>
-      <tr><td>lat, lon</td><td>numeric(9,6)</td><td>As stamped. Precision reduced to 1 decimal for personal conveyance at output time, not at rest</td></tr>
-      <tr><td>location_text</td><td>text</td><td>Geocoded description</td></tr>
+      <tr><td>lat, lon</td><td>numeric(5,2)</td><td>Recorded at two decimal places (4.3.1.6); one decimal place for events during personal conveyance (4.7.3). The full-precision reading stays in the phone's raw store only. X, E or M in the output file when no fix, positioning malfunction, or manual entry</td></tr>
+      <tr><td>location_text</td><td>text</td><td>Distance and direction to the nearest place of 5,000 or more people from ANSI INCITS 446-2008, with state (4.4.2); or the driver's typed location when the fix was missing, flagged by <code>location_manual</code></td></tr>
+      <tr><td>location_manual</td><td>boolean</td><td>True when the driver typed the location (4.3.2.7); output file shows M in the coordinate fields</td></tr>
+      <tr><td>trailer_numbers, shipping_doc</td><td>text</td><td>Trip details from D36, editable by the driver, blank allowed (4.3.2.1). Power unit is asset_id</td></tr>
+      <tr><td>event_check</td><td>char(2)</td><td>Event data check value computed on the device at creation, and on the server at driver edit and carrier proposal (4.4.5.1)</td></tr>
       <tr><td>distance_since_last_coord</td><td>smallint</td><td>§4.5.1.1 item, miles</td></tr>
       <tr><td>vin_observed</td><td>text</td><td>Item 0x01 at the time of the event. Compared to T4 VIN of record</td></tr>
       <tr><td>malfunction_indicator, diagnostic_indicator</td><td>boolean</td><td>State at time of event</td></tr>
@@ -668,12 +671,12 @@
   <table>
     <thead><tr><th>Table</th><th>Columns</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td>eld.certifications</td><td>id, event_id, driver_id, period_date, certification_number, certified_at</td>
-        <td>Type 4 events. period_date is the 24-hour period certified in the home-terminal zone. certification_number is the event code (1 first, 2–9 recertifications)</td></tr>
+      <tr><td>eld.certifications</td><td>id, event_id, driver_id, period_date, tz_offset_utc, certification_number, certified_at</td>
+        <td>Type 4 events. period_date is the 24-hour period certified in the home-terminal zone; tz_offset_utc is the offset in effect, required on the event (4.4.3). certification_number is the event code (1 first, 2–9 recertifications)</td></tr>
       <tr><td>eld.login_sessions</td><td>id, driver_id, device_id, login_event_id, logout_event_id, started_at, ended_at</td>
         <td>Type 5 events. Session is Tenna's (T1); the ELD event is the ELD's</td></tr>
       <tr><td>eld.power_events</td><td>id, event_id, asset_id, kind, at_utc, odometer_mi, engine_hours, lat, lon</td>
-        <td>Type 6 kept in its own list as the apps do today. Idle shutdown (SPN 591–593, if exposed) is a power-down and does not change duty status</td></tr>
+        <td>Type 6 kept in its own list as the apps do today. If the vehicle has not moved since the last ignition cycle, keep the earliest shut-down and the latest power-up (4.5.1.6). Idle shutdown (SPN 591–593, if exposed) is a power-down and does not change duty status</td></tr>
     </tbody>
   </table>
   </div>
@@ -724,7 +727,7 @@
       <tr><td>eld.output_files</td><td>id, carrier_id, driver_id, from_day, to_day, generated_at, generated_by, object_key, file_sha256, file_check</td>
         <td>One row per Appendix A file. The file itself is in object storage; the hash and file check value are here</td></tr>
       <tr><td>eld.transfers</td><td>id, output_file_id (nullable), method, caller, output_file_comment, attempted_at, result, receipt, error_text</td>
-        <td>method web | email | display. caller is the driver (D17) or the supervisor (W17). output_file_comment is the officer's code. A display-only inspector session (D15, D16) is logged with method display and no file, so a no-signal roadside stop still leaves a record</td></tr>
+        <td>method web | email | display | selftest | driver_copy. caller is the driver (D17), the supervisor (W17), or the scheduler. output_file_comment is the officer's code. A display-only inspector session (D15, D16) is logged with method display and no file, so a no-signal roadside stop still leaves a record</td></tr>
     </tbody>
   </table>
   </div>
@@ -746,18 +749,33 @@
   </table>
   </div>
 
+  <h3>eld.driver_settings (per-driver configuration, 4.3.3.1)</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>carrier_id, driver_id</td><td>text</td><td>Primary key. Tenna ids</td></tr>
+      <tr><td>pc_allowed, ym_allowed</td><td>boolean</td><td>Default false for a new driver (4.3.3.1.1). Set per driver on W15</td></tr>
+      <tr><td>exempt</td><td>boolean</td><td>Default false (4.3.3.1.2). Exempt drivers are still recorded; missing-data and transfer-monitoring diagnostics are suspended for them</td></tr>
+      <tr><td>exempt_annotation</td><td>text</td><td>Required when exempt is set</td></tr>
+      <tr><td>changed_at, changed_by</td><td>timestamptz, text</td><td>Every change is recorded and shown to the driver at the next login (4.3.3.1.1-4)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
   <h3>Cross-cutting rules</h3>
   <ul>
     <li>Every timestamp is <code>timestamptz</code> in UTC. The apps use epoch milliseconds UTC everywhere. The tracker's
       UDRV_TIME and LOCTIME are epoch seconds on the device clock and are kept in their own columns where they matter.</li>
-    <li>Home-terminal time zone is read from T3 for display and for the 24-hour certification boundary. It is not stored on events.</li>
+    <li>Event time comes from the tracker's GPS time, cross-checked against a network time source; the user-settable phone clock is never the source (4.3.1.5). A deviation over 10 minutes from UTC is a timing malfunction.</li>
+    <li>Home-terminal time zone is read from T3 for display and for the 24-hour certification boundary. It is stored on certification events as the offset in effect, and nowhere else.</li>
     <li>Tenna ids are stored as text exactly as Tenna issues them. The ELD never parses them, checks their format, or joins on them. No foreign keys into Tenna's schema and no cross-schema joins. Names are resolved at read time through T2 and T4.</li>
     <li>Tenant isolation is <code>carrier_id</code> on every table. Row-level security keyed on the JWT's carrier claim is
       the recommendation; the API enforces it regardless.</li>
     <li>Ids are UUIDv7 everywhere. The leading 48 bits are a millisecond timestamp, so ids sort by creation time and a
       B-tree index on them grows at one end instead of splitting randomly. Generators must use a monotonic counter for
       ids created in the same millisecond. On the phone the id is stored as a 16-byte blob. The id is for dedupe and
-      index locality only; the per-driver <code>seq</code> remains the order of record.</li>
+      index locality only; the per-device <code>seq</code> remains the order of record.</li>
     <li>No request handler talks to Tenna or FMCSA directly. Anything that leaves the ELD is written to <code>eld.outbox</code> in the same transaction as the row it concerns and sent by the relay.</li>
     <li>JSON contract: the apps' session JSON distinguishes a missing key from an explicit null. The API normalizes
       inbound payloads to explicit nulls before validation, so the schema never has to model "absent".</li>
@@ -778,7 +796,7 @@
     <thead><tr><th>Endpoint</th><th>Purpose</th><th>Rules</th></tr></thead>
     <tbody>
       <tr><td><code>POST /events</code> (array body)</td><td>Upload recorded events</td>
-        <td>Idempotent on event <code>id</code>. Response lists accepted, duplicate, rejected per item. Ordering is by (driver_id, seq). A gap in seq is reported in the response, not rejected, because the missing event may be in the next batch</td></tr>
+        <td>Idempotent on event <code>id</code>. Response lists accepted, duplicate, rejected per item. Ordering is by (device_id, seq). A gap in seq is reported in the response, not rejected, because the missing event may be in the next batch</td></tr>
       <tr><td><code>GET /drivers/{driver_id}/events?from&amp;to</code></td><td>Rebuild a replaced or wiped phone; fetch a day for D11 or D16</td>
         <td><code>from</code> and <code>to</code> are UTC timestamps on <code>at_utc</code>, <code>from</code> inclusive and <code>to</code> exclusive. <code>to</code> defaults to now; the window is capped at 31 days per call and paged. A rebuild asks for the last 8 days. The host has every event (P3), so the phone never has to keep more than that</td></tr>
       <tr><td><code>POST /ud-records</code> (array body)</td><td>Upload drained unidentified-driving frames</td>
@@ -826,10 +844,10 @@
 
   <p>An idempotent batch, end to end:</p>
   <ol>
-    <li>The app records an event, assigns the next seq for this driver on this device, and in one local transaction writes it to the log and to the device outbox with a UUIDv7 id.</li>
+    <li>The app records an event, assigns the next seq for this device (one counter for every driver on the phone), and in one local transaction writes it, the counter, and the outbox entry with a UUIDv7 id.</li>
     <li>The sync worker takes up to 200 outbox entries in seq order and posts them as one array to <code>/events</code> with the JWT.</li>
     <li>The server validates the JWT, checks the carrier claim against every row, and in one Postgres transaction inserts each event with <code>ON CONFLICT (id) DO NOTHING</code> together with any <code>eld.outbox</code> rows the event implies.</li>
-    <li>The response marks each id accepted or duplicate, and lists any seq gaps it now sees for that driver.</li>
+    <li>The response marks each id accepted or duplicate, and lists any seq gaps it now sees for that device.</li>
     <li>The app deletes accepted and duplicate ids from its outbox. Rejected ids stay and surface on D18 as a recording diagnostic.</li>
     <li>If the connection drops before the response, the app retries the same batch. Step 3 makes the retry harmless.</li>
     <li>The server relay publishes the new outbox rows to Tenna and marks them published on acknowledgment.</li>
@@ -867,7 +885,9 @@
       identifier&gt;". Both keys live in the ELD backend's secret store, never on the phone. FMCSA issues a test
       certificate and sample identifiers before registration.</li>
     <li>Host-initiated transfer (W17): the same generator behind the same <code>transfer-requests</code> resource, capped at 30 days per request, split automatically into
-      increments the eRODS endpoint accepts.</li>
+      increments the eRODS endpoint accepts. Filterable by driver, vehicle and period (4.9.2).</li>
+    <li>Transfer self-test (4.6.1.7): the backend submits a TEST-flagged file at least every 7 days per device; after a failure it retries daily, and three consecutive failures raise a data-transfer malfunction. Attempts are <code>eld.transfers</code> rows with method <code>selftest</code>; state shows on W10 and lights the D19 indicator.</li>
+    <li>Driver's own records (4.7.2): <code>POST /drivers/me/record-requests</code> generates the driver's output file for a chosen range and emails it to the address on the Tenna user record. The phone never handles the file. Delivery channel is a product decision pending Sunil.</li>
   </ul>
 
   <h3>E2 and E3: egress to Tenna</h3>
@@ -898,7 +918,7 @@
     <thead><tr><th>Surface</th><th>Fields</th><th>Why the ELD needs it</th><th>Status</th></tr></thead>
     <tbody>
       <tr><td><a href="/#s-t1">T1</a> Identity</td><td>Cognito user pool id and app client; the JWT claims the ELD may rely on (sub, carrier, roles); token lifetime</td><td>Sign-in (P2) and every API call</td><td>Pool settled. Offline grace <b>open</b></td></tr>
-      <tr><td><a href="/#s-t2">T2</a> People</td><td><code>{id, name, is_driver, cdl{number, state}, home_terminal, roles[]}</code></td><td>Roster, headers, attribution</td><td>Which attribute marks a driver is <b>open</b> (P1 follow-up). Duplicate CDL must hard-block at provisioning</td></tr>
+      <tr><td><a href="/#s-t2">T2</a> People</td><td><code>{id, name, is_driver, cdl{number, state}, home_terminal, roles[]}</code></td><td>Roster, headers, attribution</td><td>Which attribute marks a driver is <b>open</b> (P1 follow-up). At creation Tenna must require the CDL number and issuing state and store them securely, refuse a second driver account for the same licence within a carrier, give driver accounts no right to create accounts, and prevent support accounts from recording ELD data (Appendix A 4.1.2)</td></tr>
       <tr><td><a href="/#s-t3">T3</a> Org</td><td>Carrier name, USDOT, address, terminals with time zone</td><td>Output file header, certification boundary</td><td>Exists in Tenna, needs an endpoint</td></tr>
       <tr><td><a href="/#s-t4">T4</a> Assets</td><td><code>{id, name, type, vin, tracker{serial}, bus (OBD-II | J1939), ecm_hours_available}</code>, keyed by id or <code>?tracker_serial=</code></td><td>Pairing, VIN cross-check, hours source</td><td>Serial is the join. BLE address is not: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed</td></tr>
       <tr><td><a href="/#s-t5">T5</a> Sites</td><td>Yard polygons</td><td>Ending a yard move automatically</td><td><b>Source open</b></td></tr>
@@ -1001,7 +1021,7 @@
   </div>
   <ul>
     <li>The ELD decides motion and stops from the speed item. Driving begins above 5 mph. A stop is suspected after three seconds at zero speed.</li>
-    <li>Every event is created and sequenced on the device before it is sent. The host never assigns seq and never reorders.</li>
+    <li>Every event is created and sequenced on the device before it is sent, on one counter shared by every driver on that device (4.4.4.1). The host never assigns seq and never reorders.</li>
     <li>The event and its outbox entry are one local transaction, so an event the driver can see is by definition an event that will be synced. The device outbox is drained only on server acknowledgment.</li>
     <li>A rebuild after a lost phone is a read from the host, which is why P3 requires every event to reach the host when recorded.</li>
     <li>Hops: B1, then E1. Nothing in this flow touches Tenna.</li>
@@ -1327,6 +1347,9 @@
       <tr><td><a href="/decisions#q2">Q2</a> engine-hours ECM baseline</td><td>Which assets expose ECM hours; accumulated-hours fallback rules</td><td>hours_source; W11 flag</td><td>Tom, Geometris</td></tr>
       <tr><td><a href="/decisions#q5">Q5</a> BLE has no authentication</td><td>Accepted risk statement, or a mitigation</td><td>Security review of B1</td><td>Tenna engineering</td></tr>
       <tr><td><a href="/decisions#q9">Q9</a> two phones, one tracker</td><td>Who owns the link when two drivers connect</td><td>Active-driver designation; seq assignment</td><td>AppAxis, Tom</td></tr>
+      <tr><td>Trip details semantics</td><td>Whether Tenna customers have shipping documents; whether a job number stands in. Default: optional, blank allowed (D36)</td><td>eld.events trailer_numbers, shipping_doc; D36</td><td>Sunil</td></tr>
+      <tr><td>Exempt-driver visibility</td><td>Feature is required by 4.3.3.1.2; Tenna decides visible or buried</td><td>W15 per-driver settings</td><td>Sunil</td></tr>
+      <tr><td>Own-records delivery</td><td>Email to the Tenna address (default) or in-app share sheet</td><td>POST /drivers/me/record-requests</td><td>Sunil</td></tr>
       <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and Tenna-issued ids, stored as given, are the keys across the phone, the API and the portal</td><td>Contract A and B as written</td><td>Kyle, Tamar</td></tr>
     </tbody>
   </table>
