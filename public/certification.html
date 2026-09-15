@@ -111,12 +111,10 @@
     <p class="who">Owner: <b>AppAxis</b> · Phase 2, in progress</p>
     <ul>
       <li>Prove the tracker's Bluetooth broadcast delivers the four required elements (engine power, motion, miles,
-        engine hours) through backgrounding, signal loss, process death, and multi-day operation.
-        RTM: 4.2, 4.3.1.1–4.3.1.5, 4.6.1.1, 4.6.1.2.</li>
+        engine hours) through backgrounding, signal loss, process death, and multi-day operation.</li>
       <li>Test inventory: Tenna's 15 connectivity cases plus AppAxis scenarios 16–31 (clock integrity, airplane-mode
         drives, 24-hour soak, stored-event drain and purge, process death and gap coverage, 30-minute malfunction
         escalation, automatic duty-status transitions).</li>
-      <li>Every run leaves an append-only session log on the device.</li>
       <li>The build is moving from the React Native prototype to native Android and iOS apps. The full protocol is
         re-run on both native apps. Acceptance criteria are AppAxis proposals pending approval by
         Tom Cuthbertson.</li>
@@ -125,73 +123,47 @@
     <table>
       <thead><tr><th>App</th><th>Android</th><th>iOS</th></tr></thead>
       <tbody>
-        <tr><td>React Native prototype</td><td>Done: 26 of 26 tests passed</td><td>Done: 26 of 26 tests passed</td></tr>
-        <tr><td>Native</td><td>In progress: drives 10, 11 and 14 September on a live tracker; closing tests running (background reconnect after a long loss passed 14 Sep; answered stationary prompt, two phones one tracker, two trackers still to run)</td><td>In progress: first field drive 7 September; background reconnect fix in test</td></tr>
+        <tr><td>React Native prototype</td><td>26 of 26 passed</td><td>26 of 26 passed</td></tr>
+        <tr><td>Native</td><td>1 of 5 closing tests passed; full protocol re-run to follow</td><td>0 of 26; first field drive done</td></tr>
       </tbody>
     </table>
     </div>
     <p class="gate"><b>Exit.</b> Every protocol step passes on both platforms against approved acceptance criteria.
-      Evidence: completed test workbooks and per-test device session logs.</p>
+      Evidence: completed test workbooks and device session logs.</p>
   </div>
 
   <div class="stage">
     <h3>Stage B — Compliance requirements freeze</h3>
-    <p class="who">Owner: <b>Joint</b> — Tom Cuthbertson rules, AppAxis drafts, Tenna signs off · Phase 2 exit</p>
+    <p class="who">Owner: <b>Tom Cuthbertson leads</b>; AppAxis drafts, Tenna signs off · Phase 2 exit</p>
     <ul>
-      <li>Settled 8 and 10 September: P3 raw data (host receives events only, the moment they are recorded; the phone
-        keeps ten days of raw readings that never leave it), Q1 duty status on link loss (no automatic change; the
-        stationary prompt is the only automatic On Duty, and an answered prompt backdates to first zero speed), Q15–Q17
-        unidentified driving (manual carrier review, carrier assigns with driver acceptance, five standard reasons plus
-        carrier-defined; unaccepted records stay on the vehicle for eight days and are re-offered to each driver who
-        signs in), Q18 transfer method (Telematics: web services and email, elected), Q19 audit export (the Appendix A
-        output file only, in 30-day increments), Q20 host inspector view (build), Q23 VIN (vehicle wins), D35
-        motion-without-sign-in screen (required; speed above 5 mph is the motion test), co-driver (both signed into one
-        device, required by Appendix A 4.1.4(b)).</li>
-      <li>Settled 14 September (Tom Cuthbertson, fourth session): exempt drivers are required as a separate flow that
-        records drive segments, power and login events only (D38, W15); trailer number and shipping document number
-        are required in the output-file header when hauling, a job number satisfies the shipping document, blank when
-        deadheading (D36); six-month retention is kept as whole calendar months and purged at the month cutover; a
-        legal hold per driver or carrier suspends every purge until released (W15); the malfunction notice tells the
-        driver to report to the carrier within 24 hours (D18); personal conveyance survives key-off and is confirmed
-        at key-on (D37); yard move ends automatically above 20 mph, no prompt (D6); the transfer self-test is a daily
-        TEST-flagged submission of real log data from the device (W10); the phone as the tracker's only relay to the
-        host is acceptable, and the log must never depend on the host at roadside.</li>
-      <li>Settled 14 September (Sunil, product): P4, which ELD events reach Tenna. Nine instant alerts routed by permission
-        group, seven scheduled reports on Tenna's existing reporting engine, the rest in the ELD app or on screen. One
-        AppAxis addition pending Sunil: malfunction raised as an instant alert.</li>
-      <li>Decided 15 September (Adam, product): co-driver support ships at launch, on Tom's reading of Appendix A
-        4.1.4(b); the 11 September deferral is withdrawn. Tenna hears this and the exempt-driver requirement on
-        16 September.</li>
-      <li>Open: Q24 biometric sign-in to the ELD application (Tom Cuthbertson's position is user code and password; he is
-        asking his FMCSA contact for a yes or no), D29 stationary-prompt parameters, acceptance criteria approval,
-        registration re-submission triggers (Stage F). Not reached on 14 September and going to Tom by email: the
-        written read-back of the 10 September rulings, manual location entry, the driver's own-records delivery,
-        sequence-number scope, and the late-written malfunction record.</li>
-      <li>Fold answers into the HOS engine specification, the data-retention design, and the decision log.</li>
+      <li>Tom Cuthbertson, AppAxis and Tenna agree on the compliance requirements. Tom rules on what the regulation
+        requires; AppAxis writes each ruling into the wireframes and the architecture; Tenna confirms the product
+        decisions that sit alongside them.</li>
+      <li>Four consultant sessions so far (3, 8, 10 and 14 September) plus two product sessions with Tenna (11 and
+        14 September). Every ruling and decision is recorded in the <a href="/decisions">decision log</a> and drawn
+        into the <a href="/">wireframes</a> the same day, so the screens are the agreed requirements.</li>
+      <li>Still open: biometric sign-in to the ELD app (Tom is asking FMCSA), stationary-prompt parameters, acceptance
+        criteria approval, registration re-submission triggers, and a short list of confirmations going to Tom by
+        email. Tenna confirms exempt drivers and co-driver at launch on 16 September.</li>
     </ul>
-    <p class="gate"><b>Exit.</b> Scope lock signed with every open item answered in writing. Tom Cuthbertson rules in
-      writing; Tenna signs the package (decided 10 September). Evidence: signed scope-lock package and updated decision
-      log.</p>
+    <p class="gate"><b>Exit.</b> Every open item answered in writing; Tom Cuthbertson rules in writing, Tenna signs the
+      scope lock. Evidence: signed scope-lock package, decision log, wireframes.</p>
   </div>
 
   <div class="stage">
-    <h3>Stage C — Build to Appendix A</h3>
+    <h3>Stage C — Build the ELD</h3>
     <p class="who">Owner: <b>AppAxis</b> · Phase 3, weeks 4–12</p>
     <ul>
-      <li>HOS state machine (all duty rules and exceptions), malfunction and diagnostic engine (eight categories,
-        4.6.1.1–4.6.1.8), output file generator with line and file check values (4.8.2), driver application on real
-        hardware.</li>
-      <li>Test harness built in the same weeks as the code, one automated test per RTM requirement, grouped by the
-        three test-plan chapters. Coverage tracked as a percentage of the 354 leaf IDs in the RTM.</li>
-      <li>Design coverage checked against the RTM on 11 September: 210 requirements covered by the wireframes and
-        architecture as drawn, 85 partial, 19 behind three design conflicts (sequence-number scope, position precision at
-        rest, entry while in motion), 28 with no design. Conflicts fixed in the architecture the same day; the UI gaps
-        are drawn in wireframe revision 9/11. Workbook: RTM - FMCSA test plan requirements vs AppAxis coverage.</li>
-      <li>Output files validated against FMCSA's file specification on every build.</li>
-      <li>Weekly show-backs.</li>
+      <li>The primary build. The hours-of-service engine with every duty rule and exception; detection of the eight
+        malfunction and diagnostic conditions; the records file an inspector's system reads; the driver app running on
+        real phones against real trackers.</li>
+      <li>Automated tests are written in the same weeks as the code, one per requirement, so coverage is a number
+        every week rather than a claim at the end.</li>
+      <li>The records file is checked against FMCSA's format on every build.</li>
+      <li>Weekly show-backs to Tenna.</li>
     </ul>
-    <p class="gate"><b>Exit.</b> Harness passes for every implemented RTM section; an output file from live test data
-      validates clean. Evidence: harness run report per release with RTM coverage.</p>
+    <p class="gate"><b>Exit.</b> Every implemented requirement has a passing automated test; a records file from live
+      test data passes FMCSA's format check. Evidence: test report per release with coverage.</p>
   </div>
 
   <div class="stage">
@@ -290,19 +262,19 @@
         <td>Bench and drive protocol passes on both platforms against approved criteria</td>
         <td>Test workbooks, device session logs</td>
         <td>AppAxis</td>
-        <td>React Native: done on both platforms. Native: drives and closing tests in progress on both. Criteria approval pending</td>
+        <td>React Native 26 of 26 on both. Native in progress. Criteria approval pending</td>
       </tr>
       <tr>
         <td>B</td>
         <td>Open items answered in writing; scope lock signed</td>
         <td>Signed scope-lock package, decision log</td>
         <td>Joint</td>
-        <td>P3, Q1, Q15–Q20, Q23 settled 8 and 10 Sep; exempt, trip details, retention, legal hold, yard move, self-test and P4 settled 14 Sep; co-driver at launch 15 Sep. Q24 (FMCSA answer pending), D29, criteria, re-submission triggers open</td>
+        <td>Requirements agreed through 14 Sep and drawn into the wireframes. Open: biometric sign-in, stationary prompt, criteria, re-submission triggers</td>
       </tr>
       <tr>
         <td>C</td>
-        <td>RTM harness passes; output file validates from live data</td>
-        <td>Harness report with RTM coverage, per release</td>
+        <td>Every implemented requirement has a passing automated test; a records file from live data passes FMCSA's format check</td>
+        <td>Test report with coverage, per release</td>
         <td>AppAxis</td>
         <td>Phase 3</td>
       </tr>
