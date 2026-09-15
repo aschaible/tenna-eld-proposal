@@ -100,6 +100,19 @@
       });
       if (sels.length) out.push(sels.join(',\n') + ' { display: none !important; }');
     });
+    /* A card that turns settled in revision N carries data-settled-from="vN"
+       and reads settled in N and every later revision, without duplicating
+       the card. */
+    VERSIONS.forEach(function (view, vi) {
+      VERSIONS.forEach(function (other, oi) {
+        if (oi <= vi) out.push('body[data-version="' + view.id + '"] .pcard[data-settled-from="' + other.id + '"] { border-left-color: var(--green, #2E8B57); }');
+      });
+    });
+    /* The What changed section shows only the block for the revision on
+       screen unless the reader asks for the earlier ones. */
+    VERSIONS.forEach(function (view) {
+      out.push('body[data-version="' + view.id + '"] #whats-changed .wc-body:not(.wc-all) > [data-rev-from]:not([data-rev-from="' + view.id + '"]) { display: none !important; }');
+    });
     return out.join('\n');
   }
 
@@ -206,20 +219,25 @@
       '  color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 7px;',
       '}',
       '.revbar .rb-cap b { color: #F8A05F; letter-spacing: 1.2px; }',
-      '.revbar .rb-opts { display: flex; gap: 6px; }',
-      '.revbar button.rb-opt {',
-      '  flex: 1 1 0; min-width: 0; text-align: left; cursor: pointer; font: inherit;',
+      '.revbar .rb-opts { display: flex; gap: 6px; align-items: stretch; }',
+      '.revbar select.rb-select {',
+      '  flex: 1 1 auto; min-width: 0; cursor: pointer; font: inherit; font-size: 12px; font-weight: 700;',
+      '  background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.18);',
+      '  color: #fff; border-radius: 9px; padding: 7px 30px 7px 10px; line-height: 1.25;',
+      '  -webkit-appearance: none; appearance: none;',
+      '  background-image: url("data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22><path d=%22M0 0l5 6 5-6z%22 fill=%22%23F8A05F%22/></svg>");',
+      '  background-repeat: no-repeat; background-position: right 10px center;',
+      '}',
+      '.revbar select.rb-select:hover { background-color: rgba(255,255,255,0.15); }',
+      '.revbar select.rb-select option { color: #1A1F2A; background: #fff; }',
+      '.revbar button.rb-step {',
+      '  flex: 0 0 auto; cursor: pointer; font: inherit; font-size: 14px; font-weight: 800; line-height: 1;',
       '  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);',
-      '  color: rgba(255,255,255,0.72); border-radius: 9px; padding: 6px 10px;',
-      '  line-height: 1.25; transition: background 0.12s, border-color 0.12s;',
+      '  color: rgba(255,255,255,0.72); border-radius: 9px; padding: 0 10px;',
       '}',
-      '.revbar button.rb-opt:hover { background: rgba(255,255,255,0.13); }',
-      '.revbar button.rb-opt .l { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: -0.1px; }',
-      '.revbar button.rb-opt .s { display: block; font-size: 8.5px; font-weight: 600; color: rgba(255,255,255,0.42); margin-top: 1px; }',
-      '.revbar button.rb-opt[aria-pressed="true"] {',
-      '  background: #F37021; border-color: #F37021; color: #fff;',
-      '}',
-      '.revbar button.rb-opt[aria-pressed="true"] .s { color: rgba(255,255,255,0.78); }',
+      '.revbar button.rb-step:hover:not(:disabled) { background: rgba(255,255,255,0.15); color: #fff; }',
+      '.revbar button.rb-step:disabled { opacity: 0.3; cursor: default; }',
+      '.revbar .rb-sub { font-size: 9.5px; font-weight: 600; color: rgba(255,255,255,0.48); }',
       '.revbar .rb-foot { display: flex; align-items: center; justify-content: flex-end; }',
       '.revbar a.rb-link { font-size: 10px; font-weight: 800; color: #F8A05F; white-space: nowrap; }',
       '.revbar a.rb-link:hover { color: #fff; }',
@@ -229,15 +247,28 @@
       '}',
       '.revbar .rb-collapse:hover { color: #fff; }',
       '.revbar.collapsed { padding: 8px 12px; }',
-      '.revbar.collapsed .rb-opts, .revbar.collapsed .rb-foot, .revbar.collapsed .rb-collapse { display: none; }',
+      '.revbar.collapsed .rb-opts, .revbar.collapsed .rb-sub, .revbar.collapsed .rb-foot, .revbar.collapsed .rb-collapse { display: none; }',
       '.revbar.collapsed .rb-cap { cursor: pointer; color: rgba(255,255,255,0.72); }',
       '@media (max-width: 700px) {',
       '  .revbar { right: 10px; left: 10px; bottom: 10px; max-width: none; }',
       '}',
-      /* the version buttons stop fitting side by side on narrow phones */
-      '@media (max-width: 500px) {',
-      '  .revbar .rb-opts { flex-direction: column; }',
+      /* ---- What changed: collapsed by default ---- */
+      '#whats-changed .wc-toggle {',
+      '  display: inline-flex; align-items: center; gap: 9px; cursor: pointer; font: inherit;',
+      '  background: #FFF8F3; border: 1px solid #F8D3B7; color: #D9591A; border-radius: 999px;',
+      '  padding: 8px 16px 8px 14px; font-size: 12.5px; font-weight: 800; letter-spacing: 0.2px;',
       '}',
+      '#whats-changed .wc-toggle:hover { background: #FFF1E8; }',
+      '#whats-changed .wc-toggle .wc-caret { display: inline-block; transition: transform 0.15s; font-size: 11px; }',
+      '#whats-changed .wc-toggle[aria-expanded="true"] .wc-caret { transform: rotate(90deg); }',
+      '#whats-changed .wc-toggle .wc-count { font-weight: 600; color: #8A5A3C; }',
+      '#whats-changed .wc-body { margin-top: 18px; }',
+      '#whats-changed .wc-body[hidden] { display: none; }',
+      '#whats-changed .wc-more {',
+      '  display: inline-block; margin-top: 14px; font-size: 11.5px; font-weight: 700; color: #D9591A;',
+      '  background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit; text-decoration: underline;',
+      '}',
+      '#whats-changed .wc-more:hover { color: #1A1F2A; }',
       '@media print { .revbar { display: none; } }'
     ].join('\n');
     var style = document.createElement('style');
@@ -259,16 +290,37 @@
 
     var opts = document.createElement('div');
     opts.className = 'rb-opts';
-    VERSIONS.forEach(function (v) {
+    function stepBtn(txt, dir, label) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.className = 'rb-opt';
-      b.setAttribute('data-v', v.id);
-      b.innerHTML = '<span class="l">' + v.label + '</span><span class="s">' + v.sub + '</span>';
-      b.addEventListener('click', function () { apply(v.id, true); });
-      opts.appendChild(b);
+      b.className = 'rb-step';
+      b.setAttribute('data-dir', String(dir));
+      b.setAttribute('aria-label', label);
+      b.textContent = txt;
+      b.addEventListener('click', function () {
+        var i = indexOf(document.body.getAttribute('data-version')) + dir;
+        if (i >= 0 && i < VERSIONS.length) apply(VERSIONS[i].id, true);
+      });
+      return b;
+    }
+    var sel = document.createElement('select');
+    sel.className = 'rb-select';
+    sel.setAttribute('aria-label', 'Choose a revision');
+    VERSIONS.forEach(function (v) {
+      var o = document.createElement('option');
+      o.value = v.id;
+      o.textContent = v.label + ' \u00b7 ' + v.sub;
+      sel.appendChild(o);
     });
+    sel.addEventListener('change', function () { apply(sel.value, true); });
+    opts.appendChild(stepBtn('\u2039', -1, 'Earlier revision'));
+    opts.appendChild(sel);
+    opts.appendChild(stepBtn('\u203a', 1, 'Later revision'));
     bar.appendChild(opts);
+
+    var sub = document.createElement('div');
+    sub.className = 'rb-sub';
+    bar.appendChild(sub);
 
     if (document.getElementById('whats-changed')) {
       var foot = document.createElement('div');
@@ -307,14 +359,72 @@
     document.body.setAttribute('data-version', id);
     applyTitle(id);
     if (persist) store(KEY, id);
-    if (!barEl) return;
-    var buttons = barEl.querySelectorAll('.rb-opt');
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].setAttribute('aria-pressed', buttons[i].getAttribute('data-v') === id ? 'true' : 'false');
-    }
     var v = VERSIONS.filter(function (x) { return x.id === id; })[0];
+    var i = indexOf(id);
+    if (wcToggle && v) {
+      var n = VERSIONS.length - 1;
+      wcToggle.innerHTML = '<span class="wc-caret">\u25b6</span>What changed in revision ' + v.label +
+        (i > 0 ? ' <span class="wc-count">\u00b7 ' + i + ' earlier revision' + (i === 1 ? '' : 's') + '</span>' : '');
+    }
+    if (!barEl) return;
+    var sel = barEl.querySelector('.rb-select');
+    if (sel) sel.value = id;
+    var steps = barEl.querySelectorAll('.rb-step');
+    for (var k = 0; k < steps.length; k++) {
+      var dir = parseInt(steps[k].getAttribute('data-dir'), 10);
+      steps[k].disabled = (i + dir < 0 || i + dir >= VERSIONS.length);
+    }
     var b = barEl.querySelector('.rb-cap b');
     if (v && b) b.textContent = v.label;
+    var sub = barEl.querySelector('.rb-sub');
+    if (v && sub) sub.textContent = (i === VERSIONS.length - 1 ? 'Latest \u00b7 ' : 'Revision ' + (i + 1) + ' of ' + VERSIONS.length + ' \u00b7 ') + v.sub;
+  }
+
+  function indexOf(id) {
+    for (var i = 0; i < VERSIONS.length; i++) if (VERSIONS[i].id === id) return i;
+    return -1;
+  }
+
+  /* Collapse the What changed section behind one toggle. Expanded, it shows
+     the block for the revision on screen; a link underneath reveals the
+     earlier revisions' blocks too. Opening the page at #whats-changed, or
+     following the control's link, expands it. */
+  var wcToggle = null;
+  function setupWhatsChanged() {
+    var sec = document.getElementById('whats-changed');
+    if (!sec) return;
+    var container = sec.querySelector('.container') || sec;
+    var body = document.createElement('div');
+    body.className = 'wc-body';
+    while (container.firstChild) body.appendChild(container.firstChild);
+    wcToggle = document.createElement('button');
+    wcToggle.type = 'button';
+    wcToggle.className = 'wc-toggle';
+    wcToggle.setAttribute('aria-expanded', 'false');
+    wcToggle.setAttribute('aria-controls', 'wc-body');
+    body.id = 'wc-body';
+    var more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'wc-more';
+    more.textContent = 'Show what changed in earlier revisions';
+    more.addEventListener('click', function () {
+      var all = body.classList.toggle('wc-all');
+      more.textContent = all ? 'Show only this revision' : 'Show what changed in earlier revisions';
+    });
+    body.appendChild(more);
+    function setOpen(open) {
+      wcToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      body.hidden = !open;
+    }
+    wcToggle.addEventListener('click', function () { setOpen(body.hidden); });
+    container.appendChild(wcToggle);
+    container.appendChild(body);
+    setOpen(window.location.hash === '#whats-changed');
+    window.addEventListener('hashchange', function () { if (window.location.hash === '#whats-changed') setOpen(true); });
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href$="#whats-changed"]') : null;
+      if (a) setOpen(true);
+    });
   }
 
   function init() {
@@ -322,6 +432,7 @@
     var current = fromQuery() || read(KEY) || DEFAULT;
     if (!known(current)) current = DEFAULT;
     document.body.classList.add('rev-marks');
+    setupWhatsChanged();
     barEl = build(current);
     document.body.appendChild(barEl);
     apply(current, false);
