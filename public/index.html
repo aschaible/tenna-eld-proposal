@@ -1695,7 +1695,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><b>New screen &middot;</b> FMCSA lists mistakes here among the most common reasons for revoking a device. Confirm the 60-second window and the recorded origin with Tom Cuthbertson before build.<span hidden>&rsquo;s FMCSA advisor before build.</li>
+              <li><b>New screen &middot;</b> FMCSA lists mistakes here among the most common reasons for revoking a device. Confirm the 60-second window and the recorded origin with Tom Cuthbertson before build.</li>
               <li data-rev-until="v5"><a class="qref" href="/decisions#q1">Q1</a> The link drops when a driver parks and walks away with the phone, so this prompt never fires. Does the tracker&rsquo;s stored stop evidence let the ELD run it late, on reconnect?</li>
               <li data-rev-from="v6"><b>Q1 answered 9/10/2026.</b> No. If the link drops before this prompt runs, the status stays Driving; the driver, not the ELD, is responsible for going On Duty when they leave the cab. The automatic change exists only for the stationary-with-engine-running case this screen draws. When the driver answers On Duty, the duty change is recorded from the moment the vehicle first reached zero speed, not from the tap.</li>
               <li>A driver at a long light may dismiss this without a status change. How many dismissals in a row before the ELD stops asking and changes the status?</li>
@@ -2197,7 +2197,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
-              <li><a class="qref" href="/decisions#p4">P4</a> Should "driver hasn't certified in N days" surface to the fleet manager inside Tenna, or only in the ELD module (W3)?</li>
+              <li><a class="qref" href="/decisions#p4">P4</a> Should "driver hasn't certified in N days" reach the fleet manager inside Tenna, or only show in the ELD module (W3)?</li>
               <li data-rev-from="v8"><b>Settled 9/14/2026 (Sunil) &middot;</b> A scheduled report, not an alert: daily log certifications and days uncertified too long go out on Tenna's reporting engine at whatever cadence the customer sets. The nudge to the driver stays in the app.</li>
             </ul>
           </div>
@@ -3017,7 +3017,7 @@
               <li><a class="qref" href="/decisions#q5">Q5</a> The purge command is destructive, unacknowledged, and currently unauthenticated.</li>
               <li data-rev-until="v1"><b>Inventory gap for Thursday:</b> rejected records need a carrier surface to reassign them, but no W screen owns unidentified driving. Fold into W3, or add one?</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>Inventory gap · closed 8/28/2026.</b> The original page flagged that no W screen owned unidentified driving. The 8/17/2026 memo answers it: add one. That is <a href="#w16">W16</a>, and it is the host report the memo asks for by name.</li>
-              <li data-rev-from="v3"><b>Inventory gap &middot; closed 8/28/2026.</b> The original page flagged that no W screen owned unidentified driving. The memo answers it: add one. That is <a href="#w16">W16</a>.</li>
+              <li data-rev-from="v3"><b>Closed 8/28/2026 &middot;</b> The original page noted that no web screen handled unidentified driving. The memo's answer was to add one: <a href="#w16">W16</a>.</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28/2026 ·</b> "Unaccepted" needs a precise definition before build. A record the driver rejected is resolved from the phone's point of view but unresolved from the carrier's. Proposal: it leaves the in-cab 8-day list once the driver has answered it, and stays open on <a href="#w16">W16</a> until the carrier annotates or assigns it. Confirm with the FMCSA advisor.</li>
               <li data-rev-from="v3"><b>New 8/28/2026 &middot;</b> &ldquo;Unaccepted&rdquo; needs a precise definition before build. Proposal: a record leaves the in-cab 8-day list once the driver has answered it, and stays open on <a href="#w16">W16</a> until the carrier annotates or assigns it.</li>
             </ul>
