@@ -194,10 +194,13 @@
 
   <h2 id="s2">2. Ownership split</h2>
 
-  <p>Each row below answers two questions, the same two the Wireframes page asks: where a value is first produced
-    (origin), and which system keeps it and produces it in an audit (system of record). This is the Wireframes table
-    corrected for 9/8/2026. The Position row is now ELD-owned as stamped on events, with the raw stream not
-    retained. The DOT audit bundle row now points at Q19, not P3. Three rows stay open.</p>
+  <p>The table below lists every piece of data the ELD handles and answers two questions about each one. Where does
+    it come from first (origin)? Which system keeps it and hands it over in an audit (system of record)? The Surface
+    column names the data source as the wireframes label them: T codes are Tenna APIs, B1 is the tracker's Bluetooth
+    feed, S codes are the ELD's own stores, E codes are what the ELD sends out. Surfaces are not screens; screens are
+    the D and W numbers.</p>
+  <p>Three rows are still open: the offline sign-in grace period, where the tracker firmware version is recorded, and
+    whether yard geofences come from Tenna Sites or are drawn in the ELD.</p>
 
   <div class="tbl-wrap">
   <table>
@@ -887,7 +890,7 @@
     <li>The sync worker takes up to 200 outbox entries in seq order and posts them as one array to <code>/events</code> with the JWT.</li>
     <li>The server validates the JWT, checks the carrier claim against every row, and in one Postgres transaction inserts each event with <code>ON CONFLICT (id) DO NOTHING</code> together with any <code>eld.outbox</code> rows the event implies.</li>
     <li>The response marks each id accepted or duplicate, and lists any seq gaps it now sees for that device.</li>
-    <li>The app deletes accepted and duplicate ids from its outbox. Rejected ids stay and surface on D18 as a recording diagnostic.</li>
+    <li>The app deletes accepted and duplicate ids from its outbox. Rejected ids stay and show on D18 as a recording diagnostic.</li>
     <li>If the connection drops before the response, the app retries the same batch. Step 3 makes the retry harmless.</li>
     <li>The server relay publishes the new outbox rows to Tenna and marks them published on acknowledgment.</li>
   </ol>
