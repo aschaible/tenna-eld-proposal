@@ -314,13 +314,13 @@
     <div data-rev-until="v1" class="rev-what" style="border-color:#E5E7EB; background:#F7F8FB;">
       <span class="rev-what-h" style="color:#6B7484;">Original</span>
       <p>You are reading the original evidence brief. A revision dated 8/28/2026 narrows the native-module
-      scope by one item, following the August 17 FMCSA compliance review. A further revision dated 9/2/2026 notes
-      what the 28 August huddle settled about authentication and the host surface. Switch versions with the control
+      scope by one item, following the 8/17/2026 FMCSA compliance review. A further revision dated 9/2/2026 notes
+      what the 8/28/2026 huddle settled about authentication and the host surface. Switch versions with the control
       at the bottom right.</p>
     </div>
     <div data-rev-from="v2" class="rev-what">
       <span class="rev-what-h">Revision 8/28/2026 · one narrowing</span>
-      <p>The August 17 FMCSA compliance review established that an ELD certifies for one data-transfer family:
+      <p>The 8/17/2026 FMCSA compliance review established that an ELD certifies for one data-transfer family:
       telematics (web services and email) or peer-to-peer (USB and Bluetooth to the inspector's device), never both.
       The build elects telematics, so USB transfer leaves the native-module list. What remains needing native
       code is Bluetooth pairing and background ECM polling.</p>
@@ -332,7 +332,7 @@
     </div>
     <div data-rev-from="v3" class="rev-what" style="margin-top:10px;">
       <span class="rev-what-h">Revision 9/2/2026 · one note</span>
-      <p>The 28 August huddle settled two things that touch the stack. Sign-in is a native form in the app against
+      <p>The 8/28/2026 huddle settled two things that touch the stack. Sign-in is a native form in the app against
       Tenna's existing Cognito pool through the Amplify SDK, rather than a hosted page the app opens in a browser,
       which keeps authentication inside the React Native surface and off the native list. The host module is a
       micro-frontend inside the Tenna portal on a shared component base, which is a web concern and does not touch
@@ -661,7 +661,7 @@
 
     <div class="implication-card reveal">
       <h4>The Samsara parallel is the operative one</h4>
-      <p>AppAxis proposes this build with one dedicated mobile engineer alongside a backend engineer and QA, which makes the Motive model structurally inaccessible. The Samsara model, React Native with native modules for performance-critical paths, is the most directly comparable approach and the one this proposal recommends: <span data-revi-until="v1">native code precisely where Bluetooth pairing, background ECM polling, and USB transfer demand it, shared code everywhere else.</span><span data-revi-from="v2">native code precisely where Bluetooth pairing and background ECM polling demand it, shared code everywhere else. As of the 8/28 revision USB transfer is no longer on that list: electing the telematics transfer family removes it from the build entirely.</span></p>
+      <p>AppAxis proposes this build with one dedicated mobile engineer alongside a backend engineer and QA, which makes the Motive model structurally inaccessible. The Samsara model, React Native with native modules for performance-critical paths, is the most directly comparable approach and the one this proposal recommends: <span data-revi-until="v1">native code precisely where Bluetooth pairing, background ECM polling, and USB transfer demand it, shared code everywhere else.</span><span data-revi-from="v2">native code precisely where Bluetooth pairing and background ECM polling demand it, shared code everywhere else. As of the 8/28/2026 revision USB transfer is no longer on that list: electing the telematics transfer family removes it from the build entirely.</span></p>
     </div>
     <div class="implication-card reveal">
       <h4>The Geotab precedent, noted and declined</h4>

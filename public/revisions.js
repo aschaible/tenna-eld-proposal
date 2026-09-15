@@ -2,27 +2,27 @@
  * Revision toggle. Shared by every page in the package.
  *
  * Five versions of this document set exist:
- *   v1  "Original"    - as presented for the August 20 product session
- *   v2  "8/28/2026"   - revised after the August 17 FMCSA compliance
+ *   v1  "Original"    - as presented for the 8/20/2026 product session
+ *   v2  "8/28/2026"   - revised after the 8/17/2026 FMCSA compliance
  *                       review memo on host reporting; the snapshot sent
- *                       to Tenna on 28 August
+ *                       to Tenna on 8/28/2026
  *   v3  "9/2/2026"    - data ownership split and API surfaces, after the
- *                       28 August huddle settled P1, P2 and P5
+ *                       8/28/2026 huddle settled P1, P2 and P5
  *   v4  "9/3/2026"    - mobile stack comparison rewritten as an open
  *                       two-option decision (native vs React Native), and
- *                       the 9/3 FMCSA consultant session applied to the
+ *                       the 9/3/2026 FMCSA consultant session applied to the
  *                       wireframes
- *   v5  "9/8/2026"    - the 9/8 consultant call applied to the wireframes:
+ *   v5  "9/8/2026"    - the 9/8/2026 consultant call applied to the wireframes:
  *                       P3 settled, D35 required with a trigger rule, the
  *                       reason list, the no-signal roadside path, engine
  *                       hours and VIN sourcing, power-down handling
  *   v6  "9/10/2026"   - Adam takes product-requirements ownership; P3, Q17,
  *                       Q18, Q19, Q20, Q23, Q24 settled; Q1 restated with
- *                       the walk-off scenario; 3, 8 and 10 Sep sessions logged
+ *                       the walk-off scenario; 9/3/2026, 9/8/2026 and 9/10/2026 sessions logged
  *   v7  "9/11/2026"   - design coverage check against the FMCSA test plan RTM:
  *                       three conflicts fixed, seven UI gaps drawn (D36, D37,
  *                       header indicators, D7/D9/D12/D16/D24/W15/W17/W10 edits)
- *   v8  "9/14/2026"   - the 14 September consultant call applied: exempt-driver
+ *   v8  "9/14/2026"   - the 9/14/2026 consultant call applied: exempt-driver
  *                       flow (D38), trip details required, whole-month retention,
  *                       legal hold on W15, yard move ends at 20 mph, daily transfer
  *                       self-test, malfunction notice copy
@@ -51,7 +51,7 @@
   var KEY = 'tenna-eld-revision';
 
   var VERSIONS = [
-    { id: 'v1', label: 'Original', sub: 'Aug 20 session', slug: 'original' },
+    { id: 'v1', label: 'Original', sub: '8/20/2026 session', slug: 'original' },
     { id: 'v2', label: '8/28/2026', sub: 'host reporting', slug: '8-28' },
     { id: 'v3', label: '9/2/2026', sub: 'data ownership', slug: '9-2' },
     { id: 'v4', label: '9/3/2026', sub: 'stack · wireframes', slug: '9-3' },

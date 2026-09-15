@@ -74,7 +74,7 @@
 <div class="doc">
 
   <h1>Architecture</h1>
-  <p class="docmeta">Updated 15 September 2026 · Confidential</p>
+  <p class="docmeta">Updated 9/15/2026 · Confidential</p>
   <p class="docmeta">On this page:
     <a href="#s1">1. Context</a> ·
     <a href="#s2">2. Ownership split</a> ·
@@ -86,7 +86,7 @@
     <a href="#s8">8. Compliance mapping</a> ·
     <a href="#s9">9. Open items</a></p>
   <p class="subtitle">Draft for Tenna engineering review. Everything here is a recommendation until Luke signs it off
-    (his 8/29 note). Open items are marked open, not decided.</p>
+    (his 8/29/2026 note). Open items are marked open, not decided.</p>
 
   <p>This page describes where the ELD ends and Tenna begins. It covers three things: the ELD's own schema in
     Tenna's Postgres (Contract A), the API the ELD exposes to its mobile app and its portal micro-frontend
@@ -196,7 +196,7 @@
 
   <p>Each row below answers two questions, the same two the Wireframes page asks: where a value is first produced
     (origin), and which system keeps it and produces it in an audit (system of record). This is the Wireframes table
-    corrected for 8 September. The Position row is now ELD-owned as stamped on events, with the raw stream not
+    corrected for 9/8/2026. The Position row is now ELD-owned as stamped on events, with the raw stream not
     retained. The DOT audit bundle row now points at Q19, not P3. Three rows stay open.</p>
 
   <div class="tbl-wrap">
@@ -220,23 +220,23 @@
       <tr><td>Odometer, engine hours</td><td>Tracker</td><td>ELD</td><td>B1, S1</td><td>The ELD owns the values stamped on events, not the live stream</td></tr>
       <tr><td>Engine power state</td><td>Derived (RPM over 200)</td><td>ELD</td><td>B1, S1</td><td></td></tr>
       <tr><td>Road speed and motion state</td><td>Tracker</td><td>ELD</td><td>B1</td><td>The ELD decides whether the vehicle is moving</td></tr>
-      <tr><td>Position (lat, lon)</td><td>Tracker</td><td>ELD, as stamped on events</td><td>B1, S1</td><td>Raw stream not retained (P3, 8 Sep). Corrected from the Wireframes table</td></tr>
+      <tr><td>Position (lat, lon)</td><td>Tracker</td><td>ELD, as stamped on events</td><td>B1, S1</td><td>Raw stream not retained (P3, 9/8/2026). Corrected from the Wireframes table</td></tr>
       <tr><td>Geocoded place name</td><td>Derived</td><td>ELD</td><td>S1</td><td></td></tr>
       <tr><th colspan="5">HOS record</th></tr>
       <tr><td>Duty-status events, derived clocks, sequence number</td><td>Derived</td><td>ELD</td><td>S1, E1</td><td></td></tr>
       <tr><td>Annotations, certifications, edits and edit history</td><td>Entered</td><td>ELD</td><td>S2</td><td></td></tr>
-      <tr><td>HOS violations, malfunctions and diagnostics</td><td>Derived</td><td>ELD</td><td>S1, E2</td><td>Violations alert the safety manager; malfunctions and diagnostics feed scheduled reports; malfunction raised proposed as an alert (P4, 14 Sep)</td></tr>
+      <tr><td>HOS violations, malfunctions and diagnostics</td><td>Derived</td><td>ELD</td><td>S1, E2</td><td>Violations alert the safety manager; malfunctions and diagnostics feed scheduled reports; malfunction raised proposed as an alert (P4, 9/14/2026)</td></tr>
       <tr><td>Unidentified-driving records and their dispositions</td><td>Tracker, then Entered</td><td>ELD</td><td>B1, S3</td><td></td></tr>
       <tr><td>Non-HOS move stamps, work order reference</td><td>Entered, Tenna platform</td><td>ELD, Tenna</td><td>S3, T6</td><td>T6 is new</td></tr>
       <tr><th colspan="5">Compliance outputs</th></tr>
       <tr><td>Output file, transfer records, increment plan</td><td>Derived</td><td>ELD</td><td>S4</td><td></td></tr>
-      <tr><td>DOT audit bundle</td><td>Derived</td><td>ELD</td><td>S4</td><td>Appendix A output files only (Q19, decided 10 Sep). Corrected from the Wireframes table, which said P3</td></tr>
+      <tr><td>DOT audit bundle</td><td>Derived</td><td>ELD</td><td>S4</td><td>Appendix A output files only (Q19, decided 9/10/2026). Corrected from the Wireframes table, which said P3</td></tr>
       <tr><th colspan="5">Cross-system</th></tr>
-      <tr><td>ELD events into Tenna</td><td>Derived</td><td>ELD, Tenna receives a copy</td><td>E2</td><td>P4 list settled 14 Sep: nine instant alerts, seven report datasets</td></tr>
+      <tr><td>ELD events into Tenna</td><td>Derived</td><td>ELD, Tenna receives a copy</td><td>E2</td><td>P4 list settled 9/14/2026: nine instant alerts, seven report datasets</td></tr>
       <tr><td>DVIR status and handoff</td><td>Tenna platform</td><td>Tenna</td><td>T7</td><td></td></tr>
       <tr><td>Yard geofences</td><td>Tenna platform</td><td><b>Source open</b></td><td>T5, S5</td><td>Tenna Sites over the API, or drawn in the ELD</td></tr>
       <tr><td>Carrier HOS policy</td><td>Entered</td><td>ELD</td><td>S5</td><td></td></tr>
-      <tr><td>Push notifications</td><td>Derived</td><td>ELD (driver-local), Tenna (cross-user)</td><td>E3</td><td>P4 settled 14 Sep. Admins assign by permission group, users toggle their own, driver toggles in the app (D24)</td></tr>
+      <tr><td>Push notifications</td><td>Derived</td><td>ELD (driver-local), Tenna (cross-user)</td><td>E3</td><td>P4 settled 9/14/2026. Admins assign by permission group, users toggle their own, driver toggles in the app (D24)</td></tr>
     </tbody>
   </table>
   </div>
@@ -247,10 +247,10 @@
     <thead><tr><th>Where</th><th>What</th><th>How long</th><th>Basis</th></tr></thead>
     <tbody>
       <tr><td>Device</td><td>HOS log for the signed-in driver</td><td>8 days</td><td>§395.8(k), Q22</td></tr>
-      <tr><td>Device</td><td>Unaccepted unidentified-driving records</td><td>8 days, rolling per day</td><td>§4.5.1.7(c), Q22; Tom 14 Sep</td></tr>
-      <tr><td>Host</td><td>Six-month records of every kind (logs, unidentified records, edits)</td><td>Six whole calendar months; purge runs at the month cutover, never on a rolling 180-day window</td><td>§395.8(k); Tom 14 Sep, Q27</td></tr>
-      <tr><td>Host and device</td><td>Anything under a legal hold</td><td>Indefinite until the hold is released; release recorded with who and why</td><td>Tom 14 Sep, Q28; <code>eld.legal_holds</code></td></tr>
-      <tr><td>Device</td><td>Raw tracker readings</td><td>10 days, rolling. Parsed reading plus the assembled TLV payload per reading; BLE fragments are not kept. About 45 MB at the measured 2.1 s cadence, 24x7</td><td>Decided 10 September (Adam, product owner). Supersedes "last ~3 readings" (Tom, 8 Sep) and "24 hours" (roadmap Stage B, since corrected)</td></tr>
+      <tr><td>Device</td><td>Unaccepted unidentified-driving records</td><td>8 days, rolling per day</td><td>§4.5.1.7(c), Q22; Tom 9/14/2026</td></tr>
+      <tr><td>Host</td><td>Six-month records of every kind (logs, unidentified records, edits)</td><td>Six whole calendar months; purge runs at the month cutover, never on a rolling 180-day window</td><td>§395.8(k); Tom 9/14/2026, Q27</td></tr>
+      <tr><td>Host and device</td><td>Anything under a legal hold</td><td>Indefinite until the hold is released; release recorded with who and why</td><td>Tom 9/14/2026, Q28; <code>eld.legal_holds</code></td></tr>
+      <tr><td>Device</td><td>Raw tracker readings</td><td>10 days, rolling. Parsed reading plus the assembled TLV payload per reading; BLE fragments are not kept. About 45 MB at the measured 2.1 s cadence, 24x7</td><td>Decided 9/10/2026 (Adam, product owner). Supersedes "last ~3 readings" (Tom, 9/8/2026) and "24 hours" (roadmap Stage B, since corrected)</td></tr>
       <tr><td>Device</td><td>Crash diagnostics buffer</td><td>Engineering choice</td><td>Not compliance data. Never leaves the device except in a bug report</td></tr>
       <tr><td>Host</td><td>Unidentified-driving records</td><td>6 months from receipt</td><td>§395.8(k)(1). Record-level <code>retain_until</code>, source device stamped</td></tr>
       <tr><td>Host</td><td>HOS records, edit history, output files, transfers</td><td>6 months minimum</td><td>§395.8(k). A carrier may want longer for its own reasons. Product question, not an architecture one</td></tr>
@@ -752,7 +752,7 @@
   </table>
   </div>
 
-  <p><code>eld.legal_holds</code> (new 14 September, Q28). One row per hold. Every purge job joins against open holds before deleting anything, on the device as well as the host.</p>
+  <p><code>eld.legal_holds</code> (new 9/14/2026, Q28). One row per hold. Every purge job joins against open holds before deleting anything, on the device as well as the host.</p>
   <div class="tbl-wrap">
   <table>
     <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
@@ -783,7 +783,7 @@
   </div>
 
   <h3>eld.settings_audit (who changed what, when)</h3>
-  <p>Sunil, 14 September: driver settings changes are "recorded with a visible audit history of who changed what and
+  <p>Sunil, 9/14/2026: driver settings changes are "recorded with a visible audit history of who changed what and
     when, not just a database entry." One row per change to <code>eld.driver_settings</code> or
     <code>eld.carrier_policy</code>, written in the same transaction as the change. Shown on W15 per carrier and on D24
     for the driver's own settings. Rows are never updated or deleted; a legal hold covers them like everything else.</p>
@@ -906,7 +906,7 @@
       <tr><td>Malfunctions</td><td><code>GET /malfunctions?status=open</code>; <code>GET /malfunctions/{id}</code></td><td>W10</td></tr>
       <tr><td>Transfers</td><td><code>POST /transfer-requests</code> (driver_id, from, to up to 30 days, output_file_comment) returns 202; <code>GET /transfer-requests/{id}</code> lists the increments it split into and each transfer's result; <code>GET /transfers?from&amp;to</code></td><td>W14, W17</td></tr>
       <tr><td>Inspector view</td><td><code>GET /drivers/{id}/inspection-record?from&amp;to</code>, a read-only view in FMCSA display order</td><td>W18</td></tr>
-      <tr><td>Audit export</td><td><code>POST /audit-exports</code> returns 202; <code>GET /audit-exports/{id}</code></td><td>W13. Output files only, in 30-day increments (Q19, decided 10 Sep)</td></tr>
+      <tr><td>Audit export</td><td><code>POST /audit-exports</code> returns 202; <code>GET /audit-exports/{id}</code></td><td>W13. Output files only, in 30-day increments (Q19, decided 9/10/2026)</td></tr>
       <tr><td>Settings</td><td><code>GET</code>, <code>PUT /carrier-policy</code> (singleton per carrier, from the JWT)</td><td>W15</td></tr>
     </tbody>
   </table>
@@ -918,7 +918,7 @@
       records, malfunction and diagnostic records, with a line check value on every line and a file check value at the end.</li>
     <li>Roadside transfer (D17): web service first, email co-equal. The officer's code goes in the output file comment. The
       receipt or error is stored on the transfer row either way.</li>
-    <li>Transport, per FMCSA's ELD Data Transfer Requirements sheet (10 September): web services is a SOAP call carrying the
+    <li>Transport, per FMCSA's ELD Data Transfer Requirements sheet (9/10/2026): web services is a SOAP call carrying the
       client certificate, the output file and the comment, with a test flag; email is S/MIME, AES-256 encrypted to FMCSA's
       public key and signed with the provider's private key, subject "ELD records from &lt;registration id&gt;:&lt;ELD
       identifier&gt;". Both keys live in the ELD backend's secret store, never on the phone. FMCSA issues a test
@@ -930,7 +930,7 @@
   </ul>
 
   <h3>Report datasets for Tenna's reporting engine</h3>
-  <p>Sunil, 14 September: scheduled reports need no new scheduling or distribution. Tenna's reporting engine already
+  <p>Sunil, 9/14/2026: scheduled reports need no new scheduling or distribution. Tenna's reporting engine already
     schedules and delivers, and customers configure cadence and recipients there today. The ELD's job is to expose each
     report as a dataset the engine can read, then work with Tenna engineering on the report configuration. Read-only,
     carrier-scoped, cursor-paginated like the rest of Contract B, under <code>GET /reports/&lt;dataset&gt;?from&amp;to</code>.</p>
@@ -960,7 +960,7 @@
   "subject_ids": { "asset_id": "ast_2181", "driver_id": "usr_8f21c4" },
   "at_utc": "2026-09-09T14:02:11Z",
   "deep_link": "/eld/malfunctions/mf_2210" }</pre>
-  <p><b>The E2 event list, settled 14 September (P4, Sunil).</b> Admins assign each notification to permission groups in
+  <p><b>The E2 event list, settled 9/14/2026 (P4, Sunil).</b> Admins assign each notification to permission groups in
     Tenna; each user toggles their own on or off. The ELD emits the envelope and never chooses the recipient.</p>
   <div class="tbl-wrap">
   <table>
@@ -1007,7 +1007,7 @@
       <tr><td><a href="/#s-t6">T6</a> Work orders</td><td>Open work orders for an asset</td><td>D27 shop road test stamp</td><td>New surface</td></tr>
       <tr><td><a href="/#s-t7">T7</a> DVIR</td><td>Status by asset, launch and return deep links</td><td>D14</td><td>Contract still to be written</td></tr>
       <tr><td><a href="/#s-t8">T8</a> Entitlements</td><td>ELD license on the account, supervisor permission, the portal injection point for the micro-frontend</td><td>Sign-in gate, W-screen access</td><td>Tamar owns the injection point</td></tr>
-      <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Settled 14 Sep (P4): the ten E2 events above, routed by permission group</td></tr>
+      <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Settled 9/14/2026 (P4): the ten E2 events above, routed by permission group</td></tr>
       <tr><td>Reporting engine</td><td>Report configuration for the eight ELD datasets, on Tenna's existing scheduled-distribution reporting; Tenna engineering configures, the ELD exposes the datasets</td><td>The seven scheduled reports in P4</td><td>Datasets defined; configuration to schedule with Tenna engineering</td></tr>
       <tr><td>Platform</td><td>Postgres instance and <code>eld</code> schema provisioning; AWS account and VPC placement; secrets; CI/CD for the new repos; a way for AppAxis to run the portal locally; the shared component base</td><td>Building and deploying</td><td>To schedule with Kyle and Tamar</td></tr>
     </tbody>
@@ -1103,7 +1103,7 @@
   </svg>
   </div>
   <ul>
-    <li>The ELD decides motion and stops from the speed item. Driving begins above 5 mph. A stop is suspected after three seconds at zero speed. A yard move ends by itself above 20 mph and records Driving, with no prompt (Tom Cuthbertson 14 September, Q29); a yard geofence may end it earlier.</li>
+    <li>The ELD decides motion and stops from the speed item. Driving begins above 5 mph. A stop is suspected after three seconds at zero speed. A yard move ends by itself above 20 mph and records Driving, with no prompt (Tom Cuthbertson 9/14/2026, Q29); a yard geofence may end it earlier.</li>
     <li>Every event is created and sequenced on the device before it is sent, on one counter shared by every driver on that device (4.4.4.1). The host never assigns seq and never reorders.</li>
     <li>The event and its outbox entry are one local transaction, so an event the driver can see is by definition an event that will be synced. The device outbox is drained only on server acknowledgment.</li>
     <li>A rebuild after a lost phone is a read from the host, which is why P3 requires every event to reach the host when recorded.</li>
@@ -1421,7 +1421,7 @@
       <tr><td><a href="/decisions#q24">Q24</a> biometric sign-in to the ELD app</td><td>FMCSA yes or no, via Tom's agency contact. Tom's reading: user code and password for the app; biometric may unlock the phone only</td><td>D1 sign-in flow; T1 session caching</td><td>Tom, FMCSA</td></tr>
 
 
-      <tr><td><a href="/decisions#p4s">P4</a> malfunction alert</td><td>Sunil's 14 September list settles the event set; one addition is ours and needs his yes: malfunction raised as an instant alert, not report-only</td><td>eld.malfunction.raised envelope; D18, W10</td><td>Sunil</td></tr>
+      <tr><td><a href="/decisions#p4s">P4</a> malfunction alert</td><td>Sunil's 9/14/2026 list settles the event set; one addition is ours and needs his yes: malfunction raised as an instant alert, not report-only</td><td>eld.malfunction.raised envelope; D18, W10</td><td>Sunil</td></tr>
       <tr><td>Registration mechanics</td><td>Per-OS registration, ELD identifier rules, version string rules</td><td>eld.devices columns; Stage F</td><td>Tom</td></tr>
       <tr><td><a href="/decisions#q17">Q17</a> retention scoping</td><td>Whether the carrier wants longer than 6 months on the host</td><td>Retention policy, storage estimate</td><td>Tenna product</td></tr>
       <tr><td>Offline sign-in grace</td><td>How long a cached T1 session is accepted without reaching the pool</td><td>D1; sync worker behaviour</td><td>Kumaran</td></tr>
@@ -1430,7 +1430,7 @@
       <tr><td><a href="/decisions#q2">Q2</a> engine-hours ECM baseline</td><td>Which assets expose ECM hours; accumulated-hours fallback rules</td><td>hours_source; W11 flag</td><td>Tom, Geometris</td></tr>
       <tr><td><a href="/decisions#q5">Q5</a> BLE has no authentication</td><td>Accepted risk statement, or a mitigation</td><td>Security review of B1</td><td>Tenna engineering</td></tr>
       <tr><td><a href="/decisions#q9">Q9</a> two phones, one tracker</td><td>Who owns the link when two drivers connect</td><td>Active-driver designation; seq assignment</td><td>AppAxis, Tom</td></tr>
-      <tr><td>Exempt flag on the Tenna user record</td><td>Tenna adds <code>exempt</code> and <code>exempt_annotation</code> next to the driver flag (T2); required per Tom 14 September (Q25). Trip details are settled: required when hauling, job number stands in, blank when deadheading (Q26)</td><td>T2 field list; D38, W15</td><td>Sunil, Kumaran</td></tr>
+      <tr><td>Exempt flag on the Tenna user record</td><td>Tenna adds <code>exempt</code> and <code>exempt_annotation</code> next to the driver flag (T2); required per Tom 9/14/2026 (Q25). Trip details are settled: required when hauling, job number stands in, blank when deadheading (Q26)</td><td>T2 field list; D38, W15</td><td>Sunil, Kumaran</td></tr>
       <tr><td>Exempt-driver visibility</td><td>Feature is required by 4.3.3.1.2; Tenna decides visible or buried</td><td>W15 per-driver settings</td><td>Sunil</td></tr>
       <tr><td>Own-records delivery</td><td>Email to the Tenna address (default) or in-app share sheet</td><td>POST /drivers/me/record-requests</td><td>Sunil</td></tr>
       <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and Tenna-issued ids, stored as given, are the keys across the phone, the API and the portal</td><td>Contract A and B as written</td><td>Kyle, Tamar</td></tr>
