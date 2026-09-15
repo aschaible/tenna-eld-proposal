@@ -159,7 +159,7 @@
     <p class="statline" data-rev-from="v2" data-rev-until="v2">5 product decisions · 1 blocking Phase 3 · 16 awaiting an answer · 6 settled · 3 meetings logged</p>
     <p class="statline" data-rev-from="v3" data-rev-until="v5">3 of 5 product decisions settled · 1 blocking Phase 3 · 17 awaiting an answer · 6 settled · 4 meetings logged</p>
     <p class="statline" data-rev-from="v6" data-rev-until="v7">4 of 5 product decisions settled · 1 blocking Phase 3 · 12 awaiting an answer · 12 settled · 7 meetings logged</p>
-    <p class="statline" data-rev-from="v8">4 of 5 product decisions settled · 12 awaiting an answer · 19 settled · 8 meetings logged</p>
+    <p class="statline" data-rev-from="v8">5 of 5 product decisions settled · 12 awaiting an answer · 19 settled · 8 meetings logged</p>
   </div>
 </section>
 
@@ -249,6 +249,10 @@
       <p><b>Confirmed as drawn.</b> The personal-conveyance prompt at key-on (D37), the persistent malfunction indicator with a
       "report to your carrier within 24 hours" line added to D18, the phone as the tracker's only relay to the host, and the
       principle that the log must never depend on the host at roadside.</p>
+      <p><b>P4 settled.</b> Sunil's 14 September email names which ELD events cross into Tenna: nine instant alerts, seven
+      scheduled reports on Tenna's existing reporting engine, and what stays in the ELD app. Admins assign notifications by
+      permission group; users toggle their own. The last of the five product decisions from the 13 August kickoff is closed,
+      with one AppAxis addition pending Sunil, malfunction raised as an instant alert. → <a href="#p4s">P4</a></p>
       <p><b>Not on the recording.</b> The call's first four minutes were not captured. The written read-back of the
       10 September rulings, the Face ID answer (<a href="#q24s">Q24</a> stays reopened), manual location entry, own-records
       delivery and sequence scope go to Tom by email while he recovers from surgery on 17 September.</p>
@@ -263,7 +267,8 @@
     <div class="eyebrow">Product decisions · from the Aug 13 platform kickoff</div>
     <h2 data-rev-until="v2">Five decisions that need answers before the screens can be final.</h2>
     <h2 data-rev-from="v3" data-rev-until="v5">Three settled on 28 August. Two still need answers.</h2>
-    <h2 data-rev-from="v6">Four settled. P4 still needs an answer.</h2>
+    <h2 data-rev-from="v6" data-rev-until="v7">Four settled. P4 still needs an answer.</h2>
+    <h2 data-rev-from="v8">All five settled. P4 closed on 14 September.</h2>
     <p class="lede">
       In his follow-up to the kickoff, Luke asked that the August 20 session focus on a short list of product decisions, because the data guidelines will come out of those answers. They are listed in order: each one builds on the one before it. Each is wireframed with candidate answers on the <a href="/">Wireframes page&nbsp;↗</a>.<span data-revi-until="v2"> Anything not settled in the room gets an owner and a due date.</span><span data-revi-from="v3" data-revi-until="v5"> Three were settled in the 28 August huddle, and the ownership split on the <a href="/#sources">Wireframes page ↗</a> is what those answers made possible. P3 and P4 are still live.</span><span data-revi-from="v6">Three were settled in the 28 August huddle and P3 on 10 September; the ownership split on the <a href="/#sources">Wireframes page ↗</a> is what those answers made possible. P4 is still live.</span>
     </p>
@@ -398,7 +403,7 @@
         </div>
       </article>
 
-      <article class="q blocking" id="p4">
+      <article class="q blocking" id="p4" data-rev-until="v7">
         <div class="q-head">
           <span class="q-id">P4</span>
           <h3 class="q-title">Which ELD alerts should show up inside Tenna?</h3>
@@ -416,6 +421,27 @@
             <p>The routing is agreed and the set is not. Sunil drew the line first: anything meaningful to the driver about their own device and their own log has to show up in the ELD app rather than the Tenna app. Jose put the other half of it: notifications for people outside the driver, a supervisor hearing that a record was submitted for instance, go out as an event on Tenna's existing infrastructure, and Tenna's notification engine resolves the recipient list from the org chart and renders the template. Adam noted that a good share of the driver-facing pushes are locally triggered on the device anyway, because drivers work in places with no signal. Kumaran confirmed the mobile app already handles push, and that the two pipelines need to be reconciled at design time. So the shape is settled. Which ELD events cross the boundary is not, and that list is what P4 still needs.</p>
           </div>
           <div class="q-foot"><span>Waiting on this: whether <a href="/#w1">W1</a>, <a href="/#w2">W2</a>, and <a href="/#w8">W8</a>–<a href="/#w10">W10</a> are the main alert screens or copies of Tenna's.<span data-revi-from="v3"> Routing is drawn out as surfaces E2 and E3 in the <a href="/#sources">ownership split ↗</a>.</span></span></div>
+        </div>
+      </article>
+
+      <article class="q answered" id="p4s" data-rev-from="v8">
+        <div class="q-head">
+          <span class="q-id">P4</span>
+          <h3 class="q-title">Which ELD alerts should show up inside Tenna?</h3>
+          <div class="q-chips">
+            <span class="chip owner-tenna">Product</span>
+            <span class="chip st-answered">Settled 14 Sep</span>
+          </div>
+        </div>
+        <div class="q-body">
+          <p>Option B, with the list. The routing was agreed on 28 August: driver-facing pushes stay in the ELD app, cross-user notifications go out as events on Tenna's existing infrastructure, and Tenna resolves recipients. Sunil supplied the content by email on 14 September, after the 11 September product session, and added the model: admins assign notifications by permission group, each user toggles their own on or off, and driver-facing toggles live in the ELD app.</p>
+          <div class="q-evidence">
+            <span class="q-label">Answer</span>
+            <p><b>Instant alerts in Tenna:</b> unidentified driving lands in the review pile (whoever handles review, also in reporting); the pile untouched past the threshold (escalation); a manager assigns unidentified driving to a driver (safety and other managers, also in reporting; the driver's copy stays in the app); the driver accepts or rejects that assignment (the assigning manager); an HOS violation (safety manager); a driver close to an hours limit (dispatch); a roadside inspection happening now (fleet and safety managers); a roadside transfer to FMCSA failed (fleet and safety managers); the transfer self-test failed (fleet manager).<br/>
+            <b>Scheduled reports</b>, on Tenna's existing reporting engine with its own scheduling and distribution, no new work beyond report configuration with Tenna engineering: malfunctions occurring and clearing; data diagnostic warnings; driver responses to proposed corrections; daily certifications and days uncertified too long; VIN mismatches; missing engine hours and odometer jumps; sign-in and sign-out history.<br/>
+            <b>ELD app only:</b> a proposed correction waiting on the driver; a trip reassignment waiting on the other driver. <b>On screen only:</b> office transfer results, a notification version after launch. <b>Record only:</b> mechanic and yard moves in the review list; driver settings changes with a visible audit history of who changed what and when. <b>Later:</b> live alerts for a truck moving with nobody signed in, since Tenna's motion alerts already cover theft.</p>
+          </div>
+          <div class="q-foot"><span>Decided by Sunil 14 September. One AppAxis addition pending his yes: <b>malfunction raised</b> as an instant alert to the fleet manager, because the 8-day remediation clock starts at the raise; his list has malfunctions in the scheduled report only. Applied to <a href="/#w1">W1</a>, <a href="/#w2">W2</a>, <a href="/#w8">W8</a>, <a href="/#w10">W10</a>, <a href="/#w16">W16</a>, <a href="/#d17">D17</a>, <a href="/#d18">D18</a>, <a href="/#d24">D24</a>; event list, report datasets and settings audit in the <a href="/architecture#s4">architecture</a>.</span></div>
         </div>
       </article>
 
@@ -1625,6 +1651,10 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <h3>Product decisions recorded</h3>
           <div class="tl-who">Adam Schaible (AppAxis), product owner</div>
           <p>The 14 September rulings reviewed against the wireframes and the certification roadmap, and applied as revision 9/14. Two decisions for Tenna's 16 September call: exempt drivers are required and need a flag on the Tenna user record; co-driver ships at launch. → <a href="#q31s">Q31</a></p>
+          <div class="outcome">
+            <span class="q-label">Also settled</span>
+            <p><b>P4</b> closed on Sunil's 14 September email: the instant-alert list, the scheduled reports and what stays in the app, applied to W1, W2, W8, W10, W16, D17, D18 and D24 and to the architecture. Malfunction raised as an instant alert is AppAxis's addition for Sunil to confirm. → <a href="#p4s">P4</a></p>
+          </div>
         </div>
       </div>
     </div>

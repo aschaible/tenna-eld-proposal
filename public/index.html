@@ -820,6 +820,10 @@
           <p><b>Yard move ends at 20 mph.</b> Above 20 mph the driver leaves yard move and goes to Driving automatically, no prompt. Tom wrote this into the original ELD comments; a yard geofence is allowed but 20 mph is the simplest to code. D37's personal-conveyance prompt is confirmed as drawn.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">P4 &middot; W1 W2 W8 W10 &middot; D18</span>
+          <p><b>P4 is settled.</b> Sunil's 14 September email names which ELD events cross into Tenna: nine instant alerts (unidentified driving landing, review pile overdue, an assignment made, accepted or rejected, a violation, a driver near a limit, a roadside inspection under way, a failed roadside transfer, a failed self-test), seven scheduled reports on Tenna's existing reporting engine, and what stays in the ELD app. Admins assign notifications by permission group; users toggle their own. The "Gated &middot; P4" chips come off. One AppAxis addition pending his yes: malfunction raised as an instant alert, not report-only. Detail in the <a href="/architecture#s4">architecture</a>.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">W10 &middot; D18 &middot; D22 &middot; D27</span>
           <p><b>Smaller changes.</b> The transfer self-test runs daily from the device, automatic, real log data flagged as test (W10). The malfunction notice tells the driver to report to the carrier within 24 hours (D18). The phone as the tracker's only path to the host is fine, as long as the log never depends on the host (D22, D27).</p>
         </div>
@@ -1004,7 +1008,13 @@
           <p>That is surfaces <a href="#s-e2">E2</a> and <a href="#s-e3">E3</a> below. What is still open is the list
           itself: which ELD events cross. P4 stays gated until that list exists.</p>
         </div>
-        <p class="p-log">Recorded as <a href="/decisions#p4">P4 in the decision log ↗</a></p>
+        <div class="rev-what" data-rev-from="v8" style="margin-top:14px;">
+          <span class="rev-what-h">14 September &middot; settled, option B with the list</span>
+          <p>Sunil's email names the set. Instant alerts in Tenna: unidentified driving lands in the review pile; the pile untouched past the threshold; a manager assigns a record; the driver accepts or rejects it; an HOS violation; a driver close to a limit; a roadside inspection under way; a roadside transfer to FMCSA failed; the transfer self-test failed. Scheduled reports on Tenna's existing reporting engine, no new scheduling work: malfunctions occurring and clearing, data diagnostics, driver responses to proposed corrections, certifications and days uncertified too long, VIN mismatches, missing engine hours and odometer jumps, sign-in and sign-out history. Stays in the ELD app: a proposed correction waiting on the driver, a trip reassignment waiting on the other driver. On screen only: office transfer results. Record only: mechanic and yard moves; driver settings changes, with a visible audit history. Later: a truck moving with nobody signed in.</p>
+          <p>The model: admins assign notifications by permission group, each user toggles their own, driver-facing toggles live in the ELD app (<a href="#d24">D24</a>). One AppAxis addition for Sunil to confirm: malfunction raised as an instant alert, because the 8-day clock starts there.</p>
+        </div>
+        <p class="p-log" data-rev-until="v7">Recorded as <a href="/decisions#p4">P4 in the decision log ↗</a></p>
+        <p class="p-log" data-rev-from="v8">Settled as <a href="/decisions#p4s">P4 in the decision log ↗</a>; event list and report datasets in the <a href="/architecture#s4">architecture ↗</a></p>
       </article>
 
       <div class="pconn">Finally: where the web pages live</div>
@@ -2184,6 +2194,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Should "driver hasn't certified in N days" surface to the fleet manager inside Tenna, or only in the ELD module (W3)?</li>
+              <li data-rev-from="v8"><b>Settled 9/14 (Sunil) &middot;</b> A scheduled report, not an alert: daily log certifications and days uncertified too long go out on Tenna's reporting engine at whatever cadence the customer sets. The nudge to the driver stays in the app.</li>
             </ul>
           </div>
         </div>
@@ -2570,6 +2581,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Should a roadside inspection ping the fleet manager in real time inside Tenna, or is the W14 record after the fact enough?</li>
+              <li data-rev-from="v8"><b>Settled 9/14 (Sunil) &middot;</b> Both. An inspection under way is an instant alert to fleet and safety managers, and a failed transfer to FMCSA is a second one. Tom called the live ping optional on 9/3; Sunil wants it and Tenna's notification engine already exists, so it is in. W14 stays the record.</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28 ·</b> Electing Telematics is a self-certification declaration, so it needs Tenna's formal sign-off before Phase 3, not after. Confirm with the FMCSA advisor that email fallback alone is an acceptable answer at a roadside with no cellular coverage, since the alternative in that scenario used to be the thumb drive.</li>
               <li data-rev-from="v3" data-rev-until="v4"><b>New 8/28 &middot;</b> Electing Telematics is a self-certification declaration, so it needs Tenna's sign-off before Phase 3, not after. Confirm with the FMCSA advisor that email fallback alone is acceptable at a roadside with no coverage.</li>
               <li data-rev-from="v5"><b>Settled 9/8 &middot;</b> Telematics is the only legal shape once chosen. Email is not a no-coverage fallback: with no signal, nothing sends. The fallback is the phone in the officer&rsquo;s hand, on <a href="#d16">D16</a>.</li>
@@ -2659,14 +2671,14 @@
             <ul class="wf-elems">
               <li><span>Malfunction event (code, time, device)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Driver acknowledgment (recorded)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Carrier notification</span><span class="tags"><span class="tag t-push">→ Tenna</span><span class="tag t-gated">Gated · P4</span></span></li>
+              <li><span>Carrier notification</span><span class="tags"><span class="tag t-push">→ Tenna</span><span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
             <span class="wf-label">Where this data comes from</span>
             <ul>
               <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>the malfunction and the driver&rsquo;s acknowledgment</span></li>
-              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>the carrier notification. Whether it goes at all is P4</span></li>
+              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>the carrier notification. <span data-revi-until="v7">Whether it goes at all is P4</span><span data-revi-from="v8">An instant alert to the fleet manager, AppAxis's addition to Sunil's list, pending his yes</span></span></li>
               <li><a class="src-chip" href="#s-e3">E3 &middot; Notify</a><span>Tenna resolves who hears about it from the org chart</span></li>
             </ul>
           </div>
@@ -2676,6 +2688,7 @@
               <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.6.2.1: one malfunction indicator, continuously visible to every driver while the ELD is powered, on the display. This notice is not that. A red chip sits in the app header on every screen, including <a href="#d16">D16</a>, until the malfunction clears.</li>
               <li data-rev-from="v8"><b>Settled 9/14 &middot;</b> Tom confirmed the persistent indicator once a defined threshold is met (clock off more than 10 minutes, position lost past the mileage threshold, engine data missing 30 minutes cumulative in 24 hours) and asked that it tell the driver two things: keep paper logs, and report to the carrier, which §395.34(a) requires within 24 hours. Step 2 now says so.</li>
               <li><a class="qref" href="/decisions#p4">P4</a> A malfunction is the strongest candidate for pushing into Tenna's own alarm surfaces: an 8-day remediation clock a fleet manager doesn't see is how devices end up on FMCSA's revocation list.</li>
+              <li data-rev-from="v8"><b>Settled 9/14, one item flagged &middot;</b> Sunil's list puts malfunctions occurring and clearing in a scheduled report, not an instant alert. Because the 8-day clock starts at the raise, the architecture lists "malfunction raised" as an instant alert to the fleet manager as well, marked as AppAxis's addition for Sunil to confirm. Step 2 on this screen stands either way.</li>
             </ul>
           </div>
         </div>
@@ -2761,7 +2774,7 @@
               <li><span>Malfunction clear event (code, cleared time)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Paper-log period, start to end<small style="display:block; color:var(--muted); font-size:11px;">derived from the raise and the clear</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Driver acknowledgment (recorded)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Carrier notification</span><span class="tags"><span class="tag t-push">&rarr; Tenna</span><span class="tag t-gated">Gated &middot; P4</span></span></li>
+              <li><span>Carrier notification</span><span class="tags"><span class="tag t-push">&rarr; Tenna</span><span class="tag t-gated" data-revi-until="v7">Gated &middot; P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></span></li>
             </ul>
           </div>
           <div class="wf-src">
@@ -2769,7 +2782,7 @@
             <ul>
               <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>the clear event and its acknowledgment, beside the raise <a href="#d18">D18</a> recorded</span></li>
               <li><a class="src-chip" href="#s-s4">S4 &middot; Outputs</a><span>the paper-log period, which is what an auditor asks for rather than the two raw events</span></li>
-              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>the clear going to the carrier, which stops the <a href="#w10">W10</a> remediation clock. Whether it goes at all is P4</span></li>
+              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>the clear going to the carrier, which stops the <a href="#w10">W10</a> remediation clock. <span data-revi-until="v7">Whether it goes at all is P4</span><span data-revi-from="v8">Raised and cleared both feed the scheduled malfunction report (Sunil, 9/14)</span></span></li>
             </ul>
           </div>
           <div class="wf-qs">
@@ -3283,6 +3296,7 @@
               <li data-rev-from="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.7.1: when the driver is in sleeper berth and no co-driver is driving, the ELD must let the driver mute it or mute itself. Drawn automatic with an override.</li>
               <li>Which of these should carrier policy be able to lock (e.g. warnings always on)? Belongs in the W15 discussion.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q24">Q24</a> Biometric sign-in is the first setting here that changes who can produce a record, so it is the first one carrier policy has a real reason to lock.</li>
+              <li data-rev-from="v8"><b>Settled 9/14 (Sunil) &middot;</b> Driver-facing notification toggles live here, not in Tenna. Every change to a driver's settings, here or on W15, is recorded with a visible audit history of who changed what and when, not just a database entry. The architecture adds the table.</li>
             </ul>
           </div>
         </div>
@@ -3452,7 +3466,7 @@
           </div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">W1</span><h4 class="wf-name">Live Fleet HOS Dashboard</h4><span class="tag t-gated">Gated · P4</span></div>
+          <div class="wf-head"><span class="wf-id">W1</span><h4 class="wf-name">Live Fleet HOS Dashboard</h4><span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></div>
           <p class="wf-purpose">All drivers, current status, remaining drive time, and location, sorted by urgency so the next problem is the first row. The home screen of the module and the top of the web spine (W1 → W4).</p>
           <div>
             <span class="wf-label">Data elements</span>
@@ -3477,6 +3491,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Is this the only place a manager watches HOS, or does a summary tile also live on Tenna's own dashboard? Decides whether W1 is a destination or the detail view behind an alarm.</li>
+              <li data-rev-from="v8"><b>Settled 9/14 (Sunil) &middot;</b> Both roles. Sunil's list has no fleet-wide HOS tile for Tenna's own dashboard, so this is the destination; every instant alert carries a deep link, so it is also the detail view behind one. Who gets each alert is set by permission group in Tenna, not here.</li>
               <li><a class="qref" href="/decisions#p3">P3</a> Showing live location here implies Tenna renders point data: from ELD-held data on demand, or from Tenna-retained points?</li>
             </ul>
           </div>
@@ -3504,7 +3519,7 @@
                 <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Approaching limits <span class="sub">live · next 8 hours</span></div>
                   <div class="wb-filter"><span class="wb-fld">All limit types ▾</span><span class="wb-fld">All drivers ▾</span><span class="wb-fld">Within: 2 hours ▾</span></div>
-                  <table class="wb-table">
+                  <table class="wb-table" data-rev-until="v7">
                     <thead><tr><th>Driver</th><th>Limit</th><th>Time left</th><th>Violation at</th><th>Now</th></tr></thead>
                     <tbody>
                       <tr><td><b>K. Burns</b></td><td><span class="wb-pill dark">11-h drive</span></td><td>0:48</td><td>3:29 PM</td><td>Driving · I-71/75 S</td></tr>
@@ -3513,21 +3528,31 @@
                       <tr><td><b>R. Delgado</b></td><td><span class="wb-pill">70-h cycle</span></td><td>8:15</td><td>tomorrow</td><td>Sleeper</td></tr>
                     </tbody>
                   </table>
-                  <div class="wb-note">Row click → the driver's live log (W4) with the offending clock highlighted. Notify column intentionally absent pending P4.</div>
+                  <table class="wb-table" data-rev-from="v8">
+                    <thead><tr><th>Driver</th><th>Limit</th><th>Time left</th><th>Violation at</th><th>Now</th><th>Alerted</th></tr></thead>
+                    <tbody>
+                      <tr><td><b>K. Burns</b></td><td><span class="wb-pill dark">11-h drive</span></td><td>0:48</td><td>3:29 PM</td><td>Driving · I-71/75 S</td><td>Dispatch · 2:29 PM</td></tr>
+                      <tr><td><b>K. Burns</b></td><td><span class="wb-pill">30-min break</span></td><td>1:12</td><td>3:53 PM</td><td>7:48 since last break</td><td>Dispatch · 2:41 PM</td></tr>
+                      <tr><td><b>M. Alvarez</b></td><td><span class="wb-pill">14-h window</span></td><td>5:34</td><td>8:15 PM</td><td>Driving · Blue Ash</td><td>at 60 min</td></tr>
+                      <tr><td><b>R. Delgado</b></td><td><span class="wb-pill">70-h cycle</span></td><td>8:15</td><td>tomorrow</td><td>Sleeper</td><td>at 60 min</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="wb-note" data-rev-until="v7">Row click → the driver's live log (W4) with the offending clock highlighted. Notify column intentionally absent pending P4.</div>
+                  <div class="wb-note" data-rev-from="v8">Row click → the driver's live log (W4) with the offending clock highlighted. "Alerted" shows when Tenna notified dispatch; who dispatch is comes from the permission group Tenna admins set.</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">W2</span><h4 class="wf-name">Approaching-Limit Alerts</h4><span class="tag t-gated">Gated · P4</span></div>
+          <div class="wf-head"><span class="wf-id">W2</span><h4 class="wf-name">Approaching-Limit Alerts</h4><span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></div>
           <p class="wf-purpose">A filterable feed of drivers approaching a violation, ordered by time-to-violation. This is dispatch's intervention window; the point of the screen is the phone call that prevents the violation.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Derived clocks + violation projections</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Warning thresholds (carrier-tunable, W15)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Alert events into Tenna notifications</span><span class="tags"><span class="tag t-push">→ Tenna</span><span class="tag t-gated">Gated · P4</span></span></li>
+              <li><span>Alert events into Tenna notifications</span><span class="tags"><span class="tag t-push">→ Tenna</span><span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
@@ -3535,13 +3560,14 @@
             <ul>
               <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>clocks and violation projections</span></li>
               <li><a class="src-chip" href="#s-s5">S5 &middot; Policy</a><span>the warning thresholds, tuned in W15</span></li>
-              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>whether any of this reaches Tenna&rsquo;s own alerts is P4</span></li>
+              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span><span data-revi-until="v7">whether any of this reaches Tenna&rsquo;s own alerts is P4</span><span data-revi-from="v8">"driver getting close to an hours limit" is an instant alert to dispatch (Sunil, 9/14); the threshold is W15's warning lead time</span></span></li>
             </ul>
           </div>
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Does an approaching-limit event notify inside Tenna (email, SMS, in-app), or is this screen the alert? The wireframe leaves the "notify" column out until that lands.</li>
+              <li data-rev-from="v8"><b>Settled 9/14 (Sunil) &middot;</b> It notifies. Approaching a limit alerts dispatch through Tenna's notification framework; the channel is whatever each user has turned on there. The "Alerted" column is added. This screen is the queue behind the alert.</li>
             </ul>
           </div>
         </div>
@@ -4015,6 +4041,7 @@
               passive last-reviewed stamp, a Tenna alarm at N days (<a class="qref" href="/decisions#p4">P4</a>), or a
               hard nudge on the ELD dashboard. Drawn here as a banner on the screen plus a candidate P4 alarm.</li>
               <li data-rev-from="v3"><b>Cadence, how hard?</b> The memo's 2&ndash;3 times a week is advice, not a rule. Options: a passive last-reviewed stamp, a Tenna alarm at N days (<a class="qref" href="/decisions#p4">P4</a>), or a hard nudge on the dashboard.</li>
+              <li data-rev-from="v8"><b>Settled 9/14 (Sunil) &middot;</b> Four instant alerts wrap this screen: a record landing in the pile alerts whoever handles review; the pile untouched past the W15 threshold is the escalation; an assignment made alerts safety and other managers; the driver's accept or reject alerts the manager who assigned it. Mechanic and yard moves just appear in the list, no notification. The manager's copy is Tenna's; the driver's stays in the app (D34).</li>
               <li><b>Who may annotate?</b> An annotation is a compliance record with a name on it. Does this need a
               distinct permission from ordinary log review, and does that permission live in Tenna
               (<a class="qref" href="/decisions#p1">P1</a>) or the ELD?</li>
@@ -4039,7 +4066,8 @@
     <!-- ============ WEB · VIOLATIONS & COMPLIANCE ============ -->
     <div class="wf-group" id="g-wviol">
       <div class="wf-group-head"><h3>Violations &amp; Compliance</h3><span class="range">W8 – W10</span></div>
-      <p class="wf-group-note">Whether these three live here, mirror into Tenna's alarm surfaces, or both is decision P4. Drawn here as the system of record either way.</p>
+      <p class="wf-group-note" data-rev-until="v7">Whether these three live here, mirror into Tenna's alarm surfaces, or both is decision P4. Drawn here as the system of record either way.</p>
+      <p class="wf-group-note" data-rev-from="v8">These three are the system of record. P4 (settled 9/14) decides what also reaches Tenna: violations and self-test failures as instant alerts, malfunctions and diagnostics as scheduled reports, with malfunction raised proposed as an alert too.</p>
 
       <div class="wf-item web" id="w8">
         <div class="wf-frame-col">
@@ -4077,27 +4105,28 @@
           </div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">W8</span><h4 class="wf-name">Violations List</h4><span class="tag t-gated">Gated · P4</span></div>
+          <div class="wf-head"><span class="wf-id">W8</span><h4 class="wf-name">Violations List</h4><span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></div>
           <p class="wf-purpose">Historical and current HOS violations with severity and review state: the compliance manager's queue, and the input to coaching and audit-prep workflows.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Violation events (type, span, magnitude)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Review status + severity triage</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Violation → Tenna alarm</span><span class="tags"><span class="tag t-push">→ Tenna</span><span class="tag t-gated">Gated · P4</span></span></li>
+              <li><span>Violation → Tenna alarm</span><span class="tags"><span class="tag t-push">→ Tenna</span><span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
             <span class="wf-label">Where this data comes from</span>
             <ul>
               <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>the violation events and their triage state</span></li>
-              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>the Tenna alarm, gated on P4</span></li>
+              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>the Tenna alarm<span data-revi-until="v7">, gated on P4</span><span data-revi-from="v8">: an HOS violation alerts the safety manager (Sunil, 9/14)</span></span></li>
             </ul>
           </div>
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Tenna already has alarm/exception surfaces its customers watch. Do violations publish there, live only here, or both with one review state?</li>
+              <li data-rev-from="v8"><b>Settled 9/14 (Sunil) &middot;</b> Both, one review state. A violation is an instant alert to the safety manager through Tenna's notifications; this list is where it is reviewed and the alert deep-links here.</li>
             </ul>
           </div>
         </div>
@@ -4204,14 +4233,14 @@
           </div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">W10</span><h4 class="wf-name">Malfunction Tracker</h4><span class="tag t-gated">Gated · P4</span></div>
+          <div class="wf-head"><span class="wf-id">W10</span><h4 class="wf-name">Malfunction Tracker</h4><span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></div>
           <p class="wf-purpose">Every active malfunction with its §395.34 remediation countdown, the affected driver's paper-log acknowledgment, and resolution history. The highest-stakes list in the module.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Malfunction events + 8-day clocks</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Device identity (serial ↔ unit)</span><span class="tags"><span class="tag t-ble">Tracker · BLE</span><span class="tag t-api">Tenna API</span></span></li>
-              <li><span>Malfunction → Tenna alarm</span><span class="tags"><span class="tag t-push">→ Tenna</span><span class="tag t-gated">Gated · P4</span></span></li>
+              <li><span>Malfunction → Tenna alarm</span><span class="tags"><span class="tag t-push">→ Tenna</span><span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
@@ -4219,7 +4248,7 @@
             <ul>
               <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>malfunction events and their 8-day clocks</span></li>
               <li><a class="src-chip" href="#s-t4">T4 &middot; Assets</a><span>serial to unit, so a malfunction names a truck rather than a serial number</span></li>
-              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>the Tenna alarm, gated on P4</span></li>
+              <li><a class="src-chip" href="#s-e2">E2 &middot; Egress</a><span>the Tenna alarm<span data-revi-until="v7">, gated on P4</span><span data-revi-from="v8">: a failed self-test alerts the fleet manager; malfunctions raised and cleared go in a scheduled report; malfunction raised as an instant alert is AppAxis's addition pending Sunil</span></span></li>
             </ul>
           </div>
           <div class="wf-qs">
@@ -4228,6 +4257,7 @@
               <li data-rev-from="v7" data-rev-until="v7"><b>Changed 9/11 &middot;</b> Appendix A 4.6.1.7: the ELD must self-test its transfer mechanism at least every 7 days (a TEST-flagged submission), daily after a failure, and raise a data-transfer malfunction after three consecutive failures. The host runs it per device and this table shows the state.</li>
               <li data-rev-from="v8"><b>Settled 9/14 &middot;</b> Daily, from the device, automatic. Appendix A 4.6.1.7 asks for at least every 7 days; Tom's practice, adopted here, is a TEST-flagged submission of the real log data every 24 hours with "24-hour test" in the output-file comment, no driver action. FMCSA has never tested for it ("superfluous") but it is required, so it is built. Three consecutive failures still raise the data-transfer malfunction. The backend submits per device and this table shows the state.</li>
               <li><a class="qref" href="/decisions#p4">P4</a> The strongest P4 case on the page: should an expiring remediation clock escalate through Tenna's notification machinery (it exists) rather than waiting to be noticed here?</li>
+              <li data-rev-from="v8"><b>Settled 9/14, one item flagged &middot;</b> Sunil: a failed weekly self-test alerts the fleet manager instantly; malfunctions occurring and clearing are a scheduled report. He did not list the raise itself as an alert. The architecture adds "malfunction raised" to the instant list, marked as AppAxis's addition, because the 8-day clock starts then. Self-test is daily per Tom (Q30), so the failure alert fires the day it fails.</li>
             </ul>
           </div>
         </div>
@@ -4526,6 +4556,7 @@
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Same as D17: real-time "your driver is being inspected" ping into Tenna, or after-the-fact record only?</li>
               <li data-rev-from="v4"><b>Answered 9/3, pending the log &middot;</b> The advisor's answer: the after-the-fact record is sufficient, and a real-time ping is optional product polish. The final disposition lands in the P4 entry of the decision log in a later pass.</li>
+              <li data-rev-from="v8"><b>Settled 9/14 (Sunil) &middot;</b> The ping is in: an inspection under way and a failed roadside transfer are both instant alerts to fleet and safety managers. This record stays the system of record.</li>
             </ul>
           </div>
         </div>
@@ -4945,8 +4976,8 @@
 <tr data-rev-from="v3"><td class="el">Driver login &amp; logout events<small>&sect;395.32 &middot; the logout is the boundary that starts unidentified driving</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D1 D30 D22 W16</td></tr>
           <tr><td class="el">Certification records</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr"><span data-revi-until="v2">D9 D11 W3 W4</span><span data-revi-from="v3">D9 D11 D30 W3 W4</span></td></tr>
           <tr><td class="el">Edits &amp; edit history<small>originals preserved, every version</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D12 D13 D20 D21 W4 W5 W6</td></tr>
-          <tr><td class="el">HOS violations</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · push gated P4</td><td class="scr">D4 W2 W8 W9</td></tr>
-          <tr><td class="el">Malfunctions &amp; diagnostics (§395.34)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · push gated P4</td><td class="scr"><span data-revi-until="v2">D18 D19 W10</span><span data-revi-from="v3">D18 D19 D32 W10</span></td></tr>
+          <tr><td class="el">HOS violations</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · <span data-revi-until="v7">push gated P4</span><span data-revi-from="v8">violation alerts safety (P4)</span></td><td class="scr">D4 W2 W8 W9</td></tr>
+          <tr><td class="el">Malfunctions &amp; diagnostics (§395.34)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · <span data-revi-until="v7">push gated P4</span><span data-revi-from="v8">scheduled report; raise alert proposed (P4)</span></td><td class="scr"><span data-revi-until="v2">D18 D19 W10</span><span data-revi-from="v3">D18 D19 D32 W10</span></td></tr>
           <tr data-rev-until="v1"><td class="el">Unidentified-driving records<small>carrier surface unresolved · see D22</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stored</td><td class="scr">D16 D22</td></tr>
           <tr data-rev-from="v2"><td class="el">Unidentified-driving records<small>8 days unaccepted in-cab · 6 months on the host</small></td><td><span class="tag t-ble">Tracker · BLE</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">BLE stream · stored</td><td class="scr"><span data-revi-until="v2">D16 D22 W16</span><span data-revi-from="v3">D16 D22 D34 W16</span></td></tr>
           <tr data-rev-from="v2"><td class="el"><span data-revi-until="v3">UD reason taxonomy &amp; driver suggestion</span><span data-revi-from="v4">UD reason taxonomy &amp; driver rejection remark</span><small><span data-revi-until="v3">the memo's four ordinary causes, plus "unknown"</span><span data-revi-from="v4">the taxonomy stays on D27, W15 and W16; on D28 the driver writes a remark instead</span></small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · push gated P4</td><td class="scr"><span data-revi-until="v2">D27 D28 W15 W16</span><span data-revi-from="v3">D27 D28 D34 W15 W16</span></td></tr>
@@ -4970,7 +5001,7 @@
           <tr><td class="el">8-day inspection record (display format)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D15 D16</td></tr>
 
           <tr class="cat"><td colspan="4">Cross-system</td></tr>
-          <tr><td class="el">ELD events into Tenna<small>alarms &amp; exceptions · the P4 set</small></td><td><span class="tag t-push">→ Tenna</span> <span class="tag t-gated">Gated · P4</span></td><td class="ap">Event push</td><td class="scr">D18 W1 W2 W8 W9 W10</td></tr>
+          <tr><td class="el">ELD events into Tenna<small><span data-revi-until="v7">alarms &amp; exceptions · the P4 set</span><span data-revi-from="v8">nine instant alerts plus seven report datasets · P4 settled 9/14</span></small></td><td><span class="tag t-push">→ Tenna</span> <span class="tag t-gated" data-revi-until="v7">Gated · P4</span><span class="tag t-push" data-revi-from="v8">P4 settled 9/14</span></td><td class="ap">Event push</td><td class="scr"><span data-revi-until="v7">D18 W1 W2 W8 W9 W10</span><span data-revi-from="v8">D17 D18 W1 W2 W8 W9 W10 W16</span></td></tr>
           <tr><td class="el">DVIR status &amp; handoff context</td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D14</td></tr>
           <tr><td class="el">Yard geofences<small>Tenna sites vs ELD-drawn · open</small></td><td><span class="tag t-api">Tenna API</span> <span class="tag t-eld">ELD-owned</span></td><td class="ap">On-demand read</td><td class="scr">D6 W15</td></tr>
           <tr><td class="el">Carrier HOS policy<small>cycles, permissions, thresholds, presets</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D5 D6 D24 W2 W15</td></tr>
@@ -5195,7 +5226,8 @@
 
       <article class="sfc sfc-e" id="s-e2">
         <div class="sfc-head"><span class="sfc-id">E2</span><h4 class="sfc-name">Event egress to Tenna</h4></div>
-        <p class="sfc-ans">Alarms and exceptions crossing into Tenna. The routing is agreed: cross-user events go out as events on Tenna’s existing infrastructure. Which events belong on the list is exactly what P4 still has to answer.</p>
+        <p class="sfc-ans" data-rev-until="v7">Alarms and exceptions crossing into Tenna. The routing is agreed: cross-user events go out as events on Tenna’s existing infrastructure. Which events belong on the list is exactly what P4 still has to answer.</p>
+        <p class="sfc-ans" data-rev-from="v8">Alarms and exceptions crossing into Tenna as events on its existing notification infrastructure. The list is settled (P4, Sunil 14 September): unidentified driving landing, review pile overdue, assignment made, assignment accepted or rejected, HOS violation, approaching a limit, roadside inspection under way, roadside transfer failed, self-test failed; malfunction raised proposed. Scheduled reports are not events; they are datasets Tenna's reporting engine reads.</p>
         <div class="sfc-meta">
           <span><b>Key</b>Event ID, carrier ID</span>
           <span><b>Direction</b>ELD writes</span>
@@ -5203,7 +5235,7 @@
         </div>
         <div class="sfc-sketch">
           <span class="lbl">Illustrative only, not a proposed contract</span>
-          <pre><i>POST</i> /tenna/v1/eld-events     <u>the P4 set, still open</u>
+          <pre><i>POST</i> /tenna/v1/eld-events     <u><span data-revi-until="v7">the P4 set, still open</span><span data-revi-from="v8">the P4 set, settled 9/14</span></u>
 { "kind": "eld.malfunction.opened", "carrier_id": "car_0413",
   "asset_id": "ast_2181", "driver_id": "usr_8f21c4",
   "code": "E", "opened_at": "...", "remediate_by": "..." }</pre>
@@ -5387,8 +5419,8 @@ eld.transfers(id, output_file_id, method, caller,
 <tr data-rev-from="v3"><td class="el">Driver login &amp; logout events<small>the session is Tenna&rsquo;s; the ELD event is the ELD&rsquo;s</small></td><td><span class="o-chip o-enter">Entered</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-s1">S1</a><a class="src-chip" href="#s-t1">T1</a></td></tr>
           <tr><td class="el">Certification records</td><td><span class="o-chip o-enter">Entered</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-s2">S2</a></td></tr>
           <tr><td class="el">Edits &amp; edit history</td><td><span class="o-chip o-enter">Entered</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-s2">S2</a></td></tr>
-          <tr><td class="el">HOS violations</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small>egress gated on P4</small></td><td class="ap"><a class="src-chip" href="#s-s1">S1</a><a class="src-chip" href="#s-e2">E2</a></td></tr>
-          <tr><td class="el">Malfunctions &amp; diagnostics (§395.34)</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small>egress gated on P4</small></td><td class="ap"><a class="src-chip" href="#s-s1">S1</a><a class="src-chip" href="#s-e2">E2</a></td></tr>
+          <tr><td class="el">HOS violations</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small><span data-revi-until="v7">egress gated on P4</span><span data-revi-from="v8">alerts safety (P4)</span></small></td><td class="ap"><a class="src-chip" href="#s-s1">S1</a><a class="src-chip" href="#s-e2">E2</a></td></tr>
+          <tr><td class="el">Malfunctions &amp; diagnostics (§395.34)</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small><span data-revi-until="v7">egress gated on P4</span><span data-revi-from="v8">scheduled report; raise alert proposed (P4)</span></small></td><td class="ap"><a class="src-chip" href="#s-s1">S1</a><a class="src-chip" href="#s-e2">E2</a></td></tr>
           <tr><td class="el">Unidentified-driving records</td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a><a class="src-chip" href="#s-s3">S3</a></td></tr>
           <tr><td class="el">UD reason taxonomy &amp; driver suggestion</td><td><span class="o-chip o-enter">Entered</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-s3">S3</a><a class="src-chip" href="#s-s5">S5</a></td></tr>
           <tr><td class="el">Carrier annotation &amp; assignment on a UD record</td><td><span class="o-chip o-enter">Entered</span></td><td><span class="tag t-eld">ELD</span><small>entered by a supervisor, not a driver</small></td><td class="ap"><a class="src-chip" href="#s-s3">S3</a></td></tr>
@@ -5423,7 +5455,8 @@ eld.transfers(id, output_file_id, method, caller,
       the compliance consultant. The <a href="#s-e2">E2</a> event set is agreed in shape and not in content, which is
       <a href="#pd4">P4</a>. Yard geofences keep the question they already had, Tenna Sites over the API against an
       ELD-drawn fallback. Marking three rows open is more useful than filling them in and being wrong.</p>
-      <p data-rev-from="v6"><b>What is still open here.</b> Position and the audit export are settled (P3 on 8 and 10 September, Q19 on 10 September). The <a href="/decisions#p4">P4</a> event set is agreed in shape and not in content, and yard geofences keep their question, Tenna Sites over the API against an ELD-drawn fallback. Two open rows is the honest count.</p>
+      <p data-rev-from="v6" data-rev-until="v7"><b>What is still open here.</b> Position and the audit export are settled (P3 on 8 and 10 September, Q19 on 10 September). The <a href="/decisions#p4">P4</a> event set is agreed in shape and not in content, and yard geofences keep their question, Tenna Sites over the API against an ELD-drawn fallback. Two open rows is the honest count.</p>
+      <p data-rev-from="v8"><b>What is still open here.</b> Position, the audit export and the <a href="/decisions#p4s">P4</a> event set are settled (P3 on 8 and 10 September, Q19 on 10 September, P4 on 14 September). Yard geofences keep their question, Tenna Sites over the API against an ELD-drawn fallback, now as an optional trigger behind the 20 mph rule. One open row is the honest count.</p>
       <p><b>And what it is for.</b> Tamar asked that the data pipeline move in parallel with the requirements rather
       than behind them, and Kyle agreed: the sooner the technical details are settled, the better the shape of the
       four weeks. This is the input to that conversation. If Kyle or Tamar supply the real schema, the sketches get

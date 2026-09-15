@@ -225,18 +225,18 @@
       <tr><th colspan="5">HOS record</th></tr>
       <tr><td>Duty-status events, derived clocks, sequence number</td><td>Derived</td><td>ELD</td><td>S1, E1</td><td></td></tr>
       <tr><td>Annotations, certifications, edits and edit history</td><td>Entered</td><td>ELD</td><td>S2</td><td></td></tr>
-      <tr><td>HOS violations, malfunctions and diagnostics</td><td>Derived</td><td>ELD</td><td>S1, E2</td><td>Sent to Tenna only once P4 is settled</td></tr>
+      <tr><td>HOS violations, malfunctions and diagnostics</td><td>Derived</td><td>ELD</td><td>S1, E2</td><td>Violations alert the safety manager; malfunctions and diagnostics feed scheduled reports; malfunction raised proposed as an alert (P4, 14 Sep)</td></tr>
       <tr><td>Unidentified-driving records and their dispositions</td><td>Tracker, then Entered</td><td>ELD</td><td>B1, S3</td><td></td></tr>
       <tr><td>Non-HOS move stamps, work order reference</td><td>Entered, Tenna platform</td><td>ELD, Tenna</td><td>S3, T6</td><td>T6 is new</td></tr>
       <tr><th colspan="5">Compliance outputs</th></tr>
       <tr><td>Output file, transfer records, increment plan</td><td>Derived</td><td>ELD</td><td>S4</td><td></td></tr>
       <tr><td>DOT audit bundle</td><td>Derived</td><td>ELD</td><td>S4</td><td>Appendix A output files only (Q19, decided 10 Sep). Corrected from the Wireframes table, which said P3</td></tr>
       <tr><th colspan="5">Cross-system</th></tr>
-      <tr><td>ELD events into Tenna</td><td>Derived</td><td>ELD, Tenna receives a copy</td><td>E2</td><td>P4 list open</td></tr>
+      <tr><td>ELD events into Tenna</td><td>Derived</td><td>ELD, Tenna receives a copy</td><td>E2</td><td>P4 list settled 14 Sep: nine instant alerts, seven report datasets</td></tr>
       <tr><td>DVIR status and handoff</td><td>Tenna platform</td><td>Tenna</td><td>T7</td><td></td></tr>
       <tr><td>Yard geofences</td><td>Tenna platform</td><td><b>Source open</b></td><td>T5, S5</td><td>Tenna Sites over the API, or drawn in the ELD</td></tr>
       <tr><td>Carrier HOS policy</td><td>Entered</td><td>ELD</td><td>S5</td><td></td></tr>
-      <tr><td>Push notifications</td><td>Derived</td><td>ELD (driver-local), Tenna (cross-user)</td><td>E3</td><td>P4</td></tr>
+      <tr><td>Push notifications</td><td>Derived</td><td>ELD (driver-local), Tenna (cross-user)</td><td>E3</td><td>P4 settled 14 Sep. Admins assign by permission group, users toggle their own, driver toggles in the app (D24)</td></tr>
     </tbody>
   </table>
   </div>
@@ -782,6 +782,26 @@
   </table>
   </div>
 
+  <h3>eld.settings_audit (who changed what, when)</h3>
+  <p>Sunil, 14 September: driver settings changes are "recorded with a visible audit history of who changed what and
+    when, not just a database entry." One row per change to <code>eld.driver_settings</code> or
+    <code>eld.carrier_policy</code>, written in the same transaction as the change. Shown on W15 per carrier and on D24
+    for the driver's own settings. Rows are never updated or deleted; a legal hold covers them like everything else.</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>audit_id</td><td>uuid</td><td>Primary key</td></tr>
+      <tr><td>carrier_id, driver_id</td><td>text, text</td><td>driver_id null for a carrier-policy change</td></tr>
+      <tr><td>setting</td><td>text</td><td>Column name changed, for example pc_allowed, exempt, warn_thresholds</td></tr>
+      <tr><td>old_value, new_value</td><td>jsonb, jsonb</td><td></td></tr>
+      <tr><td>changed_by, changed_at</td><td>text, timestamptz</td><td>Tenna user id; the driver's own id when the change is made on D24</td></tr>
+      <tr><td>surface</td><td>text</td><td>w15 | d24 | api</td></tr>
+      <tr><td>shown_to_driver_at</td><td>timestamptz</td><td>When the change was displayed at login (4.3.3.1.1-4); null until then</td></tr>
+    </tbody>
+  </table>
+  </div>
+
   <h3>Cross-cutting rules</h3>
   <ul>
     <li>Every timestamp is <code>timestamptz</code> in UTC. The apps use epoch milliseconds UTC everywhere. The tracker's
@@ -909,6 +929,27 @@
     <li>Driver's own records (4.7.2): <code>POST /drivers/me/record-requests</code> generates the driver's output file for a chosen range and emails it to the address on the Tenna user record. The phone never handles the file. Delivery channel is a product decision pending Sunil.</li>
   </ul>
 
+  <h3>Report datasets for Tenna's reporting engine</h3>
+  <p>Sunil, 14 September: scheduled reports need no new scheduling or distribution. Tenna's reporting engine already
+    schedules and delivers, and customers configure cadence and recipients there today. The ELD's job is to expose each
+    report as a dataset the engine can read, then work with Tenna engineering on the report configuration. Read-only,
+    carrier-scoped, cursor-paginated like the rest of Contract B, under <code>GET /reports/&lt;dataset&gt;?from&amp;to</code>.</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Dataset</th><th>Rows</th><th>Source tables</th></tr></thead>
+    <tbody>
+      <tr><td><code>malfunctions</code></td><td>Each malfunction raised and cleared, with the 8-day clock and the driver's acknowledgment</td><td>eld.malfunctions</td></tr>
+      <tr><td><code>diagnostics</code></td><td>Data diagnostic warnings raised and cleared, per driver</td><td>eld.events type 7</td></tr>
+      <tr><td><code>correction-responses</code></td><td>Each proposed edit and the driver's accept, reject or no answer yet, with age</td><td>eld.event_versions</td></tr>
+      <tr><td><code>certifications</code></td><td>Daily log certifications, and every day past the carrier's uncertified threshold</td><td>eld.certifications</td></tr>
+      <tr><td><code>vin-mismatches</code></td><td>Events where vin_observed differs from the asset record</td><td>eld.events, T4</td></tr>
+      <tr><td><code>engine-data-gaps</code></td><td>Missing engine hours and odometer jumps beyond tolerance</td><td>eld.events, eld.tracker_links</td></tr>
+      <tr><td><code>sessions</code></td><td>Sign-in and sign-out history per driver and device</td><td>eld.login_sessions</td></tr>
+      <tr><td><code>unidentified-driving</code></td><td>Records landing in the pile and their dispositions; Sunil asked that these appear in reporting as well as the alert</td><td>eld.ud_records</td></tr>
+    </tbody>
+  </table>
+  </div>
+
   <h3>E2 and E3: egress to Tenna</h3>
   <p>The ELD emits an envelope to Tenna's notification infrastructure and never a recipient list. Tenna resolves who
     hears about it from its own org chart and renders its own template. Every envelope is published from
@@ -919,8 +960,30 @@
   "subject_ids": { "asset_id": "ast_2181", "driver_id": "usr_8f21c4" },
   "at_utc": "2026-09-09T14:02:11Z",
   "deep_link": "/eld/malfunctions/mf_2210" }</pre>
-  <p>Candidate event list, proposed, P4 open: malfunction raised, edit proposal answered, unidentified-driving record
-    awaiting review, log certified, inspection performed.</p>
+  <p><b>The E2 event list, settled 14 September (P4, Sunil).</b> Admins assign each notification to permission groups in
+    Tenna; each user toggles their own on or off. The ELD emits the envelope and never chooses the recipient.</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>event_type</th><th>When</th><th>Sunil's intended audience</th></tr></thead>
+    <tbody>
+      <tr><td><code>eld.ud.landed</code></td><td>An unidentified-driving record enters the review pile</td><td>Whoever handles review; also in reporting</td></tr>
+      <tr><td><code>eld.ud.review_overdue</code></td><td>The pile is untouched past ud_review_cadence_days</td><td>Escalation</td></tr>
+      <tr><td><code>eld.ud.assigned</code></td><td>A manager assigns a record to a driver</td><td>Safety and other managers; also in reporting. The driver's copy is E3, in the app</td></tr>
+      <tr><td><code>eld.ud.assignment_answered</code></td><td>The driver accepts or rejects the assignment (D34)</td><td>The manager who assigned it</td></tr>
+      <tr><td><code>eld.violation.raised</code></td><td>An HOS violation is recorded</td><td>Safety manager</td></tr>
+      <tr><td><code>eld.limit.approaching</code></td><td>A driver is within warn_thresholds of a limit</td><td>Dispatch</td></tr>
+      <tr><td><code>eld.inspection.started</code></td><td>The driver opens roadside inspection mode (D15)</td><td>Fleet and safety managers</td></tr>
+      <tr><td><code>eld.transfer.failed</code></td><td>A roadside transfer to FMCSA fails (D17)</td><td>Fleet and safety managers</td></tr>
+      <tr><td><code>eld.selftest.failed</code></td><td>The daily transfer self-test fails</td><td>Fleet manager</td></tr>
+      <tr><td><code>eld.malfunction.raised</code></td><td>A malfunction is raised (D18)</td><td><b>AppAxis addition, pending Sunil.</b> His list has malfunctions in the scheduled report only; the 8-day clock starts here, so we propose an instant alert to the fleet manager as well</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><b>Not E2.</b> Scheduled reports are datasets above, not events. A proposed correction waiting on the driver and a
+    trip reassignment waiting on the other driver are E3 pushes to the ELD app only. Office transfer results (W17, W13)
+    show on the screen that requested them; a notification version comes after launch. Mechanic and yard moves appear in
+    W16 with no notification. A truck moving with nobody signed in is not alerted at launch; Tenna's existing motion alerts
+    cover theft and the ELD alert is revisited after launch (D35 stays as the in-cab screen).</p>
 
   <h3>Conventions</h3>
   <ul>
@@ -944,7 +1007,8 @@
       <tr><td><a href="/#s-t6">T6</a> Work orders</td><td>Open work orders for an asset</td><td>D27 shop road test stamp</td><td>New surface</td></tr>
       <tr><td><a href="/#s-t7">T7</a> DVIR</td><td>Status by asset, launch and return deep links</td><td>D14</td><td>Contract still to be written</td></tr>
       <tr><td><a href="/#s-t8">T8</a> Entitlements</td><td>ELD license on the account, supervisor permission, the portal injection point for the micro-frontend</td><td>Sign-in gate, W-screen access</td><td>Tamar owns the injection point</td></tr>
-      <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Shape agreed, list <b>open</b> (P4)</td></tr>
+      <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Settled 14 Sep (P4): the ten E2 events above, routed by permission group</td></tr>
+      <tr><td>Reporting engine</td><td>Report configuration for the eight ELD datasets, on Tenna's existing scheduled-distribution reporting; Tenna engineering configures, the ELD exposes the datasets</td><td>The seven scheduled reports in P4</td><td>Datasets defined; configuration to schedule with Tenna engineering</td></tr>
       <tr><td>Platform</td><td>Postgres instance and <code>eld</code> schema provisioning; AWS account and VPC placement; secrets; CI/CD for the new repos; a way for AppAxis to run the portal locally; the shared component base</td><td>Building and deploying</td><td>To schedule with Kyle and Tamar</td></tr>
     </tbody>
   </table>
@@ -1357,7 +1421,7 @@
       <tr><td><a href="/decisions#q24">Q24</a> biometric sign-in to the ELD app</td><td>FMCSA yes or no, via Tom's agency contact. Tom's reading: user code and password for the app; biometric may unlock the phone only</td><td>D1 sign-in flow; T1 session caching</td><td>Tom, FMCSA</td></tr>
 
 
-      <tr><td><a href="/decisions#p4">P4</a> event list</td><td>Which E2 events Tenna consumes, and how host-to-driver pushes are delivered</td><td>Egress; W1, W2, W8, W10</td><td>Tenna product</td></tr>
+      <tr><td><a href="/decisions#p4s">P4</a> malfunction alert</td><td>Sunil's 14 September list settles the event set; one addition is ours and needs his yes: malfunction raised as an instant alert, not report-only</td><td>eld.malfunction.raised envelope; D18, W10</td><td>Sunil</td></tr>
       <tr><td>Registration mechanics</td><td>Per-OS registration, ELD identifier rules, version string rules</td><td>eld.devices columns; Stage F</td><td>Tom</td></tr>
       <tr><td><a href="/decisions#q17">Q17</a> retention scoping</td><td>Whether the carrier wants longer than 6 months on the host</td><td>Retention policy, storage estimate</td><td>Tenna product</td></tr>
       <tr><td>Offline sign-in grace</td><td>How long a cached T1 session is accepted without reaching the pool</td><td>D1; sync worker behaviour</td><td>Kumaran</td></tr>
