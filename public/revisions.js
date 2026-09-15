@@ -10,9 +10,9 @@
  *                       8/28/2026 huddle settled P1, P2 and P5
  *   v4  "9/3/2026"    - mobile stack comparison rewritten as an open
  *                       two-option decision (native vs React Native), and
- *                       the 9/3/2026 FMCSA consultant session applied to the
+ *                       the 9/3/2026 Tom Cuthbertson session applied to the
  *                       wireframes
- *   v5  "9/8/2026"    - the 9/8/2026 consultant call applied to the wireframes:
+ *   v5  "9/8/2026"    - the 9/8/2026 Tom Cuthbertson call applied to the wireframes:
  *                       P3 settled, D35 required with a trigger rule, the
  *                       reason list, the no-signal roadside path, engine
  *                       hours and VIN sourcing, power-down handling
@@ -22,7 +22,7 @@
  *   v7  "9/11/2026"   - design coverage check against the FMCSA test plan RTM:
  *                       three conflicts fixed, seven UI gaps drawn (D36, D37,
  *                       header indicators, D7/D9/D12/D16/D24/W15/W17/W10 edits)
- *   v8  "9/14/2026"   - the 9/14/2026 consultant call applied: exempt-driver
+ *   v8  "9/14/2026"   - the 9/14/2026 Tom Cuthbertson call applied: exempt-driver
  *                       flow (D38), trip details required, whole-month retention,
  *                       legal hold on W15, yard move ends at 20 mph, daily transfer
  *                       self-test, malfunction notice copy
@@ -55,10 +55,10 @@
     { id: 'v2', label: '8/28/2026', sub: 'host reporting', slug: '8-28' },
     { id: 'v3', label: '9/2/2026', sub: 'data ownership', slug: '9-2' },
     { id: 'v4', label: '9/3/2026', sub: 'stack · wireframes', slug: '9-3' },
-    { id: 'v5', label: '9/8/2026', sub: 'consultant call', slug: '9-8' },
+    { id: 'v5', label: '9/8/2026', sub: 'Tom Cuthbertson call', slug: '9-8' },
     { id: 'v6', label: '9/10/2026', sub: 'product decisions', slug: '9-10' },
     { id: 'v7', label: '9/11/2026', sub: 'requirements check', slug: '9-11' },
-    { id: 'v8', label: '9/14/2026', sub: 'consultant call', slug: '9-14' }
+    { id: 'v8', label: '9/14/2026', sub: 'Tom Cuthbertson call', slug: '9-14' }
   ];
 
   var DEFAULT = VERSIONS[VERSIONS.length - 1].id;
