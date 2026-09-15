@@ -154,9 +154,9 @@
     <h3>Stage C — Build the ELD</h3>
     <p class="who">Owner: <b>AppAxis</b> · Phase 3, weeks 4–12</p>
     <ul>
-      <li>This is the main build phase. We build the hours-of-service engine, including all duty rules and
-        exceptions. We build detection for the eight malfunction and diagnostic conditions. We build the records file
-        that an inspector's system reads. We build the driver app and run it on real phones with real trackers.</li>
+      <li>This is the main build phase. AppAxis builds the hours-of-service engine, including all duty rules and
+        exceptions. AppAxis builds detection for the eight malfunction and diagnostic conditions. AppAxis builds the records file
+        that an inspector's system reads. AppAxis builds the driver app and run it on real phones with real trackers.</li>
       <li>Each requirement gets an automated test, written at the same time as the code. Test coverage is reported
         every week.</li>
       <li>Every build checks the records file against FMCSA's format.</li>
@@ -170,24 +170,24 @@
     <h3>Stage D — Transfer and host reporting</h3>
     <p class="who">Owner: <b>AppAxis</b> · Phase 4, weeks 13–15</p>
     <ul>
-      <li>We build the transfer of records to FMCSA. A driver sends them from the truck at a roadside stop. The back
+      <li>AppAxis builds the transfer of records to FMCSA. A driver sends them from the truck at a roadside stop. The back
         office sends them from the control panel, one month at a time. If the truck has no signal, the driver shows the
         inspection screen on the phone instead.</li>
       <li>FMCSA accepts records two ways, and we build both. Web services: the app's backend sends the file with a client
         certificate. Email: the backend sends an encrypted, signed message to FMCSA's address with a fixed subject line.
-        FMCSA gives us a test certificate and sample identifiers before registration, so this work does not wait on
+        FMCSA gives AppAxis a test certificate and sample identifiers before registration, so this work does not wait on
         Stage F. Certificates and keys stay on the backend, never on the phone.</li>
-      <li>We generate records files all through testing and run every one through FMCSA's file validator and then
-        its web eRODS viewer. Both need the FMCSA provider account, which we open once the app is running in trucks
+      <li>AppAxis generates records files all through testing and run every one through FMCSA's file validator and then
+        its web eRODS viewer. Both need the FMCSA provider account, which AppAxis opens once the app is running in trucks
         internally.</li>
-      <li>We build the full unidentified-driving loop: the tracker records the driving, the truck keeps eight days of it
+      <li>AppAxis builds the full unidentified-driving loop: the tracker records the driving, the truck keeps eight days of it
         for drivers to claim, the carrier assigns or explains what is left, the assigned driver confirms, and the carrier
         keeps six months of records. A legal hold stops the six-month purge when a customer's lawyers ask.</li>
       <li>Every device sends a test transfer to FMCSA once a day to prove the connection works. Three failures in a row
         raise a malfunction.</li>
       <li>Edits keep the original record and record who changed it. Moving a driving segment from one driver to another
         needs both drivers to accept.</li>
-      <li>We build the inspector view in the control panel.</li>
+      <li>AppAxis builds the inspector view in the control panel.</li>
     </ul>
     <p class="gate"><b>Exit.</b> FMCSA's test system accepts transfers sent from the truck and from the back office, on
       a test fleet. Evidence: transfer confirmations and the test-fleet record.</p>
@@ -197,21 +197,21 @@
     <h3>Stage E — Certification-readiness verification</h3>
     <p class="who">Owner: <b>AppAxis assembles, Tom Cuthbertson accepts</b> · Phase 5, weeks 16–17</p>
     <ul>
-      <li>We open the FMCSA provider account at the start of this stage. It gives us the file validator and web eRODS,
+      <li>AppAxis opens the FMCSA provider account at the start of this stage. It gives AppAxis the file validator and web eRODS,
         and it is where the certifying statement, development statement, driver manual and cab card are filed. Tom is
         sending the account walkthrough.</li>
       <li>Records files from the road tests must pass the validator and read correctly in web eRODS. Tom's review starts
         there.</li>
-      <li>We run the full automated test suite on the release build and archive the result.</li>
-      <li>We run FMCSA's test procedures by hand in a commercial vehicle over several days, on the phones Tenna's
+      <li>AppAxis runs the full automated test suite on the release build and archive the result.</li>
+      <li>AppAxis runs FMCSA's test procedures by hand in a commercial vehicle over several days, on the phones Tenna's
         customers use. The report follows FMCSA's format: date, tester, pass or fail for each step, comments, and what
         was re-run after each fix.</li>
-      <li>We check records files for the hard cases: edit history, driver and vehicle pairings, two drivers on one
+      <li>AppAxis checks records files for the hard cases: edit history, driver and vehicle pairings, two drivers on one
         device, and unidentified driving.</li>
-      <li>We trigger, display and clear each of the eight malfunction and diagnostic conditions and keep the evidence.</li>
-      <li>We draft the test description for the certifying statement from all of the above.</li>
-      <li>We write the in-cab documents: the user manual, the cab card with transfer and malfunction instructions, and
-        blank paper logs. We publish a user-instructions page that needs no login. Tom says FMCSA is strict on the manual
+      <li>AppAxis triggers, display and clear each of the eight malfunction and diagnostic conditions and keep the evidence.</li>
+      <li>AppAxis drafts the test description for the certifying statement from all of the above.</li>
+      <li>AppAxis writes the in-cab documents: the user manual, the cab card with transfer and malfunction instructions, and
+        blank paper logs. AppAxis publishes a user-instructions page that needs no login. Tom says FMCSA is strict on the manual
         and the cab card; the FMCSA registry has examples to follow.</li>
     </ul>
     <p class="gate"><b>Exit.</b> Tom Cuthbertson accepts the evidence package as enough to sign. Evidence: the package
