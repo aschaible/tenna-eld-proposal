@@ -22,6 +22,10 @@
  *   v7  "9/11/2026"   - design coverage check against the FMCSA test plan RTM:
  *                       three conflicts fixed, seven UI gaps drawn (D36, D37,
  *                       header indicators, D7/D9/D12/D16/D24/W15/W17/W10 edits)
+ *   v8  "9/14/2026"   - the 14 September consultant call applied: exempt-driver
+ *                       flow (D38), trip details required, whole-month retention,
+ *                       legal hold on W15, yard move ends at 20 mph, daily transfer
+ *                       self-test, malfunction notice copy
  *
  * Content that differs between them is marked up in place, as a range
  * rather than as a single version, so a fourth revision costs one entry in
@@ -38,8 +42,8 @@
  *
  * Only one side is ever visible, and whatever is new in the revision being
  * read is outlined so it can be found. The choice persists across pages via
- * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2, ?v=9-3, ?v=9-8, ?v=9-10 or
- * ?v=9-11, so a link can open the package in a known state.
+ * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2, ?v=9-3, ?v=9-8, ?v=9-10,
+ * ?v=9-11 or ?v=9-14, so a link can open the package in a known state.
  */
 (function () {
   'use strict';
@@ -53,7 +57,8 @@
     { id: 'v4', label: '9/3/2026', sub: 'stack · wireframes', slug: '9-3' },
     { id: 'v5', label: '9/8/2026', sub: 'consultant call', slug: '9-8' },
     { id: 'v6', label: '9/10/2026', sub: 'product decisions', slug: '9-10' },
-    { id: 'v7', label: '9/11/2026', sub: 'requirements check', slug: '9-11' }
+    { id: 'v7', label: '9/11/2026', sub: 'requirements check', slug: '9-11' },
+    { id: 'v8', label: '9/14/2026', sub: 'consultant call', slug: '9-14' }
   ];
 
   var DEFAULT = VERSIONS[VERSIONS.length - 1].id;

@@ -66,7 +66,7 @@
 <div class="doc">
 
   <h1>Certification Roadmap</h1>
-  <p class="subtitle">Tenna ELD · Updated 11 September 2026</p>
+  <p class="subtitle">Tenna ELD · Updated 15 September 2026</p>
 
   <h2>1. Basis</h2>
   <ul>
@@ -126,7 +126,7 @@
       <thead><tr><th>App</th><th>Android</th><th>iOS</th></tr></thead>
       <tbody>
         <tr><td>React Native prototype</td><td>Done: 26 of 26 tests passed</td><td>Done: 26 of 26 tests passed</td></tr>
-        <tr><td>Native</td><td>Not started</td><td>Not started</td></tr>
+        <tr><td>Native</td><td>In progress: drives 10, 11 and 14 September on a live tracker; closing tests running (background reconnect after a long loss passed 14 Sep; answered stationary prompt, two phones one tracker, two trackers still to run)</td><td>In progress: first field drive 7 September; background reconnect fix in test</td></tr>
       </tbody>
     </table>
     </div>
@@ -147,9 +147,23 @@
         output file only, in 30-day increments), Q20 host inspector view (build), Q23 VIN (vehicle wins), D35
         motion-without-sign-in screen (required; speed above 5 mph is the motion test), co-driver (both signed into one
         device, required by Appendix A 4.1.4(b)).</li>
+      <li>Settled 14 September (Tom Cuthbertson, fourth session): exempt drivers are required as a separate flow that
+        records drive segments, power and login events only (D38, W15); trailer number and shipping document number
+        are required in the output-file header when hauling, a job number satisfies the shipping document, blank when
+        deadheading (D36); six-month retention is kept as whole calendar months and purged at the month cutover; a
+        legal hold per driver or carrier suspends every purge until released (W15); the malfunction notice tells the
+        driver to report to the carrier within 24 hours (D18); personal conveyance survives key-off and is confirmed
+        at key-on (D37); yard move ends automatically above 20 mph, no prompt (D6); the transfer self-test is a daily
+        TEST-flagged submission of real log data from the device (W10); the phone as the tracker's only relay to the
+        host is acceptable, and the log must never depend on the host at roadside.</li>
+      <li>Decided 15 September (Adam, product): co-driver support ships at launch, on Tom's reading of Appendix A
+        4.1.4(b); the 11 September deferral is withdrawn. Tenna hears this and the exempt-driver requirement on
+        16 September.</li>
       <li>Open: Q24 biometric sign-in to the ELD application (Tom Cuthbertson's position is user code and password; he is
         asking his FMCSA contact for a yes or no), D29 stationary-prompt parameters, acceptance criteria approval,
-        registration re-submission triggers (Stage F).</li>
+        registration re-submission triggers (Stage F). Not reached on 14 September and going to Tom by email: the
+        written read-back of the 10 September rulings, manual location entry, the driver's own-records delivery,
+        sequence-number scope, and the late-written malfunction record.</li>
       <li>Fold answers into the HOS engine specification, the data-retention design, and the decision log.</li>
     </ul>
     <p class="gate"><b>Exit.</b> Scope lock signed with every open item answered in writing. Tom Cuthbertson rules in
@@ -194,7 +208,11 @@
         web eRODS. Both tools need the provider account (Stage E), so open it once the app is running in trucks
         internally, not before.</li>
       <li>Unidentified-driving loop end to end: tracker capture, 8-day in-cab list, driver accept or reject (D22),
-        carrier reason or reassignment (W16), driver confirmation (D34), 6-month retention.</li>
+        carrier reason or reassignment (W16), driver confirmation (D34), 6-month retention kept as whole calendar
+        months, legal hold suspending the purge (W15).</li>
+      <li>Daily transfer self-test per device (4.6.1.7, Tom's cadence): a TEST-flagged submission of the real log
+        with "24-hour test" in the comment field; three consecutive failures raise the data-transfer malfunction
+        (W10).</li>
       <li>Edit and annotation versioning with originals preserved and full attribution. Wrong-driver segment
         reassignment with both drivers' acceptance.</li>
       <li>Host inspector view (W18).</li>
@@ -248,6 +266,10 @@
       <li>Keep registration current (5.1.2). Maintenance runbook: FMCSA guidance changes, re-submission on major
         version, app-store re-review, driver-reported edge cases, annual user-guide refresh, response procedure for a
         removal notice (5.4: notice, response, agency action, administrative review).</li>
+      <li>Watch item (Tom Cuthbertson, 14 September): FMCSA has pursued wireless roadside inspection at scale houses
+        since the 1995 pilot and is now "two to three years away." It would send header data, the driver's CDL and an
+        hours summary ahead of the truck through PrePass or Drivewise. Heavy-haul construction fleets are a target
+        because scales cannot take them. No build impact now; track in the runbook.</li>
     </ul>
     <p class="gate"><b>Exit.</b> Device listed on the FMCSA registry; maintenance runbook staffed. Evidence: public
       listing and the runbook.</p>
@@ -265,14 +287,14 @@
         <td>Bench and drive protocol passes on both platforms against approved criteria</td>
         <td>Test workbooks, device session logs</td>
         <td>AppAxis</td>
-        <td>React Native: done on both platforms. Native: not started. Criteria approval pending</td>
+        <td>React Native: done on both platforms. Native: drives and closing tests in progress on both. Criteria approval pending</td>
       </tr>
       <tr>
         <td>B</td>
         <td>Open items answered in writing; scope lock signed</td>
         <td>Signed scope-lock package, decision log</td>
         <td>Joint</td>
-        <td>P3, Q1, Q15–Q20, Q23 settled 8 and 10 Sep; Q24 reopened (FMCSA answer pending), D29, criteria, re-submission triggers open</td>
+        <td>P3, Q1, Q15–Q20, Q23 settled 8 and 10 Sep; exempt, trip details, retention, legal hold, yard move, self-test settled 14 Sep; co-driver at launch 15 Sep. Q24 (FMCSA answer pending), D29, criteria, re-submission triggers open</td>
       </tr>
       <tr>
         <td>C</td>
@@ -329,6 +351,17 @@
         <td>Stage F</td></tr>
       <tr><td>Idle-shutdown signals (SPN 591–593)</td>
         <td>Whether the tracker exposes them; if so, record power-down on detection</td><td>Stage C event list</td></tr>
+      <tr><td>Exempt driver and co-driver, with Tenna</td>
+        <td>Both are required by the rule and go to Tenna on 16 September: exempt drivers need a flag on the Tenna user
+          record and the segment-only app (D38); co-driver ships at launch, withdrawing the 11 September deferral. Tenna
+          confirms the user-record change and the launch scope</td>
+        <td>Stage B sign-off; Contract C account rules</td></tr>
+      <tr><td>Items not reached on 14 September</td>
+        <td>Written confirmation from Tom Cuthbertson of the 10 September rulings; manual location entry prompt;
+          own-records delivery by phone share sheet; per-device sequence scope; a malfunction record written late with
+          the true timestamp; test-plan sign-off; cab card and manual expectations. Sent by email while Tom recovers
+          from surgery on 17 September</td>
+        <td>Stage B; Stage E documents</td></tr>
     </tbody>
   </table>
   </div>

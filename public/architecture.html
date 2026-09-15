@@ -74,7 +74,7 @@
 <div class="doc">
 
   <h1>Architecture</h1>
-  <p class="docmeta">Updated 11 September 2026 · Confidential</p>
+  <p class="docmeta">Updated 15 September 2026 · Confidential</p>
   <p class="docmeta">On this page:
     <a href="#s1">1. Context</a> ·
     <a href="#s2">2. Ownership split</a> ·
@@ -247,7 +247,9 @@
     <thead><tr><th>Where</th><th>What</th><th>How long</th><th>Basis</th></tr></thead>
     <tbody>
       <tr><td>Device</td><td>HOS log for the signed-in driver</td><td>8 days</td><td>§395.8(k), Q22</td></tr>
-      <tr><td>Device</td><td>Unaccepted unidentified-driving records</td><td>8 days</td><td>§4.5.1.7(c), Q22</td></tr>
+      <tr><td>Device</td><td>Unaccepted unidentified-driving records</td><td>8 days, rolling per day</td><td>§4.5.1.7(c), Q22; Tom 14 Sep</td></tr>
+      <tr><td>Host</td><td>Six-month records of every kind (logs, unidentified records, edits)</td><td>Six whole calendar months; purge runs at the month cutover, never on a rolling 180-day window</td><td>§395.8(k); Tom 14 Sep, Q27</td></tr>
+      <tr><td>Host and device</td><td>Anything under a legal hold</td><td>Indefinite until the hold is released; release recorded with who and why</td><td>Tom 14 Sep, Q28; <code>eld.legal_holds</code></td></tr>
       <tr><td>Device</td><td>Raw tracker readings</td><td>10 days, rolling. Parsed reading plus the assembled TLV payload per reading; BLE fragments are not kept. About 45 MB at the measured 2.1 s cadence, 24x7</td><td>Decided 10 September (Adam, product owner). Supersedes "last ~3 readings" (Tom, 8 Sep) and "24 hours" (roadmap Stage B, since corrected)</td></tr>
       <tr><td>Device</td><td>Crash diagnostics buffer</td><td>Engineering choice</td><td>Not compliance data. Never leaves the device except in a bug report</td></tr>
       <tr><td>Host</td><td>Unidentified-driving records</td><td>6 months from receipt</td><td>§395.8(k)(1). Record-level <code>retain_until</code>, source device stamped</td></tr>
@@ -744,10 +746,27 @@
       <tr><td>ud_review_cadence_days</td><td>smallint</td><td></td></tr>
       <tr><td>ud_reasons</td><td>text[]</td><td>Carrier additions to the five fixed reasons</td></tr>
       <tr><td>nonhos_roles</td><td>text[]</td><td>Tenna role names allowed to stamp a non-HOS move (D27)</td></tr>
-      <tr><td>yard_geofence_source</td><td>text</td><td>tenna_sites | eld_drawn. <b>Open</b> (T5)</td></tr>
+      <tr><td>yard_geofence_source</td><td>text</td><td>tenna_sites | eld_drawn. <b>Open</b> (T5). Optional second trigger; yard move always ends above 20 mph</td></tr>
+      <tr><td>selftest_cadence_hours</td><td>smallint</td><td>24 (Tom's cadence, Q30); the rule's floor is 168</td></tr>
     </tbody>
   </table>
   </div>
+
+  <p><code>eld.legal_holds</code> (new 14 September, Q28). One row per hold. Every purge job joins against open holds before deleting anything, on the device as well as the host.</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>hold_id</td><td>uuid</td><td>Primary key</td></tr>
+      <tr><td>carrier_id</td><td>text</td><td></td></tr>
+      <tr><td>driver_id</td><td>text</td><td>Null means the whole carrier</td></tr>
+      <tr><td>placed_by, placed_at, reason</td><td>text, timestamptz, text</td><td>Who and why; reason required</td></tr>
+      <tr><td>released_by, released_at</td><td>text, timestamptz</td><td>Null while open. The release is the audit record</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Exempt drivers (Q25) need no table of their own: <code>exempt</code> and <code>exempt_annotation</code> are properties of the Tenna user record next to the driver flag (T2), read by the ELD at sign-in. An exempt driver's events are the same types as any driver's, minus duty-status changes and certifications, so the output file for an exempt driver is well formed.</p>
 
   <h3>eld.driver_settings (per-driver configuration, 4.3.3.1)</h3>
   <div class="tbl-wrap">
@@ -886,7 +905,7 @@
       certificate and sample identifiers before registration.</li>
     <li>Host-initiated transfer (W17): the same generator behind the same <code>transfer-requests</code> resource, capped at 30 days per request, split automatically into
       increments the eRODS endpoint accepts. Filterable by driver, vehicle and period (4.9.2).</li>
-    <li>Transfer self-test (4.6.1.7): the backend submits a TEST-flagged file at least every 7 days per device; after a failure it retries daily, and three consecutive failures raise a data-transfer malfunction. Attempts are <code>eld.transfers</code> rows with method <code>selftest</code>; state shows on W10 and lights the D19 indicator.</li>
+    <li>Transfer self-test (4.6.1.7): the device submits a TEST-flagged file of its real log every 24 hours, automatically, with "24-hour test" in the output-file comment (Tom Cuthbertson's cadence, Q30; the rule's floor is every 7 days). Three consecutive failures raise a data-transfer malfunction. Attempts are <code>eld.transfers</code> rows with method <code>selftest</code>; state shows on W10 and lights the D19 indicator.</li>
     <li>Driver's own records (4.7.2): <code>POST /drivers/me/record-requests</code> generates the driver's output file for a chosen range and emails it to the address on the Tenna user record. The phone never handles the file. Delivery channel is a product decision pending Sunil.</li>
   </ul>
 
@@ -1020,7 +1039,7 @@
   </svg>
   </div>
   <ul>
-    <li>The ELD decides motion and stops from the speed item. Driving begins above 5 mph. A stop is suspected after three seconds at zero speed.</li>
+    <li>The ELD decides motion and stops from the speed item. Driving begins above 5 mph. A stop is suspected after three seconds at zero speed. A yard move ends by itself above 20 mph and records Driving, with no prompt (Tom Cuthbertson 14 September, Q29); a yard geofence may end it earlier.</li>
     <li>Every event is created and sequenced on the device before it is sent, on one counter shared by every driver on that device (4.4.4.1). The host never assigns seq and never reorders.</li>
     <li>The event and its outbox entry are one local transaction, so an event the driver can see is by definition an event that will be synced. The device outbox is drained only on server acknowledgment.</li>
     <li>A rebuild after a lost phone is a read from the host, which is why P3 requires every event to reach the host when recorded.</li>
@@ -1347,7 +1366,7 @@
       <tr><td><a href="/decisions#q2">Q2</a> engine-hours ECM baseline</td><td>Which assets expose ECM hours; accumulated-hours fallback rules</td><td>hours_source; W11 flag</td><td>Tom, Geometris</td></tr>
       <tr><td><a href="/decisions#q5">Q5</a> BLE has no authentication</td><td>Accepted risk statement, or a mitigation</td><td>Security review of B1</td><td>Tenna engineering</td></tr>
       <tr><td><a href="/decisions#q9">Q9</a> two phones, one tracker</td><td>Who owns the link when two drivers connect</td><td>Active-driver designation; seq assignment</td><td>AppAxis, Tom</td></tr>
-      <tr><td>Trip details semantics</td><td>Whether Tenna customers have shipping documents; whether a job number stands in. Default: optional, blank allowed (D36)</td><td>eld.events trailer_numbers, shipping_doc; D36</td><td>Sunil</td></tr>
+      <tr><td>Exempt flag on the Tenna user record</td><td>Tenna adds <code>exempt</code> and <code>exempt_annotation</code> next to the driver flag (T2); required per Tom 14 September (Q25). Trip details are settled: required when hauling, job number stands in, blank when deadheading (Q26)</td><td>T2 field list; D38, W15</td><td>Sunil, Kumaran</td></tr>
       <tr><td>Exempt-driver visibility</td><td>Feature is required by 4.3.3.1.2; Tenna decides visible or buried</td><td>W15 per-driver settings</td><td>Sunil</td></tr>
       <tr><td>Own-records delivery</td><td>Email to the Tenna address (default) or in-app share sheet</td><td>POST /drivers/me/record-requests</td><td>Sunil</td></tr>
       <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and Tenna-issued ids, stored as given, are the keys across the phone, the API and the portal</td><td>Contract A and B as written</td><td>Kyle, Tamar</td></tr>
