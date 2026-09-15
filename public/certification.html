@@ -82,6 +82,9 @@
     <li>All test evidence in this roadmap traces to RTM requirement IDs. The RTM and chapter structure are followed;
       the written step sequences are not, because several do not produce correct results on real vehicles. One
       exercise may cover several requirements.</li>
+    <li>Malfunction test criteria come from Appendix A Table 4, the list of seven malfunction and six data
+      diagnostic codes, and Table 6, the event type and event code list, on Tom Cuthbertson's review of
+      9/15/2026.</li>
     <li>Test plan requirements for the record itself: every step scored pass or fail; report lists date, tester,
       result, comments, and the re-run set for each failure; regression test after every corrective action; test
       records retained two years; tests run with multiple driver accounts from different states already created and
@@ -116,8 +119,8 @@
         drives, 24-hour soak, stored-event drain and purge, process death and gap coverage, 30-minute malfunction
         escalation, automatic duty-status transitions).</li>
       <li>The build is moving from the React Native prototype to native Android and iOS apps. The full protocol is
-        re-run on both native apps. Acceptance criteria are AppAxis proposals pending approval by
-        Tom Cuthbertson.</li>
+        re-run on both native apps. Acceptance criteria are AppAxis proposals. Tom Cuthbertson conditionally
+        approved them on 9/15/2026; the malfunction test matrix below goes to him for written sign-off.</li>
     </ul>
     <div class="tbl-wrap">
     <table>
@@ -125,6 +128,131 @@
       <tbody>
         <tr><td>React Native prototype</td><td>26 of 26 passed</td><td>26 of 26 passed</td></tr>
         <tr><td>Native</td><td>1 of 5 closing tests passed; full protocol re-run to follow</td><td>0 of 26; first field drive done</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><b>Malfunction test matrix.</b> The inventory above reaches four of these conditions today: test 16 for timing,
+      tests 8, 9 and 11 for link loss, and test 29 for the 30-minute engine synchronization escalation. The matrix adds
+      the rest. It has one row per code in Table 4 of Appendix A, seven malfunctions and six data diagnostics. Tom gave
+      two of the induction methods on 9/15/2026: faraday bags to generate some malfunctions, and the tracker
+      disconnected from the diagnostic port for engine compliance malfunctions. Every row must produce a logged record
+      and a cleared record in the output file, with the driver notice and the header indicator shown at raise and
+      removed at clear.</p>
+    <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Code</th><th>Condition</th><th>How we induce it</th><th>Raise threshold</th><th>Clear condition</th>
+          <th>Expected records</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>P power compliance</td>
+          <td>ELD not powered and functional while the engine has power</td>
+          <td>Tracker unplugged from the diagnostic port with the engine running, repeated until the aggregate is
+            reached</td>
+          <td>Aggregate 30 minutes of missing power data in a 24-hour period, across all driver profiles</td>
+          <td>Power data recorded again and the aggregate back under 30 minutes in the window</td>
+          <td>Type 7 code 1, then type 7 code 2</td>
+        </tr>
+        <tr>
+          <td>E engine synchronization compliance</td>
+          <td>Connectivity to the ECM lost, so required elements are not available</td>
+          <td>Faraday bag over the tracker, or the tracker unplugged from the diagnostic port, held past the
+            threshold</td>
+          <td>More than 30 minutes cumulative in 24 hours without connectivity</td>
+          <td>Connectivity restored and the cumulative loss back under 30 minutes in the window</td>
+          <td>Type 7 code 1, then type 7 code 2</td>
+        </tr>
+        <tr>
+          <td>T timing compliance</td>
+          <td>ELD time off UTC</td>
+          <td>Phone clock moved forward 2 hours (test 16)</td>
+          <td>More than 10 minutes off UTC</td>
+          <td>Clock back within 10 minutes of UTC</td>
+          <td>Type 7 code 1, then type 7 code 2</td>
+        </tr>
+        <tr>
+          <td>L positioning compliance</td>
+          <td>No valid position while the vehicle is in motion</td>
+          <td>Faraday bag over the tracker while driving, so the position source is lost</td>
+          <td>More than 60 minutes cumulative in 24 hours without a valid position in motion, the 5-mile and
+            60-minute rule</td>
+          <td>A valid position recorded and the cumulative time back under 60 minutes in the window</td>
+          <td>Type 7 code 1, then type 7 code 2</td>
+        </tr>
+        <tr>
+          <td>R data recording compliance</td>
+          <td>ELD can no longer record or retain events, or storage integrity fails</td>
+          <td>Device storage filled, or the event store made unwritable in a test build</td>
+          <td>First failed write or failed integrity check</td>
+          <td>Storage freed and a write plus integrity check succeeds</td>
+          <td>Type 7 code 1, then type 7 code 2</td>
+        </tr>
+        <tr>
+          <td>S data transfer compliance</td>
+          <td>Data transfer self-test keeps failing</td>
+          <td>Transfer endpoint blocked on the backend, self-test run three times</td>
+          <td>Three consecutive failed self-tests</td>
+          <td>Endpoint unblocked and the next self-test succeeds</td>
+          <td>Type 7 code 1, then type 7 code 2</td>
+        </tr>
+        <tr>
+          <td>O other compliance</td>
+          <td>Provider-defined. We define at least one, for example a tracker firmware fault</td>
+          <td>The defined fault forced on a bench tracker</td>
+          <td>The threshold we define for that fault, written into the criteria before the test</td>
+          <td>Fault cleared and the tracker reporting normally</td>
+          <td>Type 7 code 1, then type 7 code 2</td>
+        </tr>
+        <tr>
+          <td>1 power data diagnostic</td>
+          <td>ELD does not power up with the engine</td>
+          <td>Tracker unplugged from the diagnostic port with the engine running</td>
+          <td>ELD not powered and functional within 1 minute of the engine getting power</td>
+          <td>ELD powered and functional within 1 minute on the next engine on</td>
+          <td>Type 7 code 3, then type 7 code 4</td>
+        </tr>
+        <tr>
+          <td>2 engine synchronization data diagnostic</td>
+          <td>Connectivity to the tracker or the ECM lost, one or more required elements missing</td>
+          <td>Faraday bag over the tracker, or Bluetooth off, or walk away (tests 8, 9, 11)</td>
+          <td>Any loss of connectivity</td>
+          <td>First reading with all four required elements available again</td>
+          <td>Type 7 code 3, then type 7 code 4</td>
+        </tr>
+        <tr>
+          <td>3 missing required data elements</td>
+          <td>A required data element is missing from a record</td>
+          <td>A record written with odometer or engine hours missing</td>
+          <td>The record that is written without the element</td>
+          <td>Element available again and the next record written complete</td>
+          <td>Type 7 code 3, then type 7 code 4</td>
+        </tr>
+        <tr>
+          <td>4 data transfer data diagnostic</td>
+          <td>A data transfer self-test fails</td>
+          <td>Transfer endpoint blocked on the backend, one self-test run</td>
+          <td>One failed self-test. The self-test runs at least every 7 days, daily once this diagnostic is set</td>
+          <td>Next self-test succeeds</td>
+          <td>Type 7 code 3, then type 7 code 4</td>
+        </tr>
+        <tr>
+          <td>5 unidentified driving records</td>
+          <td>Driving recorded with no driver signed in</td>
+          <td>Drive a light-duty vehicle with the app on and no one signed in</td>
+          <td>More than 30 minutes of unidentified driving in 24 hours</td>
+          <td>Unidentified driving at 15 minutes or less, after drivers claim it or the carrier assigns it</td>
+          <td>Type 7 code 3, then type 7 code 4</td>
+        </tr>
+        <tr>
+          <td>6 other data diagnostic</td>
+          <td>Provider-defined. We define at least one, for example a tracker firmware fault below the O
+            threshold</td>
+          <td>The defined condition forced on a bench tracker</td>
+          <td>The threshold we define for that condition, written into the criteria before the test</td>
+          <td>Condition cleared and the tracker reporting normally</td>
+          <td>Type 7 code 3, then type 7 code 4</td>
+        </tr>
       </tbody>
     </table>
     </div>
@@ -142,8 +270,8 @@
       <li>Four sessions with Tom Cuthbertson so far (9/3/2026, 9/8/2026, 9/10/2026 and 9/14/2026) plus two product sessions with Tenna (11 and
         9/14/2026). Every ruling and decision is recorded in the <a href="/decisions">decision log</a> and drawn
         into the <a href="/">wireframes</a> the same day, so the screens are the agreed requirements.</li>
-      <li>Still open: biometric sign-in to the ELD app (Tom is asking FMCSA), stationary-prompt parameters, acceptance
-        criteria approval, registration re-submission triggers, and a short list of confirmations going to Tom by
+      <li>Still open: biometric sign-in to the ELD app (Tom is asking FMCSA), stationary-prompt parameters, written sign-off
+        on the malfunction test matrix, registration re-submission triggers, and a short list of confirmations going to Tom by
         email. Tenna confirms exempt drivers and co-driver at launch on 9/16/2026.</li>
     </ul>
     <p class="gate"><b>Exit.</b> Every open item answered in writing; Tom Cuthbertson rules in writing, Tenna signs the
@@ -155,7 +283,7 @@
     <p class="who">Owner: <b>AppAxis</b> · Phase 3, weeks 4–12</p>
     <ul>
       <li>This is the main build phase. AppAxis builds the hours-of-service engine, including all duty rules and
-        exceptions. AppAxis builds detection for the eight malfunction and diagnostic conditions. AppAxis builds the records file
+        exceptions. AppAxis builds detection for the seven malfunctions and six data diagnostics in Table 4. AppAxis builds the records file
         that an inspector's system reads. AppAxis builds the driver app and run it on real phones with real trackers.</li>
       <li>Each requirement gets an automated test, written at the same time as the code. Test coverage is reported
         every week.</li>
@@ -184,7 +312,9 @@
         for drivers to claim, the carrier assigns or explains what is left, the assigned driver confirms, and the carrier
         keeps six months of records. A legal hold stops the six-month purge when a customer's lawyers ask.</li>
       <li>Every device sends a test transfer to FMCSA once a day to prove the connection works. Three failures in a row
-        raise a malfunction.</li>
+        raise a malfunction. Test criterion: one failed self-test records data transfer data diagnostic 4, three
+        consecutive failures raise data transfer compliance malfunction S, and both clear on the next successful
+        test. Stage E exercises this by blocking the transfer endpoint.</li>
       <li>Edits keep the original record and record who changed it. Moving a driving segment from one driver to another
         needs both drivers to accept.</li>
       <li>AppAxis builds the inspector view in the control panel.</li>
@@ -211,8 +341,10 @@
         there.</li>
       <li>AppAxis checks records files for the hard cases: edit history, driver and vehicle pairings, two drivers on one
         device, and unidentified driving.</li>
-      <li>AppAxis triggers, displays and clears each of the eight malfunction and diagnostic conditions on the bench and
-        keeps the evidence. Conditions that depend on a heavy-duty engine bus are repeated in Tenna's truck.</li>
+      <li>AppAxis triggers, displays and clears each of the seven malfunctions and six data diagnostics in Table 4 on
+        the bench and keeps the evidence. The records file from those tests must contain the Table 6 event type 7 logged
+        and cleared events for every code. The malfunction test matrix is scored row by row in the test report.
+        Conditions that depend on a heavy-duty engine bus are repeated in Tenna's truck.</li>
       <li>AppAxis drafts the test description for the certifying statement from all of the above.</li>
       <li>AppAxis writes the in-cab documents: the user manual, the cab card with transfer and malfunction instructions,
         and blank paper logs. AppAxis publishes a user-instructions page that needs no login. Tom says FMCSA is strict on
@@ -258,14 +390,15 @@
         <td>Bench and drive protocol passes on both platforms against approved criteria</td>
         <td>Test workbooks, device session logs</td>
         <td>AppAxis</td>
-        <td>React Native 26 of 26 on both. Native in progress. Criteria approval pending</td>
+        <td>React Native 26 of 26 on both. Native in progress. Criteria 95% approved 9/15/2026; malfunction matrix to
+          Tom</td>
       </tr>
       <tr>
         <td>B</td>
         <td>Open items answered in writing; scope lock signed</td>
         <td>Signed scope-lock package, decision log</td>
         <td>Joint</td>
-        <td>Requirements agreed through 9/14/2026 and drawn into the wireframes. Open: biometric sign-in, stationary prompt, criteria, re-submission triggers</td>
+        <td>Requirements agreed through 9/14/2026 and drawn into the wireframes. Open: biometric sign-in, stationary prompt, malfunction matrix sign-off, re-submission triggers</td>
       </tr>
       <tr>
         <td>C</td>
@@ -313,7 +446,9 @@
       <tr><td>D29 — stationary prompt parameters</td>
         <td>Confirmed 9/10/2026: 3 s at zero speed starts a 5-minute timer, prompt, 1 minute unanswered switches to On Duty, vehicle must be running; an answered prompt backdates to first zero speed. Remaining: recorded origin codes and the restart rule at a long signal</td><td>Stage B; state machine</td></tr>
       <tr><td>Acceptance criteria</td>
-        <td>Approval, correction, or additions by Tom Cuthbertson to the test inventory</td><td>Stage A exit</td></tr>
+        <td>Tom Cuthbertson conditionally approved the roadmap and test inventory on 9/15/2026. His words: 95% there,
+          the rest fills in during testing. The malfunction test matrix goes to Tom for written sign-off</td>
+        <td>Stage A exit</td></tr>
 
       <tr><td>Registration re-submission triggers</td>
         <td>Which changes require re-submission under Appendix A 5.1.2. One registration and one ELD

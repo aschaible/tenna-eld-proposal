@@ -834,6 +834,40 @@
       </div>
     </div>
 
+    <div data-rev-from="v9">
+      <div class="eyebrow">Revision 9/15/2026</div>
+      <h2 style="margin-bottom:6px;">What changed</h2>
+      <p class="lede" style="margin-bottom:18px;">Tom Cuthbertson read the 9/14/2026 package on 9/15/2026 and put it at "95% there, the rest fill in as we are testing," with one ask: work from Table 4 and Table 6 of the rule, and make testing raise every malfunction and diagnostic in them. This revision names all thirteen codes on the four screens that show them, and writes the logged and cleared event records into the design. No screen is redrawn. The 9/14/2026 package is unchanged and still readable in full.</p>
+
+      <div class="legend-grid">
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D18</span>
+          <p><b>Seven malfunction codes, one notice.</b> The notice was written for one example. It now lists the driver-language first line for each Table 4 code: P power, E engine synchronization, T timing, L positioning, R data recording, S data transfer, O other. Every raise writes a type 7 code 1 record and the header chip turns red.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D19</span>
+          <p><b>Six diagnostic codes, one banner.</b> Same treatment for the data diagnostics, 1 through 6. The banner going away is not the record: the ELD writes a type 7 code 4 cleared record when the condition ends. Diagnostic 5 shows to every driver on the ELD and clears at 15 minutes or less of unidentified driving in 24 hours.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D32</span>
+          <p><b>The cleared screen is for all seven codes.</b> Drawn for code P, used for any code. The raise and clear timestamps are the paper-log period whatever the code is, and the clear writes a type 7 code 2 record.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">W10</span>
+          <p><b>Logged paired with cleared.</b> The tracker lists by Table 4 code and each row now reads as a pair: the logged event, and the cleared event or an open 8-day repair clock. Column headings say which record each column holds.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D16</span>
+          <p><b>The code on the roadside display.</b> The malfunction and diagnostic chips in the header show the active code, a letter or a number, so an officer reads it without leaving the screen.</p>
+        </div>
+      </div>
+
+      <div class="anatomy" style="margin-top:16px;">
+        <p><b>Also from the review:</b> some codes need help to produce in test. Tom's examples are faraday bags for the position and time codes and an unplugged tracker for the engine synchronization codes. The test plan picks up all thirteen.</p>
+        <p><b>Not changed:</b> no screen is redrawn and no open question is closed. The paper-log rules stand as written on 9/14/2026: keep paper during a malfunction, report to the carrier within 24 hours, 8 days to repair.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -2493,6 +2527,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li data-rev-from="v7"><b>Changed 9/11/2026 &middot;</b> Appendix A 4.8.1.3 lists the header fields the display must show. Added: trailer ID, shipping document, exempt status, time-zone offset, ELD manufacturer, malfunction and diagnostic indicators. The unidentified-driver profile is a separate report, not a count, and personal conveyance and yard move are overlaid on the grid in a different line style.</li>
+              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot;</b> The two header chips show the active Table 4 code, the letter for a malfunction and the number for a diagnostic, so an officer reads the code on this screen without leaving it.</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#q3">Q3</a> With the ignition off (the normal state during an inspection), the tracker reports <span class="mono" style="font-size:11px;">0</span> for odometer and an empty VIN. The display must carry last-valid values and mark them as such; a plausible zero on this screen is worse than a blank.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q3">Q3</a> At an inspection the ignition is off, so the tracker reports a zero odometer and an empty VIN. The display must show last-valid values and mark them as such.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q3">Q3</a> A zero that looks real on the officer's screen is worse than a blank. Which does the display show when there is no last good value at all?</li>
@@ -2671,6 +2706,17 @@
               <li data-rev-from="v8"><b>Settled 9/14/2026 &middot;</b> Tom confirmed the persistent indicator once a defined threshold is met (clock off more than 10 minutes, position lost past the mileage threshold, engine data missing 30 minutes cumulative in 24 hours) and asked that it tell the driver two things: keep paper logs, and report to the carrier, which §395.34(a) requires within 24 hours. Step 2 now says so.</li>
               <li><a class="qref" href="/decisions#p4">P4</a> A malfunction is the strongest case for an alert inside Tenna: an 8-day repair clock a fleet manager does not see is how devices end up on FMCSA's revocation list.</li>
               <li data-rev-from="v8"><b>Settled 9/14/2026, one item flagged &middot;</b> Sunil's list puts malfunctions occurring and clearing in a scheduled report, not an instant alert. Because the 8-day clock starts at the raise, the architecture lists "malfunction raised" as an instant alert to the fleet manager as well, marked as AppAxis's addition for Sunil to confirm. Step 2 on this screen stands either way.</li>
+              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot;</b> Tom Cuthbertson read the package on 9/15/2026 and asked that the design work from Table 4 of the rule, so the notice is written for all seven malfunction codes, not the one drawn here. The three steps and the acknowledgment are the same for every code; only the first line changes.
+                <ul style="margin-top:6px; gap:4px;">
+                  <li><b>P</b> power compliance &middot; "The ELD lost power while the engine was running"</li>
+                  <li><b>E</b> engine synchronization compliance &middot; "The ELD lost its connection to the vehicle for more than 30 minutes today"</li>
+                  <li><b>T</b> timing compliance &middot; "The ELD clock is more than 10 minutes off"</li>
+                  <li><b>L</b> positioning compliance &middot; "The ELD could not fix its position for more than an hour while driving"</li>
+                  <li><b>R</b> data recording compliance &middot; "The ELD cannot record or store logs"</li>
+                  <li><b>S</b> data transfer compliance &middot; "The ELD could not reach FMCSA on three tests in a row"</li>
+                  <li><b>O</b> other, provider-defined &middot; "The ELD detected a fault"</li>
+                </ul>
+                Every raise writes a Table 6 event, type 7 code 1, malfunction logged. The red chip in the header stays up until the cleared record, type 7 code 2, is written on <a href="#d32">D32</a>.</li>
             </ul>
           </div>
         </div>
@@ -2725,6 +2771,16 @@
               <li data-rev-from="v7"><b>Changed 9/11/2026 &middot;</b> Appendix A 4.6.3.1: a separate diagnostic indicator, shown only to the driver it applies to. An amber chip in the header on every screen, next to the malfunction chip. An unidentified-driving diagnostic lights it for every driver on that ELD for seven days (4.6.1.6).</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#q1">Q1</a> For a phone-based recorder, an ordinary parked stop looks like an engine-sync gap. Where is the threshold between "normal BLE disconnection" and "raise a §4.6 diagnostic"? This is a compliance judgement, not an engineering one.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q1">Q1</a> For a phone-based ELD, an ordinary parked stop looks like a lost engine connection. Where is the line between a normal Bluetooth drop and a diagnostic? A compliance call, not an engineering one.</li>
+              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot;</b> Tom Cuthbertson's 9/15/2026 review applies the same rule to the six data diagnostics in Table 4. The banner is drawn for the engine link; the other five use the same banner with a different first line.
+                <ul style="margin-top:6px; gap:4px;">
+                  <li><b>1</b> power &middot; "Power data is missing for part of today"</li>
+                  <li><b>2</b> engine synchronization &middot; "The tracker link has been down" (drawn here)</li>
+                  <li><b>3</b> missing required data elements &middot; "A log entry is missing required data"</li>
+                  <li><b>4</b> data transfer &middot; "The last FMCSA connection test failed"</li>
+                  <li><b>5</b> unidentified driving records &middot; "This vehicle has more than 30 minutes of driving with no one signed in"</li>
+                  <li><b>6</b> other, provider-defined &middot; "The ELD reported a data issue"</li>
+                </ul>
+                The banner going away is not the record. When the condition ends the ELD writes a Table 6 event, type 7 code 4, data diagnostic cleared, next to the code 3 record that logged it. Diagnostic 5 lights the indicator for every driver on that ELD, not just the one who caused it, and clears when unidentified driving in the last 24 hours drops to 15 minutes or less.</li>
             </ul>
           </div>
         </div>
@@ -2772,6 +2828,7 @@
             <ul>
               <li><b>New screen &middot;</b> Does the paper-log period end at the clear event, or when the driver acknowledges it? An auditor will ask for both timestamps, so the record should keep both.</li>
               <li>A malfunction that clears while the phone is out of coverage still needs this screen on reconnect. Does the driver see it late, or not at all?</li>
+              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot;</b> Drawn for code P, used for all seven Table 4 malfunction codes. Whatever the code, the raise timestamp and the clear timestamp are the paper-log period this screen reports, and the clear writes a Table 6 event, type 7 code 2, malfunction cleared. Tom Cuthbertson's 9/15/2026 review asks that testing raise and clear each code, so each one lands here. The question above, whether the period ends at the clear event or at the acknowledgment, is unchanged.</li>
             </ul>
           </div>
         </div>
@@ -3955,7 +4012,7 @@
                   <div class="wb-box" style="margin-top:9px;">
                     <div class="h">Annotate 8 records &middot; suggested reasons</div>
                     <span style="font-size:8px;" data-revi-until="v4">&#9673; Mechanic road test / maintenance &nbsp; &#9675; Yard movement &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM / warranty movement &nbsp; &#9675; Other &middot; explain<br/></span><span style="font-size:8px;" data-revi-from="v5">&#9673; Mechanic road test &nbsp; &#9675; Internal yard move &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM pickup &nbsp; &#9675; Maintenance yard move &nbsp; &#9675; Jobsite shuttle <i>(yours)</i> &nbsp; + Add a reason<br/></span><span style="font-size:8px;">
-                    Applies one annotation to all 8 with your name and timestamp. Assigning instead notifies the driver for confirmation.</span></span>
+                    Applies one annotation to all 8 with your name and timestamp. Assigning instead notifies the driver for confirmation.</span>
                   </div>
                   <div class="wb-note">Annotating explains why the time is unassigned; assigning routes it to the driver to accept. &sect;395.32(a) accepts either, and requires one of them.</div>
                 </div>
@@ -4190,7 +4247,7 @@
                 <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Malfunction tracker <span class="sub">8-day remediation clocks</span></div>
                   <table class="wb-table">
-                    <thead><tr><th>Device / vehicle</th><th>Code</th><th>Raised</th><th>Clock</th><th>Driver on paper logs</th><th>Status</th></tr></thead>
+                    <thead><tr><th>Device / vehicle</th><th><span data-revi-until="v8">Code</span><span data-revi-from="v9">Table 4 code</span></th><th><span data-revi-until="v8">Raised</span><span data-revi-from="v9">Logged &middot; code 1</span></th><th><span data-revi-until="v8">Clock</span><span data-revi-from="v9">Clock, or cleared &middot; code 2</span></th><th>Driver on paper logs</th><th>Status</th></tr></thead>
                     <tbody>
                       <tr><td><b>Unit 207</b> · WQ-…0355</td><td><span class="wb-pill dark">P · Power</span></td><td>8/18/2026, 2:38 PM</td><td><div class="wb-bar" style="width:60px;"><i style="width:75%;"></i></div> 6 d left</td><td>K. Burns ✓ ack</td><td><span class="wb-pill out">Open</span></td></tr>
                       <tr><td><b>Unit 231</b> · WQ-…0301</td><td><span class="wb-pill dark">E · Engine sync</span></td><td>8/20/2026, 9:12 AM</td><td><div class="wb-bar" style="width:60px;"><i style="width:97%;"></i></div> 7 d 18 h</td><td>R. Delgado ✓ ack</td><td><span class="wb-pill out">Open</span></td></tr>
@@ -4200,6 +4257,7 @@
                     </tbody>
                   </table>
                   <div class="wb-note">A malfunction that outlives its 8-day clock is an out-of-service ELD. This table exists so that never happens quietly.</div>
+                  <div class="wb-note" data-rev-from="v9">Sorted by Table 4 code. Each row pairs the logged event (type 7 code 1) with its cleared event (code 2); a row with no cleared event is an open repair clock.</div>
                 </div>
               </div>
             </div>
@@ -4231,6 +4289,7 @@
               <li data-rev-from="v8"><b>Settled 9/14/2026 &middot;</b> Daily, from the device, automatic. Appendix A 4.6.1.7 asks for at least every 7 days; Tom's practice, adopted here, is a TEST-flagged submission of the real log data every 24 hours with "24-hour test" in the output-file comment, no driver action. FMCSA has never tested for it ("superfluous") but it is required, so it is built. Three consecutive failures still raise the data-transfer malfunction. The backend submits per device and this table shows the state.</li>
               <li><a class="qref" href="/decisions#p4">P4</a> The strongest P4 case on the page: should a repair clock about to run out send an alert through Tenna's notifications rather than wait to be noticed here?</li>
               <li data-rev-from="v8"><b>Settled 9/14/2026, one item flagged &middot;</b> Sunil: a failed weekly self-test alerts the fleet manager instantly; malfunctions occurring and clearing are a scheduled report. He did not list the raise itself as an alert. The architecture adds "malfunction raised" to the instant list, marked as AppAxis's addition, because the 8-day clock starts then. Self-test is daily per Tom (Q30), so the failure alert fires the day it fails.</li>
+              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot;</b> Tom Cuthbertson's 9/15/2026 review asks that testing raise every code in Table 4, so this view lists by code and pairs each logged event with its cleared event. The seven malfunction codes are P power, E engine synchronization, T timing, L positioning, R data recording, S data transfer and O other. A row with no cleared event keeps the 8-day repair clock running, and that is the row a fleet manager has to act on. The six diagnostic codes (1 power, 2 engine synchronization, 3 missing data elements, 4 data transfer, 5 unidentified driving, 6 other) are logged and cleared the same way and go in the scheduled report, not this table. Tom's note on producing them in test: faraday bags for the position and time codes, an unplugged tracker for the engine codes.</li>
             </ul>
           </div>
         </div>
