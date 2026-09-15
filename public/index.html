@@ -508,7 +508,7 @@
           <span class="rev-badge">W16</span>
           <p><b>New: the host unidentified-driving report.</b> The memo's central ask. A working queue with the
           suggested-reason pop-ups, 6-month retention, and a review-cadence nudge, because a carrier that does not
-          work it two or three times a week loses control of it. This also closes the inventory gap the original
+          work it two or three times a week loses control of it. This also closes the gap the original
           page flagged for Thursday.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
@@ -677,7 +677,7 @@
       </div>
 
       <div class="anatomy" style="margin-top:16px;">
-        <p><b>One change is provisional:</b> the D28 reversal to a binary rejection came from the session, but the reason pick list came from the advisor&rsquo;s own 8/17/2026 memo. It is applied here and flagged on the screen; the advisor confirms on 9/8/2026 before it is built.</p>
+        <p><b>One change is provisional:</b> the D28 reversal to a binary rejection came from the session, but the reason pick list came from Tom Cuthbertson&rsquo;s own 8/17/2026 memo. It is applied here and flagged on the screen; the advisor confirms on 9/8/2026 before it is built.</p>
         <p><b>Also changed:</b> the screen count moves from 52 to 54 with D35 and W19; the <a href="#data">data element table</a> picks up three rows; and the <a href="#flow">flow map</a> notes the two surfaces it does not yet draw. The index page and the decision log are updated in a later pass, so their counts and P4 entries still read as 9/2/2026.</p>
       </div>
     </div>
@@ -2801,7 +2801,7 @@
         </div>
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D20</span><h4 class="wf-name">Edit Request Notification</h4></div>
-          <p class="wf-purpose" data-rev-until="v2">The landing surface when a carrier proposes a log edit (from W5). Push gets the driver's attention; the request itself persists in the app so an offline driver still finds it. Third exception to the one-tap pattern.</p>
+          <p class="wf-purpose" data-rev-until="v2">The landing surface when a carrier proposes a log edit (from W5). Push gets the driver's attention; the request itself persists in the app so an offline driver still finds it. Third not one tap from D4.</p>
           <p class="wf-purpose" data-rev-from="v3">Where a <span data-revi-until="v3">carrier's</span><span data-revi-from="v4">carrier administrator's</span> proposed log edit lands (from W5). The push notification gets attention. The request itself sits in the app, so an offline driver still finds it.</p>
           <div>
             <span class="wf-label">Data elements</span>
@@ -3973,9 +3973,8 @@
             reasons suggested for ease of identification of the UDS. Carriers need to maintain the report 2&ndash;3 times
             a week or it gets ahead of them and is unmanageable."</i> Both halves are built in: the reason pop-up is the bulk-annotate control, and the review reminder is part of the screen rather than a nagging email.</p>
             <p data-rev-until="v2">It also closes the gap the original page raised for Thursday: rejected records had nowhere to go
-            on the carrier side. Folding this into <a href="#w3">W3</a> was the alternative; it does not survive
-            contact with a 46-record backlog that needs grouping, bulk annotation, and its own retention clock.</p>
-            <p data-rev-from="v3">It also closes the gap the original page raised: rejected records had nowhere to go on the carrier side. Folding this into <a href="#w3">W3</a> was the alternative; it does not survive contact with a 46-record backlog that needs grouping, bulk annotation, and its own retention clock.</p>
+            on the carrier side. The alternative was to fold this into <a href="#w3">W3</a>. That does not work for a 46-record backlog that needs grouping, bulk annotation and its own retention clock.</p>
+            <p data-rev-from="v3">It also closes the gap the original page raised: rejected records had nowhere to go on the carrier side. The alternative was to fold this into <a href="#w3">W3</a>. That does not work for a 46-record backlog that needs grouping, bulk annotation and its own retention clock.</p>
           </div>
           <div class="rev-what" data-rev-from="v5">
             <span class="rev-what-h">Changed 9/8/2026 &middot; the flow is confirmed, review stays manual</span>
@@ -4529,7 +4528,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li><a class="qref" href="/decisions#p4">P4</a> Same as D17: real-time "your driver is being inspected" ping into Tenna, or after-the-fact record only?</li>
-              <li data-rev-from="v4"><b>Answered 9/3/2026, pending the log &middot;</b> The advisor's answer: the after-the-fact record is sufficient, and a real-time ping is optional product polish. The final disposition lands in the P4 entry of the decision log in a later pass.</li>
+              <li data-rev-from="v4"><b>Answered 9/3/2026, pending the log &middot;</b> Tom Cuthbertson's answer: the after-the-fact record is enough, and a live alert is optional polish. The final answer is in the P4 entry of the decision log.</li>
               <li data-rev-from="v8"><b>Settled 9/14/2026 (Sunil) &middot;</b> The ping is in: an inspection under way and a failed roadside transfer are both instant alerts to fleet and safety managers. This record stays the system of record.</li>
             </ul>
           </div>
@@ -4918,7 +4917,7 @@
           <tr><td class="el">VIN<small>read from the vehicle; cross-checked vs asset record</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D2 D16 W11 W12</td></tr>
           <tr><td class="el">Tracker serial (item 0x0F)</td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D2 D26 W11 W12</td></tr>
           <tr><td class="el">Tracker BLE address (char. 0x2A59)<small>arrives byte-reversed · Q14, settled</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D2 W12</td></tr>
-          <tr><td class="el">Serial ↔ asset mapping<small>the join everything hangs on · Q7</small></td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D2 W11 W12</td></tr>
+          <tr><td class="el">Serial ↔ asset mapping<small>the link everything depends on · Q7</small></td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D2 W11 W12</td></tr>
           <tr data-rev-until="v2"><td class="el">Tracker firmware &amp; protocol version</td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D26 W11</td></tr><tr data-rev-from="v3"><td class="el">Tracker broadcast protocol version<small>inferred from frame shape, not read as a field</small></td><td><span class="tag t-ble">Tracker · BLE</span></td><td class="ap">BLE stream</td><td class="scr">D26 W11</td></tr><tr data-rev-from="v3"><td class="el">Tracker firmware version<small>no BLE characteristic carries it &middot; open</small></td><td><span class="tag t-api">Tenna API</span> <span class="tag t-gated">Open</span></td><td class="ap">On-demand read</td><td class="scr">D26 W11</td></tr>
 
           <tr class="cat"><td colspan="4">Telemetry</td></tr>
@@ -4939,7 +4938,7 @@
 <tr data-rev-from="v3"><td class="el">Active-driver designation<small>who is at the wheel on a team run; driving time follows it</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D3 D33</td></tr>
           <tr><td class="el">Special-duty state (PC / YM)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D6 D8 W15</td></tr>
           <tr><td class="el">Annotations (§395.32 notes)</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D7 D12 D21 W5</td></tr>
-<tr data-rev-from="v3"><td class="el">Driver login &amp; logout events<small>&sect;395.32 &middot; the logout is the boundary that starts unidentified driving</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D1 D30 D22 W16</td></tr>
+<tr data-rev-from="v3"><td class="el">Driver login &amp; logout events<small>&sect;395.32 &middot; the logout is when unidentified driving can start</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D1 D30 D22 W16</td></tr>
           <tr><td class="el">Certification records</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr"><span data-revi-until="v2">D9 D11 W3 W4</span><span data-revi-from="v3">D9 D11 D30 W3 W4</span></td></tr>
           <tr><td class="el">Edits &amp; edit history<small>originals preserved, every version</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal</td><td class="scr">D12 D13 D20 D21 W4 W5 W6</td></tr>
           <tr><td class="el">HOS violations</td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">ELD-internal · <span data-revi-until="v7">push gated P4</span><span data-revi-from="v8">violation alerts safety (P4)</span></td><td class="scr">D4 W2 W8 W9</td></tr>
@@ -5354,14 +5353,14 @@ eld.transfers(id, output_file_id, method, caller,
           <tr><td class="el">CDL number &amp; licensing state</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t2">T2</a></td></tr>
           <tr><td class="el">Carrier name, USDOT, home terminal</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t3">T3</a></td></tr>
           <tr><td class="el">Auth session &amp; tokens<small>offline grace still to be agreed</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a></td></tr>
-          <tr data-rev-from="v3"><td class="el">Biometric unlock enrolment<small>the OS matches it and returns yes or no; nothing crosses the boundary</small></td><td><span class="o-chip o-deriv">Device</span></td><td><span class="tag t-eld">ELD</span><small>a local convenience over the T1 token, not an authentication factor</small></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a><a class="src-chip" href="#s-s5">S5</a></td></tr>
+          <tr data-rev-from="v3"><td class="el">Biometric unlock enrolment<small>the phone matches it and returns yes or no; nothing leaves the phone</small></td><td><span class="o-chip o-deriv">Device</span></td><td><span class="tag t-eld">ELD</span><small>a local convenience over the T1 token, not an authentication factor</small></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a><a class="src-chip" href="#s-s5">S5</a></td></tr>
           <tr><td class="el">Module user permissions<small>settled by P5 as a supervisor permission</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t8">T8</a></td></tr>
           <tr class="cat"><td colspan="4">Vehicle &amp; device</td></tr>
           <tr><td class="el">Asset / unit name &amp; type</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t4">T4</a></td></tr>
           <tr><td class="el">VIN<small>of record in Tenna; observed at the vehicle</small></td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-api">Tenna</span> <span class="tag t-eld">ELD</span><small>the ELD stamps what it read, and flags a mismatch</small></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a><a class="src-chip" href="#s-t4">T4</a></td></tr>
           <tr><td class="el">Tracker serial (item 0x0F)</td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a><a class="src-chip" href="#s-t4">T4</a></td></tr>
           <tr><td class="el">Tracker BLE address (char. 0x2A59)<small>a connection detail, not a business key</small></td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a></td></tr>
-          <tr><td class="el">Serial ↔ asset mapping<small>the join everything hangs on</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t4">T4</a></td></tr>
+          <tr><td class="el">Serial ↔ asset mapping<small>the link everything depends on</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t4">T4</a></td></tr>
           <tr><td class="el">Tracker broadcast protocol version<small>inferred from the shape of the frames, not read as a field</small></td><td><span class="o-chip o-track">Tracker</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-b1">B1</a></td></tr>
           <tr><td class="el">Tracker firmware version<small>no BLE characteristic carries it, so the ELD cannot observe it at all</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-gated">Open</span><small>a Tenna asset attribute if it is recorded anywhere</small></td><td class="ap"><a class="src-chip" href="#s-t4">T4</a></td></tr>
           <tr class="cat"><td colspan="4">Telemetry</td></tr>
@@ -5717,14 +5716,14 @@ eld.transfers(id, output_file_id, method, caller,
         <span><i></i> tap navigation</span>
         <span><i class="dash"></i> interrupt / push-driven</span>
         <span><i class="orange"></i> crosses the driver ↔ web boundary</span>
-        <span><span class="mono" style="font-size:10px; border:1px dashed var(--wf-mid); border-radius:5px; padding:1px 6px;">dashed box</span> exception to the one-tap pattern</span>
+        <span><span class="mono" style="font-size:10px; border:1px dashed var(--wf-mid); border-radius:5px; padding:1px 6px;">dashed box</span> not one tap from D4</span>
       </div>
       <div class="rev-what" data-rev-from="v2" data-rev-until="v2" style="margin-top:16px;">
         <span class="rev-what-h">Added 8/28/2026 · five surfaces the map does not yet draw</span>
         <p>The diagram above is the original. The 8/28/2026 revision adds these links; the map gets redrawn once the
         Thursday scope call on <a href="#w18">W18</a> lands, so it is described rather than half-drawn:</p>
         <ul>
-          <li><b>D22 → D28 → W16.</b> The one flow that now crosses the boundary in both directions on a schedule: a
+          <li><b>D22 → D28 → W16.</b> The one flow that moves between the driver app and the web in both directions on a schedule: a
           driver rejects with a reason, the record lands on the host queue, and an assignment comes back to the driver
           for confirmation. It joins the edit-proposal loop as the second push-driven round trip.</li>
           <li><b>D27 → W16.</b> A non-HOS move stamp arrives on the host queue pre-accounted-for, which is the flow
