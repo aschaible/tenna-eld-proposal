@@ -194,9 +194,8 @@
   </div>
 
   <p>Blue outlines are what AppAxis builds. Grey boxes already exist or are Tenna's to build. No table is shared. The
-    ELD reads everything it needs from Tenna over an API at the time it needs it, and does not keep a copy. An earlier
-    draft kept a shared users table; it was removed on 9/15/2026 on Tamar Amit's question (see
-    <a href="#no-shared-users-table">section 3</a>).</p>
+    ELD reads everything it needs from Tenna over an API at the time it needs it, and does not keep a copy (see
+    <a href="#no-shared-users-table">why no shared users table</a>).</p>
 
   <h3 id="four-rules">Four rules of the split</h3>
   <ol>
@@ -214,7 +213,7 @@
       The ELD API validates it with the pool's public keys and reads the carrier (a Tenna account) and role claims from it.</li>
     <li>Driver events are never lost by design: the transactional outbox pattern is used on the phone and on the server (<a href="#s4">section 4</a>). This is a design requirement, not a setting.</li>
     <li>The ELD backend lives in a repo Tenna owns, alongside the micro-frontend repo <a href="/decisions#p5">P5</a> (where the web pages live)
-      already calls for. Confirmed by Tamar, 9/15/2026.</li>
+      already calls for.</li>
   </ul>
 
   <h2 id="s2">2. Ownership split</h2>
@@ -225,8 +224,7 @@
     feed, S codes are the ELD's own stores, E codes are what the ELD sends out. Surfaces are not screens; screens are
     the D and W numbers.</p>
   <p>Two rows are still open: the offline sign-in grace period, and whether yard geofences come from Tenna Sites or are
-    drawn in the ELD. Where the tracker firmware version is recorded was answered by Tamar Amit on 9/15/2026: it is an
-    attribute of the tracker, not of the asset, and it allows nulls.</p>
+    drawn in the ELD. The tracker firmware version is an attribute of the tracker, not of the asset, and it allows nulls.</p>
 
   <div class="tbl-wrap">
   <table>
@@ -240,12 +238,12 @@
       <tr><td>Auth session and tokens</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t1">T1</a></td><td>Offline grace: <b>open</b></td></tr>
       <tr><td>Module user permissions</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t8">T8</a></td><td><a href="/decisions#p5">P5</a></td></tr>
       <tr><th colspan="5">Vehicle and device</th></tr>
-      <tr><td>Asset name, category and subcategories</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t4">T4</a></td><td>Tenna has categories through four subcategory fields, not an asset type (Tamar, 9/15/2026)</td></tr>
+      <tr><td>Asset name, category and subcategories</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t4">T4</a></td><td>Tenna has categories through four subcategory fields, not an asset type</td></tr>
       <tr><td>VIN</td><td>Tracker (observed), Tenna (of record)</td><td>Tenna, ELD stamps what it read</td><td><a href="/#s-b1">B1</a>, <a href="#t4">T4</a></td><td>Mismatch flagged on the event and in <a href="/#w11">W11</a></td></tr>
       <tr><td>Tracker serial (item 0x0F)</td><td>Tracker</td><td>Tenna</td><td><a href="/#s-b1">B1</a>, <a href="#t4">T4</a></td><td>The key that links a tracker to a vehicle</td></tr>
       <tr><td>Tracker BLE address (char. 0x2A59)</td><td>Tracker</td><td>ELD</td><td><a href="/#s-b1">B1</a></td><td>A connection detail, not a business key</td></tr>
       <tr><td>Tracker protocol version</td><td>Tracker (inferred)</td><td>ELD</td><td><a href="/#s-b1">B1</a></td><td></td></tr>
-      <tr><td>Tracker firmware version</td><td>Tenna platform</td><td>Tenna, on the tracker record</td><td><a href="#t4">T4</a></td><td>A tracker attribute, nullable (Tamar, 9/15/2026). No BLE characteristic exposes it, so the ELD treats null as unknown</td></tr>
+      <tr><td>Tracker firmware version</td><td>Tenna platform</td><td>Tenna, on the tracker record</td><td><a href="#t4">T4</a></td><td>A tracker attribute, nullable. No BLE characteristic exposes it, so the ELD treats null as unknown</td></tr>
       <tr><th colspan="5">Telemetry</th></tr>
       <tr><td>Odometer, engine hours</td><td>Tracker</td><td>ELD</td><td><a href="/#s-b1">B1</a>, <a href="#eld-events">S1</a></td><td>The ELD owns the values stamped on events, not the live stream</td></tr>
       <tr><td>Engine power state</td><td>Derived (RPM over 200)</td><td>ELD</td><td><a href="/#s-b1">B1</a>, <a href="#eld-events">S1</a></td><td></td></tr>
@@ -579,12 +577,10 @@
     relationships; the full lists follow below.</p>
 
   <h3 id="no-shared-users-table">Why no shared users table</h3>
-  <p>An earlier draft of this page kept one shared table, users, read straight out of Tenna's Postgres instance. Tamar
-    Amit asked on 9/15/2026 what query needed it. Nothing did: the ELD only ever kept the id, and the four rules above
-    already say the ELD stores references and reads on demand. The table is gone. The ELD stores Tenna user ids as
-    text and reads names and CDL fields from <a href="#t2">T2</a> when a screen or a file needs them, one batch call
-    for the ids on a page. Nothing is persisted, so nothing goes stale and there is no join across the schema
-    boundary. The one cost is a T2 call per page load, which at a few hundred drivers is not worth a copy.</p>
+  <p>No query needs one. The ELD stores Tenna user ids as text and reads names and CDL fields from
+    <a href="#t2">T2</a> when a screen or a file needs them, one batch call for the ids on a page. Nothing is
+    persisted, so nothing goes stale and there is no join across the schema boundary. The one cost is a T2 call per
+    page load, which at a few hundred drivers is not worth a copy.</p>
 
   <h3 id="devices-and-tracker-links">Devices and tracker links</h3>
   <div class="tbl-wrap">
@@ -1038,7 +1034,7 @@
 
   <p>Each row below is the outline of a surface, not the field mapping. A field-by-field mapping for each of <a href="#t1">T1</a> to <a href="#t8">T8</a>,
     naming the Tenna field, its type, whether it allows nulls and what the ELD does with it, is a Phase 2 exit
-    deliverable. Tamar Amit reviews it field by field before Phase 3 starts, and the remaining field gaps close there.</p>
+    deliverable. Tenna reviews it field by field before Phase 3 starts, and the remaining field gaps close there.</p>
 
   <div class="tbl-wrap">
   <table>
@@ -1066,15 +1062,14 @@
     go into the output file header and the roadside display (7.1 and 7.41) and set the log day and the certification
     boundary. The rule defines no home terminal record and no address field; the header shows the carrier's USDOT
     number and name, then these two fields.</p>
-  <p>So the ELD keeps the rule's word and stores only the two values. Tamar Amit noted on 9/15/2026 that Tenna has no
-    home terminal concept, and these fleets work from job sites, not a terminal, so nothing is asked of Tenna. The
+  <p>So the ELD keeps the rule's word and stores only the two values. Tenna has no home terminal concept, and these
+    fleets work from job sites, not a terminal, so nothing is asked of Tenna. The
     fleet manager sets the home terminal time zone and day start once on <a href="/#w15">W15</a>, stored in
     <a href="#eld-carrier-policy">eld.carrier_policy</a>; most fleets set their local zone and midnight and never touch
     it. A driver based in another zone gets an override in <a href="#eld-driver-settings">eld.driver_settings</a>. The
     driver sees theirs on <a href="/#d23">D23</a>. Every change is written to
     <a href="#eld-settings-audit">eld.settings_audit</a> and shown to the driver at the next login, as 4.3.3.1 already
-    requires. An earlier draft of this page proposed a Tenna site with an address on the user record; dropped
-    9/15/2026, the rule does not need it.</p>
+    requires. No site or address is modeled; the rule does not need one.</p>
 
   <h2 id="s6">6. Key flows</h2>
 
@@ -1421,20 +1416,19 @@
     object storage, and in the same request inserts the row in <code><a href="#eld-output-files">eld.output_files</a></code>
     with the object key and the sha256, then the transfer row in <code><a href="#eld-output-files">eld.transfers</a></code>. The
     database stores the pointer and the hash, never the file, and never writes to object storage itself. The
-    micro-frontend and the phone read files through a signed URL the API issues. Tamar Amit asked on 9/15/2026 because
-    an earlier diagram drew the storage box beside Postgres; it now hangs off the API service.</p>
+    micro-frontend and the phone read files through a signed URL the API issues.</p>
 
   <h3 id="to-be-supplied">To be supplied by Tenna</h3>
-  <p>Tamar Amit is sending Tenna's current stack and the micro-frontend guide (9/15/2026). The placeholders below are
+  <p>Tenna is supplying its current stack and the micro-frontend guide. The placeholders below are
     filled in from those two documents when they arrive.</p>
   <div class="tbl-wrap">
   <table>
     <thead><tr><th>Item</th><th>Placeholder</th></tr></thead>
     <tbody>
       <tr><td>Outbox relay hosting</td><td>A long-running worker or a scheduled job polling <code><a href="#eld-outbox">eld.outbox</a></code>; either fits, as long as it runs in more than one instance</td></tr>
-      <tr><td>Micro-frontend framework and routing</td><td>Whatever the portal shell composes today, per the micro-frontend guide Tamar is sending</td></tr>
+      <tr><td>Micro-frontend framework and routing</td><td>Whatever the portal shell composes today, per Tenna's micro-frontend guide</td></tr>
       <tr><td>Shared component library</td><td>The portal's existing base (<a href="/decisions#p5">P5</a>)</td></tr>
-      <tr><td>API runtime and language</td><td>Tenna's backend standard, per the stack Tamar is sending</td></tr>
+      <tr><td>API runtime and language</td><td>Tenna's backend standard, per Tenna's stack document</td></tr>
       <tr><td>API gateway and authorizer</td><td>Cognito JWT authorizer in front of the service</td></tr>
       <tr><td>Infrastructure as code</td><td>Tenna's existing tooling</td></tr>
       <tr><td>CI/CD for two new repos</td><td>Tenna's existing pipelines</td></tr>
@@ -1459,7 +1453,7 @@
   <h3 id="environments-and-repos">Environments and repos</h3>
   <ul>
     <li>Micro-frontend: new Tenna GitHub repo (<a href="/decisions#p5">P5</a>), built and hosted by Tenna's portal pipeline.</li>
-    <li>Backend: a Tenna-owned repo in the same GitHub organization, with the same set of environments as Tenna's other services. Confirmed by Tamar, 9/15/2026, alongside the micro-frontend repo.</li>
+    <li>Backend: a Tenna-owned repo in the same GitHub organization, with the same set of environments as Tenna's other services, alongside the micro-frontend repo.</li>
     <li>Mobile: the two native repos AppAxis already runs, moved or mirrored into Tenna's organization before Stage F so the registered software version traces to a Tenna-owned commit.</li>
     <li>AppAxis needs a way to run the portal shell locally with the micro-frontend mounted, and a non-production Postgres with the <code>eld</code> schema.</li>
   </ul>
@@ -1500,7 +1494,7 @@
       <tr><td><a href="/decisions#q17">Q17</a> retention scoping</td><td>Whether the carrier wants longer than 6 months on the host</td><td>Retention policy, storage estimate</td><td>Tenna product</td></tr>
       <tr><td>Offline sign-in grace</td><td>How long a cached <a href="#t1">T1</a> session is accepted without reaching the pool</td><td><a href="/#d1">D1</a>; sync worker behaviour</td><td>Kumaran</td></tr>
       <tr><td><a href="#t5">T5</a> geofence source</td><td>Tenna Sites over the API, or drawn in the ELD</td><td>eld.carrier_policy.yard_geofence_source; <a href="/#d9">D9</a></td><td>Tamar Amit</td></tr>
-      <tr><td>Tracker firmware system of record</td><td>Answered by Tamar 9/15/2026: <code>current_firmware_version</code> is a tracker attribute in Tenna, not an asset attribute, and it allows nulls. What is left is whether Tenna keeps it current</td><td><a href="#t4">T4</a> field list; how the ELD reports an unknown firmware</td><td>Tamar</td></tr>
+      <tr><td>Tracker firmware system of record</td><td><code>current_firmware_version</code> is a nullable tracker attribute in Tenna. Whether Tenna keeps it current</td><td><a href="#t4">T4</a> field list; how the ELD reports an unknown firmware</td><td>Tamar</td></tr>
       <tr><td><a href="/decisions#q2">Q2</a> engine-hours ECM baseline</td><td>Which assets expose ECM hours; accumulated-hours fallback rules</td><td>hours_source; <a href="/#w11">W11</a> flag</td><td>Tom, Geometris</td></tr>
       <tr><td><a href="/decisions#q5">Q5</a> BLE has no authentication</td><td>Accepted risk statement, or a mitigation</td><td>Security review of <a href="/#s-b1">B1</a></td><td>Tenna engineering</td></tr>
       <tr><td><a href="/decisions#q9">Q9</a> two phones, one tracker</td><td>Who owns the link when two drivers connect</td><td>Active-driver designation; seq assignment</td><td>AppAxis, Tom</td></tr>
@@ -1509,7 +1503,7 @@
       <tr><td>Own-records delivery</td><td>Email to the Tenna address (default) or in-app share sheet</td><td>POST /drivers/me/record-requests</td><td>Sunil</td></tr>
       <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and Tenna-issued ids, stored as given, are the keys across the phone, the API and the portal</td><td><a href="#s3">Contract A</a> and B as written</td><td>Kyle, Tamar</td></tr>
       <tr><td><a href="#s5">Contract C</a> field mapping per API</td><td>Field-by-field mapping <a href="#t1">T1</a>–<a href="#t8">T8</a> against Tenna's actual schema, Tamar reviews</td><td>Phase 3 start</td><td>AppAxis drafts, Tamar reviews</td></tr>
-      <tr><td>Architecture review by Tenna</td><td>Tamar's 9/15/2026 pass was initial feedback, not approval; full review by the end of Phase 2</td><td>Stage B sign-off</td><td>Tamar</td></tr>
+      <tr><td>Architecture review by Tenna</td><td>Full review by Tenna engineering by the end of Phase 2</td><td>Stage B sign-off</td><td>Tamar</td></tr>
     </tbody>
   </table>
   </div>
