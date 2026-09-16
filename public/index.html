@@ -860,6 +860,10 @@
           <span class="rev-badge rev-changed">D16</span>
           <p><b>The code on the roadside display.</b> The malfunction and diagnostic chips in the header show the active code, a letter or a number, so an officer reads it without leaving the screen.</p>
         </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">W15 &middot; D23</span>
+          <p><b>Home terminal, kept as two values.</b> Tamar Amit asked how the home terminal is modeled, since Tenna has none. The rule needs a time zone and a 24-hour day start per driver (Appendix A 4.4.3, 7.1) and nothing more, so W15 holds a fleet default with a per-driver override and D23 shows the driver the values in effect. No Tenna field, no site, no address.</p>
+        </div>
       </div>
 
       <div class="anatomy" style="margin-top:16px;">
@@ -922,7 +926,7 @@
           record over the API and does not own it. Roles, permissions and the account's licensed products arrive in
           the login payload. The ELD never copies a person into its own schema.</div>
           <div class="p-opt"><b>Still to specify</b> Which new attributes mark a user as a driver, and what the ELD
-          may rely on being present: CDL number and state, home terminal, time zone. That is surface
+          may rely on being present: CDL number and state<span data-revi-until="v8">, home terminal, time zone</span>. That is surface
           <a href="#s-t2">T2</a> below.</div>
         </div>
         <div class="p-gates">
@@ -2520,7 +2524,7 @@
               <li><a class="src-chip" href="#s-s4">S4 &middot; Outputs</a><span>the 8-day record in FMCSA display format</span></li>
               <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>sequence number, and the engine hours and vehicle miles stamped on each event</span></li>
               <li><a class="src-chip" href="#s-t2">T2 &middot; People</a><span>driver name and CDL in the header</span></li>
-              <li><a class="src-chip" href="#s-t3">T3 &middot; Org</a><span>carrier name, USDOT and home terminal in the header</span></li>
+              <li><a class="src-chip" href="#s-t3">T3 &middot; Org</a><span>carrier name<span data-revi-until="v8">, USDOT and home terminal</span><span data-revi-from="v9"> and USDOT in the header; the home terminal time zone and day start come from S5</span><span data-revi-until="v8"> in the header</span></span></li>
             </ul>
           </div>
           <div class="wf-qs">
@@ -3203,7 +3207,7 @@
               <div class="ph-li"><span class="a">CDL<small>OH · D1184-72219 · expires 03/2028</small></span><span class="b"></span></div>
               <div class="ph-li"><span class="a">Cycle rule<small>70 hours / 8 days · property-carrying</small></span><span class="b"></span></div>
               <div class="ph-li"><span class="a">Exemptions<small>None</small></span><span class="b"></span></div>
-              <div class="ph-li"><span class="a">Home terminal<small>Blue Ash yard · Eastern Time</small></span><span class="b"></span></div>
+              <div class="ph-li"><span class="a">Home terminal<small><span data-revi-until="v8">Blue Ash yard · Eastern Time</span><span data-revi-from="v9">Eastern Time · day starts 12:00 AM</span></small></span><span class="b"></span></div>
               <div class="ph-li"><span class="a">Contact<small>m.alvarez@blueashco.com · (513) 555-0184</small></span><span class="b"></span></div>
               <div class="ph-note">Profile fields are managed by your carrier. Something wrong? Ask your fleet administrator.</div>
             </div>
@@ -3212,27 +3216,28 @@
         <div class="wf-annot">
           <div class="wf-head"><span class="wf-id">D23</span><h4 class="wf-name">Driver Profile</h4><span class="tag t-gated" data-revi-until="v2">Gated · P1</span><span class="tag t-settled" data-revi-from="v3">Settled &middot; P1</span></div>
           <p class="wf-purpose" data-rev-until="v2">CDL, cycle assignment, exemptions, home terminal: the fields that parameterize the HOS engine for this driver. Read-only to the driver; administered wherever P1 says the driver record lives.</p>
-          <p class="wf-purpose" data-rev-from="v3">CDL, cycle rule, exemptions and home terminal: the fields that set this driver's clocks. Read-only here. Tenna owns the person record. The ELD owns the cycle rule and exemptions, because those decide the clocks.</p>
+          <p class="wf-purpose" data-rev-from="v3">CDL, cycle rule, exemptions and home terminal: the fields that set this driver's clocks. Read-only here. Tenna owns the person record. The ELD owns the cycle rule<span data-revi-from="v9">, the home terminal time zone and day start,</span> and exemptions, because those decide the clocks.</p>
           <div>
             <span class="wf-label">Data elements</span>
             <ul class="wf-elems">
               <li><span>Driver record (name, CDL, contact)</span><span class="tags"><span class="tag t-gated" data-revi-until="v2">Gated · P1</span><span class="tag t-api" data-revi-from="v3">Tenna API</span></span></li>
               <li><span>Cycle rule &amp; exemptions (drive the clocks)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Home terminal &amp; time zone</span><span class="tags"><span class="tag t-gated" data-revi-until="v2">Gated · P1</span><span class="tag t-api" data-revi-from="v3">Tenna API</span></span></li>
+              <li><span>Home terminal <span data-revi-until="v8">&amp; time zone</span><span data-revi-from="v9">(time zone and 24-hour day start)</span></span><span class="tags"><span class="tag t-gated" data-revi-until="v2">Gated · P1</span><span class="tag t-api" data-revi-from="v3" data-revi-until="v8">Tenna API</span><span class="tag t-eld" data-revi-from="v9">ELD-owned</span></span></li>
             </ul>
           </div>
           <div class="wf-src" data-rev-from="v3">
             <span class="wf-label">Where this data comes from</span>
             <ul>
-              <li><a class="src-chip" href="#s-t2">T2 &middot; People</a><span>name, CDL, contact and home terminal. Read from Tenna, edited in Tenna</span></li>
-              <li><a class="src-chip" href="#s-t3">T3 &middot; Org</a><span>the home terminal&rsquo;s time zone</span></li>
-              <li><a class="src-chip" href="#s-s5">S5 &middot; Policy</a><span>cycle rule and exemptions, which drive the clocks</span></li>
+              <li><a class="src-chip" href="#s-t2">T2 &middot; People</a><span>name, CDL<span data-revi-until="v8">, contact and home terminal</span><span data-revi-from="v9"> and contact</span>. Read from Tenna, edited in Tenna</span></li>
+              <li data-rev-until="v8"><a class="src-chip" href="#s-t3">T3 &middot; Org</a><span>the home terminal&rsquo;s time zone</span></li>
+              <li><a class="src-chip" href="#s-s5">S5 &middot; Policy</a><span>cycle rule and exemptions, which drive the clocks<span data-revi-from="v9">; the home terminal time zone and day start, fleet default with a per-driver override, set on W15</span></span></li>
             </ul>
           </div>
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
               <li data-rev-until="v2"><a class="qref" href="/decisions#p1">P1</a> Where is this record administered? The control panel deliberately has no driver-roster screen; the June plan assumes Tenna's existing surfaces own it. That only works if drivers are Tenna users.</li>
+              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot; home terminal.</b> Appendix A 4.4.3 and 7.1: the carrier sets a time zone and a 24-hour day start for each driver&rsquo;s home terminal, and the ELD keeps that word. Tamar Amit noted Tenna has no home terminal record, and these fleets work from job sites, so the ELD stores only the two values: a fleet default on W15 with a per-driver override, no Tenna field. This line shows the driver the values in effect; a change shows here at the next login (4.3.3.1).</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#p1">P1</a> Settled: the record lives in Tenna and the control panel keeps no driver roster. So Tenna's user administration has to store CDL number and state, home terminal and the driver flag.</li>
             </ul>
           </div>
@@ -4871,7 +4876,7 @@
                   <div class="wb-h">Carrier settings <span class="sub">Blue Ash Construction Co.</span></div>
                   <div class="wb-two">
                     <div class="wb-box"><div class="h">Hours of service</div>
-                      Cycle default: 70 h / 8 days ▾<br/>Warning lead time: 30 min ▾<br/>Time zone: home terminal ▾
+                      Cycle default: 70 h / 8 days ▾<br/>Warning lead time: 30 min ▾<br/><span data-revi-until="v8">Time zone: home terminal ▾</span><span data-revi-from="v9">Home terminal time zone: Eastern ▾<br/>Day starts: 12:00 AM ▾ &middot; 1 driver override</span>
                     </div>
                     <div class="wb-box"><div class="h">Special duty permissions</div>
                       <span data-revi-until="v6">Personal conveyance: ☑ all drivers<br/>Yard move: ☑ by driver group ▾<br/></span><span data-revi-from="v7">Personal conveyance: per driver · 9 of 14 on ▾<br/>Yard move: per driver · 11 of 14 on ▾<br/>New drivers start with both off. Changes are shown to the driver at next login.<br/></span>Annotation presets: 4 defined ▾
@@ -4912,7 +4917,8 @@
             <ul class="wf-elems">
               <li><span>Carrier HOS policy (cycles, permissions, thresholds)</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li><span>Yard geofences</span><span class="tags"><span class="tag t-api">Tenna API</span><span class="tag t-eld">ELD-owned</span></span></li>
-              <li><span>Org identity &amp; terminal time zones</span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
+              <li><span>Org identity<span data-revi-until="v8"> &amp; terminal time zones</span></span><span class="tags"><span class="tag t-api">Tenna API</span></span></li>
+              <li data-rev-from="v9"><span>Home terminal time zone &amp; day start<small style="display:block; color:var(--muted); font-size:11px;">fleet default, per-driver override; Appendix A 4.4.3, 7.1</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li data-rev-from="v2"><span>UD reason taxonomy (shared by D27, D28, W16)<span data-revi-from="v5"><small style="display:block; color:var(--muted); font-size:11px;">five fixed reasons; carriers add their own. Settled 9/8/2026</small></span></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li data-rev-from="v2"><span>UD review cadence &amp; reminder threshold</span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
               <li data-rev-from="v3"><span>Biometric sign-in permitted<small style="display:block; color:var(--muted); font-size:11px;">off for shared cab tablets, where one enrolled face opens any session</small></span><span class="tags"><span class="tag t-eld">ELD-owned</span></span></li>
@@ -4924,9 +4930,9 @@
           <div class="wf-src" data-rev-from="v3">
             <span class="wf-label">Where this data comes from</span>
             <ul>
-              <li><a class="src-chip" href="#s-s5">S5 &middot; Policy</a><span>cycles, permissions, thresholds, the UD reason taxonomy, review cadence, and non-HOS move roles</span></li>
+              <li><a class="src-chip" href="#s-s5">S5 &middot; Policy</a><span>cycles, permissions, thresholds, the UD reason taxonomy, review cadence, and non-HOS move roles<span data-revi-from="v9">; the home terminal time zone and day start</span></span></li>
               <li><a class="src-chip" href="#s-t5">T5 &middot; Sites</a><span>yard geofences, if they come from Tenna Sites. Still open</span></li>
-              <li><a class="src-chip" href="#s-t3">T3 &middot; Org</a><span>org identity and terminal time zones</span></li>
+              <li><a class="src-chip" href="#s-t3">T3 &middot; Org</a><span>org identity<span data-revi-until="v8"> and terminal time zones</span></span></li>
               <li><a class="src-chip" href="#s-t2">T2 &middot; People</a><span>the personnel this carrier lets stamp a non-HOS move</span></li>
             </ul>
           </div>
@@ -4934,6 +4940,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li data-rev-from="v7"><b>Changed 9/11/2026 &middot;</b> Appendix A 4.3.3.1.1: personal conveyance and yard move are configured per driver and default to off for a new account; every change is recorded and shown to the driver at the next login. 4.3.3.1.2: the carrier must be able to mark a driver exempt, default not exempt, annotation required, indicated at login and logout. <span data-revi-until="v7">Whether Tenna wants exemption prominent or buried is with Sunil.</span><span data-revi-from="v8">Settled 9/14/2026: exempt is required, and it drives a different app (<a href="#d38">D38</a>).</span></li>
+              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot; home terminal.</b> The rule (Appendix A 4.4.3, 7.1) has the carrier set a time zone and a 24-hour day start per home terminal; the header and roadside display print both. Tenna has no home terminal record and these fleets have no terminal, so the values live here as a fleet default with a per-driver override, and the word stays because it is the rule&rsquo;s. Every change goes to the settings audit and shows to the driver at next login. Dropped the same day: a proposal to model it as a Tenna site with an address, which the rule never asks for.</li>
               <li data-rev-from="v8"><b>New 9/14/2026 &middot; legal hold.</b> Tom: after an accident the customer's lawyers will say "maintain everything, freeze it forever until they tell you you can get rid of it." The host needs a hold per driver or for the whole carrier that stops every purge, including the 6-month unidentified record and the 10-day raw readings on the device, until released. How it is stored is ours: "maybe you copy it over somewhere, I don't care."</li>
               <li>Tenna already has sites and geofences. Do yard-move fences come from Tenna sites over the API, or get drawn here? The wireframe shows both to force the choice.</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28/2026 ·</b> Is the reason taxonomy carrier-editable, as drawn, or fixed across the customer base? Editable serves the individual carrier; fixed keeps unidentified-driving reporting comparable and makes any future benchmarking possible. Recommendation: fixed core list from the memo, with one carrier-defined "other" slot.</li>
@@ -4966,7 +4973,7 @@
           <tr><td class="el">Driver identity &amp; credential</td><td><span class="tag t-gated" data-revi-until="v2">Gated · P1·P2</span><span class="tag t-api" data-revi-from="v3">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D1 D3 D16 D23</td></tr>
           <tr><td class="el">Driver roster<small>who is in the fleet, for filters &amp; display</small></td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">W1 W2 W3 W5 W6</td></tr>
           <tr><td class="el">CDL number &amp; licensing state</td><td><span class="tag t-gated" data-revi-until="v2">Gated · P1</span><span class="tag t-api" data-revi-from="v3">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">D16 D23</td></tr>
-          <tr><td class="el">Carrier name, USDOT, home terminal</td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr"><span data-revi-until="v2">D1 D16 D26 W15</span><span data-revi-from="v3">D16 D26 W15</span></td></tr>
+          <tr><td class="el">Carrier name, USDOT<span data-revi-until="v8">, home terminal</span></td><td><span class="tag t-api">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr"><span data-revi-until="v2">D1 D16 D26 W15</span><span data-revi-from="v3">D16 D26 W15</span></td></tr>
           <tr><td class="el">Auth session &amp; tokens</td><td><span class="tag t-gated" data-revi-until="v2">Gated · P2</span><span class="tag t-api" data-revi-from="v3">Tenna API</span></td><td class="ap"><span data-revi-until="v2">–</span><span data-revi-from="v3">On-demand read</span></td><td class="scr"><span data-revi-until="v2">D1 D3 · W shell</span><span data-revi-from="v3">D1 D3 D30 · W shell</span></td></tr>
           <tr data-rev-from="v3"><td class="el">Biometric unlock enrolment<small>a device setting that gates the stored token. No template ever reaches the app</small></td><td><span class="tag t-eld">ELD-owned</span></td><td class="ap">Device-local</td><td class="scr">D1 D24 W15</td></tr>
           <tr><td class="el">Module user permissions<small>who may open the control panel</small></td><td><span class="tag t-gated" data-revi-until="v2">Gated · P1·P5</span><span class="tag t-api" data-revi-from="v3">Tenna API</span></td><td class="ap">On-demand read</td><td class="scr">W shell</td></tr>
@@ -5108,7 +5115,7 @@
 
       <article class="sfc" id="s-t2">
         <div class="sfc-head"><span class="sfc-id">T2</span><h4 class="sfc-name">People</h4></div>
-        <p class="sfc-ans">Drivers and non-driver personnel: name, CDL, contact, home terminal, role. One list of people, managed in Tenna. The ELD stores the ID and reads the rest when it needs to display it.</p>
+        <p class="sfc-ans">Drivers and non-driver personnel: name, CDL, contact<span data-revi-until="v8">, home terminal</span>, role. One list of people, managed in Tenna. The ELD stores the ID and reads the rest when it needs to display it.</p>
         <div class="sfc-meta">
           <span><b>Key</b>Tenna user ID</span>
           <span><b>Direction</b>ELD reads</span>
@@ -5119,7 +5126,7 @@
           <pre><i>GET</i> /eld/v1/people/usr_8f21c4
 &rarr; { "id": "usr_8f21c4", "name": "M. Alvarez", "is_driver": true,
       "cdl": { "number": "...", "state": "OH" },
-      "home_terminal": "trm_02", "roles": ["driver"] }</pre>
+      <span data-revi-until="v8">"home_terminal": "trm_02", </span>"roles": ["driver"] }</pre>
         </div>
       </article>
 
@@ -5410,7 +5417,7 @@ eld.transfers(id, output_file_id, method, caller,
           <tr><td class="el">Driver identity &amp; credential<small>settled by P1 and P2</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a><a class="src-chip" href="#s-t2">T2</a></td></tr>
           <tr><td class="el">Driver roster</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t2">T2</a></td></tr>
           <tr><td class="el">CDL number &amp; licensing state</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t2">T2</a></td></tr>
-          <tr><td class="el">Carrier name, USDOT, home terminal</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t3">T3</a></td></tr>
+          <tr><td class="el">Carrier name, USDOT<span data-revi-until="v8">, home terminal</span></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t3">T3</a></td></tr>
           <tr><td class="el">Auth session &amp; tokens<small>offline grace still to be agreed</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a></td></tr>
           <tr data-rev-from="v3"><td class="el">Biometric unlock enrolment<small>the phone matches it and returns yes or no; nothing leaves the phone</small></td><td><span class="o-chip o-deriv">Device</span></td><td><span class="tag t-eld">ELD</span><small>a local convenience over the T1 token, not an authentication factor</small></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a><a class="src-chip" href="#s-s5">S5</a></td></tr>
           <tr><td class="el">Module user permissions<small>settled by P5 as a supervisor permission</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t8">T8</a></td></tr>

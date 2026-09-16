@@ -194,9 +194,9 @@
   </div>
 
   <p>Blue outlines are what AppAxis builds. Grey boxes already exist or are Tenna's to build. No table is shared. The
-    ELD reads everything it needs from Tenna over an API at the time it needs it, and does not keep a copy. That changed
-    on 9/15/2026 on Tamar Amit's question; see <a href="#no-shared-users-table">Why no shared users table</a> in
-    <a href="#s3">section 3</a>.</p>
+    ELD reads everything it needs from Tenna over an API at the time it needs it, and does not keep a copy. An earlier
+    draft kept a shared users table; it was removed on 9/15/2026 on Tamar Amit's question (see
+    <a href="#no-shared-users-table">section 3</a>).</p>
 
   <h3 id="four-rules">Four rules of the split</h3>
   <ol>
@@ -235,7 +235,8 @@
       <tr><th colspan="5">Identity and organization</th></tr>
       <tr><td>Driver identity and credential</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t1">T1</a>, <a href="#t2">T2</a></td><td><a href="/decisions#p1">P1</a> (driver identity decision), <a href="/decisions#p2">P2</a> (sign-in decision)</td></tr>
       <tr><td>Driver roster, CDL number and state</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t2">T2</a></td><td></td></tr>
-      <tr><td>Carrier name, USDOT, home terminal</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t2">T2</a>, <a href="#t3">T3</a></td><td>Home terminal is modelled as a Tenna site; see <a href="#home-terminal">Home terminal</a></td></tr>
+      <tr><td>Carrier name, USDOT, address</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t3">T3</a></td><td>Output file header</td></tr>
+      <tr><td>Home terminal time zone and 24-hour day start</td><td>Fleet manager on <a href="/#w15">W15</a></td><td>ELD</td><td><a href="#eld-carrier-policy">S5</a></td><td>Fleet default, per-driver override; see <a href="#home-terminal">Home terminal</a></td></tr>
       <tr><td>Auth session and tokens</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t1">T1</a></td><td>Offline grace: <b>open</b></td></tr>
       <tr><td>Module user permissions</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t8">T8</a></td><td><a href="/decisions#p5">P5</a></td></tr>
       <tr><th colspan="5">Vehicle and device</th></tr>
@@ -334,7 +335,7 @@
     <text x="173" y="353" text-anchor="end" font-size="10" fill="#555">text</text>
     <text x="17" y="367" font-size="10" fill="#1a1a1a">name, usdot</text>
     <text x="173" y="367" text-anchor="end" font-size="10" fill="#555">text</text>
-    <text x="17" y="381" font-size="10" fill="#1a1a1a">sites[].address, tz</text>
+    <text x="17" y="381" font-size="10" fill="#1a1a1a">address</text>
     <text x="173" y="381" text-anchor="end" font-size="10" fill="#555">text</text>
     <rect x="210" y="40" width="170" height="98" fill="#ffffff" stroke="#14459c" stroke-width="2.5"/>
     <rect x="210" y="40" width="170" height="22" fill="#f0f0f0" stroke="#14459c" stroke-width="2.5"/>
@@ -578,18 +579,12 @@
     relationships; the full lists follow below.</p>
 
   <h3 id="no-shared-users-table">Why no shared users table</h3>
-  <p>Changed 9/15/2026 on Tamar Amit's question. An earlier draft of this page kept one shared table, users, read
-    straight out of Tenna's Postgres instance. It is gone. The ELD stores Tenna user ids as text and resolves names and
-    CDL fields through <a href="#t2">T2</a> at read time. Every query pattern that needs user data works over the API:</p>
-  <ul>
-    <li>The fleet HOS list on <a href="/#w1">W1</a>: one batch <a href="#t2">T2</a> lookup for the ids on the page, at most a few hundred.</li>
-    <li>Event and edit attribution names on <a href="/#w3">W3</a>, <a href="/#w4">W4</a> and <a href="/#w6">W6</a>: the same batch lookup.</li>
-    <li>The unidentified-driving assignment picker on <a href="/#w16">W16</a>: the <a href="#t2">T2</a> name search.</li>
-    <li>Output file header driver name and CDL: one <a href="#t2">T2</a> read when the file is generated.</li>
-    <li>Report datasets for Tenna's reporting engine: the dataset holds ids, and Tenna's engine joins names on its side.</li>
-  </ul>
-  <p>The ELD API keeps a per-request batch resolver and a short in-memory cache, 15 minutes, and never persists a name.
-    So there is no copy to go stale, and no join across the schema boundary.</p>
+  <p>An earlier draft of this page kept one shared table, users, read straight out of Tenna's Postgres instance. Tamar
+    Amit asked on 9/15/2026 what query needed it. Nothing did: the ELD only ever kept the id, and the four rules above
+    already say the ELD stores references and reads on demand. The table is gone. The ELD stores Tenna user ids as
+    text and reads names and CDL fields from <a href="#t2">T2</a> when a screen or a file needs them, one batch call
+    for the ids on a page. Nothing is persisted, so nothing goes stale and there is no join across the schema
+    boundary. The one cost is a T2 call per page load, which at a few hundred drivers is not worth a copy.</p>
 
   <h3 id="devices-and-tracker-links">Devices and tracker links</h3>
   <div class="tbl-wrap">
@@ -718,7 +713,7 @@
     <thead><tr><th>Table</th><th>Columns</th><th>Notes</th></tr></thead>
     <tbody>
       <tr><td>eld.certifications</td><td>id, event_id, driver_id, period_date, tz_offset_utc, certification_number, certified_at</td>
-        <td>Type 4 events. period_date is the 24-hour period certified in the home-terminal zone; tz_offset_utc is the offset in effect, required on the event (4.4.3). certification_number is the event code (1 first, 2–9 recertifications)</td></tr>
+        <td>Type 4 events. period_date is the 24-hour period certified in the driver's home terminal time (S5); tz_offset_utc is the offset in effect, required on the event (4.4.3). certification_number is the event code (1 first, 2–9 recertifications)</td></tr>
       <tr><td>eld.login_sessions</td><td>id, driver_id, device_id, login_event_id, logout_event_id, started_at, ended_at</td>
         <td>Type 5 events. Session is Tenna's (<a href="#t1">T1</a>); the ELD event is the ELD's</td></tr>
       <tr><td>eld.power_events</td><td>id, event_id, asset_id, kind, at_utc, odometer_mi, engine_hours, lat, lon</td>
@@ -785,6 +780,7 @@
     <tbody>
       <tr><td>carrier_id</td><td>text</td><td>Primary key</td></tr>
       <tr><td>cycle_rule</td><td>text</td><td>60/7 | 70/8</td></tr>
+      <tr><td>time_zone, day_start</td><td>text, time</td><td>Home terminal time zone and 24-hour period start, the fleet default (Appendix A 4.4.3, 7.1, 7.41). Set on <a href="/#w15">W15</a>; see <a href="#home-terminal">Home terminal</a></td></tr>
       <tr><td>pc_allowed, ym_allowed</td><td>boolean</td><td>Personal conveyance, yard move</td></tr>
       <tr><td>warn_thresholds</td><td>jsonb</td><td>Minutes before each limit for <a href="/#w2">W2</a> and D-screen warnings</td></tr>
       <tr><td>ud_review_cadence_days</td><td>smallint</td><td></td></tr>
@@ -819,6 +815,7 @@
     <tbody>
       <tr><td>carrier_id, driver_id</td><td>text</td><td>Primary key. Tenna ids</td></tr>
       <tr><td>pc_allowed, ym_allowed</td><td>boolean</td><td>Default false for a new driver (4.3.3.1.1). Set per driver on <a href="/#w15">W15</a></td></tr>
+      <tr><td>time_zone, day_start</td><td>text, time</td><td>Null means the fleet default in <a href="#eld-carrier-policy">eld.carrier_policy</a>. Home terminal override, set on <a href="/#w15">W15</a> for a driver based in another zone</td></tr>
       <tr><td>exempt</td><td>boolean</td><td>Default false (4.3.3.1.2). Exempt drivers are still recorded; missing-data and transfer-monitoring diagnostics are suspended for them</td></tr>
       <tr><td>exempt_annotation</td><td>text</td><td>Required when exempt is set</td></tr>
       <tr><td>changed_at, changed_by</td><td>timestamptz, text</td><td>Every change is recorded and shown to the driver at the next login (4.3.3.1.1-4)</td></tr>
@@ -851,7 +848,7 @@
     <li>Every timestamp is <code>timestamptz</code> in UTC. The apps use epoch milliseconds UTC everywhere. The tracker's
       UDRV_TIME and LOCTIME are epoch seconds on the device clock and are kept in their own columns where they matter.</li>
     <li>Event time comes from the tracker's GPS time, cross-checked against a network time source; the user-settable phone clock is never the source (4.3.1.5). A deviation over 10 minutes from UTC is a timing malfunction.</li>
-    <li>Home-terminal time zone is read through <a href="#t2">T2</a>, the driver's home terminal site, and <a href="#t3">T3</a>, that site's address and time zone. It is used for display and for the 24-hour certification boundary, and it is stored on certification events as the offset in effect, and nowhere else. See <a href="#home-terminal">Home terminal</a>.</li>
+    <li>The driver's home terminal time zone and 24-hour day start come from <a href="#eld-carrier-policy">eld.carrier_policy</a>, overridden per driver in <a href="#eld-driver-settings">eld.driver_settings</a>. They set the log day and the certification boundary. The offset in effect is stored on certification events, and nowhere else. See <a href="#home-terminal">Home terminal</a>.</li>
     <li>Tenna ids are stored as text exactly as Tenna issues them. The ELD never parses them, checks their format, or joins on them. No foreign keys into Tenna's schema and no cross-schema joins. Names are resolved at read time through <a href="#t2">T2</a> and <a href="#t4">T4</a>.</li>
     <li>Tenant isolation is <code>carrier_id</code> on every table. Row-level security keyed on the JWT's carrier claim is
       the recommendation; the API enforces it regardless.</li>
@@ -894,7 +891,7 @@
       <tr><td><code>POST /power-events</code>, <code>POST /malfunctions</code> (array body)</td><td>Type 6 and 7 lists</td><td>Same idempotency rule as events</td></tr>
       <tr><td><code>PATCH /malfunctions/{id}</code></td><td>Clear a malfunction, record driver acknowledgment</td><td>Only <code>cleared_at</code> and <code>driver_acknowledged_at</code> are writable</td></tr>
       <tr><td><code>GET /me</code></td><td>Everything the phone needs after sign-in</td>
-        <td>Driver attributes (<a href="#t2">T2</a>), the home terminal site and its time zone (<a href="#t2">T2</a>, <a href="#t3">T3</a>), carrier policy (<a href="#eld-carrier-policy">S5</a>), entitlements (<a href="#t8">T8</a>). One call, cached for the session. A composite read-only view, not a stored resource</td></tr>
+        <td>Driver attributes (<a href="#t2">T2</a>), carrier policy with the driver's home terminal time zone and day start (<a href="#eld-carrier-policy">S5</a>), entitlements (<a href="#t8">T8</a>). One call, cached for the session. A composite read-only view, not a stored resource</td></tr>
       <tr><td><code>GET /assets?tracker_serial=</code></td><td>Resolve a scanned tracker to an asset (<a href="/#d2">D2</a>)</td><td>Same endpoint the portal roster uses (<a href="#t4">T4</a> behind it)</td></tr>
     </tbody>
   </table>
@@ -1048,8 +1045,8 @@
     <thead><tr><th>Surface</th><th>Fields</th><th>Why the ELD needs it</th><th>Status</th></tr></thead>
     <tbody>
       <tr id="t1"><td><a href="/#s-t1">T1</a> Identity</td><td>Cognito user pool id and app client; the JWT claims the ELD may rely on (sub, carrier, roles); token lifetime</td><td>Sign-in (<a href="/decisions#p2">P2</a>) and every API call</td><td>Pool settled. Offline grace <b>open</b></td></tr>
-      <tr id="t2"><td><a href="/#s-t2">T2</a> People</td><td><code>{id, name, is_driver, cdl{number, state}, home_terminal_site_id, roles[]}</code>; a batch lookup by id list, and a name search</td><td>Roster, headers, attribution. The ELD stores ids only and resolves names at read time, so it needs the batch lookup for a page of ids and the search for the assignment picker on <a href="/#w16">W16</a></td><td>Which attribute marks a driver is <b>open</b> (<a href="/decisions#p1">P1</a> follow-up). At creation Tenna must require the CDL number and issuing state and store them securely, refuse a second driver account for the same licence within a carrier, give driver accounts no right to create accounts, and prevent support accounts from recording ELD data (Appendix A 4.1.2)</td></tr>
-      <tr id="t3"><td><a href="/#s-t3">T3</a> Org</td><td>Carrier name, USDOT, address, sites with address and time zone (home terminals)</td><td>Output file header, certification boundary</td><td>Exists in Tenna, needs an endpoint</td></tr>
+      <tr id="t2"><td><a href="/#s-t2">T2</a> People</td><td><code>{id, name, is_driver, cdl{number, state}, roles[]}</code>; a batch lookup by id list, and a name search</td><td>Roster, headers, attribution. The ELD stores ids only and resolves names at read time, so it needs the batch lookup for a page of ids and the search for the assignment picker on <a href="/#w16">W16</a></td><td>Which attribute marks a driver is <b>open</b> (<a href="/decisions#p1">P1</a> follow-up). At creation Tenna must require the CDL number and issuing state and store them securely, refuse a second driver account for the same licence within a carrier, give driver accounts no right to create accounts, and prevent support accounts from recording ELD data (Appendix A 4.1.2)</td></tr>
+      <tr id="t3"><td><a href="/#s-t3">T3</a> Org</td><td>Carrier name, USDOT, address</td><td>Output file header, certification boundary</td><td>Exists in Tenna, needs an endpoint</td></tr>
       <tr id="t4"><td><a href="/#s-t4">T4</a> Assets</td><td><code>{id, name, category, subcategory_1..4, vin, tracker{serial, firmware_version (nullable)}}</code>, keyed by id or <code>?tracker_serial=</code></td><td>Pairing, VIN cross-check, and deciding which assets run the ELD</td><td>Serial is the join. BLE address is not: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed. Tenna has categories through four subcategory fields, not an asset type (Tamar, 9/15/2026); <code>subcategory_1..4</code> are placeholders until Tenna supplies the real names. <code>firmware_version</code> sits on the tracker and allows nulls; the ELD treats null as unknown and records what it observes from the tracker where the protocol exposes it. Bus protocol and ECM-hours availability are dropped from this list: the ELD learns both from the tracker frames and keeps them on <code><a href="#tbl-eld-tracker-links">eld.tracker_links</a></code>. <b>Ask:</b> rather than derive it from categories, add a boolean <code>eld_enabled</code> on the asset, set when a tracker is designated for ELD use, so the ELD has one field to read</td></tr>
       <tr id="t5"><td><a href="/#s-t5">T5</a> Sites</td><td>Yard polygons</td><td>Ending a yard move automatically</td><td><b>Source open</b></td></tr>
       <tr id="t6"><td><a href="/#s-t6">T6</a> Work orders</td><td>Open work orders for an asset</td><td><a href="/#d27">D27</a> shop road test stamp</td><td>New surface</td></tr>
@@ -1062,19 +1059,22 @@
   </table>
   </div>
 
-  <h3 id="home-terminal">Home terminal</h3>
-  <p><b>AppAxis proposal, for Tenna to confirm.</b> Tamar, 9/15/2026: home terminal is not a Tenna concept today, and
-    the closest things Tenna has are a site and an organization. The rule needs it in two places. 49 CFR 395.2 and
-    Appendix A 4.4.3 need a home terminal time zone per driver, for the 24-hour period and the certification boundary.
-    Appendix A 4.8.1.3 needs the home terminal address in the output file header.</p>
-  <p>Model it as a Tenna site. Each driver is assigned a home terminal site on their user record, a new attribute next
-    to the driver flag and the exempt flag. The site holds an address and a time zone. When a driver has none, the
-    account's default site is used. It is configured in Tenna's user and site settings, not in the ELD.</p>
-  <p>The ELD reads it through <a href="#t2">T2</a> (<code>driver.home_terminal_site_id</code>) and <a href="#t3">T3</a> (the site's address and time zone)
-    in the <code>GET /me</code> composite read, caches it for the session, and stamps the offset in effect onto each
-    certification event and onto the output file header. A change takes effect at the driver's next login and is
-    recorded in <code><a href="#eld-settings-audit">eld.settings_audit</a></code>. If Tenna would rather hang it off organization than site, the shape is
-    the same, one level up.</p>
+  <h3 id="home-terminal">Home terminal (time zone and day start)</h3>
+  <p>Appendix A 4.4.3 says the ELD records duty status in the time standard in effect at the driver's home terminal,
+    for a 24-hour period that starts at the time the carrier sets for that home terminal. Data element 7.1 says the
+    carrier sets that value at account creation and maintains it. Two values, then: a time zone and a day start. They
+    go into the output file header and the roadside display (7.1 and 7.41) and set the log day and the certification
+    boundary. The rule defines no home terminal record and no address field; the header shows the carrier's USDOT
+    number and name, then these two fields.</p>
+  <p>So the ELD keeps the rule's word and stores only the two values. Tamar Amit noted on 9/15/2026 that Tenna has no
+    home terminal concept, and these fleets work from job sites, not a terminal, so nothing is asked of Tenna. The
+    fleet manager sets the home terminal time zone and day start once on <a href="/#w15">W15</a>, stored in
+    <a href="#eld-carrier-policy">eld.carrier_policy</a>; most fleets set their local zone and midnight and never touch
+    it. A driver based in another zone gets an override in <a href="#eld-driver-settings">eld.driver_settings</a>. The
+    driver sees theirs on <a href="/#d23">D23</a>. Every change is written to
+    <a href="#eld-settings-audit">eld.settings_audit</a> and shown to the driver at the next login, as 4.3.3.1 already
+    requires. An earlier draft of this page proposed a Tenna site with an address on the user record; dropped
+    9/15/2026, the rule does not need it.</p>
 
   <h2 id="s6">6. Key flows</h2>
 
@@ -1197,7 +1197,7 @@
     <rect x="20" y="55" width="220" height="56" fill="#f0f0f0" stroke="#999"/>
     <text x="130" y="73" text-anchor="middle" fill="#1a1a1a">D12: driver certifies a 24-hour period</text>
     <text x="130" y="89" text-anchor="middle" fill="#555">type 4, code 1 first, 2–9 recertification</text>
-    <text x="130" y="105" text-anchor="middle" fill="#555">period in home-terminal time (T3)</text>
+    <text x="130" y="105" text-anchor="middle" fill="#555">period in home terminal time (S5)</text>
     <rect x="265" y="140" width="230" height="40" fill="#f0f0f0" stroke="#999"/>
     <text x="380" y="157" text-anchor="middle" fill="#1a1a1a">eld.events + eld.certifications + eld.outbox</text>
     <text x="380" y="173" text-anchor="middle" fill="#555">one transaction</text>
@@ -1207,7 +1207,7 @@
   </svg>
   </div>
   <ul>
-    <li>The 24-hour period is defined in the home-terminal zone, read through <a href="#t2">T2</a> and <a href="#t3">T3</a>, which is why that zone is never stored on the event.</li>
+    <li>The 24-hour period is defined by the driver's home terminal time zone and day start (<a href="#eld-carrier-policy">S5</a>), which is why the zone is never stored on the event, only the offset in effect.</li>
     <li>A certification is itself a type 4 event with a seq, so it appears in the output file in order.</li>
     <li>Whether Tenna hears about certifications at all is on the <a href="/decisions#p4">P4</a> list.</li>
   </ul>
