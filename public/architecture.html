@@ -1050,7 +1050,7 @@
       <tr id="t4"><td><a href="/#s-t4">T4</a> Assets</td><td><code>{id, name, category, subcategory_1..4, vin, tracker{serial, firmware_version (nullable)}}</code>, keyed by id or <code>?tracker_serial=</code></td><td>Pairing, VIN cross-check, and deciding which assets run the ELD</td><td>Serial is the join. BLE address is not: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed. Tenna has categories through four subcategory fields, not an asset type (Tamar, 9/15/2026); <code>subcategory_1..4</code> are placeholders until Tenna supplies the real names. <code>firmware_version</code> sits on the tracker and allows nulls; the ELD treats null as unknown and records what it observes from the tracker where the protocol exposes it. Bus protocol and ECM-hours availability are dropped from this list: the ELD learns both from the tracker frames and keeps them on <code><a href="#tbl-eld-tracker-links">eld.tracker_links</a></code>. <b>Ask:</b> rather than derive it from categories, add a boolean <code>eld_enabled</code> on the asset, set when a tracker is designated for ELD use, so the ELD has one field to read</td></tr>
       <tr id="t5"><td><a href="/#s-t5">T5</a> Sites</td><td>Yard polygons</td><td>Ending a yard move automatically</td><td><b>Source open</b></td></tr>
       <tr id="t6"><td><a href="/#s-t6">T6</a> Work orders</td><td>Open work orders for an asset</td><td><a href="/#d27">D27</a> shop road test stamp</td><td>New surface</td></tr>
-      <tr id="t7"><td><a href="/#s-t7">T7</a> DVIR</td><td>Whether the paired asset has an open or completed DVIR today, that is status by asset. A link that opens Tenna's DVIR flow for that asset from the ELD app, and a return link Tenna's app uses to bring the driver back to the ELD screen <a href="/#d14">D14</a> when the inspection is saved</td><td><a href="/#d14">D14</a></td><td>Contract still to be written</td></tr>
+      <tr id="t7"><td><a href="/#s-t7">T7</a> DVIR</td><td>Three things, all around Tenna's existing inspection flow. (1) Inspection status for one asset: has today's DVIR on this truck not started, started, or been submitted. (2) A link the ELD app opens to start Tenna's DVIR for that asset. (3) A link Tenna's app opens when the inspection is saved, to bring the driver back to <a href="/#d14">D14</a>. The ELD does not run inspections; it only checks and hands off</td><td><a href="/#d14">D14</a></td><td>Contract still to be written</td></tr>
       <tr id="t8"><td><a href="/#s-t8">T8</a> Entitlements</td><td>ELD license on the account, supervisor permission, the portal injection point for the micro-frontend</td><td>Sign-in gate, W-screen access</td><td>Tamar owns the injection point</td></tr>
       <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Settled 9/14/2026 (<a href="/decisions#p4">P4</a>): the ten <a href="#e2-e3">E2</a> events above, routed by permission group</td></tr>
       <tr><td>Reporting engine</td><td>Report configuration for the eight ELD datasets, on Tenna's existing scheduled-distribution reporting; Tenna engineering configures, the ELD exposes the datasets</td><td>The seven scheduled reports in <a href="/decisions#p4">P4</a></td><td>Datasets defined; configuration to schedule with Tenna engineering</td></tr>
@@ -1416,9 +1416,13 @@
   </svg>
   </div>
 
-  <p>The database never touches object storage. The API service writes each output file and each receipt, then records
-    <code>object_key</code> and the sha256 in <code><a href="#eld-output-files">eld.output_files</a></code> and <code><a href="#eld-output-files">eld.transfers</a></code> in the same
-    request. The micro-frontend and the phone download through a signed URL the API issues.</p>
+  <p>Object storage holds the files the ELD produces: the Appendix A output file for each transfer and the receipt
+    FMCSA returns. The API service is the only writer. When a transfer runs, the service builds the file, writes it to
+    object storage, and in the same request inserts the row in <code><a href="#eld-output-files">eld.output_files</a></code>
+    with the object key and the sha256, then the transfer row in <code><a href="#eld-output-files">eld.transfers</a></code>. The
+    database stores the pointer and the hash, never the file, and never writes to object storage itself. The
+    micro-frontend and the phone read files through a signed URL the API issues. Tamar Amit asked on 9/15/2026 because
+    an earlier diagram drew the storage box beside Postgres; it now hangs off the API service.</p>
 
   <h3 id="to-be-supplied">To be supplied by Tenna</h3>
   <p>Tamar Amit is sending Tenna's current stack and the micro-frontend guide (9/15/2026). The placeholders below are
