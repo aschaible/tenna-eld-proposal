@@ -187,9 +187,11 @@
         certificate. Email: the backend sends an encrypted, signed message to FMCSA's address with a fixed subject line.
         FMCSA gives AppAxis a test certificate and sample identifiers before registration, so this work does not wait on
         Stage F. Certificates and keys stay on the backend, never on the phone.</li>
-      <li>AppAxis generates records files all through testing and run every one through FMCSA's file validator and then
-        its web eRODS viewer. Both need the FMCSA provider account, which Tenna opens once the app is running in trucks
-        internally.</li>
+      <li>Dependency: Tenna opens the FMCSA provider account before this stage starts. The account is where FMCSA
+        issues the test certificate and sample identifiers, and it holds the file validator and the web eRODS viewer.
+        Registration is a form filed inside the same account later, in Stage F, so nothing here waits on it.</li>
+      <li>AppAxis generates records files all through testing and runs every one through FMCSA's file validator and
+        then its web eRODS viewer.</li>
       <li>AppAxis builds the full unidentified-driving loop: the tracker records the driving, the truck keeps eight days of it
         for drivers to claim, the carrier assigns or explains what is left, the assigned driver confirms, and the carrier
         keeps six months of records. A legal hold stops the six-month purge when a customer's lawyers ask.</li>
@@ -209,9 +211,8 @@
     <h3>Stage E — Certification-readiness verification</h3>
     <p class="who">Owner: <b>AppAxis assembles, Tenna runs the in-truck tests, Tom Cuthbertson accepts</b> · Phase 5, weeks 16–17</p>
     <ul>
-      <li>Tenna opens the FMCSA provider account at the start of this stage. It gives AppAxis the file validator and web
-        eRODS, and it is where the certifying statement, development statement, driver manual and cab card are filed.
-        Tom is sending the account walkthrough.</li>
+      <li>The FMCSA provider account, open since Stage D, is where the certifying statement, development statement,
+        driver manual and cab card are filed. Tom is sending the account walkthrough.</li>
       <li>AppAxis verifies readiness with what it has: the release build, the automated test suite, the bench trackers,
         and light-duty vehicles. AppAxis does not have access to heavy-duty trucks. The tests that need one fall to
         Tenna, with AppAxis writing the procedure, joining remotely where possible, and scoring the results.</li>
@@ -304,14 +305,14 @@
       </tr>
       <tr>
         <td>D</td>
-        <td>FMCSA's test system accepts transfers from the truck and the back office. The unidentified-driving loop works end to end</td>
+        <td>Provider account open. FMCSA's test system accepts transfers from the truck and the back office. The unidentified-driving loop works end to end</td>
         <td>Transfer confirmations, test-fleet record</td>
         <td>AppAxis</td>
         <td>Phase 4</td>
       </tr>
       <tr>
         <td>E</td>
-        <td>Provider account open. Records files pass FMCSA's validator and eRODS. FMCSA's procedures run in Tenna's truck. Tom Cuthbertson accepts the evidence package</td>
+        <td>Records files pass FMCSA's validator and eRODS. FMCSA's procedures run in Tenna's truck. Tom Cuthbertson accepts the evidence package</td>
         <td>Evidence package, written acceptance</td>
         <td>AppAxis and Tenna, then Tom Cuthbertson</td>
         <td>Phase 5</td>
