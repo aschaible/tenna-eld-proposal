@@ -74,7 +74,7 @@
 <div class="doc">
 
   <h1>Architecture</h1>
-  <p class="docmeta">Updated 9/15/2026 · Confidential</p>
+  <p class="docmeta">Updated 9/17/2026 · Confidential</p>
   <p class="docmeta">On this page:
     <a href="#s1">1. Context</a> ·
     <a href="#s2">2. Ownership split</a> ·
@@ -844,7 +844,7 @@
     <li>Every timestamp is <code>timestamptz</code> in UTC. The apps use epoch milliseconds UTC everywhere. The tracker's
       UDRV_TIME and LOCTIME are epoch seconds on the device clock and are kept in their own columns where they matter.</li>
     <li>Event time comes from the tracker's GPS time, cross-checked against a network time source; the user-settable phone clock is never the source (4.3.1.5). A deviation over 10 minutes from UTC is a timing malfunction.</li>
-    <li>The driver's home terminal time zone and 24-hour day start come from <a href="#eld-carrier-policy">eld.carrier_policy</a>, overridden per driver in <a href="#eld-driver-settings">eld.driver_settings</a>. They set the log day and the certification boundary. The offset in effect is stored on certification events, and nowhere else. See <a href="#home-terminal">Home terminal</a>.</li>
+    <li>The driver's home terminal time zone and 24-hour day start come from <a href="#eld-carrier-policy">eld.carrier_policy</a>, overridden per driver in <a href="#eld-driver-settings">eld.driver_settings</a>. They set the log day and the certification boundary. Events are stored in UTC; the offset in effect is stored on certification events only. The output file generator and the roadside display convert every timestamp to home terminal time on the way out (see <a href="#outputs">Compliance outputs</a>). See <a href="#home-terminal">Home terminal</a>.</li>
     <li>Tenna ids are stored as text exactly as Tenna issues them. The ELD never parses them, checks their format, or joins on them. No foreign keys into Tenna's schema and no cross-schema joins. Names are resolved at read time through <a href="#t2">T2</a> and <a href="#t4">T4</a>.</li>
     <li>Tenant isolation is <code>carrier_id</code> on every table. Row-level security keyed on the JWT's carrier claim is
       the recommendation; the API enforces it regardless.</li>
@@ -953,6 +953,11 @@
   <ul>
     <li>Output file generation per Appendix A: header, event lists, comments, CMV list, user list, unidentified driver
       records, malfunction and diagnostic records, with a line check value on every line and a file check value at the end.</li>
+    <li>Every date and time in the file is in the driver's home terminal time, not UTC (Appendix A 4.4.3, 7.40). The
+      generator converts each event's <code>at_utc</code> with the offset in effect on that day, daylight saving
+      included, and writes the 24-hour day start and the two-digit offset into the header line. The roadside display
+      (<a href="/#d16">D16</a>) applies the same conversion. Certification events carry the offset that applied when they
+      were made, so a day certified before a clock change still reads correctly.</li>
     <li>Roadside transfer (<a href="/#d17">D17</a>): web service first, email co-equal. The officer's code goes in the output file comment. The
       receipt or error is stored on the transfer row either way.</li>
     <li>Transport, per FMCSA's ELD Data Transfer Requirements sheet (9/10/2026): web services is a SOAP call carrying the
