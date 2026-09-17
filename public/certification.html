@@ -250,15 +250,10 @@
       <li>One registration and one ELD identifier cover both Android and iOS. The public URL holds the user manual, the
         transfer and malfunction sheets, and a contact. Still with Tom: which software changes require a new
         submission.</li>
-      <li>FMCSA has revoked about 80 registrations this year, mostly copycat and white-label devices. Registration is
-        self-certification. The Stage E evidence is what stands behind it.</li>
       <li>The listing appears within one to five business days. The pilot runs at the same time.</li>
       <li>After listing, Tenna keeps the registration current. The maintenance runbook covers FMCSA guidance changes,
         re-submission on major versions, app-store reviews, edge cases drivers report, a yearly user-guide update, and
         how to respond if FMCSA sends a removal notice.</li>
-      <li>Watch item: FMCSA is two to three years from wireless roadside inspection, where the truck sends header data, the driver's CDL and an hours summary to the scale house ahead of time. Heavy-haul
-        construction fleets are a target because scales cannot take them. Nothing to build now; it goes in the
-        runbook.</li>
     </ul>
     <p class="gate"><b>Exit.</b> The device is listed on the FMCSA registry and the maintenance runbook has an owner.
       Evidence: the public listing and the runbook.</p>
@@ -284,7 +279,7 @@
         <td>Open items answered in writing; scope lock signed</td>
         <td>Signed scope-lock package, decision log</td>
         <td>Joint</td>
-        <td>Requirements agreed through 9/14/2026 and drawn into the wireframes. Open: biometric sign-in, stationary prompt, malfunction matrix sign-off, re-submission triggers, Tenna architecture review and Contract C field mapping</td>
+        <td>Requirements agreed through 9/16/2026 and drawn into the wireframes. Open: biometric sign-in, re-submission triggers, home terminal wording, Tom's written confirmation</td>
       </tr>
       <tr>
         <td>C</td>
@@ -328,32 +323,22 @@
           phone, not the ELD app. He is asking his FMCSA contact for a yes or no. Product position (Adam, 9/10/2026) was
           biometric for the saved session on personal phones</td>
         <td>Stage B; D1</td></tr>
-
-      <tr><td>D29 — stationary prompt parameters</td>
-        <td>Confirmed 9/10/2026: 3 s at zero speed starts a 5-minute timer, prompt, 1 minute unanswered switches to On Duty, vehicle must be running; an answered prompt backdates to first zero speed. Remaining: recorded origin codes and the restart rule at a long signal</td><td>Stage B; state machine</td></tr>
-      <tr><td>Acceptance criteria</td>
-        <td>Tom Cuthbertson approved the roadmap and test inventory on the 9/16/2026 call, with the malfunction test
-          matrix included. Written confirmation follows when he is back, around 9/23/2026</td>
-        <td>Stage A exit</td></tr>
-
+      <tr><td>Written confirmation from Tom Cuthbertson</td>
+        <td>Tom approved the roadmap, the test inventory and the malfunction test matrix on the 9/16/2026 call and
+          confirmed the 9/10/2026 rulings verbally. Written confirmation follows when he is back, around 9/23/2026</td>
+        <td>Stage A exit; Stage B exit</td></tr>
+      <tr><td>Home terminal wording</td>
+        <td>Tom is sending the 49 CFR 395.8 language on the home terminal. The ELD keeps the rule's word and stores a
+          time zone and 24-hour day start as a fleet default with a per-driver override; confirm that reading against
+          his text</td>
+        <td>Stage B; W15, D23</td></tr>
       <tr><td>Registration re-submission triggers</td>
         <td>Which changes require re-submission under Appendix A 5.1.2. One registration and one ELD
           identifier for both operating systems; public URL holds only the rule's required documents. Lean: re-submit on a
           major version or any change to HOS logic, output file or transfer</td>
         <td>Stage F</td></tr>
       <tr><td>Idle-shutdown signals (SPN 591–593)</td>
-        <td>Whether the tracker exposes them; if so, record power-down on detection</td><td>Stage C event list</td></tr>
-      <tr><td>Exempt driver and co-driver, with Tenna</td>
-        <td>Both are required by the rule and go to Tenna on 9/16/2026: exempt drivers need a flag on the Tenna user
-          record and the segment-only app (D38); co-driver ships at launch, withdrawing the 9/11/2026 deferral. Tenna
-          confirms the user-record change and the launch scope</td>
-        <td>Stage B sign-off; Contract C account rules</td></tr>
-      <tr><td>Items not reached on 9/14/2026</td>
-        <td>Written confirmation from Tom Cuthbertson of the 9/10/2026 rulings; manual location entry prompt;
-          own-records delivery by phone share sheet; per-device sequence scope; a malfunction record written late with
-          the true timestamp; test-plan sign-off; cab card and manual expectations. Sent by email while Tom recovers
-          from surgery on 9/17/2026</td>
-        <td>Stage B; Stage E documents</td></tr>
+        <td>Whether the tracker exposes them; if so, record power-down on detection. With Mark</td><td>Stage C event list</td></tr>
     </tbody>
   </table>
   </div>
