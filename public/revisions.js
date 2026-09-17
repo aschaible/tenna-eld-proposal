@@ -30,6 +30,9 @@
  *                       Table 4 malfunction and diagnostic codes named on D18,
  *                       D19, D32 and W10; logged and cleared event records per
  *                       Table 6
+ *   v10 "9/16/2026"   - Tom Cuthbertson's 9/16/2026 sign-off call: certify prompt at
+ *                       logout (D30), key-off ends the drive (D29), the three prompts
+ *                       no app may cover, moved tracker on W12, D18 copy
  *
  * Content that differs between them is marked up in place, as a range
  * rather than as a single version, so a fourth revision costs one entry in
@@ -47,7 +50,7 @@
  * Only one side is ever visible, and whatever is new in the revision being
  * read is outlined so it can be found. The choice persists across pages via
  * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2, ?v=9-3, ?v=9-8, ?v=9-10,
- * ?v=9-11, ?v=9-14 or ?v=9-15, so a link can open the package in a known state.
+ * ?v=9-11, ?v=9-14, ?v=9-15 or ?v=9-16, so a link can open the package in a known state.
  */
 (function () {
   'use strict';
@@ -63,7 +66,8 @@
     { id: 'v6', label: '9/10/2026', sub: 'product decisions', slug: '9-10' },
     { id: 'v7', label: '9/11/2026', sub: 'requirements check', slug: '9-11' },
     { id: 'v8', label: '9/14/2026', sub: 'Tom Cuthbertson call', slug: '9-14' },
-    { id: 'v9', label: '9/15/2026', sub: 'malfunction codes', slug: '9-15' }
+    { id: 'v9', label: '9/15/2026', sub: 'malfunction codes', slug: '9-15' },
+    { id: 'v10', label: '9/16/2026', sub: 'Tom Cuthbertson sign-off', slug: '9-16' }
   ];
 
   var DEFAULT = VERSIONS[VERSIONS.length - 1].id;

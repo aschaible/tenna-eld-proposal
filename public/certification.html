@@ -66,7 +66,7 @@
 <div class="doc">
 
   <h1>Certification Roadmap</h1>
-  <p class="subtitle">Tenna ELD · Updated 9/15/2026</p>
+  <p class="subtitle">Tenna ELD · Updated 9/17/2026</p>
 
   <h2>1. Basis</h2>
   <ul>
@@ -120,7 +120,8 @@
         escalation, automatic duty-status transitions).</li>
       <li>The build is moving from the React Native prototype to native Android and iOS apps. The full protocol is
         re-run on both native apps. Acceptance criteria are AppAxis proposals. Tom Cuthbertson conditionally
-        approved them on 9/15/2026; the malfunction test matrix below goes to him for written sign-off.</li>
+        approved them on 9/15/2026 and signed off on the call of 9/16/2026, matrix included; written confirmation
+        follows around 9/23/2026.</li>
     </ul>
     <div class="tbl-wrap">
     <table>
@@ -342,6 +343,17 @@
       <li>Tenna runs FMCSA's test procedures by hand in a commercial vehicle over several days, on the phones Tenna's
         customers use, following the step sheets AppAxis provides. AppAxis writes the report in FMCSA's format: date,
         tester, pass or fail for each step, comments, and what was re-run after each fix.</li>
+      <li>The drive protocol follows Tom Cuthbertson's method (9/16/2026). Before the drive, build five days of logs
+        at the host for a test driver and co-driver: driving, on duty, off duty, sleeper, locations, with personal
+        conveyance and yard move set per driver. Then three days in the truck: start with 30 to 40 minutes of driving
+        with nobody signed in and confirm it lands as unidentified; a faraday bag on the tracker to lose position;
+        Driving starts at 5 mph; a duty change is possible within 3 seconds of zero speed; nothing on the ELD can be
+        entered while the vehicle moves; driver edits, sleeper berth, available hours and an edit that pushes the day
+        past 14 hours; personal conveyance recorded at one decimal of position and nothing else. Run it three or four
+        times. AppAxis runs the same protocol in the F-150 with Tom coaching remotely.</li>
+      <li>Prompt precedence. The stationary prompt, the not-signed-in warning and the certify-at-logout prompt must
+        reach the driver over any other app on the phone, including Tenna's own. Test with Tenna's app in the
+        foreground and the phone locked; each prompt must show and must be answerable.</li>
       <li>Records files from those drives must pass the validator and read correctly in web eRODS. Tom's review starts
         there.</li>
       <li>AppAxis checks records files for the hard cases: edit history, driver and vehicle pairings, two drivers on one
@@ -395,7 +407,7 @@
         <td>Bench and drive protocol passes on both platforms against approved criteria</td>
         <td>Test workbooks, device session logs</td>
         <td>AppAxis</td>
-        <td>React Native 26 of 26 on both. Native in progress. Criteria 95% approved 9/15/2026; malfunction matrix to
+        <td>React Native 26 of 26 on both. Native in progress. Criteria approved by Tom 9/16/2026, written confirmation to
           Tom</td>
       </tr>
       <tr>
@@ -451,8 +463,8 @@
       <tr><td>D29 — stationary prompt parameters</td>
         <td>Confirmed 9/10/2026: 3 s at zero speed starts a 5-minute timer, prompt, 1 minute unanswered switches to On Duty, vehicle must be running; an answered prompt backdates to first zero speed. Remaining: recorded origin codes and the restart rule at a long signal</td><td>Stage B; state machine</td></tr>
       <tr><td>Acceptance criteria</td>
-        <td>Tom Cuthbertson conditionally approved the roadmap and test inventory on 9/15/2026. His words: 95% there,
-          the rest fills in during testing. The malfunction test matrix goes to Tom for written sign-off</td>
+        <td>Tom Cuthbertson approved the roadmap and test inventory on the 9/16/2026 call, with the malfunction test
+          matrix included. Written confirmation follows when he is back, around 9/23/2026</td>
         <td>Stage A exit</td></tr>
 
       <tr><td>Registration re-submission triggers</td>

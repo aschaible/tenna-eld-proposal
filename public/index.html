@@ -834,6 +834,35 @@
       </div>
     </div>
 
+    <div data-rev-from="v10">
+      <div class="eyebrow">Revision 9/16/2026</div>
+      <h2 style="margin-bottom:6px;">What changed</h2>
+      <p class="lede" style="margin-bottom:18px;">Tom Cuthbertson signed off on the certification roadmap on 9/16/2026 and added four things from his own build and audit experience. None of them is a new screen.</p>
+
+      <div class="legend-grid">
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D30</span>
+          <p><b>Certify at logout.</b> Logging off now asks, in the rule&rsquo;s words, whether to certify the day now or not ready. D11 sits behind &ldquo;Certify now&rdquo;.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D29</span>
+          <p><b>Key-off ends the drive.</b> An open Driving segment closes at the engine power-off time in the ELD, not from the host. No prompt runs after key-off, which also answers the parked-at-home finding.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D29 &middot; D35 &middot; D30</span>
+          <p><b>Prompts no app may cover.</b> The stationary prompt, the not-signed-in warning and the certify prompt surface over everything else on the phone. Noted in the legend and tested in Stage E.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">W12</span>
+          <p><b>A moved tracker is maintenance, not a fault.</b> The records take the new VIN; the fleet manager re-links the tracker to the asset. The heartbeat and the odometer-jump report cover a tracker pulled mid-shift.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D18</span>
+          <p><b>Keep using the app on paper.</b> FMCSA guidance lets the driver go on recording duty status in the ELD during a malfunction; the paper log is the backup. The notice says so.</p>
+        </div>
+      </div>
+    </div>
+
     <div data-rev-from="v9">
       <div class="eyebrow">Revision 9/15/2026</div>
       <h2 style="margin-bottom:6px;">What changed</h2>
@@ -1106,6 +1135,7 @@
       The point of Thursday's session is pulling data elements out of screens. So every wireframe below carries an annotation panel (purpose, data elements, open questions), and every data element wears one of five tags. The tags are the draft vocabulary for the data guidelines that fall out of the five decisions.
     </p>
     <p class="lede" data-rev-from="v3">Every wireframe below has a notes panel: what the screen is for, what data it uses, and the open questions. Every piece of data has one of five tags naming the system that supplies it. The tags are the vocabulary for the data guidelines.</p>
+    <p class="lede" data-rev-from="v10"><b>Required prompts.</b> Three messages come from the rule and must reach the driver no matter what else is on the phone: the stationary prompt (<a href="#d29">D29</a>), the not-signed-in warning (<a href="#d35">D35</a>) and the certify prompt at logout (<a href="#d30">D30</a>). Tom Cuthbertson, 9/16/2026: another app laid over an ELD app has failed a customer before. Tenna&rsquo;s app must not cover them, and Stage E of the roadmap tests that it does not.</p>
 
     <div class="legend-grid">
       <div class="legend-item">
@@ -1486,6 +1516,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v10"><b>Changed 9/16/2026 &middot;</b> This warning, the stationary prompt on <a href="#d29">D29</a> and the certify prompt on <a href="#d30">D30</a> are the three messages Tom Cuthbertson says no other app may suppress. They surface over anything else on the phone, including Tenna&rsquo;s own app, and Stage E tests that.</li>
               <li data-rev-until="v4"><b>New screen &middot;</b> The unpaired case is blocked on the regulation citation the advisor is sending. Until it arrives, this screen is a proposal, not a requirement.</li>
               <li data-rev-until="v4">Unpaired motion sensing: accelerometer or activity recognition, and what breaks the false positive, a driver riding as a passenger with the app on a personal phone?</li>
               <li data-rev-from="v5"><b>Settled 9/8/2026 &middot;</b> Required. GPS for motion is allowed. The passenger case is handled by proximity: no broadcasting tracker in range, no screen.</li>
@@ -1724,7 +1755,8 @@
               <li data-rev-until="v5"><a class="qref" href="/decisions#q1">Q1</a> The link drops when a driver parks and walks away with the phone, so this prompt never fires. Does the tracker&rsquo;s stored stop evidence let the ELD run it late, on reconnect?</li>
               <li data-rev-from="v6"><b>Q1 answered 9/10/2026.</b> No. If the link drops before this prompt runs, the status stays Driving; the driver, not the ELD, is responsible for going On Duty when they leave the cab. The automatic change exists only for the stationary-with-engine-running case this screen draws. When the driver answers On Duty, the duty change is recorded from the moment the vehicle first reached zero speed, not from the tap.</li>
               <li>A driver at a long light may dismiss this without a status change. How many dismissals in a row before the ELD stops asking and changes the status?</li>
-              <li data-rev-from="v5"><b>Settled 9/8/2026 &middot;</b> An idle shutdown does not move the driver to On Duty or change this prompt. It is an engine power-down event, recorded as such; duty status stays whatever it was. A drive left open past key-off is fixed from the host (<a href="#w4">W4</a>).</li>
+              <li data-rev-from="v5"><b>Settled 9/8/2026 &middot;</b> An idle shutdown does not move the driver to On Duty or change this prompt. It is an engine power-down event, recorded as such; duty status stays whatever it was. <span data-revi-until="v9">A drive left open past key-off is fixed from the host (<a href="#w4">W4</a>).</span><span data-revi-from="v10">A drive left open past key-off ends at the power-off time (<a href="#w4">W4</a> stays for corrections).</span></li>
+              <li data-rev-from="v10"><b>Changed 9/16/2026 &middot; key-off ends the drive.</b> Tom Cuthbertson: the engine power-off timestamp ends an open Driving segment, and it is better done in the ELD than from the host. So the ELD closes Driving at the power-off record and asks nothing after key-off; the stationary prompt only runs with the engine on. This also settles the parked-at-home case: a phone that keeps the tracker link overnight from inside the house records power events and nothing else.</li>
             </ul>
           </div>
         </div>
@@ -2674,7 +2706,7 @@
               <div class="ph-note" style="color:#B9BFC9;">Detected today, 2:38 PM · Unit 218</div>
               <div class="ph-banner" style="background:#343B47; border-color:#4A5261; color:#E2E5EA; text-align:left;">
                 <b style="color:#fff;">What you must do now</b><br/>
-                1 · Keep paper logs from this point forward.<br/>
+                1 · Keep paper logs from this point forward.<span data-revi-from="v10"> Keep using this app too where it still works.</span><br/>
                 <span data-revi-until="v7">2 · Your carrier has been notified automatically.<br/></span><span data-revi-from="v8">2 · Tell your carrier within 24 hours. We have also notified them automatically.<br/></span>
                 3 · The malfunction must be resolved within 8 days.
               </div>
@@ -3251,7 +3283,7 @@
             <div class="ph-appbar"><span class="t">End of shift</span><span class="r">log out</span></div>
             <div class="ph-body">
               <div class="ph-note">Two things to clear before you sign out.</div>
-              <div class="ph-confirm"><i>&#9679;</i><span>1 day not certified<small>8/27/2026 &middot; certify it now (D11)</small></span></div>
+              <div class="ph-confirm"><i>&#9679;</i><span>1 day not certified<small>8/27/2026 &middot; <span data-revi-until="v9">certify it now (D11)</span><span data-revi-from="v10">Certify now (D11) &middot; Not ready</span></small></span></div>
               <div class="ph-confirm"><i>&#9679;</i><span>Still paired to Unit 218<small>stay paired, or release the truck</small></span></div>
               <div class="ph-state">Once both are answered</div>
               <div class="ph-confirm is-ok"><i>&#10003;</i><span>Today certified &middot; 11h 42m on duty<small>ready to sign out</small></span></div>
@@ -3286,6 +3318,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li data-rev-from="v7"><b>Changed 9/11/2026 &middot;</b> An exempt driver sees their exemption here as well as at login (4.3.3.1.2-5).</li>
+              <li data-rev-from="v10"><b>Changed 9/16/2026 &middot; certify at logout.</b> Tom Cuthbertson: when the driver logs off, the ELD asks in the rule&rsquo;s words whether to certify the day now or not ready (Appendix A 4.3.2.3). Logout now opens that prompt for every uncertified day, with D11 behind &ldquo;Certify now&rdquo; and &ldquo;Not ready&rdquo; letting the driver leave. Tenna&rsquo;s own app must never cover this prompt; see the legend note on required prompts.</li>
               <li><b>New screen &middot;</b> Does logging out unpair the truck, or leave it paired for the next driver? Remembered pairing (D2) exists to reduce unidentified driving, and logout is where the two rules meet.</li>
               <li>May a driver log out with days still uncertified? Blocking it is cleaner for the carrier and wrong at 6 PM on a Friday. Drawn as a warning, not a block.</li>
               <li><a class="qref" href="/decisions#p2">P2</a> How long may a saved session last after logout for an offline driver? The same grace-period question D1 asks, from the other end.</li>
@@ -4403,7 +4436,7 @@
                     </div>
                   </div>
                   <div class="wb-box" style="margin-top:9px;"><div class="h">Verification</div>
-                    VIN read over BLE matches the Tenna asset record ✓ · last seen 2 s ago ✓<span data-revi-from="v5"><br/>If they ever differ: the vehicle&rsquo;s VIN goes on the ELD record and this row is flagged <span class="wb-pill out">VIN mismatch · fix asset record</span></span>
+                    VIN read over BLE matches the Tenna asset record ✓ · last seen 2 s ago ✓<span data-revi-from="v5"><br/>If they ever differ: the vehicle&rsquo;s VIN goes on the ELD record and this row is flagged <span class="wb-pill out"><span data-revi-until="v9">VIN mismatch · fix asset record</span><span data-revi-from="v10">VIN changed · re-link tracker to asset</span></span></span>
                   </div>
                   <div class="wb-filter" style="margin-top:9px;"><span class="wb-btn primary">Confirm pairing</span><span class="wb-btn">Swap device</span></div>
                 </div>
@@ -4435,6 +4468,7 @@
           <div class="wf-qs">
             <span class="wf-label">Open questions</span>
             <ul>
+              <li data-rev-from="v10"><b>Changed 9/16/2026 &middot; tracker moved to another vehicle.</b> Tom Cuthbertson: a tracker plugged into a different truck is still compliant; the records take the new VIN. The carrier has to know, and someone re-links the tracker to the right asset here. So the mismatch pill is a maintenance action, not a fault. A tracker pulled with the engine running is the case to watch: the last-activity heartbeat on <a href="#w11">W11</a> and the odometer-jump report catch it.</li>
               <li><a class="qref" href="/decisions#q7">Q7</a> Which identifier is the stable key in Tenna's records, serial or BLE address, and who owns the mapping table?</li>
               <li><a class="qref" href="/decisions#q14">Q14</a> Settled by test, worth stating: the tracker reports its Bluetooth address with the bytes in reverse order. Any Tenna lookup keyed on the raw value will silently match nothing.</li>
               <li data-rev-from="v5"><a class="qref" href="/decisions#q23">Q23</a> <b>Settled 9/8/2026 &middot;</b> On a mismatch the vehicle&rsquo;s VIN is the one on the record. Tom: <i>&ldquo;The ECM is always the winner.&rdquo;</i> Mark: what to do about the Tenna record is a Tenna problem to work out with AppAxis, not a compliance one.</li>
@@ -4940,7 +4974,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li data-rev-from="v7"><b>Changed 9/11/2026 &middot;</b> Appendix A 4.3.3.1.1: personal conveyance and yard move are configured per driver and default to off for a new account; every change is recorded and shown to the driver at the next login. 4.3.3.1.2: the carrier must be able to mark a driver exempt, default not exempt, annotation required, indicated at login and logout. <span data-revi-until="v7">Whether Tenna wants exemption prominent or buried is with Sunil.</span><span data-revi-from="v8">Settled 9/14/2026: exempt is required, and it drives a different app (<a href="#d38">D38</a>).</span></li>
-              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot; home terminal.</b> The rule (Appendix A 4.4.3, 7.1) has the carrier set a time zone and a 24-hour day start per home terminal; the header and roadside display print both. Tenna has no home terminal record and these fleets have no terminal, so the values live here as a fleet default with a per-driver override, and the word stays because it is the rule&rsquo;s. Every change goes to the settings audit and shows to the driver at next login. Dropped the same day: a proposal to model it as a Tenna site with an address, which the rule never asks for.</li>
+              <li data-rev-from="v9"><b>Changed 9/15/2026 &middot; home terminal.</b> The rule (Appendix A 4.4.3, 7.1) has the carrier set a time zone and a 24-hour day start per home terminal, the place the driver is dispatched from (Tom Cuthbertson, 9/16/2026: a centrally dispatched fleet uses the dispatch office&rsquo;s zone); the header and roadside display print both. Tenna has no home terminal record and these fleets have no terminal, so the values live here as a fleet default with a per-driver override, and the word stays because it is the rule&rsquo;s. Every change goes to the settings audit and shows to the driver at next login. Dropped the same day: a proposal to model it as a Tenna site with an address, which the rule never asks for.</li>
               <li data-rev-from="v8"><b>New 9/14/2026 &middot; legal hold.</b> Tom: after an accident the customer's lawyers will say "maintain everything, freeze it forever until they tell you you can get rid of it." The host needs a hold per driver or for the whole carrier that stops every purge, including the 6-month unidentified record and the 10-day raw readings on the device, until released. How it is stored is ours: "maybe you copy it over somewhere, I don't care."</li>
               <li>Tenna already has sites and geofences. Do yard-move fences come from Tenna sites over the API, or get drawn here? The wireframe shows both to force the choice.</li>
               <li data-rev-from="v2" data-rev-until="v2"><b>New 8/28/2026 ·</b> Is the reason taxonomy carrier-editable, as drawn, or fixed across the customer base? Editable serves the individual carrier; fixed keeps unidentified-driving reporting comparable and makes any future benchmarking possible. Recommendation: fixed core list from the memo, with one carrier-defined "other" slot.</li>
