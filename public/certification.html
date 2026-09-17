@@ -35,6 +35,8 @@
   p { margin: 0 0 12px; }
   ul, ol { margin: 0 0 12px; padding-left: 24px; }
   li { margin-bottom: 5px; }
+  li ul { margin: 5px 0 0 18px; }
+  li ul li { margin-bottom: 3px; }
 
   .stage { margin: 0 0 26px; }
   .stage .who { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; color: #555; margin: 0 0 8px; }
@@ -158,9 +160,13 @@
     <h3>Stage C — Build the ELD</h3>
     <p class="who">Owner: <b>AppAxis</b> · Phase 3, weeks 4–12</p>
     <ul>
-      <li>This is the main build phase. AppAxis builds the hours-of-service engine, including all duty rules and
-        exceptions. AppAxis builds detection for the seven malfunctions and six data diagnostics in Table 4. AppAxis builds the records file
-        that an inspector's system reads. AppAxis builds the driver app and run it on real phones with real trackers.</li>
+      <li>This is the main build phase. AppAxis builds:
+        <ul>
+          <li>the hours-of-service engine, including all duty rules and exceptions;</li>
+          <li>detection for the seven malfunctions and six data diagnostics in Table 4;</li>
+          <li>the records file that an inspector's system reads;</li>
+          <li>the driver app, run on real phones with real trackers.</li>
+        </ul></li>
       <li>Each requirement gets an automated test, written at the same time as the code. Test coverage is reported
         every week.</li>
       <li>Every build checks the records file against FMCSA's format.</li>
