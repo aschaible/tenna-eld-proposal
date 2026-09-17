@@ -75,13 +75,16 @@
       for compliance with the technical specifications.</li>
     <li>The reference test method is FMCSA's <i>ELD Test Plan and Procedures</i>, version 2.1 (7/18/2017). It is not
       binding on providers, but it is the procedure FMCSA uses if it independently evaluates a listed device.</li>
-    <li>The test plan breaks Appendix section 4 down into a Requirements Traceability Matrix (RTM) of 347 numbered
-      requirements (ELD-FUNC-4.x) in eight categories: Accounts, Vehicle Interface, ELD Inputs, Processing, Recording,
-      Monitoring, ELD Outputs, Data Transfer. Test procedures are grouped in three chapters: (1) Accounts, Inputs and
-      Vehicle Interface; (2) Processing, Monitoring and Recording; (3) Outputs and Data Transfer.</li>
-    <li>All test evidence in this roadmap traces to RTM requirement IDs. The RTM and chapter structure are followed;
-      the written step sequences are not, because several do not produce correct results on real vehicles. One
-      exercise may cover several requirements.</li>
+    <li>Section 4 of the appendix is the technical specification: what an ELD must do. FMCSA's test plan turns it
+      into a numbered checklist of 347 requirements, each with an ID such as ELD-FUNC-4.6.1.2. The test plan calls
+      that checklist the Requirements Traceability Matrix, or RTM. The requirements fall into eight groups: accounts,
+      vehicle interface, inputs, processing, recording, monitoring, outputs, and data transfer.</li>
+    <li>The test plan also gives step-by-step procedures for testing those requirements, in three chapters.
+      Chapter 1 covers accounts, inputs and the vehicle interface. Chapter 2 covers processing, monitoring and
+      recording. Chapter 3 covers outputs and data transfer.</li>
+    <li>Every piece of test evidence in this roadmap names the requirement ID it proves. We keep the checklist and
+      the chapter order. We do not follow the written steps word for word, because some of them give wrong results
+      on real vehicles. One test may prove several requirements.</li>
     <li>Malfunction test criteria come from Appendix A Table 4, the list of seven malfunction and six data
       diagnostic codes, and Table 6, the event type and event code list, on Tom Cuthbertson's review of
       9/15/2026.</li>
