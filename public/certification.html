@@ -214,7 +214,7 @@
     <p class="who">Owner: <b>AppAxis assembles, Tenna runs the in-truck tests, Tom Cuthbertson accepts</b> · Phase 5, weeks 16–17</p>
     <ul>
       <li>The FMCSA provider account, open since Stage D, is where the certifying statement, development statement,
-        driver manual and cab card are filed. Tom is sending the account walkthrough.</li>
+        driver manual and cab card are filed.</li>
       <li>AppAxis verifies readiness with what it has: the release build, the automated test suite, the bench trackers,
         and light-duty vehicles. AppAxis does not have access to heavy-duty trucks. The tests that need one fall to
         Tenna, with AppAxis writing the procedure, joining remotely where possible, and scoring the results.</li>
@@ -222,17 +222,6 @@
       <li>Tenna runs FMCSA's test procedures by hand in a commercial vehicle over several days, on the phones Tenna's
         customers use, following the step sheets AppAxis provides. AppAxis writes the report in FMCSA's format: date,
         tester, pass or fail for each step, comments, and what was re-run after each fix.</li>
-      <li>The drive protocol follows Tom Cuthbertson's method (9/16/2026). Before the drive, build five days of logs
-        at the host for a test driver and co-driver: driving, on duty, off duty, sleeper, locations, with personal
-        conveyance and yard move set per driver. Then three days in the truck: start with 30 to 40 minutes of driving
-        with nobody signed in and confirm it lands as unidentified; a faraday bag on the tracker to lose position;
-        Driving starts at 5 mph; a duty change is possible within 3 seconds of zero speed; nothing on the ELD can be
-        entered while the vehicle moves; driver edits, sleeper berth, available hours and an edit that pushes the day
-        past 14 hours; personal conveyance recorded at one decimal of position and nothing else. Run it three or four
-        times. AppAxis runs the same protocol in the F-150 with Tom coaching remotely.</li>
-      <li>Prompt precedence. The stationary prompt, the not-signed-in warning and the certify-at-logout prompt must
-        reach the driver over any other app on the phone, including Tenna's own. Test with Tenna's app in the
-        foreground and the phone locked; each prompt must show and must be answerable.</li>
       <li>Records files from those drives must pass the validator and read correctly in web eRODS. Tom's review starts
         there.</li>
       <li>AppAxis checks records files for the hard cases: edit history, driver and vehicle pairings, two drivers on one
