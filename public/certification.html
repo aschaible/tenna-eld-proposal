@@ -198,10 +198,12 @@
       <li>Every device sends a test transfer to FMCSA once a day to prove the connection works. Three failures in a row
         raise a malfunction. Test criterion: one failed self-test records data transfer data diagnostic 4, three
         consecutive failures raise data transfer compliance malfunction S, and both clear on the next successful
-        test. Stage E exercises this by blocking the transfer endpoint.</li>
+        test.</li>
       <li>Edits keep the original record and record who changed it. Moving a driving segment from one driver to another
         needs both drivers to accept.</li>
-      <li>AppAxis builds the inspector view in the control panel.</li>
+      <li>AppAxis builds the host inspector view (W18), a browser view of the same records the driver shows at the
+        roadside on D16. The rule does not require it; eRODS covers the inspector. It is kept because Tenna's customers
+        and auditors can use it, and Tom advised keeping it once built.</li>
     </ul>
     <p class="gate"><b>Exit.</b> FMCSA's test system accepts transfers sent from the truck and from the back office, on
       a test fleet. Evidence: transfer confirmations and the test-fleet record.</p>
