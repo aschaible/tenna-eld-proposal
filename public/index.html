@@ -5274,7 +5274,7 @@
           <span><b>Cadence</b>At sign-in, then on refresh</span>
         </div>
         <div class="sfc-sketch">
-          <span class="lbl">Illustrative only, not a proposed contract</span>
+          <span class="lbl"><span data-revi-until="v9">Illustrative only, not a proposed contract</span><span data-revi-from="v10"><a href="/architecture#data-contracts" style="color:inherit;text-decoration:underline">Proposed contract on the architecture page</a></span></span>
           <pre><i>POST</i> /oauth2/token          <u>the pool the Tenna apps already use</u>
 &rarr; { "sub": "usr_8f21c4", "carrier_id": "car_0413",
       "roles": ["driver"], "licenses": ["eld"],
@@ -5291,7 +5291,7 @@
           <span><b>Cadence</b>On demand, cached for the session</span>
         </div>
         <div class="sfc-sketch">
-          <span class="lbl">Illustrative only, not a proposed contract</span>
+          <span class="lbl"><span data-revi-until="v9">Illustrative only, not a proposed contract</span><span data-revi-from="v10"><a href="/architecture#data-contracts" style="color:inherit;text-decoration:underline">Proposed contract on the architecture page</a></span></span>
           <pre><i>GET</i> /eld/v1/people/usr_8f21c4
 &rarr; { "id": "usr_8f21c4", "name": "M. Alvarez", "is_driver": true,
       "cdl": { "number": "...", "state": "OH" },
@@ -5308,12 +5308,13 @@
           <span><b>Cadence</b>On demand, changes rarely</span>
         </div>
         <div class="sfc-sketch">
-          <span class="lbl">Illustrative only, not a proposed contract</span>
+          <span class="lbl"><span data-revi-until="v9">Illustrative only, not a proposed contract</span><span data-revi-from="v10"><a href="/architecture#data-contracts" style="color:inherit;text-decoration:underline">Proposed contract on the architecture page</a></span></span>
           <pre><i>GET</i> /eld/v1/carrier
 &rarr; { "id": "car_0413", "name": "Blue Ash Construction Co.",
       "usdot": "3172584",
-      "terminals": [ { "id": "trm_02", "name": "Blue Ash Yard",
-                       "tz": "America/New_York" } ] }</pre>
+      <span data-revi-until="v9">"terminals": [ { "id": "trm_02", "name": "Blue Ash Yard",
+                       "tz": "America/New_York" } ] }</span><span data-revi-from="v10">"address": { "street": "4400 Cooper Rd", "city": "Blue Ash",
+                   "state": "OH", "zip": "45242" } }</span></pre>
         </div>
       </article>
 
@@ -5326,11 +5327,11 @@
           <span><b>Cadence</b>On demand; the pairing list refreshes on scan</span>
         </div>
         <div class="sfc-sketch">
-          <span class="lbl">Illustrative only, not a proposed contract</span>
+          <span class="lbl"><span data-revi-until="v9">Illustrative only, not a proposed contract</span><span data-revi-from="v10"><a href="/architecture#data-contracts" style="color:inherit;text-decoration:underline">Proposed contract on the architecture page</a></span></span>
           <pre><i>GET</i> /eld/v1/assets?tracker_serial=WQ-87X060680218
-&rarr; { "id": "ast_2181", "name": "Unit 218", "type": "Ford F-150",
+&rarr; { "id": "ast_2181", "name": "Unit 218", <span data-revi-until="v9">"type": "Ford F-150",</span><span data-revi-from="v10">"category": "Pickup truck",</span>
       "vin": "1FTFW1R63EFA84339",
-      "tracker": { "serial": "WQ-87X060680218" } }</pre>
+      <span data-revi-until="v9">"tracker": { "serial": "WQ-87X060680218" } }</span><span data-revi-from="v10">"tracker": { "serial": "WQ-87X060680218", "model": "WQ-ELD" } }</span></pre>
         </div>
       </article>
 
@@ -5343,7 +5344,7 @@
           <span><b>Cadence</b>On demand, cached on the device for offline evaluation</span>
         </div>
         <div class="sfc-sketch">
-          <span class="lbl">Illustrative only, not a proposed contract</span>
+          <span class="lbl"><span data-revi-until="v9">Illustrative only, not a proposed contract</span><span data-revi-from="v10"><a href="/architecture#data-contracts" style="color:inherit;text-decoration:underline">Proposed contract on the architecture page</a></span></span>
           <pre><i>GET</i> /eld/v1/sites?near=39.29537,-84.59589&amp;kind=yard
 &rarr; [ { "id": "sit_77", "name": "Blue Ash Yard", "kind": "yard",
         "geometry": { "type": "Polygon",
@@ -5360,7 +5361,7 @@
           <span><b>Cadence</b>On demand, at the moment of the stamp</span>
         </div>
         <div class="sfc-sketch">
-          <span class="lbl">Illustrative only, not a proposed contract</span>
+          <span class="lbl"><span data-revi-until="v9">Illustrative only, not a proposed contract</span><span data-revi-from="v10"><a href="/architecture#data-contracts" style="color:inherit;text-decoration:underline">Proposed contract on the architecture page</a></span></span>
           <pre><i>GET</i> /eld/v1/work-orders?asset_id=ast_2181&amp;status=open
 &rarr; [ { "id": "wo_88213", "number": "WO-88213",
         "asset_id": "ast_2181", "summary": "Brake inspection",
@@ -5377,7 +5378,7 @@
           <span><b>Cadence</b>On demand</span>
         </div>
         <div class="sfc-sketch">
-          <span class="lbl">Illustrative only, not a proposed contract</span>
+          <span class="lbl"><span data-revi-until="v9">Illustrative only, not a proposed contract</span><span data-revi-from="v10"><a href="/architecture#data-contracts" style="color:inherit;text-decoration:underline">Proposed contract on the architecture page</a></span></span>
           <pre><i>GET</i>    /eld/v1/dvir/status?asset_id=ast_2181
 &rarr;      { "last_inspection": "2026-08-27T06:12:00Z",
           "defects_open": 0 }
@@ -5395,7 +5396,7 @@
           <span><b>Cadence</b>At sign-in, alongside T1</span>
         </div>
         <div class="sfc-sketch">
-          <span class="lbl">Illustrative only, not a proposed contract</span>
+          <span class="lbl"><span data-revi-until="v9">Illustrative only, not a proposed contract</span><span data-revi-from="v10"><a href="/architecture#data-contracts" style="color:inherit;text-decoration:underline">Proposed contract on the architecture page</a></span></span>
           <pre><i>GET</i> /eld/v1/entitlements
 &rarr; { "carrier_id": "car_0413", "modules": { "eld": true },
       "permissions": [ "eld.logs.read",
