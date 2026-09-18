@@ -225,8 +225,7 @@
     column names the data source as the wireframes label them: T codes are Tenna APIs, <a href="/#s-b1">B1</a> is the tracker's Bluetooth
     feed, S codes are the ELD's own stores, E codes are what the ELD sends out. Surfaces are not screens; screens are
     the D and W numbers.</p>
-  <p>Two rows are still open: the offline sign-in grace period, and whether yard geofences come from Tenna Sites or are
-    drawn in the ELD. The tracker firmware version is an attribute of the tracker, not of the asset, and it allows nulls.</p>
+  <p>The tracker firmware version is an attribute of the tracker, not of the asset, and it allows nulls.</p>
 
   <div class="tbl-wrap">
   <table>
@@ -234,10 +233,10 @@
     <tbody>
       <tr><th colspan="5">Identity and organization</th></tr>
       <tr><td>Driver identity and credential</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t1">T1</a>, <a href="#t2">T2</a></td><td><a href="/decisions#p1">P1</a> (driver identity decision), <a href="/decisions#p2">P2</a> (sign-in decision)</td></tr>
-      <tr><td>Driver roster, CDL number and state</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t2">T2</a></td><td></td></tr>
+      <tr><td>Driver roster, ELD username, CDL number and state</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t2">T2</a></td><td></td></tr>
       <tr><td>Carrier name, USDOT, address</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t3">T3</a></td><td>Output file header</td></tr>
       <tr><td>Home terminal time zone and 24-hour day start</td><td>Fleet manager on <a href="/#w15">W15</a></td><td>ELD</td><td><a href="#eld-carrier-policy">S5</a></td><td>Fleet default, per-driver override; see <a href="#home-terminal">Home terminal</a></td></tr>
-      <tr><td>Auth session and tokens</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t1">T1</a></td><td>Offline grace: <b>open</b></td></tr>
+      <tr><td>Auth session and tokens</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t1">T1</a></td><td>Session 30 days, hourly refresh; re-sign-in prompt at day 25</td></tr>
       <tr><td>Module user permissions</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t8">T8</a></td><td><a href="/decisions#p5">P5</a></td></tr>
       <tr><th colspan="5">Vehicle and device</th></tr>
       <tr><td>Asset name, category and subcategories</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t4">T4</a></td><td>Tenna has categories through four subcategory fields, not an asset type</td></tr>
@@ -264,7 +263,7 @@
       <tr><th colspan="5">Cross-system</th></tr>
       <tr><td>ELD events into Tenna</td><td>Derived</td><td>ELD, Tenna receives a copy</td><td><a href="#e2-e3">E2</a></td><td><a href="/decisions#p4">P4</a> list settled 9/14/2026: nine instant alerts, seven report datasets</td></tr>
       <tr><td>DVIR status and handoff</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t7">T7</a></td><td></td></tr>
-      <tr><td>Yard geofences</td><td>Tenna platform</td><td><b>Source open</b></td><td><a href="#t5">T5</a>, <a href="#eld-carrier-policy">S5</a></td><td>Tenna Sites over the API, or drawn in the ELD</td></tr>
+      <tr><td>Yard geofences</td><td>Tenna platform</td><td>Tenna</td><td><a href="#t5">T5</a>, <a href="#eld-carrier-policy">S5</a></td><td>Tenna Sites over the API</td></tr>
       <tr><td>Carrier HOS policy</td><td>Entered</td><td>ELD</td><td><a href="#eld-carrier-policy">S5</a></td><td></td></tr>
       <tr><td>Push notifications</td><td>Derived</td><td>ELD (driver-local), Tenna (cross-user)</td><td><a href="#e2-e3">E3</a></td><td><a href="/decisions#p4">P4</a> settled 9/14/2026. Admins assign by permission group, users toggle their own, driver toggles in the app (<a href="/#d24">D24</a>)</td></tr>
     </tbody>
@@ -1048,12 +1047,12 @@
   <table>
     <thead><tr><th>Surface</th><th>Fields</th><th>Why the ELD needs it</th><th>Status</th></tr></thead>
     <tbody>
-      <tr id="t1"><td><a href="/#s-t1">T1</a> Identity</td><td>Cognito user pool id and app client; the JWT claims the ELD may rely on (sub, carrier, roles); token lifetime</td><td>Sign-in (<a href="/decisions#p2">P2</a>) and every API call</td><td>Pool settled. Session 30 days with hourly refresh; the ELD prompts re-sign-in at day 25</td></tr>
-      <tr id="t2"><td><a href="/#s-t2">T2</a> People</td><td><code>{id, name, is_driver, cdl{number, state}, roles[]}</code>; a batch lookup by id list, and a name search</td><td>Roster, headers, attribution. The ELD stores ids only and resolves names at read time, so it needs the batch lookup for a page of ids and the search for the assignment picker on <a href="/#w16">W16</a></td><td>Which attribute marks a driver is <b>open</b> (<a href="/decisions#p1">P1</a> follow-up). At creation Tenna must require the CDL number and issuing state and store them securely, refuse a second driver account for the same licence within a carrier, give driver accounts no right to create accounts, and prevent support accounts from recording ELD data (Appendix A 4.1.2)</td></tr>
-      <tr id="t3"><td><a href="/#s-t3">T3</a> Org</td><td>Carrier name, USDOT, address</td><td>Output file header, certification boundary</td><td>Exists in Tenna, needs an endpoint</td></tr>
-      <tr id="t4"><td><a href="/#s-t4">T4</a> Assets</td><td><code>{id, name, category, vin, tracker{serial, model, firmware_version (nullable)}}</code>, keyed by id or <code>?tracker_serial=</code></td><td>Pairing, VIN cross-check, and deciding which assets run the ELD</td><td>Serial is the join. BLE address is not: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed. An asset is ELD-enabled when its tracker is one of Tenna's two ELD tracker models; no new flag. Categories are per-account with four subcategory levels, so the ELD displays <code>category</code> and never branches on it. <code>firmware_version</code> sits on the tracker and allows nulls; the ELD treats null as unknown and records what it observes from the tracker where the protocol exposes it. Bus protocol and ECM-hours availability are dropped from this list: the ELD learns both from the tracker frames and keeps them on <code><a href="#tbl-eld-tracker-links">eld.tracker_links</a></code></td></tr>
+      <tr id="t1"><td><a href="/#s-t1">T1</a> Identity</td><td>Cognito user pool id and app client; the JWT claims the ELD may rely on (sub, username, carrier, roles, and a marker for a support or impersonated session); token lifetime</td><td>Sign-in (<a href="/decisions#p2">P2</a>) and every API call</td><td>Pool settled. Session 30 days with hourly refresh; the ELD prompts re-sign-in at day 25</td></tr>
+      <tr id="t2"><td><a href="/#s-t2">T2</a> People</td><td><code>{id, username, first_name, last_name, is_driver, status, cdl{number, state}, roles[]}</code>; a paged driver roster, a batch lookup by id list, and a name search</td><td>Roster, headers, attribution. The ELD stores ids only and resolves names at read time, so it needs the batch lookup for a page of ids and the search for the assignment picker on <a href="/#w16">W16</a></td><td>Which attribute marks a driver is <b>open</b> (<a href="/decisions#p1">P1</a> follow-up). At creation Tenna must require the CDL number and issuing state and store them securely, refuse a second driver account for the same licence within a carrier, give driver accounts no right to create accounts, and prevent support accounts from recording ELD data (Appendix A 4.1.2)</td></tr>
+      <tr id="t3"><td><a href="/#s-t3">T3</a> Org</td><td>Carrier name, USDOT, address, support contact</td><td>Output file header, roadside display, <a href="/#d25">D25</a></td><td>Exists in Tenna, needs an endpoint</td></tr>
+      <tr id="t4"><td><a href="/#s-t4">T4</a> Assets</td><td><code>{id, name, category, vin, assigned_driver_id, tracker{serial, model, firmware_version (nullable)}}</code>, keyed by id list or <code>?tracker_serial=</code></td><td>Pairing, VIN cross-check, and deciding which assets run the ELD</td><td>Serial is the join. BLE address is not: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed. An asset is ELD-enabled when its tracker is one of Tenna's two ELD tracker models; no new flag. Categories are per-account with four subcategory levels, so the ELD displays <code>category</code> and never branches on it. <code>firmware_version</code> sits on the tracker and allows nulls; the ELD treats null as unknown and records what it observes from the tracker where the protocol exposes it. Bus protocol and ECM-hours availability are dropped from this list: the ELD learns both from the tracker frames and keeps them on <code><a href="#tbl-eld-tracker-links">eld.tracker_links</a></code></td></tr>
       <tr id="t5"><td><a href="/#s-t5">T5</a> Sites</td><td>Yard polygons</td><td>Ending a yard move automatically</td><td>Tenna Sites is the source</td></tr>
-      <tr id="t6"><td><a href="/#s-t6">T6</a> Work orders</td><td>Open work orders for an asset</td><td><a href="/#d27">D27</a> shop road test stamp</td><td>New surface</td></tr>
+      <tr id="t6"><td><a href="/#s-t6">T6</a> Work orders</td><td>Open work orders for an asset, with the job number</td><td><a href="/#d27">D27</a> shop road test stamp; job number pre-fill on <a href="/#d2">D2</a></td><td>New surface</td></tr>
       <tr id="t7"><td><a href="/#s-t7">T7</a> DVIR</td><td>Three things, all around Tenna's existing inspection flow. (1) Inspection status for one asset: has today's DVIR on this truck not started, started, or been submitted. (2) A link the ELD app opens to start Tenna's DVIR for that asset. (3) A link Tenna's app opens when the inspection is saved, to bring the driver back to <a href="/#d14">D14</a>. The ELD does not run inspections; it only checks and hands off</td><td><a href="/#d14">D14</a></td><td>Contract still to be written</td></tr>
       <tr id="t8"><td><a href="/#s-t8">T8</a> Entitlements</td><td>ELD license on the account, supervisor permission, the portal injection point for the micro-frontend</td><td>Sign-in gate, W-screen access</td><td>Tamar owns the injection point</td></tr>
       <tr><td><a href="/#s-e2">E2</a>, <a href="/#s-e3">E3</a> Egress</td><td>An intake endpoint or topic on Tenna's notification infrastructure; template ownership; reconciliation with the mobile app's existing push pipeline (Kumaran)</td><td>Cross-user notifications</td><td>Settled 9/14/2026 (<a href="/decisions#p4">P4</a>): the ten <a href="#e2-e3">E2</a> events above, routed by permission group</td></tr>
@@ -1088,24 +1087,30 @@
     <thead><tr><th>Claim</th><th>Type</th><th>Required</th><th>Used for</th></tr></thead>
     <tbody>
       <tr><td><code>sub</code></td><td>string</td><td>yes</td><td>The Tenna user id. Stored as <code>driver_id</code> on every event; never re-issued by the ELD</td></tr>
+      <tr><td><code>username</code></td><td>string, 4 to 60 characters</td><td>yes</td><td>The ELD username (7.18): the identifier the person signs in with. It prints in the output file header, the user list and on every event row. The rule requires that it is never edited or reassigned once records exist (4.3.2.8.2)</td></tr>
       <tr><td><code>account_id</code></td><td>string</td><td>yes</td><td>The carrier. Every ELD row is scoped to it and every query is filtered by it</td></tr>
       <tr><td><code>roles[]</code></td><td>string[]</td><td>yes</td><td>Driver, supervisor, mechanic. Decides which app surfaces open</td></tr>
       <tr><td><code>licenses[]</code></td><td>string[]</td><td>yes</td><td>Must include <code>eld</code>, or the equivalent entitlement flag from <a href="#dc-t8">T8</a>, for the app to proceed past sign-in</td></tr>
       <tr><td><code>exp</code></td><td>int (epoch seconds)</td><td>yes</td><td>When the token lapses. Drives the day 25 prompt and the offline grace</td></tr>
       <tr><td><code>iat</code></td><td>int (epoch seconds)</td><td>yes</td><td>Session start, for the day 25 arithmetic</td></tr>
+      <tr><td><code>acting_as</code></td><td>string (user id)</td><td>no</td><td>Present only when Tenna staff are viewing as a customer user. The ELD treats such a session as read-only, because a support account must not record ELD data (4.1.2). <b>Open:</b> whether Tenna has such sessions and how the token marks them</td></tr>
     </tbody>
   </table>
   </div>
-<pre>{ "sub": "usr_8f21c4", "account_id": "acc_0413",
+<pre>{ "sub": "usr_8f21c4", "username": "malvarez", "account_id": "acc_0413",
   "roles": ["driver"], "licenses": ["eld"],
   "iat": 1758067200, "exp": 1760659200 }</pre>
 
   <h4 id="dc-t2"><a href="#t2">T2</a> People</h4>
-  <p><b><code>GET /eld/v1/people?ids=usr_1,usr_2,...</code></b> (batch, up to 200 ids) and
+  <p><b><code>GET /eld/v1/people?is_driver=true&amp;page=1</code></b> (the driver roster, paged, for <a href="/#w1">W1</a>, <a href="/#w3">W3</a> and <a href="/#w15">W15</a>),
+    <b><code>GET /eld/v1/people?ids=usr_1,usr_2,...</code></b> (batch, up to 200 ids) and
     <b><code>GET /eld/v1/people?q=alva</code></b> (name search, for the assignment picker on <a href="/#w16">W16</a>).
     Key: Tenna user id. Called by the ELD API on the server when it renders a page of logs, and by the phone
     at sign-in for the driver's own record and the co-driver picker. Cached for the session. The ELD stores ids
-    only and resolves names at read time. The account-creation rules in the outline row above still apply: Tenna
+    only and resolves names and usernames at read time. That puts two duties on Tenna. The batch lookup keeps
+    resolving a deactivated or departed user's id for as long as the ELD retains their records, six months at
+    least, and the roster call leaves them out unless <code>status=all</code> is passed. And a username never
+    changes or moves to another person once that person has ELD records. The account-creation rules in the outline row above still apply: Tenna
     requires the CDL number and issuing state at creation, refuses a second driver account for the same licence
     within an account, gives driver accounts no right to create accounts, and keeps support accounts out of ELD data.</p>
   <div class="tbl-wrap">
@@ -1113,55 +1118,65 @@
     <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Used for</th></tr></thead>
     <tbody>
       <tr><td><code>id</code></td><td>string</td><td>yes</td><td>Join key to every ELD row</td></tr>
-      <tr><td><code>first_name</code></td><td>string</td><td>drivers</td><td>Output file and roadside display need first and last split (7.16, 7.17), so one display name is not enough</td></tr>
-      <tr><td><code>last_name</code></td><td>string</td><td>drivers</td><td>Same</td></tr>
-      <tr><td><code>is_driver</code></td><td>bool</td><td>yes</td><td>Which accounts appear in the roster and may hold duty status. Tenna names the attribute that means this</td></tr>
+      <tr><td><code>username</code></td><td>string, 4 to 60 characters</td><td>yes</td><td>ELD username (7.18), same value as the token claim. Header, co-driver line, user list, and the originator on every event row</td></tr>
+      <tr><td><code>first_name</code></td><td>string</td><td>yes</td><td>First name (7.28). The output file needs first and last split, so one display name is not enough. Required for everyone, not only drivers: the user list names each supervisor who requested an edit</td></tr>
+      <tr><td><code>last_name</code></td><td>string</td><td>yes</td><td>Last name (7.30). Same</td></tr>
+      <tr><td><code>is_driver</code></td><td>bool</td><td>yes</td><td>Which accounts appear in the roster and may hold duty status; also sets the ELD account type (7.13), D for a driver and S for support personnel. Tenna names the attribute that means this</td></tr>
+      <tr><td><code>status</code></td><td>enum: <code>active</code>, <code>inactive</code></td><td>yes</td><td>Rosters and pickers hide inactive people; their past records still show their name</td></tr>
       <tr><td><code>exempt</code></td><td>bool</td><td>no (null = false)</td><td>Exempt driver per 4.3.3.1.2; shown on <a href="/#d38">D38</a> and <a href="/#w15">W15</a></td></tr>
       <tr><td><code>exempt_annotation</code></td><td>string</td><td>when exempt</td><td>The reason recorded with the exemption</td></tr>
-      <tr><td><code>cdl.number</code></td><td>string</td><td>drivers</td><td>Output file header (7.20). Returned only to callers with <code>eld.logs.read</code></td></tr>
-      <tr><td><code>cdl.state</code></td><td>string (2 letters)</td><td>drivers</td><td>Output file header (7.21)</td></tr>
+      <tr><td><code>cdl.number</code></td><td>string</td><td>drivers</td><td>Driver's license number (7.11). Returned only to callers with <code>eld.logs.read</code></td></tr>
+      <tr><td><code>cdl.state</code></td><td>string (2 letters)</td><td>drivers</td><td>Driver's license issuing state (7.10)</td></tr>
       <tr><td><code>roles[]</code></td><td>string[]</td><td>yes</td><td>Same vocabulary as the token; the picker filters supervisors and mechanics by it</td></tr>
-      <tr><td><code>email</code></td><td>string</td><td>no</td><td>Own-records delivery, and the driver's contact line on <a href="/#d23">D23</a></td></tr>
+      <tr><td><code>email</code></td><td>string</td><td>no</td><td>The driver's contact line on <a href="/#d23">D23</a>. Required in practice if own-records delivery goes by email (<a href="#s9">open item</a>)</td></tr>
       <tr><td><code>phone</code></td><td>string</td><td>no</td><td>Contact line only</td></tr>
     </tbody>
   </table>
   </div>
 <pre>GET /eld/v1/people?ids=usr_8f21c4,usr_5510
-&rarr; [ { "id": "usr_8f21c4", "first_name": "Maria", "last_name": "Alvarez",
-      "is_driver": true, "exempt": false, "exempt_annotation": null,
+&rarr; [ { "id": "usr_8f21c4", "username": "malvarez", "first_name": "Maria", "last_name": "Alvarez",
+      "is_driver": true, "status": "active", "exempt": false, "exempt_annotation": null,
       "cdl": { "number": "RE123456", "state": "OH" },
       "roles": ["driver"], "email": "m.alvarez@example.com", "phone": null },
-    { "id": "usr_5510", "first_name": "Dan", "last_name": "Okafor",
-      "is_driver": false, "exempt": null, "exempt_annotation": null,
+    { "id": "usr_5510", "username": "dokafor", "first_name": "Dan", "last_name": "Okafor",
+      "is_driver": false, "status": "active", "exempt": null, "exempt_annotation": null,
       "cdl": null, "roles": ["mechanic"], "email": null, "phone": null } ]</pre>
 
   <h4 id="dc-t3"><a href="#t3">T3</a> Org</h4>
   <p><b><code>GET /eld/v1/account</code></b>, the caller's own account. Key: account id from the token. Read at
     sign-in and cached for the day; changes rarely. Called by the phone and by the ELD API when it builds an
-    output file. Used for the output file header (7.5, 7.6, 7.7) and the roadside display. No time zone or day
+    output file. Used for the output file header (7.2, 7.3), the roadside display, and the support line on <a href="/#d25">D25</a>. No time zone or day
     start here: those are ELD-owned, see <a href="#home-terminal">Home terminal</a>.</p>
   <div class="tbl-wrap">
   <table>
     <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Used for</th></tr></thead>
     <tbody>
       <tr><td><code>id</code></td><td>string</td><td>yes</td><td>Stored as <code>carrier_id</code> on every ELD row</td></tr>
-      <tr><td><code>name</code></td><td>string</td><td>yes</td><td>Carrier name in the header (7.6)</td></tr>
-      <tr><td><code>usdot</code></td><td>string (digits)</td><td>yes</td><td>Carrier USDOT number (7.7). Required by the rule; an account with the ELD module and no USDOT is flagged on <a href="/#w11">W11</a></td></tr>
+      <tr><td><code>name</code></td><td>string</td><td>yes</td><td>Carrier name (7.2)</td></tr>
+      <tr><td><code>usdot</code></td><td>string (digits)</td><td>yes</td><td>Carrier's USDOT number (7.3). Required by the rule; an account with the ELD module and no USDOT is flagged on <a href="/#w11">W11</a></td></tr>
       <tr><td><code>address.street</code></td><td>string</td><td>yes</td><td>Carrier address on the roadside display and printed logs</td></tr>
       <tr><td><code>address.city</code></td><td>string</td><td>yes</td><td>Same</td></tr>
       <tr><td><code>address.state</code></td><td>string (2 letters)</td><td>yes</td><td>Same</td></tr>
       <tr><td><code>address.zip</code></td><td>string</td><td>yes</td><td>Same</td></tr>
+      <tr><td><code>support_contact.name</code></td><td>string</td><td>no</td><td>Who a driver calls at the carrier about the ELD, shown on <a href="/#d25">D25</a>. Null hides the line</td></tr>
+      <tr><td><code>support_contact.phone</code></td><td>string</td><td>no</td><td>Same</td></tr>
+      <tr><td><code>support_contact.email</code></td><td>string</td><td>no</td><td>Same</td></tr>
     </tbody>
   </table>
   </div>
 <pre>GET /eld/v1/account
 &rarr; { "id": "acc_0413", "name": "Blue Ash Construction Co.", "usdot": "3172584",
     "address": { "street": "4400 Cooper Rd", "city": "Blue Ash",
-                 "state": "OH", "zip": "45242" } }</pre>
+                 "state": "OH", "zip": "45242" },
+    "support_contact": { "name": "Fleet office", "phone": "513-555-0142",
+                         "email": "fleet@example.com" } }</pre>
 
   <h4 id="dc-t4"><a href="#t4">T4</a> Assets</h4>
-  <p><b><code>GET /eld/v1/assets?tracker_serial=WQ-87X060680218</code></b> (one asset, at pairing) and
-    <b><code>GET /eld/v1/assets?eld=true</code></b> (the pairing list, every ELD-enabled asset in the account).
+  <p><b><code>GET /eld/v1/assets?tracker_serial=WQ-87X060680218</code></b> (one asset, at pairing),
+    <b><code>GET /eld/v1/assets?eld=true</code></b> (the pairing list, every ELD-enabled asset in the account) and
+    <b><code>GET /eld/v1/assets?ids=ast_1,ast_2,...</code></b> (batch, up to 200 ids). The ELD stores asset ids and
+    resolves names at read time, so the batch lookup keeps resolving an asset after its tracker is removed or the
+    asset is retired, for as long as the ELD retains its records.
     Key: asset id, joined by tracker serial. Called by the phone on scan and by the ELD API when it renders
     <a href="/#w11">W11</a>. An asset is ELD-enabled when its associated tracker record is one of Tenna's two ELD
     tracker models; there is no separate flag. The ELD learns the two model names once from
@@ -1174,9 +1189,10 @@
     <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Used for</th></tr></thead>
     <tbody>
       <tr><td><code>id</code></td><td>string</td><td>yes</td><td>Stored as <code>asset_id</code> on every event and link</td></tr>
-      <tr><td><code>name</code></td><td>string</td><td>yes</td><td>Fleet unit number; the CMV number in the header (7.9) and on every screen</td></tr>
-      <tr><td><code>vin</code></td><td>string (17)</td><td>yes</td><td>VIN of record (7.10). Cross-checked against the VIN the tracker reads; a difference is flagged on <a href="/#w11">W11</a></td></tr>
+      <tr><td><code>name</code></td><td>string</td><td>yes</td><td>Fleet unit number; the CMV power unit number (7.4) in the header and on every screen</td></tr>
+      <tr><td><code>vin</code></td><td>string (17)</td><td>yes</td><td>CMV VIN of record (7.5). Cross-checked against the VIN the tracker reads; a difference is flagged on <a href="/#w11">W11</a></td></tr>
       <tr><td><code>category</code></td><td>string</td><td>no</td><td>Display only</td></tr>
+      <tr><td><code>assigned_driver_id</code></td><td>string (user id)</td><td>no</td><td>Tenna's driver-to-vehicle assignment, shown on <a href="/#w1">W1</a> next to the vehicle the driver is paired to. Display only; the ELD record always uses the vehicle the phone is paired with</td></tr>
       <tr><td><code>tracker.serial</code></td><td>string</td><td>yes</td><td>The join from a BLE scan to an asset. BLE address is not usable: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed</td></tr>
       <tr><td><code>tracker.model</code></td><td>string</td><td>yes</td><td>ELD-enabled test, above</td></tr>
       <tr><td><code>tracker.firmware_version</code></td><td>string</td><td>no</td><td>Reported on <a href="/#w11">W11</a>; null means unknown and the ELD records what it observes from the tracker</td></tr>
@@ -1186,7 +1202,7 @@
   </div>
 <pre>GET /eld/v1/assets?tracker_serial=WQ-87X060680218
 &rarr; { "id": "ast_2181", "name": "Unit 218", "vin": "1FTFW1R63EFA84339",
-    "category": "Pickup truck",
+    "category": "Pickup truck", "assigned_driver_id": "usr_8f21c4",
     "tracker": { "serial": "WQ-87X060680218", "model": "WQ-ELD",
                  "firmware_version": null },
     "trailer_number": null }</pre>
@@ -1214,7 +1230,9 @@
 
   <h4 id="dc-t6"><a href="#t6">T6</a> Work orders</h4>
   <p><b><code>GET /eld/v1/work-orders?asset_id=ast_2181&amp;status=open</code></b>. Key: work order id. Called by the
-    phone at the moment a mechanic stamps a shop road test on <a href="/#d27">D27</a>, and nowhere else. New surface:
+    phone in two places: when a mechanic stamps a shop road test on <a href="/#d27">D27</a>, and on <a href="/#d2">D2</a> to
+    pre-fill the job number the truck is dispatched under, which stands in for the shipping document number
+    (7.39). The driver can overwrite the pre-fill. New surface:
     nothing in the existing integration list reaches the Maintenance module. The ELD stores the id and number
     on the event annotation and never writes back.</p>
   <div class="tbl-wrap">
@@ -1223,6 +1241,7 @@
     <tbody>
       <tr><td><code>id</code></td><td>string</td><td>yes</td><td>Stored on the road test annotation</td></tr>
       <tr><td><code>number</code></td><td>string</td><td>yes</td><td>The human reference shown on <a href="/#d27">D27</a> and in the annotation text</td></tr>
+      <tr><td><code>job_number</code></td><td>string</td><td>no</td><td>The job or project the work is under. Pre-fills the shipping document field on <a href="/#d2">D2</a>. If Tenna keeps dispatch jobs somewhere other than work orders, Tenna names that source here</td></tr>
       <tr><td><code>asset_id</code></td><td>string</td><td>yes</td><td>Filter; must match the paired asset</td></tr>
       <tr><td><code>summary</code></td><td>string</td><td>no</td><td>Picker line</td></tr>
       <tr><td><code>assigned_to</code></td><td>string (user id)</td><td>no</td><td>Sorts the picker so the mechanic's own orders come first</td></tr>
@@ -1230,7 +1249,7 @@
   </table>
   </div>
 <pre>GET /eld/v1/work-orders?asset_id=ast_2181&amp;status=open
-&rarr; [ { "id": "wo_88213", "number": "WO-88213", "asset_id": "ast_2181",
+&rarr; [ { "id": "wo_88213", "number": "WO-88213", "job_number": "J-2291", "asset_id": "ast_2181",
       "summary": "Brake inspection", "assigned_to": "usr_5510" } ]</pre>
 
   <h4 id="dc-t7"><a href="#t7">T7</a> DVIR</h4>
@@ -1247,7 +1266,7 @@
       <tr><td><code>inspection_id</code></td><td>string</td><td>when started or submitted</td><td>Stored on the day's log so the printed log can cite it</td></tr>
       <tr><td><code>submitted_at</code></td><td>iso8601</td><td>when submitted</td><td>Shown on D14</td></tr>
       <tr><td><code>defects_open</code></td><td>int</td><td>yes</td><td>Warns the driver before they drive; the ELD does not block</td></tr>
-      <tr><td><code>shipping_document_number</code></td><td>string</td><td>no</td><td>Shipping document number (7.41) if Tenna's DVIR flow includes it; otherwise the driver enters it on <a href="/#d2">D2</a></td></tr>
+      <tr><td><code>shipping_document_number</code></td><td>string</td><td>no</td><td>Shipping document number (7.39) if Tenna's DVIR flow includes it; otherwise the driver enters it on <a href="/#d2">D2</a></td></tr>
     </tbody>
   </table>
   </div>
@@ -1734,6 +1753,8 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
       <tr><td>Own-records delivery</td><td>Email to the Tenna address (default) or in-app share sheet</td><td>POST /drivers/me/record-requests</td><td>Sunil</td></tr>
       <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and Tenna-issued ids, stored as given, are the keys across the phone, the API and the portal</td><td><a href="#s3">Contract A</a> and B as written</td><td>Kyle, Tamar</td></tr>
       <tr><td><a href="#s5">Contract C</a> field mapping per API</td><td>The proposed contracts for <a href="#t1">T1</a>–<a href="#t8">T8</a> are on this page (<a href="#data-contracts">Data contracts</a>). Tenna marks each field exists, nullable or missing and returns the mapping</td><td>Phase 3 start</td><td>AppAxis drafts, Tamar reviews</td></tr>
+      <tr><td>ELD username format</td><td>7.18 asks for 4 to 60 alphanumeric characters. If Tenna sign-in names are email addresses, whether FMCSA accepts the <code>@</code>, and confirmation that Tenna never edits or reassigns a username (<a href="#dc-t2">T2</a>)</td><td>Output file header and event rows</td><td>Tom, Tamar</td></tr>
+      <tr><td>Support and impersonated sessions</td><td>Whether Tenna staff can act as a customer user, and the token claim that marks it (<a href="#dc-t1">T1</a>)</td><td>4.1.2 support account rule</td><td>Tamar, Kyle</td></tr>
       <tr><td>SSO app signing</td><td>Whether the ELD app is signed with the same key as TFA on Android and shares its Keychain access group on iOS, which the shared token store (<a href="#dc-t1">T1</a>) requires</td><td>Stage C sign-in</td><td>Tamar, Kyle</td></tr>
       <tr><td>Architecture review by Tenna</td><td>Full review by Tenna engineering by the end of Phase 2</td><td>Stage B sign-off</td><td>Tamar</td></tr>
     </tbody>

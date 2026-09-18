@@ -1012,9 +1012,12 @@
           <div class="p-opt"><b>What follows from it</b> D1 keeps the form drawn here rather than becoming a hosted
           page. Kumaran has a written flow for the Amplify SDK against the existing pool. The same applies to the web
           control panel, which Tamar asked be recorded.</div>
-          <div class="p-opt"><b>Still to specify</b> Offline grace. A driver at a rural jobsite has to reach their
+          <div class="p-opt" data-rev-until="v9"><b>Still to specify</b> Offline grace. A driver at a rural jobsite has to reach their
           logs with no signal, so a cached session needs an agreed lifetime. Nothing about the credential store
           answers that on its own.</div>
+          <div class="p-opt" data-rev-from="v10"><b>Settled 9/16/2026</b> Offline grace. Tenna's session lasts 30 days and refreshes hourly. The ELD
+          prompts a re-sign-in at day 25, so a driver at a rural jobsite with no signal has five days before the
+          session lapses.</div>
         </div>
         <div class="p-gates">
           <span class="glabel">Screens this unblocks</span>
@@ -1292,7 +1295,7 @@
               <li data-rev-from="v3"><a class="qref" href="/decisions#p1">P1</a> What does a Tenna user without an ELD license see here? If the app only says login failed, the driver calls dispatch, when the real problem is the missing license.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q24">Q24</a> Face ID unlocks a saved session on the phone. It does not prove to Tenna who signed in. On a shared cab tablet, one enrolled face opens any driver&rsquo;s session.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q24">Q24</a> Could Tenna's login pool use passkeys instead? Then Face ID would sign a check the server can verify, which ties the record to a person. A question for Kumaran.</li>
-              <li><a class="qref" href="/decisions#p2">P2</a> Offline grace period: a driver at a jobsite with no signal must still reach their logs. How long may a saved session stay valid?</li>
+              <li data-rev-until="v9"><a class="qref" href="/decisions#p2">P2</a> Offline grace period: a driver at a jobsite with no signal must still reach their logs. How long may a saved session stay valid?</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#p2">P2</a> Biometrics is what makes a long cached session acceptable: the app can hold the token for days because the driver has to pass Face ID to get back in. Does that change the grace period P2 leaves open?</li>
             </ul>
           </div>
@@ -1857,7 +1860,7 @@
           <div class="wf-src" data-rev-from="v3">
             <span class="wf-label">Where this data comes from</span>
             <ul>
-              <li><a class="src-chip" href="#s-t5">T5 &middot; Sites</a><span>the yard boundary that ends a Yard Move by itself. Tenna Sites or ELD-drawn, still open</span></li>
+              <li><a class="src-chip" href="#s-t5">T5 &middot; Sites</a><span>the yard boundary that ends a Yard Move by itself. <span data-revi-until="v9">Tenna Sites or ELD-drawn, still open</span><span data-revi-from="v10">Tenna Sites is the source</span></span></li>
               <li data-rev-from="v8"><a class="src-chip" href="#s-b1">B1 &middot; BLE</a><span>speed above 20 mph ends the yard move and records Driving, whatever the fence says</span></li>
               <li><a class="src-chip" href="#s-s5">S5 &middot; Policy</a><span>whether Personal Conveyance and Yard Move are permitted for this driver</span></li>
               <li><a class="src-chip" href="#s-s1">S1 &middot; Event log</a><span>the special-duty event and its justification</span></li>
@@ -5100,7 +5103,7 @@
             <span class="wf-label">Where this data comes from</span>
             <ul>
               <li><a class="src-chip" href="#s-s5">S5 &middot; Policy</a><span>cycles, permissions, thresholds, the UD reason taxonomy, review cadence, and non-HOS move roles<span data-revi-from="v9">; the home terminal time zone and day start</span></span></li>
-              <li><a class="src-chip" href="#s-t5">T5 &middot; Sites</a><span>yard geofences, if they come from Tenna Sites. Still open</span></li>
+              <li><a class="src-chip" href="#s-t5">T5 &middot; Sites</a><span><span data-revi-until="v9">yard geofences, if they come from Tenna Sites. Still open</span><span data-revi-from="v10">yard geofences, from Tenna Sites</span></span></li>
               <li><a class="src-chip" href="#s-t3">T3 &middot; Org</a><span>org identity<span data-revi-until="v8"> and terminal time zones</span></span></li>
               <li><a class="src-chip" href="#s-t2">T2 &middot; People</a><span>the personnel this carrier lets stamp a non-HOS move</span></li>
             </ul>
@@ -5337,7 +5340,7 @@
 
       <article class="sfc" id="s-t5">
         <div class="sfc-head"><span class="sfc-id">T5</span><h4 class="sfc-name">Sites &amp; geofences</h4></div>
-        <p class="sfc-ans">Yard and jobsite boundaries, so a Yard Move ends by itself when the truck leaves the yard. This is the only data source still open: either Tenna Sites supplies the boundary over this API, or the ELD lets a carrier draw its own.</p>
+        <p class="sfc-ans">Yard and jobsite boundaries, so a Yard Move ends by itself when the truck leaves the yard. <span data-revi-until="v9">This is the only data source still open: either Tenna Sites supplies the boundary over this API, or the ELD lets a carrier draw its own.</span><span data-revi-from="v10">Tenna Sites supplies the boundary over this API; the phone caches it for offline checks.</span></p>
         <div class="sfc-meta">
           <span><b>Key</b>Site ID</span>
           <span><b>Direction</b>ELD reads</span>
@@ -5588,7 +5591,7 @@ eld.transfers(id, output_file_id, method, caller,
           <tr><td class="el">Driver roster</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t2">T2</a></td></tr>
           <tr><td class="el">CDL number &amp; licensing state</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t2">T2</a></td></tr>
           <tr><td class="el">Carrier name, USDOT<span data-revi-until="v8">, home terminal</span></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t3">T3</a></td></tr>
-          <tr><td class="el">Auth session &amp; tokens<small>offline grace still to be agreed</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a></td></tr>
+          <tr><td class="el">Auth session &amp; tokens<small><span data-revi-until="v9">offline grace still to be agreed</span><span data-revi-from="v10">30-day session, re-sign-in prompt at day 25</span></small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a></td></tr>
           <tr data-rev-from="v3"><td class="el">Biometric unlock enrolment<small>the phone matches it and returns yes or no; nothing leaves the phone</small></td><td><span class="o-chip o-deriv">Device</span></td><td><span class="tag t-eld">ELD</span><small>a local convenience over the T1 token, not an authentication factor</small></td><td class="ap"><a class="src-chip" href="#s-t1">T1</a><a class="src-chip" href="#s-s5">S5</a></td></tr>
           <tr><td class="el">Module user permissions<small>settled by P5 as a supervisor permission</small></td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t8">T8</a></td></tr>
           <tr class="cat"><td colspan="4">Vehicle &amp; device</td></tr>
@@ -5641,7 +5644,7 @@ eld.transfers(id, output_file_id, method, caller,
           <tr class="cat"><td colspan="4">Cross-system</td></tr>
           <tr><td class="el">ELD events into Tenna<small>alarms &amp; exceptions</small></td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small>Tenna receives a copy; the ELD stays authoritative</small></td><td class="ap"><a class="src-chip" href="#s-e2">E2</a></td></tr>
           <tr><td class="el">DVIR status &amp; handoff context</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-api">Tenna</span></td><td class="ap"><a class="src-chip" href="#s-t7">T7</a></td></tr>
-          <tr><td class="el">Yard geofences</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span class="tag t-gated">Source open</span><small>Tenna Sites over the API, or drawn in the ELD</small></td><td class="ap"><a class="src-chip" href="#s-t5">T5</a><a class="src-chip" href="#s-s5">S5</a></td></tr>
+          <tr><td class="el">Yard geofences</td><td><span class="o-chip o-tenna">Tenna platform</span></td><td><span data-revi-until="v9"><span class="tag t-gated">Source open</span><small>Tenna Sites over the API, or drawn in the ELD</small></span><span data-revi-from="v10"><span class="tag t-api">Tenna</span><small>Tenna Sites over the API</small></span></td><td class="ap"><a class="src-chip" href="#s-t5">T5</a><a class="src-chip" href="#s-s5">S5</a></td></tr>
           <tr><td class="el">Carrier HOS policy</td><td><span class="o-chip o-enter">Entered</span></td><td><span class="tag t-eld">ELD</span></td><td class="ap"><a class="src-chip" href="#s-s5">S5</a></td></tr>
           <tr><td class="el">Push notifications to the driver</td><td><span class="o-chip o-deriv">Derived</span></td><td><span class="tag t-eld">ELD</span><small>driver-local; cross-user notifications route through Tenna</small></td><td class="ap"><a class="src-chip" href="#s-e3">E3</a></td></tr>
         </tbody>
@@ -5655,7 +5658,8 @@ eld.transfers(id, output_file_id, method, caller,
       <a href="#pd4">P4</a>. Yard geofences keep the question they already had, Tenna Sites over the API against an
       ELD-drawn fallback. Marking three rows open is more useful than filling them in and being wrong.</p>
       <p data-rev-from="v6" data-rev-until="v7"><b>What is still open here.</b> Position and the audit export are settled (P3 on 9/8/2026 and 9/10/2026, Q19 on 9/10/2026). The <a href="/decisions#p4">P4</a> event set is agreed in shape and not in content, and yard geofences keep their question, Tenna Sites over the API against an ELD-drawn fallback. Two open rows is the honest count.</p>
-      <p data-rev-from="v8"><b>What is still open here.</b> Position, the audit export and the <a href="/decisions#p4s">P4</a> event set are settled (P3 on 9/8/2026 and 9/10/2026, Q19 on 9/10/2026, P4 on 9/14/2026). Yard geofences keep their question, Tenna Sites over the API or drawn in the ELD, now as an optional trigger behind the 20 mph rule. One open row is the honest count.</p>
+      <p data-rev-from="v8" data-rev-until="v9"><b>What is still open here.</b> Position, the audit export and the <a href="/decisions#p4s">P4</a> event set are settled (P3 on 9/8/2026 and 9/10/2026, Q19 on 9/10/2026, P4 on 9/14/2026). Yard geofences keep their question, Tenna Sites over the API or drawn in the ELD, now as an optional trigger behind the 20 mph rule. One open row is the honest count.</p>
+      <p data-rev-from="v10"><b>Nothing is open here.</b> Position, the audit export and the <a href="/decisions#p4s">P4</a> event set were settled by 9/14/2026. Yard geofences come from Tenna Sites (9/16/2026), as an optional trigger behind the 20 mph rule.</p>
       <p><b>And what it is for.</b> Tamar asked that the data work move alongside the requirements rather than behind them, and Kyle agreed: the sooner the technical details are settled, the better the four weeks go. This is the input to that conversation. If Kyle or Tamar supply the real schema, the sketches get
       replaced, not argued with.</p>
     </div>
