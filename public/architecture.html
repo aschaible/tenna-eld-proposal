@@ -622,6 +622,7 @@
       <tr><td>seq</td><td>integer</td><td>One continuous counter per ELD device across every user, including the unidentified profile, and across power cycles (Appendix A 4.4.4.1). Assigned on the device, persisted with the event (product must-fix MF-1). Unique on (device_id, seq). Rendered in the output file as hex 0000 to FFFF, wrapping at 65,536; the database keeps the unbounded integer</td></tr>
       <tr><td>carrier_id</td><td>text</td><td>Tenant key, on every row. Holds the Tenna account id; the column keeps the regulation's word</td></tr>
       <tr><td>driver_id</td><td>text</td><td>Tenna user id. Null for unidentified-driver events</td></tr>
+      <tr><td>eld_username</td><td>text</td><td>The ELD username (7.18) as it was when the event was recorded, from the <a href="#dc-t1">T1</a> token. Stored, not looked up, because it is an input to <code>event_check</code> (4.4.5.1) and may not be edited or reassigned afterwards (4.3.2.8.2). Case is kept as given; the check value mapping is case-sensitive</td></tr>
       <tr><td>asset_id</td><td>text</td><td>Tenna asset id, stored as given</td></tr>
       <tr><td>device_id</td><td>uuid</td><td><a href="#tbl-eld-devices">eld.devices</a></td></tr>
       <tr><td>event_type</td><td>smallint</td><td>1 duty status, 2 intermediate, 3 special driving, 4 certification, 5 login/logout, 6 engine power, 7 malfunction/diagnostic</td></tr>
@@ -1087,7 +1088,7 @@
     <thead><tr><th>Claim</th><th>Type</th><th>Required</th><th>Used for</th></tr></thead>
     <tbody>
       <tr><td><code>sub</code></td><td>string</td><td>yes</td><td>The Tenna user id. Stored as <code>driver_id</code> on every event; never re-issued by the ELD</td></tr>
-      <tr><td><code>username</code></td><td>string, 4 to 60 characters</td><td>yes</td><td>The ELD username (7.18): the identifier the person signs in with. It prints in the output file header, the user list and on every event row. The rule requires that it is never edited or reassigned once records exist (4.3.2.8.2)</td></tr>
+      <tr><td><code>username</code></td><td>string, 4 to 60 characters</td><td>yes</td><td>The ELD username (7.18): the identifier the person signs in with. An email address is acceptable. The rule's range is "any alphanumeric combination", the same wording it uses for carrier name, its own example is <code>john.smith</code>, and the check value table maps every other character to zero. The only characters the output file cannot hold are a comma and a carriage return. The ELD stamps this value on each event as <code><a href="#eld-events">eld_username</a></code> at record time</td></tr>
       <tr><td><code>account_id</code></td><td>string</td><td>yes</td><td>The carrier. Every ELD row is scoped to it and every query is filtered by it</td></tr>
       <tr><td><code>roles[]</code></td><td>string[]</td><td>yes</td><td>Driver, supervisor, mechanic. Decides which app surfaces open</td></tr>
       <tr><td><code>licenses[]</code></td><td>string[]</td><td>yes</td><td>Must include <code>eld</code>, or the equivalent entitlement flag from <a href="#dc-t8">T8</a>, for the app to proceed past sign-in</td></tr>
@@ -1107,10 +1108,12 @@
     <b><code>GET /eld/v1/people?q=alva</code></b> (name search, for the assignment picker on <a href="/#w16">W16</a>).
     Key: Tenna user id. Called by the ELD API on the server when it renders a page of logs, and by the phone
     at sign-in for the driver's own record and the co-driver picker. Cached for the session. The ELD stores ids
-    only and resolves names and usernames at read time. That puts two duties on Tenna. The batch lookup keeps
+    and resolves names at read time; the username is the one exception, stamped on each event when it is
+    recorded. That puts two duties on Tenna. The batch lookup keeps
     resolving a deactivated or departed user's id for as long as the ELD retains their records, six months at
-    least, and the roster call leaves them out unless <code>status=all</code> is passed. And a username never
-    changes or moves to another person once that person has ELD records. The account-creation rules in the outline row above still apply: Tenna
+    least, and the roster call leaves them out unless <code>status=all</code> is passed. And a username is never given to a second person within an account, so a stamped username always points
+    to one individual. If a person's sign-in name changes, old events keep the old username and new events
+    get the new one, and the user list in the output file shows every username that appears on the events in that file. The account-creation rules in the outline row above still apply: Tenna
     requires the CDL number and issuing state at creation, refuses a second driver account for the same licence
     within an account, gives driver accounts no right to create accounts, and keeps support accounts out of ELD data.</p>
   <div class="tbl-wrap">
@@ -1753,7 +1756,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
       <tr><td>Own-records delivery</td><td>Email to the Tenna address (default) or in-app share sheet</td><td>POST /drivers/me/record-requests</td><td>Sunil</td></tr>
       <tr><td>Global id scheme</td><td>Agreement that UUIDv7 event ids and Tenna-issued ids, stored as given, are the keys across the phone, the API and the portal</td><td><a href="#s3">Contract A</a> and B as written</td><td>Kyle, Tamar</td></tr>
       <tr><td><a href="#s5">Contract C</a> field mapping per API</td><td>The proposed contracts for <a href="#t1">T1</a>–<a href="#t8">T8</a> are on this page (<a href="#data-contracts">Data contracts</a>). Tenna marks each field exists, nullable or missing and returns the mapping</td><td>Phase 3 start</td><td>AppAxis drafts, Tamar reviews</td></tr>
-      <tr><td>ELD username format</td><td>7.18 asks for 4 to 60 alphanumeric characters. If Tenna sign-in names are email addresses, whether FMCSA accepts the <code>@</code>, and confirmation that Tenna never edits or reassigns a username (<a href="#dc-t2">T2</a>)</td><td>Output file header and event rows</td><td>Tom, Tamar</td></tr>
+      <tr><td>ELD username length and reuse</td><td>The rule allows an email address as the username (<a href="#dc-t1">T1</a>). Two things for Tenna to confirm: sign-in names fit in 60 characters, and a released sign-in name is never issued to another person in the same account</td><td>Output file header and event rows</td><td>Tamar</td></tr>
       <tr><td>Support and impersonated sessions</td><td>Whether Tenna staff can act as a customer user, and the token claim that marks it (<a href="#dc-t1">T1</a>)</td><td>4.1.2 support account rule</td><td>Tamar, Kyle</td></tr>
       <tr><td>SSO app signing</td><td>Whether the ELD app is signed with the same key as TFA on Android and shares its Keychain access group on iOS, which the shared token store (<a href="#dc-t1">T1</a>) requires</td><td>Stage C sign-in</td><td>Tamar, Kyle</td></tr>
       <tr><td>Architecture review by Tenna</td><td>Full review by Tenna engineering by the end of Phase 2</td><td>Stage B sign-off</td><td>Tamar</td></tr>
