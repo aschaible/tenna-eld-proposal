@@ -1,0 +1,928 @@
+{
+  "info": {
+    "_postman_id": "98154e63-59bd-5e9a-ab3c-5f4bab1b8696",
+    "name": "Tenna ELD - proposed Tenna platform contracts (T1-T8)",
+    "description": "AppAxis's proposed contracts for what the Tenna ELD reads from the Tenna platform (Contract C, surfaces T1 to T8). Field names and paths are proposals, not Tenna's schema. Tenna maps each field to its real column or attribute and marks it exists, nullable or missing. Every call is a read. Every call sends the Cognito JWT and is scoped to the caller's account. No server implements this yet, so requests cannot be sent; the examples show the intended shapes. Source of truth: the Data contracts section of the architecture page.\n\nVersion 0.1.0-proposal.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.tenna.example"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "T1 Identity (token claims)",
+      "description": "Not an endpoint. Every request sends the Cognito JWT as a bearer token. Claims the ELD relies on:\n\n```json\n{\n  \"sub\": \"usr_8f21c4\",\n  \"username\": \"malvarez\",\n  \"account_id\": \"acc_0413\",\n  \"roles\": [\n    \"driver\"\n  ],\n  \"licenses\": [\n    \"eld\"\n  ],\n  \"iat\": 1758067200,\n  \"exp\": 1760659200\n}\n```\n\nOpen: an `acting_as` claim for Tenna staff sessions.",
+      "item": []
+    },
+    {
+      "name": "T2 People",
+      "item": [
+        {
+          "name": "Driver roster (paged)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/people?is_driver=true&page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "people"
+              ],
+              "query": [
+                {
+                  "key": "is_driver",
+                  "value": "true"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "List, batch-resolve or search people.\n\nThree uses of one call. Roster: is_driver=true, paged (W1, W3, W15). Batch: ids, up to 200; keeps resolving inactive and departed users for as long as the ELD retains their records. Search: q, for the W16 assignment picker. Called by the ELD API on the server and by the phone at sign-in."
+          },
+          "response": [
+            {
+              "name": "200 Driver roster (paged)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/people?is_driver=true&page=1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "people"
+                  ],
+                  "query": [
+                    {
+                      "key": "is_driver",
+                      "value": "true"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                },
+                "description": "List, batch-resolve or search people.\n\nThree uses of one call. Roster: is_driver=true, paged (W1, W3, W15). Batch: ids, up to 200; keeps resolving inactive and departed users for as long as the ELD retains their records. Search: q, for the W16 assignment picker. Called by the ELD API on the server and by the phone at sign-in."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"usr_8f21c4\",\n    \"username\": \"malvarez\",\n    \"first_name\": \"Maria\",\n    \"last_name\": \"Alvarez\",\n    \"is_driver\": true,\n    \"status\": \"active\",\n    \"exempt\": false,\n    \"exempt_annotation\": null,\n    \"cdl\": {\n      \"number\": \"RE123456\",\n      \"state\": \"OH\"\n    },\n    \"roles\": [\n      \"driver\"\n    ],\n    \"email\": \"m.alvarez@example.com\",\n    \"phone\": null\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Batch lookup by id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/people?ids=usr_8f21c4,usr_5510",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "people"
+              ],
+              "query": [
+                {
+                  "key": "ids",
+                  "value": "usr_8f21c4,usr_5510"
+                }
+              ]
+            },
+            "description": "List, batch-resolve or search people.\n\nThree uses of one call. Roster: is_driver=true, paged (W1, W3, W15). Batch: ids, up to 200; keeps resolving inactive and departed users for as long as the ELD retains their records. Search: q, for the W16 assignment picker. Called by the ELD API on the server and by the phone at sign-in."
+          },
+          "response": [
+            {
+              "name": "200 Batch lookup by id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/people?ids=usr_8f21c4,usr_5510",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "people"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "usr_8f21c4,usr_5510"
+                    }
+                  ]
+                },
+                "description": "List, batch-resolve or search people.\n\nThree uses of one call. Roster: is_driver=true, paged (W1, W3, W15). Batch: ids, up to 200; keeps resolving inactive and departed users for as long as the ELD retains their records. Search: q, for the W16 assignment picker. Called by the ELD API on the server and by the phone at sign-in."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"usr_8f21c4\",\n    \"username\": \"malvarez\",\n    \"first_name\": \"Maria\",\n    \"last_name\": \"Alvarez\",\n    \"is_driver\": true,\n    \"status\": \"active\",\n    \"exempt\": false,\n    \"exempt_annotation\": null,\n    \"cdl\": {\n      \"number\": \"RE123456\",\n      \"state\": \"OH\"\n    },\n    \"roles\": [\n      \"driver\"\n    ],\n    \"email\": \"m.alvarez@example.com\",\n    \"phone\": null\n  },\n  {\n    \"id\": \"usr_5510\",\n    \"username\": \"dokafor\",\n    \"first_name\": \"Dan\",\n    \"last_name\": \"Okafor\",\n    \"is_driver\": false,\n    \"status\": \"active\",\n    \"exempt\": null,\n    \"exempt_annotation\": null,\n    \"cdl\": null,\n    \"roles\": [\n      \"mechanic\"\n    ],\n    \"email\": null,\n    \"phone\": null\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Name search",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/people?q=alva",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "people"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "alva"
+                }
+              ]
+            },
+            "description": "List, batch-resolve or search people.\n\nThree uses of one call. Roster: is_driver=true, paged (W1, W3, W15). Batch: ids, up to 200; keeps resolving inactive and departed users for as long as the ELD retains their records. Search: q, for the W16 assignment picker. Called by the ELD API on the server and by the phone at sign-in."
+          },
+          "response": [
+            {
+              "name": "200 Name search",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/people?q=alva",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "people"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "alva"
+                    }
+                  ]
+                },
+                "description": "List, batch-resolve or search people.\n\nThree uses of one call. Roster: is_driver=true, paged (W1, W3, W15). Batch: ids, up to 200; keeps resolving inactive and departed users for as long as the ELD retains their records. Search: q, for the W16 assignment picker. Called by the ELD API on the server and by the phone at sign-in."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"usr_8f21c4\",\n    \"username\": \"malvarez\",\n    \"first_name\": \"Maria\",\n    \"last_name\": \"Alvarez\",\n    \"is_driver\": true,\n    \"status\": \"active\",\n    \"exempt\": false,\n    \"exempt_annotation\": null,\n    \"cdl\": {\n      \"number\": \"RE123456\",\n      \"state\": \"OH\"\n    },\n    \"roles\": [\n      \"driver\"\n    ],\n    \"email\": \"m.alvarez@example.com\",\n    \"phone\": null\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "T3 Org",
+      "item": [
+        {
+          "name": "Get account",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "account"
+              ]
+            },
+            "description": "The caller's own account.\n\nAccount id comes from the token. Read at sign-in and cached for the day. No time zone or day start: those are ELD-owned."
+          },
+          "response": [
+            {
+              "name": "200 Get account",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "account"
+                  ]
+                },
+                "description": "The caller's own account.\n\nAccount id comes from the token. Read at sign-in and cached for the day. No time zone or day start: those are ELD-owned."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"acc_0413\",\n  \"name\": \"Blue Ash Construction Co.\",\n  \"usdot\": \"3172584\",\n  \"address\": {\n    \"street\": \"4400 Cooper Rd\",\n    \"city\": \"Blue Ash\",\n    \"state\": \"OH\",\n    \"zip\": \"45242\"\n  },\n  \"support_contact\": {\n    \"name\": \"Fleet office\",\n    \"phone\": \"513-555-0142\",\n    \"email\": \"fleet@example.com\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "T4 Assets",
+      "item": [
+        {
+          "name": "By tracker serial (pairing)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/assets?tracker_serial=WQ-87X060680218",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "assets"
+              ],
+              "query": [
+                {
+                  "key": "tracker_serial",
+                  "value": "WQ-87X060680218"
+                }
+              ]
+            },
+            "description": "Find assets by tracker serial, ELD flag or id list.\n\ntracker_serial: one asset, at pairing. eld=true: the pairing list, every ELD-enabled asset. ids: batch, up to 200; keeps resolving an asset after its tracker is removed or the asset is retired. Always returns an array."
+          },
+          "response": [
+            {
+              "name": "200 By tracker serial (pairing)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/assets?tracker_serial=WQ-87X060680218",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "assets"
+                  ],
+                  "query": [
+                    {
+                      "key": "tracker_serial",
+                      "value": "WQ-87X060680218"
+                    }
+                  ]
+                },
+                "description": "Find assets by tracker serial, ELD flag or id list.\n\ntracker_serial: one asset, at pairing. eld=true: the pairing list, every ELD-enabled asset. ids: batch, up to 200; keeps resolving an asset after its tracker is removed or the asset is retired. Always returns an array."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"name\": \"Unit 218\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "ELD-enabled assets (pairing list)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/assets?eld=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "assets"
+              ],
+              "query": [
+                {
+                  "key": "eld",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Find assets by tracker serial, ELD flag or id list.\n\ntracker_serial: one asset, at pairing. eld=true: the pairing list, every ELD-enabled asset. ids: batch, up to 200; keeps resolving an asset after its tracker is removed or the asset is retired. Always returns an array."
+          },
+          "response": [
+            {
+              "name": "200 ELD-enabled assets (pairing list)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/assets?eld=true",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "assets"
+                  ],
+                  "query": [
+                    {
+                      "key": "eld",
+                      "value": "true"
+                    }
+                  ]
+                },
+                "description": "Find assets by tracker serial, ELD flag or id list.\n\ntracker_serial: one asset, at pairing. eld=true: the pairing list, every ELD-enabled asset. ids: batch, up to 200; keeps resolving an asset after its tracker is removed or the asset is retired. Always returns an array."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"name\": \"Unit 218\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Batch lookup by id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/assets?ids=ast_2181",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "assets"
+              ],
+              "query": [
+                {
+                  "key": "ids",
+                  "value": "ast_2181"
+                }
+              ]
+            },
+            "description": "Find assets by tracker serial, ELD flag or id list.\n\ntracker_serial: one asset, at pairing. eld=true: the pairing list, every ELD-enabled asset. ids: batch, up to 200; keeps resolving an asset after its tracker is removed or the asset is retired. Always returns an array."
+          },
+          "response": [
+            {
+              "name": "200 Batch lookup by id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/assets?ids=ast_2181",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "assets"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "ast_2181"
+                    }
+                  ]
+                },
+                "description": "Find assets by tracker serial, ELD flag or id list.\n\ntracker_serial: one asset, at pairing. eld=true: the pairing list, every ELD-enabled asset. ids: batch, up to 200; keeps resolving an asset after its tracker is removed or the asset is retired. Always returns an array."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"name\": \"Unit 218\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "ELD tracker models",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/tracker-models?eld=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "tracker-models"
+              ],
+              "query": [
+                {
+                  "key": "eld",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Tracker models that mark an asset ELD-enabled.\n\nOptional. Not needed if Tenna filters server-side on assets?eld=true."
+          },
+          "response": [
+            {
+              "name": "200 ELD tracker models",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/tracker-models?eld=true",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "tracker-models"
+                  ],
+                  "query": [
+                    {
+                      "key": "eld",
+                      "value": "true"
+                    }
+                  ]
+                },
+                "description": "Tracker models that mark an asset ELD-enabled.\n\nOptional. Not needed if Tenna filters server-side on assets?eld=true."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"model\": \"WQ-ELD\"\n  },\n  {\n    \"model\": \"WQ-ELD-2\"\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "T5 Sites",
+      "item": [
+        {
+          "name": "Yard sites",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/sites?type=yard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "sites"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "yard"
+                }
+              ]
+            },
+            "description": "Yard sites with boundaries.\n\nCalled by the phone once a day and cached, because the yard-move check runs offline. Tenna Sites is the source."
+          },
+          "response": [
+            {
+              "name": "200 Yard sites",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/sites?type=yard",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "sites"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "yard"
+                    }
+                  ]
+                },
+                "description": "Yard sites with boundaries.\n\nCalled by the phone once a day and cached, because the yard-move check runs offline. Tenna Sites is the source."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"sit_77\",\n    \"name\": \"Blue Ash Yard\",\n    \"type\": \"yard\",\n    \"geometry\": {\n      \"type\": \"Polygon\",\n      \"coordinates\": [\n        [\n          [\n            -84.5972,\n            39.2948\n          ],\n          [\n            -84.5951,\n            39.2948\n          ],\n          [\n            -84.5951,\n            39.2961\n          ],\n          [\n            -84.5972,\n            39.2961\n          ],\n          [\n            -84.5972,\n            39.2948\n          ]\n        ]\n      ]\n    },\n    \"updated_at\": \"2026-09-02T15:10:00Z\"\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "T6 Work orders",
+      "item": [
+        {
+          "name": "Open work orders for asset",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/work-orders?asset_id=ast_2181&status=open",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "work-orders"
+              ],
+              "query": [
+                {
+                  "key": "asset_id",
+                  "value": "ast_2181"
+                },
+                {
+                  "key": "status",
+                  "value": "open"
+                }
+              ]
+            },
+            "description": "Open work orders for an asset.\n\nCalled by the phone on D27 (shop road test stamp) and on D2 (job number pre-fill). The ELD never writes back. New surface."
+          },
+          "response": [
+            {
+              "name": "200 Open work orders for asset",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/work-orders?asset_id=ast_2181&status=open",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "work-orders"
+                  ],
+                  "query": [
+                    {
+                      "key": "asset_id",
+                      "value": "ast_2181"
+                    },
+                    {
+                      "key": "status",
+                      "value": "open"
+                    }
+                  ]
+                },
+                "description": "Open work orders for an asset.\n\nCalled by the phone on D27 (shop road test stamp) and on D2 (job number pre-fill). The ELD never writes back. New surface."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"wo_88213\",\n    \"number\": \"WO-88213\",\n    \"job_number\": \"J-2291\",\n    \"asset_id\": \"ast_2181\",\n    \"summary\": \"Brake inspection\",\n    \"assigned_to\": \"usr_5510\"\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "T7 DVIR",
+      "item": [
+        {
+          "name": "DVIR status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/dvir/status?asset_id=ast_2181",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "dvir",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "asset_id",
+                  "value": "ast_2181"
+                }
+              ]
+            },
+            "description": "Today's inspection status for one asset.\n\nCalled when D14 opens. The ELD does not run inspections; it checks status and hands off. Launch link: tenna://dvir/new?asset_id=ast_2181&return=tennaeld://dvir/done. Tenna's app opens the return link when the inspection is saved."
+          },
+          "response": [
+            {
+              "name": "200 DVIR status",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/dvir/status?asset_id=ast_2181",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "dvir",
+                    "status"
+                  ],
+                  "query": [
+                    {
+                      "key": "asset_id",
+                      "value": "ast_2181"
+                    }
+                  ]
+                },
+                "description": "Today's inspection status for one asset.\n\nCalled when D14 opens. The ELD does not run inspections; it checks status and hands off. Launch link: tenna://dvir/new?asset_id=ast_2181&return=tennaeld://dvir/done. Tenna's app opens the return link when the inspection is saved."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"submitted\",\n  \"inspection_id\": \"insp_40917\",\n  \"submitted_at\": \"2026-09-17T11:12:00Z\",\n  \"defects_open\": 0,\n  \"shipping_document_number\": null\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "T8 Entitlements",
+      "item": [
+        {
+          "name": "Get entitlements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/eld/v1/entitlements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "eld",
+                "v1",
+                "entitlements"
+              ]
+            },
+            "description": "ELD module and permissions for the caller.\n\nCalled by the phone at sign-in alongside T1, and by the micro-frontend when it mounts."
+          },
+          "response": [
+            {
+              "name": "200 Get entitlements",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eld/v1/entitlements",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eld",
+                    "v1",
+                    "entitlements"
+                  ]
+                },
+                "description": "ELD module and permissions for the caller.\n\nCalled by the phone at sign-in alongside T1, and by the micro-frontend when it mounts."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account_id\": \"acc_0413\",\n  \"modules\": {\n    \"eld\": true\n  },\n  \"permissions\": [\n    \"eld.logs.read\",\n    \"eld.logs.propose_edit\",\n    \"eld.settings.write\",\n    \"eld.ud.assign\",\n    \"eld.transfer.request\"\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

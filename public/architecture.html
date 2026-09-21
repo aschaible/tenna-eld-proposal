@@ -1072,6 +1072,11 @@
     The Type column uses <code>string</code>, <code>int</code>, <code>bool</code>, <code>iso8601</code> (UTC) and
     <code>string[]</code>. Required means the ELD cannot do its job without a value; a required field that is
     empty in Tenna is a data problem the ELD reports on <a href="/#w11">W11</a>, not a crash.</p>
+  <p>The same contracts are available as an API description: browse them on the
+    <a href="/api-docs">API reference page</a>, or download the
+    <a href="/api/tenna-eld-contracts.openapi.json" download>OpenAPI 3.0 file</a> or the
+    <a href="/api/tenna-eld-contracts.postman_collection.json" download>Postman collection</a>, which has one saved
+    example response per call. No server implements these yet, so the examples show shapes and cannot be run.</p>
 
   <h4 id="dc-t1"><a href="#t1">T1</a> Identity</h4>
   <p><b>Cognito token, no ELD endpoint.</b> Key: user <code>sub</code>. Read at sign-in and on every hourly refresh.
@@ -1179,7 +1184,8 @@
     <b><code>GET /eld/v1/assets?eld=true</code></b> (the pairing list, every ELD-enabled asset in the account) and
     <b><code>GET /eld/v1/assets?ids=ast_1,ast_2,...</code></b> (batch, up to 200 ids). The ELD stores asset ids and
     resolves names at read time, so the batch lookup keeps resolving an asset after its tracker is removed or the
-    asset is retired, for as long as the ELD retains its records.
+    asset is retired, for as long as the ELD retains its records; such an asset comes back with <code>tracker</code> null.
+    All three forms return an array.
     Key: asset id, joined by tracker serial. Called by the phone on scan and by the ELD API when it renders
     <a href="/#w11">W11</a>. An asset is ELD-enabled when its associated tracker record is one of Tenna's two ELD
     tracker models; there is no separate flag. The ELD learns the two model names once from
@@ -1204,11 +1210,11 @@
   </table>
   </div>
 <pre>GET /eld/v1/assets?tracker_serial=WQ-87X060680218
-&rarr; { "id": "ast_2181", "name": "Unit 218", "vin": "1FTFW1R63EFA84339",
-    "category": "Pickup truck", "assigned_driver_id": "usr_8f21c4",
-    "tracker": { "serial": "WQ-87X060680218", "model": "WQ-ELD",
-                 "firmware_version": null },
-    "trailer_number": null }</pre>
+&rarr; [ { "id": "ast_2181", "name": "Unit 218", "vin": "1FTFW1R63EFA84339",
+      "category": "Pickup truck", "assigned_driver_id": "usr_8f21c4",
+      "tracker": { "serial": "WQ-87X060680218", "model": "WQ-ELD",
+                   "firmware_version": null },
+      "trailer_number": null } ]</pre>
 
   <h4 id="dc-t5"><a href="#t5">T5</a> Sites</h4>
   <p><b><code>GET /eld/v1/sites?type=yard</code></b>, every yard site in the account with its boundary as GeoJSON.
