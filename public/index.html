@@ -934,7 +934,7 @@
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">D1 &middot; D3 &middot; D35</span>
-          <p><b>One verb.</b> Log In on every sign-in surface, Log Out at the end of the shift.</p>
+          <p><b>One verb, and the order after it.</b> Log In on every sign-in surface, Log Out at the end of the shift. D1 now draws the four checks that run between sign-in and D4: uncertified days, exempt status, permission changes, trip details. D9 gains a search and a day filter.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">D4 &middot; D38 &middot; D5 &middot; D29 &middot; D33</span>
@@ -1313,9 +1313,16 @@
               <div data-rev-from="v3">
                 <div class="ph-state">Next launch &middot; personal phone</div>
                 <div class="ph-confirm is-ok" data-rev-until="v5"><i>&#10003;</i><span>Face ID &middot; m.alvarez<small>unlocks the saved session. The password comes back weekly, and after any logout</small></span></div>
-                <div class="ph-confirm" data-rev-from="v6"><i>?</i><span>Face ID &middot; m.alvarez<small>drawn, not settled. Tom Cuthbertson is asking FMCSA whether a biometric may open the ELD app; until then, user code and password (Q24)</small></span></div>
+                <div class="ph-confirm" data-rev-from="v6"><i>?</i><span>Face ID &middot; <span data-revi-until="v10">m.alvarez</span><span data-revi-from="v11">Marcus Alvarez</span><small>drawn, not settled. Tom Cuthbertson is asking FMCSA whether a biometric may open the ELD app; until then, user code and password (Q24)</small></span></div>
                 <div class="ph-state">Shared cab tablet, or a co-driver</div>
                 <div class="ph-confirm"><i>&#9675;</i><span>Password every time<small>a device enrols one face, so it cannot tell two drivers apart</small></span></div>
+              </div>
+              <div data-rev-from="v11">
+                <div class="ph-state">After sign-in, before D4, in this order</div>
+                <div class="ph-confirm"><i>1</i><span>Days not certified<small>D11 for each, or Not Ready (4.3.2.3-4)</small></span></div>
+                <div class="ph-confirm"><i>2</i><span>Exempt status<small>an exempt driver sees the exemption and lands on D38 (4.3.3.1.2-5)</small></span></div>
+                <div class="ph-confirm"><i>3</i><span>Permission changes since last login<small>personal conveyance or yard move allowed or withdrawn (4.3.3.1.1-4)</small></span></div>
+                <div class="ph-confirm"><i>4</i><span>Trip details<small>D36 if anything is missing, then D4</small></span></div>
               </div>
             </div>
           </div></div>
@@ -2062,7 +2069,7 @@
               <div class="ph-li"><span class="a">OEM / warranty movement<small>vendor or dealer moving the unit</small></span><span class="b">&#9675;</span></div>
               </div>
               <div data-rev-from="v5">
-              <div class="ph-li"><span class="a">Mechanic road test<small>post-repair verification drive</small></span><span class="b">&#9673;</span></div>
+              <div class="ph-li"><span class="a">Mechanic road test<small>post-repair verification drive</small></span><span class="b"><span data-revi-until="v10">&#9673;</span><span data-revi-from="v11">&#10003;</span></span></div>
               <div class="ph-li"><span class="a">Internal yard move<small>moved inside this yard</small></span><span class="b">&#9675;</span></div>
               <div class="ph-li"><span class="a">Yard relocation<small>yard A to yard B, a few miles apart</small></span><span class="b">&#9675;</span></div>
               <div class="ph-li"><span class="a">OEM pickup<small>dealer or vendor took the unit</small></span><span class="b">&#9675;</span></div>
@@ -2210,6 +2217,10 @@
             <div class="ph-status"><span><span data-revi-until="v10">2:41 PM</span><span data-revi-from="v11">02:41 PM</span></span><span>▪▪▪ 5G · 84%</span></div>
             <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t">Logs</span><span class="r">last 8 days</span></div>
             <div class="ph-body">
+              <div class="ph-row2" data-rev-from="v11" style="grid-template-columns:1.6fr 1fr;">
+                <div class="ph-field">Search a date or note</div>
+                <div class="ph-field" style="color:var(--wf-dark);">All Days ▾</div>
+              </div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Today · Thu 8/20/2026</span><span data-revi-from="v11">Today · Thu 08/20/2026</span><small>D 6:31 · ON 1:25 · in progress</small></span><span class="b">not yet<br/>certified</span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Wed 8/19/2026</span><span data-revi-from="v11">Wed 08/19/2026</span><small>D 7:48 · ON 2:10</small></span><span class="b">✓ certified</span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Tue 8/18/2026</span><span data-revi-from="v11">Tue 08/18/2026</span><small>D 5:12 · ON 3:04 · 1 edit pending your review</small></span><span class="b">✓ certified</span></div>
@@ -4382,7 +4393,7 @@
                   </table>
                   <div class="wb-box" style="margin-top:9px;">
                     <div class="h"><span data-revi-until="v10">Annotate 8 records &middot; suggested reasons</span><span data-revi-from="v11">Annotate 8 Records &middot; Suggested Reasons</span></div>
-                    <span style="font-size:8px;" data-revi-until="v4">&#9673; Mechanic road test / maintenance &nbsp; &#9675; Yard movement &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM / warranty movement &nbsp; &#9675; Other &middot; explain<br/></span><span style="font-size:8px;" data-revi-from="v5">&#9673; Mechanic road test &nbsp; &#9675; Internal yard move &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM pickup &nbsp; &#9675; Maintenance yard move &nbsp; &#9675; Jobsite shuttle <i>(yours)</i> &nbsp; + Add a reason<br/></span><span style="font-size:8px;">
+                    <span style="font-size:8px;" data-revi-until="v4">&#9673; Mechanic road test / maintenance &nbsp; &#9675; Yard movement &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM / warranty movement &nbsp; &#9675; Other &middot; explain<br/></span><span style="font-size:8px;" data-revi-from="v5"><span data-revi-until="v10">&#9673;</span><span data-revi-from="v11">&#10003;</span> Mechanic road test &nbsp; &#9675; Internal yard move &nbsp; &#9675; Yard relocation &nbsp; &#9675; OEM pickup &nbsp; &#9675; Maintenance yard move &nbsp; &#9675; Jobsite shuttle <i>(yours)</i> &nbsp; + Add a reason<br/></span><span style="font-size:8px;">
                     Applies one annotation to all 8 with your name and timestamp. Assigning instead notifies the driver for confirmation.</span>
                   </div>
                   <div class="wb-note">Annotating explains why the time is unassigned; assigning routes it to the driver to accept. &sect;395.32(a) accepts either, and requires one of them.</div>
@@ -5138,7 +5149,7 @@
               <div class="wb-stage">
                 <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h">Inspector view <span class="sub">internal audit &middot; what an officer would see</span></div>
-                  <div class="wb-filter"><span class="wb-fld">Driver: M. Alvarez &#9662;</span><span class="wb-fld">8/13/2026 &ndash; 8/20/2026 &#9662;</span><span class="wb-fld">Format: &sect;4.5.1.1 detail &#9662;</span><span class="wb-btn">Print / PDF</span></div>
+                  <div class="wb-filter"><span class="wb-fld"><span data-revi-until="v10">Driver: M. Alvarez &#9662;</span><span data-revi-from="v11">Driver: Marcus Alvarez &#9662;</span></span><span class="wb-fld">8/13/2026 &ndash; 8/20/2026 &#9662;</span><span class="wb-fld">Format: &sect;4.5.1.1 detail &#9662;</span><span class="wb-btn">Print / PDF</span></div>
                   <div class="wb-box" style="font-size:8px; line-height:1.75;">
                     ALVAREZ, MARCUS &middot; OH CDL D1184-72219 &middot; BLUE ASH CONSTRUCTION &middot; USDOT 3172584<br/>
                     UNIT 218 &middot; VIN 1FTFW1R63EFA84339 &middot; ELD ID TENNA01 &middot; reg. TENNA01<br/>
