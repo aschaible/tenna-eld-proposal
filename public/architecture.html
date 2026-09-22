@@ -93,7 +93,7 @@
   <p>This page describes where the ELD ends and Tenna begins. It covers three things: the ELD's own schema in
     Tenna's Postgres (<a href="#s3">Contract A</a>), the API the ELD exposes to its mobile app and its portal micro-frontend
     (<a href="#s4">Contract B</a>), and what the ELD needs from Tenna's platform (<a href="#s5">Contract C</a>). The surface codes (<a href="#t1">T1</a>–<a href="#t8">T8</a>, <a href="#e1">E1</a>–<a href="#e2-e3">E3</a>, <a href="/#s-b1">B1</a>,
-    <a href="#eld-events">S1</a>–<a href="#eld-carrier-policy">S5</a>) and screen codes (<a href="/#d1">D1</a>–<a href="/#d35">D35</a>, <a href="/#w1">W1</a>–<a href="/#w19">W19</a>) are the same ones used on the Wireframes page, so the two pages can be
+    <a href="#eld-events">S1</a>–<a href="#eld-carrier-policy">S5</a>) and screen codes (<a href="/#d1">D1</a>–<a href="/#d38">D38</a>, <a href="/#w1">W1</a>–<a href="/#w19">W19</a>) are the same ones used on the Wireframes page, so the two pages can be
     read together.</p>
 
   <div class="gate">
@@ -748,7 +748,7 @@
       <tr><td>miles, odometer_mi, engine_hours</td><td>numeric</td><td></td></tr>
       <tr><td>lat, lon</td><td>numeric(9,6)</td><td></td></tr>
       <tr><td>accepted_state</td><td>text</td><td>unreviewed | driver_declined | carrier_annotated | assigned_pending | assigned_accepted | assigned_rejected</td></tr>
-      <tr><td>driver_suggestion, driver_remark</td><td>text</td><td><a href="/#d22">D22</a>: the signed-in driver's "not me" and note</td></tr>
+      <tr><td>driver_suggestion, driver_remark</td><td>text</td><td><a href="/#d22">D22</a>: the signed-in driver's "Not Mine" and note</td></tr>
       <tr><td>carrier_reason</td><td>text</td><td>Five fixed reasons plus carrier additions from <a href="#eld-carrier-policy">eld.carrier_policy</a></td></tr>
       <tr><td>assigned_driver_id, annotated_by</td><td>text</td><td>Tenna user ids</td></tr>
       <tr><td>received_at</td><td>timestamptz</td><td></td></tr>
@@ -880,7 +880,7 @@
       <tr><td><code>POST /ud-records</code> (array body)</td><td>Upload drained unidentified-driving frames</td>
         <td>Dedupe on the natural key. Response is per key, and the phone purges the tracker only after every key is accepted</td></tr>
       <tr><td><code>GET /drivers/{driver_id}/ud-records?status</code></td><td><a href="/#d22">D22</a> in-cab list, <a href="/#d34">D34</a> pending assignments</td><td><code>status=unreviewed</code> for <a href="/#d22">D22</a>, <code>status=assigned_pending</code> for <a href="/#d34">D34</a></td></tr>
-      <tr><td><code>PATCH /ud-records/{id}</code></td><td><a href="/#d22">D22</a> "not me" and remark</td><td>Only <code>driver_suggestion</code> and <code>driver_remark</code> are writable from the phone</td></tr>
+      <tr><td><code>PATCH /ud-records/{id}</code></td><td><a href="/#d22">D22</a> "Not Mine" and remark</td><td>Only <code>driver_suggestion</code> and <code>driver_remark</code> are writable from the phone</td></tr>
       <tr><td><code>PUT /ud-records/{id}/assignment/decision</code></td><td><a href="/#d34">D34</a> accept or reject an assignment</td><td>Set once, same 200/409 rule as proposal decisions</td></tr>
       <tr><td><code>POST /transfer-requests</code></td><td><a href="/#d17">D17</a> roadside transfer</td><td>Body: last 8 days, method web or email, officer code as <code>output_file_comment</code>. Returns 202; the phone polls <code>GET /transfer-requests/{id}</code> and shows the result on <a href="/#d17">D17</a></td></tr>
       <tr><td><code>GET /drivers/{driver_id}/proposals?status=pending</code></td><td>Pending edit proposals for <a href="/#d20">D20</a></td><td></td></tr>
@@ -1142,11 +1142,11 @@
   </table>
   </div>
 <pre>GET /eld/v1/people?ids=usr_8f21c4,usr_5510
-&rarr; [ { "id": "usr_8f21c4", "username": "malvarez", "first_name": "Maria", "last_name": "Alvarez",
+&rarr; [ { "id": "usr_8f21c4", "username": "malvarez", "first_name": "Marcus", "last_name": "Alvarez",
       "is_driver": true, "status": "active", "exempt": false, "exempt_annotation": null,
       "cdl": { "number": "RE123456", "state": "OH" },
       "roles": ["driver"], "email": "m.alvarez@example.com", "phone": null },
-    { "id": "usr_5510", "username": "dokafor", "first_name": "Dan", "last_name": "Okafor",
+    { "id": "usr_5510", "username": "dokafor", "first_name": "Tomas", "last_name": "Okafor",
       "is_driver": false, "status": "active", "exempt": null, "exempt_annotation": null,
       "cdl": null, "roles": ["mechanic"], "email": null, "phone": null } ]</pre>
 
@@ -1205,12 +1205,12 @@
       <tr><td><code>tracker.serial</code></td><td>string</td><td>yes</td><td>The join from a BLE scan to an asset. BLE address is not usable: CoreBluetooth hides the MAC and 0x2A59 is byte-reversed</td></tr>
       <tr><td><code>tracker.model</code></td><td>string</td><td>yes</td><td>ELD-enabled test, above</td></tr>
       <tr><td><code>tracker.firmware_version</code></td><td>string</td><td>no</td><td>Reported on <a href="/#w11">W11</a>; null means unknown and the ELD records what it observes from the tracker</td></tr>
-      <tr><td><code>trailer_number</code></td><td>string</td><td>no</td><td>Trailer number (7.42) if Tenna keeps it on the asset or on the DVIR record; if neither, the driver enters it on <a href="/#d2">D2</a></td></tr>
+      <tr><td><code>trailer_number</code></td><td>string</td><td>no</td><td>Trailer number (7.42) if Tenna keeps it on the asset or on the DVIR record; if neither, the driver enters it on <a href="/#d36">D36</a></td></tr>
     </tbody>
   </table>
   </div>
 <pre>GET /eld/v1/assets?tracker_serial=WQ-87X060680218
-&rarr; [ { "id": "ast_2181", "name": "Unit 218", "vin": "1FTFW1R63EFA84339",
+&rarr; [ { "id": "ast_2181", "fleet_no": "218", "name": "Ford F-150", "vin": "1FTFW1R63EFA84339",
       "category": "Pickup truck", "assigned_driver_id": "usr_8f21c4",
       "tracker": { "serial": "WQ-87X060680218", "model": "WQ-ELD",
                    "firmware_version": null },
@@ -1250,7 +1250,7 @@
     <tbody>
       <tr><td><code>id</code></td><td>string</td><td>yes</td><td>Stored on the road test annotation</td></tr>
       <tr><td><code>number</code></td><td>string</td><td>yes</td><td>The human reference shown on <a href="/#d27">D27</a> and in the annotation text</td></tr>
-      <tr><td><code>job_number</code></td><td>string</td><td>no</td><td>The job or project the work is under. Pre-fills the shipping document field on <a href="/#d2">D2</a>. If Tenna keeps dispatch jobs somewhere other than work orders, Tenna names that source here</td></tr>
+      <tr><td><code>job_number</code></td><td>string</td><td>no</td><td>The job or project the work is under. Pre-fills the shipping document field on <a href="/#d36">D36</a>. If Tenna keeps dispatch jobs somewhere other than work orders, Tenna names that source here</td></tr>
       <tr><td><code>asset_id</code></td><td>string</td><td>yes</td><td>Filter; must match the paired asset</td></tr>
       <tr><td><code>summary</code></td><td>string</td><td>no</td><td>Picker line</td></tr>
       <tr><td><code>assigned_to</code></td><td>string (user id)</td><td>no</td><td>Sorts the picker so the mechanic's own orders come first</td></tr>
@@ -1275,7 +1275,7 @@
       <tr><td><code>inspection_id</code></td><td>string</td><td>when started or submitted</td><td>Stored on the day's log so the printed log can cite it</td></tr>
       <tr><td><code>submitted_at</code></td><td>iso8601</td><td>when submitted</td><td>Shown on D14</td></tr>
       <tr><td><code>defects_open</code></td><td>int</td><td>yes</td><td>Warns the driver before they drive; the ELD does not block</td></tr>
-      <tr><td><code>shipping_document_number</code></td><td>string</td><td>no</td><td>Shipping document number (7.39) if Tenna's DVIR flow includes it; otherwise the driver enters it on <a href="/#d2">D2</a></td></tr>
+      <tr><td><code>shipping_document_number</code></td><td>string</td><td>no</td><td>Shipping document number (7.39) if Tenna's DVIR flow includes it; otherwise the driver enters it on <a href="/#d36">D36</a></td></tr>
     </tbody>
   </table>
   </div>
@@ -1333,7 +1333,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
   <p>Lifelines are Tracker, Phone (the ELD app), ELD API, Tenna, and FMCSA where relevant. Each hop names the contract
     that handles it.</p>
 
-  <h3 id="flow-1">Flow 1 — Pairing and first drive</h3>
+  <h3 id="flow-1">Flow 1 · Pairing and first drive</h3>
   <div class="tbl-wrap">
   <svg viewBox="0 0 760 400" role="img" aria-label="Sequence: pairing and first drive"
        font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
@@ -1378,7 +1378,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
     <li>Hops: <a href="/#s-b1">B1</a> for everything to the tracker, <a href="#e1">E1</a> for the phone to the API, <a href="#t4">T4</a> for the API to Tenna.</li>
   </ul>
 
-  <h3 id="flow-2">Flow 2 — Drive detection and sync</h3>
+  <h3 id="flow-2">Flow 2 · Drive detection and sync</h3>
   <div class="tbl-wrap">
   <svg viewBox="0 0 760 400" role="img" aria-label="Sequence: drive detection and event sync"
        font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
@@ -1425,7 +1425,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
     <li><b>Motion without sign-in (<a href="/#d35">D35</a>).</b> If the phone's GPS says it is moving, an advertising tracker is in range, and this lasts past the threshold, the app shows the sign-in-or-decline screen. The tracker keeps recording as unidentified driving regardless; this is a prompt, not a record.</li>
   </ul>
 
-  <h3 id="flow-3">Flow 3 — Certification</h3>
+  <h3 id="flow-3">Flow 3 · Certification</h3>
   <div class="tbl-wrap">
   <svg viewBox="0 0 760 300" role="img" aria-label="Sequence: daily certification"
        font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
@@ -1464,7 +1464,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
     <li>Whether Tenna hears about certifications at all is on the <a href="/decisions#p4">P4</a> list.</li>
   </ul>
 
-  <h3 id="flow-4">Flow 4 — Edit proposal and annotation</h3>
+  <h3 id="flow-4">Flow 4 · Edit proposal and annotation</h3>
   <div class="tbl-wrap">
   <svg viewBox="0 0 760 420" role="img" aria-label="Sequence: edit proposal from the portal to the driver and back"
        font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
@@ -1512,7 +1512,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
     <li>Hops: micro-frontend to API (<a href="#s4">Contract B</a>), API to phone (push, then <a href="#e1">E1</a> for the decision), API to Tenna (<a href="#e2-e3">E2</a>).</li>
   </ul>
 
-  <h3 id="flow-5">Flow 5 — Unidentified driving</h3>
+  <h3 id="flow-5">Flow 5 · Unidentified driving</h3>
   <div class="tbl-wrap">
   <svg viewBox="0 0 760 500" role="img" aria-label="Sequence: unidentified driving from tracker storage to retention"
        font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">
@@ -1541,7 +1541,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
       <text x="380" y="219">POST /ud-records [...] · E1</text>
       <text x="380" y="254">accepted per natural key</text>
       <text x="190" y="289">write 0x0103: purge, only after every key accepted</text>
-      <text x="380" y="339">D22 "not me" + remark · E1</text>
+      <text x="380" y="339">D22 "Not Mine" + remark · E1</text>
       <text x="570" y="374">PATCH reason, or PUT assignment</text>
       <text x="380" y="409">push to assigned driver: D34</text>
       <text x="380" y="444">PUT assignment/decision · E1</text>
@@ -1563,7 +1563,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
     <li>Hops: <a href="/#s-b1">B1</a>, <a href="#e1">E1</a>, <a href="#s4">Contract B</a> for <a href="/#w16">W16</a>, push then <a href="#e1">E1</a> for <a href="/#d34">D34</a>.</li>
   </ul>
 
-  <h3 id="flow-6">Flow 6 — Roadside and host-initiated transfer</h3>
+  <h3 id="flow-6">Flow 6 · Roadside and host-initiated transfer</h3>
   <div class="tbl-wrap">
   <svg viewBox="0 0 760 460" role="img" aria-label="Sequence: roadside inspection and host-initiated eRODS transfer"
        font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12">

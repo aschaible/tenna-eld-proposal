@@ -190,7 +190,7 @@
       <p><b>Three product decisions settled.</b> The 8/28/2026 huddle answered P1, P2 and P5 in the room. Drivers are
       Tenna users on the one shared credential store; sign-in is embedded in the app against the same Cognito pool,
       not a browser redirect; the control panel is a micro-frontend inside the Tenna portal, in a new Tenna repository.
-      Each card below carries the exchange that settled it.</p>
+      <span data-revi-until="v10">Each card below carries the exchange</span><span data-revi-from="v11">Each card below holds the exchange</span> that settled it.</p>
       <p><b>P4 partly answered, and still gated.</b> The routing is agreed: notifications the driver needs about
       their own device and their own log stay local to the ELD app, and anything aimed at someone other than the
       driver goes out as an event on Tenna's existing infrastructure. Which events cross is still open, so P4 stays
@@ -476,7 +476,7 @@
             <span class="q-label">Answer</span>
             <p>A new repository in Tenna’s GitHub, which AppAxis builds in freely and Tenna does not review, with Tenna hosting the result and both sides aligning on one component base so a user cannot feel the seam. Tamar set those terms and offered help on the injection point, which is the part Tenna owns. The account also needs its ELD license adjusted, since the current one is scoped to the incumbent vendor. Adam asked that the team be able to run the whole portal locally for testing and review, and Tamar agreed that is the plan. Sunil added a naming correction worth keeping: it is an admin panel, not a control panel in the literal sense, since nobody sets a duty status from it. Supervisory edit proposals are the one control it does carry.</p>
           </div>
-          <div class="q-foot"><span>Unblocks every host screen, <a href="/#w1">W1–W18</a>. The permission itself is surface T8 in the <a href="/#sources">ownership split ↗</a>.</span></div>
+          <div class="q-foot"><span>Unblocks every host screen, <a href="/#w1">W1–W19</a>. The permission itself is surface T8 in the <a href="/#sources">ownership split ↗</a>.</span></div>
         </div>
       </article>
 
@@ -707,7 +707,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
           <div class="q-ask" data-rev-from="v3">
             <span class="q-label">The answer is more constrained than it looks &middot; 9/2/2026</span>
             <p>
-              This reads as a data-modelling question and is really a user-experience one. The pairing list has to name trucks before the driver picks one, and only the serial is available at that point: it rides in the advertised BLE name, on both platforms. The MAC address does not. Q14 records why, and it cost this project a month of reversed addresses: CoreBluetooth hides the hardware address behind a per-app UUID, so on iPhone there is nothing to read until a connection is open. Answering "the MAC is the production key" would mean connecting to every tracker in range just to draw the list, which is not a viable pairing screen. Unless there is a reason we have not seen, the serial is the only workable answer. What still needs confirming is cheap: that the advertised name carries the whole serial rather than just the <span class="mono">WQ-</span> prefix. The build matches on the prefix and reads the real serial from item <span class="mono">0x0F</span> after connecting, so it has never had to rely on the name.
+              This reads as a data-modelling question and is really a user-experience one. The pairing list has to name trucks before the driver picks one, and only the serial is available at that point: it rides in the advertised BLE name, on both platforms. The MAC address does not. Q14 records why, and it cost this project a month of reversed addresses: CoreBluetooth hides the hardware address behind a per-app UUID, so on iPhone there is nothing to read until a connection is open. Answering "the MAC is the production key" would mean connecting to every tracker in range just to draw the list, which is not a viable pairing screen. Unless there is a reason we have not seen, the serial is the only workable answer. What still needs confirming is cheap: that the <span data-revi-until="v10">advertised name carries the whole serial</span><span data-revi-from="v11">advertised name includes the whole serial</span> rather than just the <span class="mono">WQ-</span> prefix. The build matches on the prefix and reads the real serial from item <span class="mono">0x0F</span> after connecting, so it has never had to rely on the name.
             </p>
           </div>
         </div>
@@ -1094,7 +1094,7 @@ characteristic 0x2A59, decoded 78:42:1C:12:16:66</pre>
         </div>
         <div class="q-body">
           <p>
-            Characteristic <span class="mono">0x2A59</span> carries the device address least-significant octet first: the order Bluetooth uses on the wire, but the reverse of how an address is written everywhere else. The document does not state the order, the same omission as the control words in Q11.
+            Characteristic <span class="mono">0x2A59</span> <span data-revi-until="v10">carries the device address</span><span data-revi-from="v11">holds the device address</span> least-significant octet first: the order Bluetooth uses on the wire, but the reverse of how an address is written everywhere else. The document does not state the order, the same omission as the control words in Q11.
           </p>
           <div class="q-evidence">
             <span class="q-label">Answer · found on Android</span>
@@ -1189,7 +1189,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <p>Three definitional questions, two of them answered by reading the rule closely and one by product decision. §395.8(k) places the six-month retention duty on the motor carrier for each of its drivers, so the unit is the carrier, per driver, and "date of receipt" is receipt by the carrier's system, which for this product is the host.</p>
           <div class="q-evidence">
             <span class="q-label">Answer</span>
-            <p>A driver's "not me" on D22 hides the record from that driver but does not clear it: Tom Cuthbertson, 9/10/2026, <i>"any unidentified stays on the vehicle for up to 8 days. If it's not accepted&hellip; it still remains on the ELD in the vehicle."</i> Each driver who signs into that vehicle is asked until someone accepts it or eight days pass. Because the tracker cannot re-serve drained records, the list is tied to the vehicle at the host and pulled down at every login; the host holds the queue, it never creates the log. The carrier works the same records in W16 in parallel. Retention is modelled at the record level with a six-month clock from host receipt and the source device stamped on each record, which satisfies a per-carrier reading and still answers a per-device audit question. The in-cab window runs from the tracker's event time, the same calendar as the log.</p>
+            <p>A driver's "Not Mine" on D22 hides the record from that driver but does not clear it: Tom Cuthbertson, 9/10/2026, <i>"any unidentified stays on the vehicle for up to 8 days. If it's not accepted&hellip; it still remains on the ELD in the vehicle."</i> Each driver who signs into that vehicle is asked until someone accepts it or eight days pass. Because the tracker cannot re-serve drained records, the list is tied to the vehicle at the host and pulled down at every login; the host holds the queue, it never creates the log. The carrier works the same records in W16 in parallel. Retention is modelled at the record level with a six-month clock from host receipt and the source device stamped on each record, which satisfies a per-carrier reading and still answers a per-device audit question. The in-cab window runs from the tracker's event time, the same calendar as the log.</p>
           </div>
           <div class="q-foot"><span>Retention decided by Adam 9/10/2026; the rejection behaviour is Tom's ruling the same afternoon, reversing the morning's product decision. Drawn on <a href="/#d22">D22</a>, <a href="/#w16">W16</a>; schema in the <a href="/architecture#s3">architecture page</a>, table eld.ud_records.</span></div>
         </div>
@@ -1483,7 +1483,7 @@ characteristic 0x2A59 read     3A:DD:87:AB:C3:1C</pre>
           <div class="outcome">
             <span class="q-label">What it changed</span>
             <p>
-              <b>Unidentified driving moved to the host.</b> The in-vehicle ELD carries the last 8 days of unaccepted
+              <b>Unidentified driving moved to the host.</b> <span data-revi-until="v10">The in-vehicle ELD carries the last 8 days</span><span data-revi-from="v11">The in-vehicle ELD holds the last 8 days</span> of unaccepted
               records; review, annotation, and assignment are the carrier's duty under §395.32 and belong on a
               host-specific report worked two or three times a week. New screen <a href="/#w16">W16</a>;
               <a href="/#d22">D22</a> rescoped; new reason picker <a href="/#d28">D28</a>. Closes

@@ -396,7 +396,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"name\": \"Unit 218\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
+              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"fleet_no\": \"218\",\n    \"name\": \"Ford F-150\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
             }
           ]
         },
@@ -468,7 +468,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"name\": \"Unit 218\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
+              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"fleet_no\": \"218\",\n    \"name\": \"Ford F-150\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
             }
           ]
         },
@@ -540,7 +540,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"name\": \"Unit 218\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
+              "body": "[\n  {\n    \"id\": \"ast_2181\",\n    \"fleet_no\": \"218\",\n    \"name\": \"Ford F-150\",\n    \"vin\": \"1FTFW1R63EFA84339\",\n    \"category\": \"Pickup truck\",\n    \"assigned_driver_id\": \"usr_8f21c4\",\n    \"tracker\": {\n      \"serial\": \"WQ-87X060680218\",\n      \"model\": \"WQ-ELD\",\n      \"firmware_version\": null\n    },\n    \"trailer_number\": null\n  }\n]"
             }
           ]
         },

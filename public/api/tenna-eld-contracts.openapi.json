@@ -357,7 +357,8 @@
                     "value": [
                       {
                         "id": "ast_2181",
-                        "name": "Unit 218",
+                        "fleet_no": "218",
+                        "name": "Ford F-150",
                         "vin": "1FTFW1R63EFA84339",
                         "category": "Pickup truck",
                         "assigned_driver_id": "usr_8f21c4",
@@ -375,7 +376,8 @@
                     "value": [
                       {
                         "id": "ast_2181",
-                        "name": "Unit 218",
+                        "fleet_no": "218",
+                        "name": "Ford F-150",
                         "vin": "1FTFW1R63EFA84339",
                         "category": "Pickup truck",
                         "assigned_driver_id": "usr_8f21c4",
@@ -393,7 +395,8 @@
                     "value": [
                       {
                         "id": "ast_2181",
-                        "name": "Unit 218",
+                        "fleet_no": "218",
+                        "name": "Ford F-150",
                         "vin": "1FTFW1R63EFA84339",
                         "category": "Pickup truck",
                         "assigned_driver_id": "usr_8f21c4",
