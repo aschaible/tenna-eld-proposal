@@ -190,7 +190,7 @@ def title_case_problems(t):
     for i, w in enumerate(words):
         core = w.strip('"“”\'‘’()[]·:;,.?!*›‹→←↓↗✓✗☐☑○◉◎●⚠+&')
         if not core or not core[0].isalpha(): continue
-        if core in DATA_OK or core.lower() in DATA_OK: continue
+        if core in DATA_OK or core.lower() in DATA_OK or re.fullmatch(r'v\d+', core): continue   # version markers (v1, v2, v3) are data values
         if core[0].islower():
             if i not in (0, len(words) - 1) and core.lower() in LOWER_OK: continue
             if "'" in core or '-' in core and core.split('-')[0][0].isupper(): continue
