@@ -42,10 +42,12 @@ blocks, data-revi-from / -until inline) and checks, per screen:
       revision markup that can never show (a -from element inside an
       ancestor whose -until is earlier)
 
-Warnings, printed but not counted, for classes that are not yet decided:
-      durations spelled in words inside a mockup sentence ("60 minutes",
-      "3 days", "6 mo"), the same duration shown on two adjacent lines, and
-      dead markup (a -until element inside a later -from ancestor).
+  S4  minutes, hours or seconds in words on a value or label line (fewer
+      than SENTENCE_WORDS words) is a finding (judgment call 10)
+
+Warnings, printed but not counted: the same duration shown on two
+adjacent lines, and dead markup (a -until element inside a later -from
+ancestor).
 
 Judgment calls, decided 9/22/2026 so they are not re-decided every pass
 (the same list is in the v11 What changed block on the page):
@@ -74,6 +76,12 @@ Judgment calls, decided 9/22/2026 so they are not re-decided every pass
      both ends of a range. A time range uses one arrow (→); a date range
      uses a spaced en dash (–). Table cells (td) are in the title-case scope, and place
      names in cells are title case, as Tenna's site record spells them.
+ 10. (9/22/2026, internal, not on the page) A duration inside a sentence
+     stays in words ("off for 10 minutes", "after 60 minutes idle").
+     Calendar spans counted in days or months (an 8-day clock, a 182-day
+     export window, 6-month retention) are counts, not durations, and stay
+     in words. HHh MMm SSs applies to elapsed time shown as a value or a
+     label: a clock, a stat, a cell, a chip.
 
 Exit status 1 when anything is found."""
 import re, sys, subprocess, os
@@ -306,10 +314,11 @@ def lint(ver):
         # warnings: durations in words, the same duration on two adjacent lines
         lines = body.split('\n')
         for i, line in enumerate(lines):
-            for m in re.finditer(r'\b\d+[- ](minutes?|hours?|days?|seconds?|weeks?|months?|mo)\b', line):
+            # judgment call 10: words in a sentence, HHh MMm SSs on a value or label line
+            for m in re.finditer(r'\b\d+[- ](minutes?|hours?|seconds?)\b', line):
                 around = line[max(0, m.start() - 12):m.end() + 12]
-                if re.search(DURATION_PHRASES, around): continue
-                warn.append((sid, 'S4? duration in words (undecided)', line.strip()[:100]))
+                if re.search(DURATION_PHRASES, around) or word_count(line) >= SENTENCE_WORDS: continue
+                out.append((sid, 'S4 duration in words on a value line', line.strip()[:100]))
             if i:
                 for d in set(re.findall(r'\d+h \d\dm \d\ds', line)):
                     if d in lines[i - 1]: warn.append((sid, 'duration repeated on adjacent lines', '%s / %s' % (lines[i - 1].strip()[:45], line.strip()[:45])))
