@@ -3,7 +3,7 @@
 standards from Tom Caliendo's 9/21/2026 UX audit, for one revision.
 
 Run: python3 tools/wf_lint.py [vN]        default: the latest revision
-     python3 tools/wf_lint.py v12 --regress 1a2d545
+     python3 tools/wf_lint.py v11 --regress 1a2d545
                                            also checks that every earlier
                                            revision reads identically to
                                            that git commit
@@ -11,11 +11,13 @@ Run: python3 tools/wf_lint.py [vN]        default: the latest revision
 It reads the text a reader sees for that revision (data-rev-from / -until on
 blocks, data-revi-from / -until inline) and checks, per screen:
 
-  S1  title case on titles, buttons, field labels, table headers, pills,
-      list-row titles and status chips (the SCOPE classes below)
+  S1  title case on titles, buttons, field labels, table headers, cells,
+      pills, list-row titles and status chips (the SCOPE classes below)
   S2  dates as MM/DD/YYYY and times as HH:MM AM/PM inside mockups
   S3  speed as "N MPH"
-  S4  durations as HHh MMm SSs (no H:MM, no "6 min", no "7 d 18 h")
+  S4  durations as HHh MMm SSs (no H:MM, no "6 min", no "7 d 18 h");
+      every time range shows its duration beside it (judgment call 4)
+      and joins its ends with → (judgment call 9)
   S5  miles as a decimal with the word miles, no thousands separator
   S6  N/A only where the screen says why the value is unavailable
       drivers as first and last name (no "M. Alvarez"), vehicles as fleet
@@ -23,7 +25,7 @@ blocks, data-revi-from / -until inline) and checks, per screen:
   prose: annotations and legend use m/d/yyyy, no em dash, no "carries"
 
 Judgment calls, decided 9/22/2026 so they are not re-decided every pass
-(the same list is in the v12 What changed block on the page):
+(the same list is in the v11 What changed block on the page):
 
   1. App bar sub-notes (.ph-appbar .r), scenario labels (.ph-state), .sub
      headings and <small> captions are captions, not status values. They
@@ -45,6 +47,10 @@ Judgment calls, decided 9/22/2026 so they are not re-decided every pass
      confirmed unavailable, and the screen says why.
   8. Dates in site prose are m/d/yyyy. Dates inside mockups are
      MM/DD/YYYY.
+  9. A date shown with a time ends in the home terminal zone (ET), on
+     both ends of a range. A time range uses one arrow (→); a date range
+     uses a spaced en dash (–). Table cells (td) are in the title-case scope, and place
+     names in cells are title case, as Tenna's site record spells them.
 
 Exit status 1 when anything is found."""
 import re, sys, subprocess, os
@@ -63,7 +69,7 @@ def vi(v): return ORDER.index(v)
 # Elements whose text is a title, label, button, header, pill or status value.
 SCOPE = {'ph-appbar-t', 'ph-btn', 'ph-label', 'ph-card-h', 'ph-li-b', 'th', 'wb-btn',
          'wb-pill', 'wb-h', 'ph-tab', 'ph-confirm-main', 'ph-toggle-main', 'ph-li-a',
-         'ph-state-x', 'ph-chip', 'ph-field-label', 'wb-stat-label'}
+         'ph-state-x', 'ph-chip', 'ph-field-label', 'wb-stat-label', 'td'}
 # Captions and prose, never linted for case (judgment call 1).
 CAPTION = {'small', 'sub', 'ph-note', 'ph-banner', 'ph-appbar-r', 'ph-state', 'wb-note', 'ph-field'}
 # Exempt frames (judgment call 5).
@@ -77,7 +83,9 @@ LOWER_OK = {'a', 'an', 'the', 'and', 'but', 'or', 'nor', 'for', 'at', 'by', 'in'
 # Words that are data, units or names and are correct lowercase anywhere.
 DATA_OK = {'miles', 'mile', 'since', 'ago', 'left', 'radius', 'from', 'odo', 'reg.', 'rev',
            'v0.9.0', 'e9262cb', 'm.alvarez', 'j.whitfield', 'eRODS', 'app.tenna.com', 'fmcsa.dot.gov',
-           'dBm', 'h', 'm', 's', 'mo', 'ET', 'MPH', 'TLV', 'TLV,', 'protocol', 'proto', 'ack', 'of'}
+           'dBm', 'h', 'm', 's', 'mo', 'ET', 'MPH', 'TLV', 'TLV,', 'protocol', 'proto', 'ack', 'of',
+           # event origins are lowercase data values (judgment call 2)
+           'automatic', 'manual', 'driver', 'auto', 'edited', 'v3'}
 # Strings of this many words or more are sentences, not labels, and keep
 # sentence case (judgment call 1), except in the ALWAYS roles.
 SENTENCE_WORDS = 5
@@ -117,6 +125,7 @@ class Extractor(HTMLParser):
         elif 'ph-tabbar' in par: role = 'ph-tab'
         elif 'wb-stat' in par and tag == 'small': role = 'wb-stat-label'
         elif tag == 'th': role = 'th'
+        elif tag == 'td': role = 'td'
         else:
             for c in ('ph-btn', 'ph-label', 'wb-btn', 'wb-pill', 'wb-h', 'ph-chip', 'ph-note',
                       'ph-banner', 'ph-state', 'wb-note', 'ph-field', 'sub'):
@@ -198,6 +207,8 @@ CHECKS = [
     ('S4 duration in words',              r'\b\d+ ?(min|mins|h|hr|hrs|d)\b(?! ?\d)'),
     ('S5 thousands separator',            r'\d,\d{3}'),
     ('S5 "mi" abbreviation',              r'\d ?mi\b'),
+    ('S2 time range with en dash or hyphen', r'\d\d:\d\d (AM|PM)( ?[–-] ?)\d\d:\d\d (AM|PM)'),
+    ('S2 date range not a spaced en dash', r'\d\d/\d\d/\d{4}(–|→| → |-| - )\d\d/\d\d/\d{4}'),
     ('name as initial',                   r'(?<![A-Za-z0-9)/])[A-Z]\. [A-Z][a-z]+'),
     ('vehicle as "Unit N"',               r'\bUnit \d+'),
 ]
@@ -219,6 +230,14 @@ def lint(ver):
                 line = line.split('\n', 1)[0]
                 if name.startswith('S2 date') and re.search(r'\d{1,2}/\d{1,2}/\d{4}', line) and sid == 'w4' and 'app.tenna.com' in line: continue
                 out.append((sid, name, line.strip()[:100]))
+        # judgment call 4: a time range shows its duration on the same line
+        for line in body.split('\n'):
+            if re.search(r'\d\d:\d\d (AM|PM)( ET)? → \d\d:\d\d (AM|PM)', line) and not re.search(r'\d\dh \d\dm \d\ds', line):
+                out.append((sid, 'JC4 time range without a duration', line.strip()[:100]))
+        # judgment call 9: a date shown with a time ends in ET
+        for m in re.finditer(r'\d\d/\d\d/\d{4} · \d\d:\d\d (AM|PM)(?! ET)', body):
+            line = body[body.rfind('\n', 0, m.start()) + 1:].split('\n', 1)[0]
+            out.append((sid, 'JC9 date and time without a zone', line.strip()[:100]))
         if 'N/A' in fr and sid not in NA_JUSTIFIED:
             out.append((sid, 'S6 N/A without a stated reason', 'N/A'))
         an = screens[sid]['annot']
@@ -228,6 +247,7 @@ def lint(ver):
             out.append((sid, 'em dash or "carries"', (an + '\n' + fr)[max(0, m.start() - 40):m.end() + 20].replace('\n', ' ')))
     for sid, role, t in labels:
         if role not in ALWAYS and len(t.split(' ')) >= SENTENCE_WORDS: continue
+        if role == 'td' and t[:1] in '"“': continue   # a quoted remark in a cell is the driver's prose
         bad = title_case_problems(t)
         if bad: out.append((sid, 'S1 title case (%s)' % role, '%s  <- %s' % (t[:80], ', '.join(bad))))
     for m in re.finditer(r'—|\bcarries\b|(?<!\d)0\d/\d\d/\d{4}', prose):
@@ -257,7 +277,9 @@ def regress(commit, upto):
     return diffs
 
 if __name__ == '__main__':
-    args = [x for x in sys.argv[1:] if not x.startswith('--')]
+    argv = sys.argv[1:]
+    if '--regress' in argv: argv = argv[:argv.index('--regress')] + argv[argv.index('--regress') + 2:]
+    args = [x for x in argv if not x.startswith('--')]
     ver = args[0] if args else ORDER[-1]
     findings = lint(ver)
     for sid, kind, text in findings: print('%-5s %-40s %s' % (sid.upper(), kind, text))
