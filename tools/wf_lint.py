@@ -49,6 +49,20 @@ blocks, data-revi-from / -until inline) and checks, per screen:
       sentence (SENTENCE_WORDS words or more), or opening a sentence that
       goes on with before, after or until, is a finding (judgment call 10)
 
+  S4  the words check is case-insensitive, so a title-cased chip value
+      (2 Hours) is read like any other; filter chips, pills and status chips
+      each end a line, so a filter row is never mistaken for a sentence
+  S4  an abbreviated count (6 mo, 2 wk, 1 yr) is a finding: counts stay in
+      words (judgment call 10)
+  JC9 a relative date with a time (today, 02:38 PM; Yesterday 06:04 AM) ends
+      in ET like a written date
+  one verb: sign in / sign out / signed in in frame copy is a finding, the
+      same as on a button (the annotations may still say sign-in)
+  S4  a limit named as a rule (11-Hour Drive, 30-Minute Break, 14-Hour
+      Window, 70-Hour Cycle) is a name, not a duration
+  S1  AP keeps prepositions of four letters or more capitalized, so "with"
+      is not a lowercase word mid-title
+
 Warnings, printed but not counted: the same duration shown on two
 adjacent lines, and dead markup (a -until element inside a later -from
 ancestor).
@@ -114,11 +128,11 @@ EXEMPT_IN = {'w18'}
 
 # AP style: short function words that may stay lowercase mid-title.
 LOWER_OK = {'a', 'an', 'the', 'and', 'but', 'or', 'nor', 'for', 'at', 'by', 'in', 'of',
-            'on', 'to', 'as', 'if', 'per', 'vs', 'via', 'up', 'with'}
+            'on', 'to', 'as', 'if', 'per', 'vs', 'via', 'up'}
 # Words that are data, units or names and are correct lowercase anywhere.
 DATA_OK = {'miles', 'mile', 'since', 'ago', 'left', 'radius', 'from', 'odo', 'reg.', 'rev',
            'v0.9.0', 'e9262cb', 'm.alvarez', 'j.whitfield', 'eRODS', 'app.tenna.com', 'fmcsa.dot.gov',
-           'dBm', 'h', 'm', 's', 'mo', 'ET', 'MPH', 'TLV', 'TLV,', 'protocol', 'proto', 'ack', 'of',
+           'dBm', 'h', 'm', 's', 'ET', 'MPH', 'TLV', 'TLV,', 'protocol', 'proto', 'ack', 'of',
            # event origins are lowercase data values (judgment call 2)
            'automatic', 'manual', 'driver', 'auto', 'edited', 'v3',
            # connectives inside a changed-range value: "was 04:30 PM → 05:15 PM, now 04:30 PM → 05:30 PM"
@@ -132,7 +146,7 @@ NO_BACK = {'d15', 'd16', 'd18', 'd31', 'd32'}
 # A screen that names a control on another screen: (screen, other screen, text the other screen must show).
 CLAIMS = [('w19', 'w15', 'Odometer Jump Threshold')]
 # Regulatory phrases that spell a period in words and are not S4 durations.
-DURATION_PHRASES = r'24-hour|70 hours / 8 days|60 hours / 7 days|30-minute-in-24-hour|6-month|8th hour|30-minute break|8-day|30-day|8 days|24 hours|8 hours'
+DURATION_PHRASES = r'(?i)\d+-(hour|minute) (drive|window|cycle|break)|24-hour|70 hours / 8 days|60 hours / 7 days|30-minute-in-24-hour|6-month|8th hour|30-minute break|8-day|30-day|within 24 hours|cumulative in 24 hours'
 OTHER_PAGES = ['architecture.html', 'decisions.html', 'certification.html', 'stack-research.html', 'api-docs.html']
 
 class Extractor(HTMLParser):
@@ -176,7 +190,8 @@ class Extractor(HTMLParser):
                 if c in cls: role = c; break
             if role is None and tag == 'small': role = 'small'
         frame = {'tag': tag, 'cls': cls, 'hid': hid, 'cap': role in CAPTION,
-                 'ex': bool(EXEMPT_CLASSES & set(cls)), 'role': role, 'buf': None}
+                 'ex': bool(EXEMPT_CLASSES & set(cls)), 'role': role, 'buf': None,
+                 'chip': bool({'wb-fld', 'wb-pill', 'ph-chip'} & set(cls))}
         if 'wf-item' in cls and not hid and not self.hidden():
             self.cur = a.get('id'); self.order.append(self.cur)
             self.screens[self.cur] = {'frame': [], 'annot': [], 'head': []}; frame['item'] = True
@@ -222,7 +237,9 @@ class Extractor(HTMLParser):
                         if t: self.labels.append((self.cur_id, f['role'], t))
                     if f.get('uibuf') is not None:
                         self.ui.append((self.cur_id, f['ui'], re.sub(r'\s+', ' ', ''.join(f['uibuf'])).strip(), f['btns']))
+                chip = any(f.get('chip') for f in self.stack[i:])
                 del self.stack[i:]
+                if chip: self.emit('\n')
                 if tag in ('div', 'p', 'li', 'td', 'th', 'tr', 'h1', 'h2', 'h3', 'h4'): self.emit('\n')
                 return
 
@@ -282,6 +299,9 @@ CHECKS = [
     ('S2 date range not a spaced en dash', r'\d\d/\d\d/\d{4}(–|→| → |-| - )\d\d/\d\d/\d{4}'),
     ('name as initial',                   r'(?<![A-Za-z0-9)/])[A-Z]\. [A-Z][a-z]+'),
     ('vehicle as "Unit N"',               r'\bUnit \d+'),
+    ('S4 abbreviated count (JC10)',        r'\b\d+ (mo|wk|yr)s?\b'),
+    ('JC9 relative date and time without a zone', r'(?i)\b(today|yesterday),? \d\d:\d\d (AM|PM)(?! ET)'),
+    ('one verb: sign in/out in frame copy', r'(?i)\bsign(ed)?[ -](in|out)\b'),
 ]
 NA_JUSTIFIED = {'w1'}   # screens whose note says why N/A appears (judgment call 7)
 
@@ -320,7 +340,7 @@ def lint(ver):
         lines = body.split('\n')
         for i, line in enumerate(lines):
             # judgment call 10: words in a sentence, HHh MMm SSs on a value or label line
-            for m in re.finditer(r'\b\d+[- ](minutes?|hours?|seconds?)\b', line):
+            for m in re.finditer(r'\b\d+[- ](minutes?|hours?|seconds?)\b', line, re.I):
                 around = line[max(0, m.start() - 12):m.end() + 12]
                 if re.search(DURATION_PHRASES, around) or word_count(line) >= SENTENCE_WORDS: continue
                 out.append((sid, 'S4 duration in words on a value line', line.strip()[:100]))
@@ -448,6 +468,8 @@ if __name__ == '__main__':
     if '--regress' in argv: argv = argv[:argv.index('--regress')] + argv[argv.index('--regress') + 2:]
     args = [x for x in argv if not x.startswith('--')]
     ver = args[0] if args else ORDER[-1]
+    if ver not in ORDER:
+        print('unknown revision %s; this page has %s' % (ver, ', '.join(ORDER))); sys.exit(2)
     findings = lint(ver) + structure(ver)
     for sid, kind, text in findings: print('%-5s %-40s %s' % (sid.upper(), kind, text))
     for sid, kind, text in lint.warnings: print('warn  %-5s %-40s %s' % (sid.upper(), kind, text))

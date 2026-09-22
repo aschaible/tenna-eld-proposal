@@ -1422,7 +1422,7 @@ launch  tenna://dvir/new?asset_id=ast_2181&amp;return=tennaeld://dvir/done</pre>
     <li>The event and its outbox entry are one local transaction, so an event the driver can see is by definition an event that will be synced. The device outbox is drained only on server acknowledgment.</li>
     <li>A rebuild after a lost phone is a read from the host, which is why <a href="/decisions#p3">P3</a> requires every event to reach the host when recorded.</li>
     <li>Hops: <a href="/#s-b1">B1</a>, then <a href="#e1">E1</a>. Nothing in this flow touches Tenna.</li>
-    <li><b>Motion without sign-in (<a href="/#d35">D35</a>).</b> If the phone's GPS says it is moving, an advertising tracker is in range, and this lasts past the threshold, the app shows the sign-in-or-decline screen. The tracker keeps recording as unidentified driving regardless; this is a prompt, not a record.</li>
+    <li><b>Motion Without Sign-In (<a href="/#d35">D35</a>).</b> If the phone's GPS says it is moving, an advertising tracker is in range, and this lasts past the threshold, the app shows the sign-in-or-decline screen. The tracker keeps recording as unidentified driving regardless; this is a prompt, not a record.</li>
   </ul>
 
   <h3 id="flow-3">Flow 3 · Certification</h3>
