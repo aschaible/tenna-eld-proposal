@@ -934,7 +934,7 @@
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">All screens</span>
-          <p><b>A way back everywhere.</b> Every app bar has a back control. The three deliberately locked screens are the exceptions: inspection mode (D15, D16, D31), which only the driver's PIN or password leaves, and the malfunction notices (D18, D32), which need an acknowledgment. Action buttons sit at the bottom of the screen; required fields carry an asterisk; single choices use a checkmark, not a toggle; list rows use a chevron.</p>
+          <p><b>A way back everywhere.</b> Every app bar has a back control. The three deliberately locked screens are the exceptions: inspection mode (D15, D16, D31), which only the driver's PIN or password leaves, and the malfunction notices (D18, D32), which need an acknowledgment. Action buttons sit at the bottom of the screen; required fields <span data-revi-until="v11">carry</span><span data-revi-from="v12">have</span> an asterisk; single choices use a checkmark, not a toggle; list rows use a chevron.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">D1 &middot; D3 &middot; D35</span>
@@ -972,6 +972,39 @@
 
       <div class="anatomy" style="margin-top:16px;">
         <p><b>Still open from the audit:</b> D1 biometric use on shared tablets (Q24, with FMCSA); D14 whether DVIR is a handoff or in-app (T7 as agreed with Tenna); D27 whether a stamped non-HOS move counts as an annotated unidentified-driving record; D8 which odometer is the legal record when the tracker and the dashboard differ.</p>
+      </div>
+    </div>
+
+    <div data-rev-from="v12">
+      <div class="eyebrow">Revision 9/22/2026</div>
+      <h2 style="margin-bottom:6px;">What changed</h2>
+      <p class="lede" style="margin-bottom:18px;">A second pass over the 9/21/2026 audit. Every screen was checked again against Tom Caliendo's six standards and against his per-screen notes, and the leftovers below were fixed. No screen is redrawn and no open question is closed.</p>
+
+      <div class="legend-grid">
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D4 &middot; D38 &middot; D19 &middot; D14 &middot; D9 &middot; D22 &middot; D26</span>
+          <p><b>Status values in title case.</b> The header dot now reads Tracker Linked and Link Lost, the inspection card reads Status Today: Not Started, the all-day row reads OFF All Day, an answered unidentified-driving record reads Mine · Done, its day headers count Records, and the registration id reads Pending.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">W2 &middot; W4 &middot; W7 &middot; W10 &middot; W12 &middot; W14 &middot; W15</span>
+          <p><b>Control panel leftovers.</b> Limit names, the Violation At header, the engine power-down event and every pill (History, From Tenna Asset Records, Retried, From Tenna Site, New, the two Hold buttons) in title case. The malfunction tracker spells out Acknowledged and puts "left" on both open clocks. The July export names its date range as MM/DD/YYYY. The yard operator role matches its neighbours.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D13 &middot; D22 &middot; D28</span>
+          <p><b>Durations where the audit asked for them.</b> Each unidentified-driving record and each edit-history version shows its length as HHh MMm SSs beside the time range, the way D34 already did.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">D33</span>
+          <p><b>One selection, not two.</b> The co-driver row on the handover sheet says Next at the Wheel instead of Selected, so only the button names the choice.</p>
+        </div>
+        <div class="legend-item" style="border-left:3px solid var(--orange);">
+          <span class="rev-badge rev-changed">Judgment calls</span>
+          <p><b>Decided once, so no later pass re-decides them.</b> App bar sub-notes, scenario labels and small captions are captions, not status values, and stay lowercase. Event origins (automatic, manual, driver, auto, edited) are lowercase data values. Values inside table cells and pills follow title case like the labels around them. A string of five or more words is a sentence and keeps sentence case, unless it is a button, header, title or field label. Wherever a time range is shown, its duration is shown next to it. A dash marks a value that is pending or none; N/A marks a value confirmed unavailable, and the screen says why. Site prose dates are m/d/yyyy, mockup dates MM/DD/YYYY. The same list heads <span class="mono">tools/wf_lint.py</span>, which checks every revision against it.</p>
+        </div>
+        <div class="legend-item">
+          <span class="rev-badge">Not changed</span>
+          <p>D37 has no speed on screen and W11 has no driver column, so the audit's S3 and name notes have nothing to apply there. W14 has no action button in any revision. D16 and the W18 officer view keep the Appendix A format. The D8 odometer question stays Q6 and the W10 alerting question stays P4.</p>
+        </div>
       </div>
     </div>
 
@@ -1359,7 +1392,7 @@
             <span class="wf-label">Open questions</span>
             <ul>
               <li data-rev-from="v7"><b>Changed 9/11/2026 &middot;</b> After sign-in and before <a href="#d4">D4</a>: past days needing certification are prompted explicitly (4.3.2.3-4), an exempt driver sees their exemption (4.3.3.1.2-5), and any change to their personal-conveyance or yard-move permission since last login is shown (4.3.3.1.1-4). Then <a href="#d36">D36</a> if trip details are missing.</li>
-              <li data-rev-from="v8"><b>Changed 9/14/2026 &middot;</b> An exempt driver lands on <a href="#d38">D38</a>, not D4, and skips certification prompts; trip details (<a href="#d36">D36</a>) are still asked because the segments carry them.</li>
+              <li data-rev-from="v8"><b>Changed 9/14/2026 &middot;</b> An exempt driver lands on <a href="#d38">D38</a>, not D4, and skips certification prompts; trip details (<a href="#d36">D36</a>) are still asked because the segments <span data-revi-until="v11">carry</span><span data-revi-from="v12">include</span> them.</li>
               <li data-rev-until="v2"><a class="qref" href="/decisions#p1">P1</a> Is the thing typed here a Tenna user or an ELD driver credential? Everything on this screen follows from that.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#p1">P1</a> What does a Tenna user without an ELD license see here? If the app only says login failed, the driver calls dispatch, when the real problem is the missing license.</li>
               <li data-rev-from="v3"><a class="qref" href="/decisions#q24">Q24</a> Face ID unlocks a saved session on the phone. It does not prove to Tenna who signed in. On a shared cab tablet, one enrolled face opens any driver&rsquo;s session.</li>
@@ -1630,7 +1663,7 @@
         <div class="wf-frame-col">
           <div class="wf-phone"><div class="wf-screen">
             <div class="ph-status"><span><span data-revi-until="v10">2:41 PM</span><span data-revi-from="v11">02:41 PM</span></span><span>▪▪▪ 5G · 84%</span></div>
-            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Marcus</span><span data-revi-from="v11">Good Afternoon, Marcus</span></span><span class="r"><span data-revi-until="v10">Unit 218</span><span data-revi-from="v11">218 - Ford F-150</span><br/>● tracker linked</span></div>
+            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Marcus</span><span data-revi-from="v11">Good Afternoon, Marcus</span></span><span class="r"><span data-revi-until="v10">Unit 218</span><span data-revi-from="v11">218 - Ford F-150</span><br/><span data-revi-until="v11">● tracker linked</span><span data-revi-from="v12">● Tracker Linked</span></span></div>
             <div class="ph-body">
               <div class="ph-hero">
                 <div class="st"><span data-revi-until="v10">DRIVING</span><span data-revi-from="v11">Driving</span></div>
@@ -1698,7 +1731,7 @@
         <div class="wf-frame-col">
           <div class="wf-phone"><div class="wf-screen">
             <div class="ph-status"><span><span data-revi-until="v10">2:41 PM</span><span data-revi-from="v11">02:41 PM</span></span><span>▪▪▪ 5G · 84%</span></div>
-            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Dale</span><span data-revi-from="v11">Good Afternoon, Dale</span></span><span class="r"><span data-revi-until="v10">Unit 231</span><span data-revi-from="v11">231 - Kenworth T380</span><br/>● tracker linked</span></div>
+            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Dale</span><span data-revi-from="v11">Good Afternoon, Dale</span></span><span class="r"><span data-revi-until="v10">Unit 231</span><span data-revi-from="v11">231 - Kenworth T380</span><br/><span data-revi-until="v11">● tracker linked</span><span data-revi-from="v12">● Tracker Linked</span></span></div>
             <div class="ph-body">
               <div class="ph-banner"><b>Exempt driver · §395.1 short-haul.</b> Set by Blue Ash Construction Co. Your driving is recorded; no hours-of-service log is kept.</div>
               <div class="ph-hero">
@@ -1874,7 +1907,7 @@
                 <div class="ph-li" style="border:0; padding:4px 0 0;"><span class="a"><span data-revi-until="v10">M. Alvarez</span><span data-revi-from="v11">Marcus Alvarez · Emp 1184</span><small><span data-revi-until="v10">Driving since 12:00 PM &middot; 4:12 drive left</span><span data-revi-from="v11">Driving since 12:00 PM &middot; 04h 12m 00s drive left</span></small></span><span class="b"><span data-revi-until="v10">&#9679; active</span><span data-revi-from="v11">&#9679; Active</span></span></div>
               </div>
               <div class="ph-card"><div class="h"><span data-revi-until="v10">Co-driver</span><span data-revi-from="v11">Co-Driver</span></div>
-                <div class="ph-li" style="border:0; padding:4px 0 0;"><span class="a"><span data-revi-until="v10">J. Whitfield</span><span data-revi-from="v11">James Whitfield · Emp 2093</span><small><span data-revi-until="v10">Sleeper berth since 11:20 AM &middot; 10:38 drive left</span><span data-revi-from="v11">Sleeper Berth since 11:20 AM &middot; 10h 38m 00s drive left</span></small></span><span class="b"><span data-revi-until="v10">&#9675; select</span><span data-revi-from="v11">&#10003; Selected</span></span></div>
+                <div class="ph-li" style="border:0; padding:4px 0 0;"><span class="a"><span data-revi-until="v10">J. Whitfield</span><span data-revi-from="v11">James Whitfield · Emp 2093</span><small><span data-revi-until="v10">Sleeper berth since 11:20 AM &middot; 10:38 drive left</span><span data-revi-from="v11">Sleeper Berth since 11:20 AM &middot; 10h 38m 00s drive left</span></small></span><span class="b"><span data-revi-until="v10">&#9675; select</span><span data-revi-from="v11" data-revi-until="v11">&#10003; Selected</span><span data-revi-from="v12">Next at the Wheel</span></span></div>
               </div>
               <div class="ph-btn primary"><span data-revi-until="v10">Hand over to J. Whitfield</span><span data-revi-from="v11">Hand Over to James Whitfield</span></div>
               <div class="ph-btn ghost">Cancel</div>
@@ -2106,7 +2139,7 @@
           <div class="wf-head"><span class="wf-id">D27</span><h4 class="wf-name">Non-HOS Move &middot; shop &amp; yard</h4><span class="rev-badge">new 8/28/2026</span></div>
           <p class="wf-purpose" data-rev-until="v2">A two-tap stamp for the four movements the memo names as ordinary causes of unidentified driving: mechanic road test, yard movement, yard relocation, and OEM/warranty movement. Used by mechanics and yard hands who are not running an HOS log, so the driving is attributed at the moment it happens instead of being reconciled a week later.</p>
           <p class="wf-purpose" data-rev-from="v3" data-rev-until="v4">A two-tap stamp for the four ordinary causes of unidentified driving: mechanic road test, yard movement, yard relocation, OEM warranty movement. Used by mechanics and yard hands, so the move is named when it happens.</p>
-          <p class="wf-purpose" data-rev-from="v5">Two taps to record why a truck moved without a driver: mechanic road test, yard move, yard relocation, OEM pickup, maintenance yard move, or a reason the carrier adds. Mechanics and yard hands use it, so the move gets a reason when it happens.</p>
+          <p class="wf-purpose" data-rev-from="v5">Two taps to record why a truck moved without a driver: <span data-revi-until="v11">mechanic road test, yard move, yard relocation, OEM pickup, maintenance yard move, or a reason the carrier adds</span><span data-revi-from="v12">mechanic road test, internal yard move, yard relocation, OEM pickup, maintenance yard move, or a reason the carrier adds, such as the jobsite shuttle drawn here</span>. Mechanics and yard hands use it, so the move gets a reason when it happens.</p>
           <div class="rev-what" data-rev-from="v5">
             <span class="rev-what-h">Changed 9/8/2026 &middot; the reason list is final, and open</span>
             <p>Tom&rsquo;s 9/6/2026 list, confirmed on the call: Yard Relocation, Internal Yard Move, Mechanic Road Test, OEM Pickup, Maintenance Yard Move. Yard Relocation is yard A to yard B, a couple of miles apart. Internal Yard Move is inside the yard you are in. Both stay separate. Carriers may add their own reasons in <a href="#w15">W15</a>; the same list drives the pop-up on <a href="#w16">W16</a>.</p>
@@ -2243,7 +2276,7 @@
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Wed 8/19/2026</span><span data-revi-from="v11">Wed 08/19/2026</span><small><span data-revi-until="v10">D 7:48 · ON 2:10</span><span data-revi-from="v11">D 07h 48m 00s · ON 02h 10m 00s</span></small></span><span class="b"><span data-revi-until="v10">✓ certified</span><span data-revi-from="v11">✓ Certified</span></span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Tue 8/18/2026</span><span data-revi-from="v11">Tue 08/18/2026</span><small><span data-revi-until="v10">D 5:12 · ON 3:04 · 1 edit pending your review</span><span data-revi-from="v11">D 05h 12m 00s · ON 03h 04m 00s · 1 edit pending your review</span></small></span><span class="b"><span data-revi-until="v10">✓ certified</span><span data-revi-from="v11">✓ Certified</span></span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Mon 8/17/2026</span><span data-revi-from="v11">Mon 08/17/2026</span><small><span data-revi-until="v10">D 8:44 · ON 1:52 · ⚠ 30-min break violation</span><span data-revi-from="v11">D 08h 44m 00s · ON 01h 52m 00s · ⚠ 30-min break violation</span></small></span><span class="b"><span data-revi-until="v10">✓ certified</span><span data-revi-from="v11">✓ Certified</span></span></div>
-              <div class="ph-li"><span class="a"><span data-revi-until="v10">Sun 8/16/2026</span><span data-revi-from="v11">Sun 08/16/2026</span><small>OFF all day</small></span><span class="b"><span data-revi-until="v10">✓ certified</span><span data-revi-from="v11">✓ Certified</span></span></div>
+              <div class="ph-li"><span class="a"><span data-revi-until="v10">Sun 8/16/2026</span><span data-revi-from="v11">Sun 08/16/2026</span><small><span data-revi-until="v11">OFF all day</span><span data-revi-from="v12">OFF All Day</span></small></span><span class="b"><span data-revi-until="v10">✓ certified</span><span data-revi-from="v11">✓ Certified</span></span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Sat 8/15/2026</span><span data-revi-from="v11">Sat 08/15/2026</span><small><span data-revi-until="v10">D 4:05 · ON 2:31</span><span data-revi-from="v11">D 04h 05m 00s · ON 02h 31m 00s</span></small></span><span class="b"><span data-revi-until="v10">● NOT<br/>CERTIFIED</span><span data-revi-from="v11">● Not<br/>Certified</span></span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Fri 8/14/2026</span><span data-revi-from="v11">Fri 08/14/2026</span><small><span data-revi-until="v10">D 7:19 · ON 2:47</span><span data-revi-from="v11">D 07h 19m 00s · ON 02h 47m 00s</span></small></span><span class="b"><span data-revi-until="v10">✓ certified</span><span data-revi-from="v11">✓ Certified</span></span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Thu 8/13/2026</span><span data-revi-from="v11">Thu 08/13/2026</span><small><span data-revi-until="v10">D 6:58 · ON 1:33</span><span data-revi-from="v11">D 06h 58m 00s · ON 01h 33m 00s</span></small></span><span class="b"><span data-revi-until="v10">✓ certified</span><span data-revi-from="v11">✓ Certified</span></span></div>
@@ -2455,13 +2488,13 @@
             <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Edit history · 8/19/2026</span><span data-revi-from="v11">Edit History · 08/19/2026</span></span><span class="r">originals<br/>preserved</span></div>
             <div class="ph-body">
               <div class="ph-card"><div class="h"><span data-revi-until="v10">v3 · current</span><span data-revi-from="v11">V3 · Current</span></div>
-                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 5:30 PM</span><span data-revi-from="v11">ON · 04:30 PM → 05:30 PM</span><br/><span data-revi-until="v10">Edited by M. Alvarez · 8/20/2026, 7:12 AM</span><span data-revi-from="v11">Edited by Marcus Alvarez · 08/20/2026 · 07:12 AM</span><br/>"Unload ran long, forgot to log it"</div>
+                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 5:30 PM</span><span data-revi-from="v11">ON · 04:30 PM → 05:30 PM<span data-revi-from="v12"> · 01h 00m 00s</span></span><br/><span data-revi-until="v10">Edited by M. Alvarez · 8/20/2026, 7:12 AM</span><span data-revi-from="v11">Edited by Marcus Alvarez · 08/20/2026 · 07:12 AM</span><br/>"Unload ran long, forgot to log it"</div>
               </div>
               <div class="ph-card"><div class="h"><span data-revi-until="v10">v2 · carrier proposal · rejected</span><span data-revi-from="v11">V2 · Carrier Proposal · Rejected</span></div>
-                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 6:00 PM</span><span data-revi-from="v11">ON · 04:30 PM → 06:00 PM</span><br/><span data-revi-until="v10">Proposed by dispatch (K. Byers) · 8/19/2026, 9:02 PM</span><span data-revi-from="v11">Proposed by dispatch (Kim Byers) · 08/19/2026 · 09:02 PM</span><br/><span data-revi-until="v10">Rejected by driver: "Left yard at 5:30"</span><span data-revi-from="v11">Rejected by driver: "Left yard at 05:30 PM"</span></div>
+                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 6:00 PM</span><span data-revi-from="v11">ON · 04:30 PM → 06:00 PM<span data-revi-from="v12"> · 01h 30m 00s</span></span><br/><span data-revi-until="v10">Proposed by dispatch (K. Byers) · 8/19/2026, 9:02 PM</span><span data-revi-from="v11">Proposed by dispatch (Kim Byers) · 08/19/2026 · 09:02 PM</span><br/><span data-revi-until="v10">Rejected by driver: "Left yard at 5:30"</span><span data-revi-from="v11">Rejected by driver: "Left yard at 05:30 PM"</span></div>
               </div>
               <div class="ph-card"><div class="h"><span data-revi-until="v10">v1 · original · automatic</span><span data-revi-from="v11">V1 · Original · Automatic</span></div>
-                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 5:15 PM</span><span data-revi-from="v11">ON · 04:30 PM → 05:15 PM</span><br/><span data-revi-until="v10">Recorded automatically · 8/19/2026, 4:30 PM</span><span data-revi-from="v11">Recorded automatically · 08/19/2026 · 04:30 PM</span></div>
+                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 5:15 PM</span><span data-revi-from="v11">ON · 04:30 PM → 05:15 PM<span data-revi-from="v12"> · 00h 45m 00s</span></span><br/><span data-revi-until="v10">Recorded automatically · 8/19/2026, 4:30 PM</span><span data-revi-from="v11">Recorded automatically · 08/19/2026 · 04:30 PM</span></div>
               </div>
               <div class="ph-note">Every version is retained. Nothing is ever overwritten, per §395.32(c).</div>
             </div>
@@ -2507,7 +2540,7 @@
             <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Vehicle inspection</span><span data-revi-from="v11">Vehicle Inspection</span></span><span class="r">Tenna DVIR</span></div>
             <div class="ph-body">
               <div class="ph-card"><div class="h"><span data-revi-until="v10">Pre-trip · Unit 218 · Ford F-150</span><span data-revi-from="v11">Pre-Trip · 218 - Ford F-150</span></div>
-                <div class="ph-note">Status today: not started<br/>Carrier policy: required before first drive</div>
+                <div class="ph-note"><span data-revi-until="v11">Status today: not started</span><span data-revi-from="v12">Status Today: Not Started</span><br/>Carrier policy: required before first drive</div>
               </div>
               <div class="ph-banner">Inspections run in Tenna's DVIR module, the flow you already use. You'll come back here automatically when it's submitted.</div>
               <div class="ph-btn primary">Open Tenna DVIR ↗</div>
@@ -3037,7 +3070,7 @@
         <div class="wf-frame-col">
           <div class="wf-phone"><div class="wf-screen">
             <div class="ph-status"><span><span data-revi-until="v10">2:41 PM</span><span data-revi-from="v11">02:41 PM</span></span><span>▪▪▪ 5G · 84%</span></div>
-            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Marcus</span><span data-revi-from="v11">Good Afternoon, Marcus</span></span><span class="r"><span data-revi-until="v10">Unit 218</span><span data-revi-from="v11">218 - Ford F-150</span><br/><span data-revi-until="v10">○ link lost 6 m</span><span data-revi-from="v11">○ link lost 00h 06m 00s</span></span></div>
+            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Marcus</span><span data-revi-from="v11">Good Afternoon, Marcus</span></span><span class="r"><span data-revi-until="v10">Unit 218</span><span data-revi-from="v11">218 - Ford F-150</span><br/><span data-revi-until="v10">○ link lost 6 m</span><span data-revi-from="v11" data-revi-until="v11">○ link lost 00h 06m 00s</span><span data-revi-from="v12">○ Link Lost 00h 06m 00s</span></span></div>
             <div class="ph-body">
               <div class="ph-banner" style="border-style:solid; border-color:#9AA1AD;"><b><span data-revi-until="v10">Data diagnostic · engine synchronization</span><span data-revi-from="v11">Data Diagnostic · Engine Synchronization</span></b><br/>The tracker link has been down for 6 minutes. Reconnect to the vehicle to clear. Not a malfunction; logs continue.<span data-revi-from="v11"> A drop under 60 seconds shows only as the header dot; this banner waits a full minute so a brief loss in a garage does not alarm you. The diagnostic record itself is written per the rule.</span></div>
               <div class="ph-hero" style="background:#565D6A;">
@@ -3300,18 +3333,18 @@
                 <div class="ph-btn" style="padding:6px;"><span data-revi-until="v10">Select all</span><span data-revi-from="v11">All Records Are Mine</span></div>
                 <div class="ph-btn ghost" style="padding:6px;"><span data-revi-until="v10">None of these are mine</span><span data-revi-from="v11">None Are Mine</span></div>
               </div>
-              <div class="ph-label"><span data-revi-until="v10">Wed 8/19/2026 · 3 records</span><span data-revi-from="v11">Wed 08/19/2026 · 3 records</span></div>
-              <div class="ph-card"><div class="h"><span data-revi-until="v10">6:12 → 6:20 AM &nbsp;·&nbsp; 2.1 mi</span><span data-revi-from="v11">06:12 AM → 06:20 AM &nbsp;·&nbsp; 2.1 miles</span></div>
+              <div class="ph-label"><span data-revi-until="v10">Wed 8/19/2026 · 3 records</span><span data-revi-from="v11" data-revi-until="v11">Wed 08/19/2026 · 3 records</span><span data-revi-from="v12">Wed 08/19/2026 · 3 Records</span></div>
+              <div class="ph-card"><div class="h"><span data-revi-until="v10">6:12 → 6:20 AM &nbsp;·&nbsp; 2.1 mi</span><span data-revi-from="v11">06:12 AM → 06:20 AM &nbsp;·&nbsp; 2.1 miles<span data-revi-from="v12"> &nbsp;·&nbsp; 00h 08m 00s</span></span></div>
                 <div class="ph-note"><span data-revi-until="v10">Blue Ash yard · odo 126,474.5 → 126,476.6</span><span data-revi-from="v11">Blue Ash yard · odo 126474.5 miles → 126476.6 miles</span></div>
                 <div class="ph-row2" style="margin-top:7px;">
                   <div class="ph-btn" style="padding:6px;"><span data-revi-until="v10">This was me</span><span data-revi-from="v11">Mine</span></div>
                   <div class="ph-btn ghost" style="padding:6px;"><span data-revi-until="v10">Not mine →</span><span data-revi-from="v11">Not Mine &#8250;</span></div>
                 </div>
               </div>
-              <div class="ph-li"><span class="a"><span data-revi-until="v10">6:41 → 6:44 AM · 0.4 mi</span><span data-revi-from="v11">06:41 AM → 06:44 AM · 0.4 miles</span><small>Blue Ash yard</small></span><span class="b"><span data-revi-until="v10">☐</span><span data-revi-from="v11">&#10003; Mine · done</span></span></div>
-              <div class="ph-li"><span class="a"><span data-revi-until="v10">7:58 → 8:02 AM · 0.6 mi</span><span data-revi-from="v11">07:58 AM → 08:02 AM · 0.6 miles</span><small>Blue Ash yard</small></span><span class="b">☐</span></div>
-              <div class="ph-label"><span data-revi-until="v10">Tue 8/18/2026 · 8 records</span><span data-revi-from="v11">Tue 08/18/2026 · 8 records</span></div>
-              <div class="ph-li"><span class="a"><span data-revi-until="v10">7:02 → 7:31 PM · 12.4 mi</span><span data-revi-from="v11">07:02 PM → 07:31 PM · 12.4 miles</span><small>Blue Ash → Loveland, OH</small></span><span class="b">☐</span></div>
+              <div class="ph-li"><span class="a"><span data-revi-until="v10">6:41 → 6:44 AM · 0.4 mi</span><span data-revi-from="v11">06:41 AM → 06:44 AM · 0.4 miles<span data-revi-from="v12"> · 00h 03m 00s</span></span><small>Blue Ash yard</small></span><span class="b"><span data-revi-until="v10">☐</span><span data-revi-from="v11" data-revi-until="v11">&#10003; Mine · done</span><span data-revi-from="v12">&#10003; Mine · Done</span></span></div>
+              <div class="ph-li"><span class="a"><span data-revi-until="v10">7:58 → 8:02 AM · 0.6 mi</span><span data-revi-from="v11">07:58 AM → 08:02 AM · 0.6 miles<span data-revi-from="v12"> · 00h 04m 00s</span></span><small>Blue Ash yard</small></span><span class="b">☐</span></div>
+              <div class="ph-label"><span data-revi-until="v10">Tue 8/18/2026 · 8 records</span><span data-revi-from="v11" data-revi-until="v11">Tue 08/18/2026 · 8 records</span><span data-revi-from="v12">Tue 08/18/2026 · 8 Records</span></div>
+              <div class="ph-li"><span class="a"><span data-revi-until="v10">7:02 → 7:31 PM · 12.4 mi</span><span data-revi-from="v11">07:02 PM → 07:31 PM · 12.4 miles<span data-revi-from="v12"> · 00h 29m 00s</span></span><small>Blue Ash → Loveland, OH</small></span><span class="b">☐</span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">+ 7 more, all under 1 mi</span><span data-revi-from="v11">+ 7 more, all under 1.0 miles</span><small><span data-revi-until="v10">Blue Ash yard · 6:04 – 6:52 AM</span><span data-revi-from="v11">Blue Ash yard · 06:04 AM – 06:52 AM</span></small></span><span class="b"><span data-revi-until="v10">expand</span><span data-revi-from="v11">Expand</span></span></div>
               <div class="ph-note">Claiming adds the driving time to your log. <span data-revi-until="v3">Saying a record is not yours asks you one quick question about why, then sends it to your carrier.</span><span data-revi-from="v4" data-revi-until="v5">Saying a record is not yours asks for a short note in your own words, then sends it to your carrier.</span><span data-revi-from="v6">Saying a record is not yours asks for a short note in your own words. The record stays on this vehicle's list for the next driver; your carrier reviews it either way.</span> You are not responsible for clearing this list.<span data-revi-from="v11"> An answered record shows its answer and the next one opens. Claiming a record with a missing trip element, such as the shipping document, asks for it first (Appendix A 4.4.4.2.4, D36).</span></div>
             </div>
@@ -3398,7 +3431,7 @@
               <div class="ph-grip"></div>
               <div class="ph-label" data-rev-until="v3">Not yours &middot; what do you think it was?</div>
               <div class="ph-label" data-rev-from="v4"><span data-revi-until="v10">Not yours &middot; tell your carrier why</span><span data-revi-from="v11">Not Yours &middot; Tell Your Carrier Why</span></div>
-              <div class="ph-note" style="margin-top:-3px;"><span data-revi-until="v10">Wed 8/19/2026 &middot; 6:12 &rarr; 6:20 AM &middot; 2.1 mi &middot; Blue Ash yard</span><span data-revi-from="v11">Wed 08/19/2026 &middot; 06:12 AM &rarr; 06:20 AM &middot; 2.1 miles &middot; Blue Ash yard</span></div>
+              <div class="ph-note" style="margin-top:-3px;"><span data-revi-until="v10">Wed 8/19/2026 &middot; 6:12 &rarr; 6:20 AM &middot; 2.1 mi &middot; Blue Ash yard</span><span data-revi-from="v11">Wed 08/19/2026 &middot; 06:12 AM &rarr; 06:20 AM &middot; 2.1 miles<span data-revi-from="v12"> &middot; 00h 08m 00s</span> &middot; Blue Ash yard</span></div>
               <div class="ph-li" data-rev-until="v3"><span class="a">Mechanic road test<small>shop had the truck that morning</small></span><span class="b">&#9673;</span></div>
               <div class="ph-li" data-rev-until="v3"><span class="a">Yard movement<small>someone repositioned it in the yard</small></span><span class="b">&#9675;</span></div>
               <div class="ph-li" data-rev-until="v3"><span class="a">Yard relocation<small>moved to another yard</small></span><span class="b">&#9675;</span></div>
@@ -3725,7 +3758,7 @@
             <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">About this ELD</span><span data-revi-from="v11">About This ELD</span></span><span class="r">required<br/>visible</span></div>
             <div class="ph-body">
               <div class="ph-li"><span class="a"><span data-revi-until="v10">ELD identifier</span><span data-revi-from="v11">ELD Identifier</span><small>Assigned at FMCSA registration · pending</small></span><span class="b mono">TENNA01</span></div>
-              <div class="ph-li"><span class="a">Registration ID<small>fmcsa.dot.gov listing</small></span><span class="b mono">pending</span></div>
+              <div class="ph-li"><span class="a">Registration ID<small>fmcsa.dot.gov listing</small></span><span class="b mono"><span data-revi-until="v11">pending</span><span data-revi-from="v12">Pending</span></span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">App version</span><span data-revi-from="v11">App Version</span><small>source revision stamped per build</small></span><span class="b mono">0.9.0<br/>e9262cb</span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Paired tracker</span><span data-revi-from="v11">Paired Tracker</span><small><span data-revi-until="v10">Geometris WQ · Unit 218</span><span data-revi-from="v11">Geometris WQ · 218 - Ford F-150</span></small></span><span class="b mono">WQ-87X06<br/>0680218</span></div>
               <div class="ph-li" data-rev-until="v2"><span class="a">Tracker firmware<small>TLV protocol 1</small></span><span class="b mono">3.2</span></div><div class="ph-li" data-rev-from="v3"><span class="a"><span data-revi-until="v10">Broadcast protocol</span><span data-revi-from="v11">Broadcast Protocol</span><small>TLV, protocol 1</small></span><span class="b mono">1</span></div>
@@ -3923,12 +3956,12 @@
                     </tbody>
                   </table>
                   <table class="wb-table" data-rev-from="v11">
-                    <thead><tr><th>Last Name</th><th>First Name</th><th>Limit</th><th>Time Left</th><th>Violation at</th><th>Now</th><th>Alerted</th></tr></thead>
+                    <thead><tr><th>Last Name</th><th>First Name</th><th>Limit</th><th>Time Left</th><th><span data-revi-until="v11">Violation at</span><span data-revi-from="v12">Violation At</span></th><th>Now</th><th>Alerted</th></tr></thead>
                     <tbody>
-                      <tr><td><b>Burns</b></td><td>Kevin</td><td><span class="wb-pill dark">11-h drive</span></td><td>00h 48m 00s</td><td>03:29 PM</td><td>Driving · I-71/75 S</td><td>Dispatch · 02:29 PM</td></tr>
-                      <tr><td><b>Burns</b></td><td>Kevin</td><td><span class="wb-pill">30-min break</span></td><td>01h 12m 00s</td><td>03:53 PM</td><td>07h 48m 00s since last break</td><td>Dispatch · 02:41 PM</td></tr>
-                      <tr><td><b>Alvarez</b></td><td>Marcus</td><td><span class="wb-pill">14-h window</span></td><td>05h 34m 00s</td><td>08:15 PM</td><td>Driving · Blue Ash</td><td>At 01h 00m 00s</td></tr>
-                      <tr><td><b>Delgado</b></td><td>Rosa</td><td><span class="wb-pill">70-h cycle</span></td><td>08h 15m 00s</td><td>Tomorrow</td><td>Sleeper</td><td>At 01h 00m 00s</td></tr>
+                      <tr><td><b>Burns</b></td><td>Kevin</td><td><span class="wb-pill dark"><span data-revi-until="v11">11-h drive</span><span data-revi-from="v12">11-h Drive</span></span></td><td>00h 48m 00s</td><td>03:29 PM</td><td>Driving · I-71/75 S</td><td>Dispatch · 02:29 PM</td></tr>
+                      <tr><td><b>Burns</b></td><td>Kevin</td><td><span class="wb-pill"><span data-revi-until="v11">30-min break</span><span data-revi-from="v12">30-min Break</span></span></td><td>01h 12m 00s</td><td>03:53 PM</td><td>07h 48m 00s since last break</td><td>Dispatch · 02:41 PM</td></tr>
+                      <tr><td><b>Alvarez</b></td><td>Marcus</td><td><span class="wb-pill"><span data-revi-until="v11">14-h window</span><span data-revi-from="v12">14-h Window</span></span></td><td>05h 34m 00s</td><td>08:15 PM</td><td>Driving · Blue Ash</td><td>At 01h 00m 00s</td></tr>
+                      <tr><td><b>Delgado</b></td><td>Rosa</td><td><span class="wb-pill"><span data-revi-until="v11">70-h cycle</span><span data-revi-from="v12">70-h Cycle</span></span></td><td>08h 15m 00s</td><td>Tomorrow</td><td>Sleeper</td><td>At 01h 00m 00s</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note" data-rev-until="v7">Row click → the driver's live log (W4) with the offending clock highlighted. Notify column intentionally absent pending P4.</div>
@@ -4089,8 +4122,8 @@
                   <table class="wb-table" data-rev-from="v11" style="margin-top:8px;">
                     <thead><tr><th>Time</th><th>Event</th><th>Origin</th><th>Odometer</th><th>Location</th></tr></thead>
                     <tbody>
-                      <tr data-rev-from="v5"><td>05:31 PM</td><td>Engine power down</td><td>automatic</td><td>126474.5 miles</td><td>Blue Ash yard</td></tr>
-                      <tr><td>04:30 PM</td><td>ON · On Duty</td><td>edited · v3 <span class="wb-pill out">history</span></td><td>126474.5 miles</td><td>Blue Ash yard</td></tr>
+                      <tr data-rev-from="v5"><td>05:31 PM</td><td><span data-revi-until="v11">Engine power down</span><span data-revi-from="v12">Engine Power Down</span></td><td>automatic</td><td>126474.5 miles</td><td>Blue Ash yard</td></tr>
+                      <tr><td>04:30 PM</td><td>ON · On Duty</td><td>edited · v3 <span class="wb-pill out"><span data-revi-until="v11">history</span><span data-revi-from="v12">History</span></span></td><td>126474.5 miles</td><td>Blue Ash yard</td></tr>
                       <tr><td>12:00 PM</td><td>D · Driving</td><td>automatic</td><td>126447.9 miles</td><td>11700 Chester Rd, Sharonville, OH 45246</td></tr>
                       <tr><td>06:00 AM</td><td>D · Driving</td><td>automatic</td><td>126412.3 miles</td><td>4400 Cooper Rd, Blue Ash, OH 45242</td></tr>
                     </tbody>
@@ -4244,7 +4277,7 @@
                       <tr><td>08/14/2026</td><td><b>Delgado</b></td><td>Rosa</td><td>OFF → SB · 10:00 PM–02:00 AM</td><td>Sam Patel · 08/15/2026 · 08:10 AM</td><td><span class="wb-pill">Approved</span></td><td>–</td></tr>
                     </tbody>
                   </table>
-                  <div class="wb-note">Stale pending proposals age visibly. Rejections carry the driver's reason back to the proposer.</div>
+                  <div class="wb-note">Stale pending proposals age visibly. <span data-revi-until="v11">Rejections carry the driver's reason back to the proposer.</span><span data-revi-from="v12">Rejections return the driver's reason to the proposer.</span></div>
                 </div>
               </div>
             </div>
@@ -4307,7 +4340,7 @@
                   <table class="wb-table" style="margin-top:6px;">
                     <thead><tr><th><span data-revi-until="v10">Recent exports</span><span data-revi-from="v11">Recent Exports</span></th><th>By</th><th>When</th><th></th></tr></thead>
                     <tbody>
-                      <tr><td>Full fleet · Jul 2026 · FMCSA format</td><td><span data-revi-until="v10">S. Patel</span><span data-revi-from="v11">Sam Patel</span></td><td><span data-revi-until="v10">8/3/2026</span><span data-revi-from="v11">08/03/2026</span></td><td><span class="wb-pill out">↓</span></td></tr>
+                      <tr><td><span data-revi-until="v11">Full fleet · Jul 2026 · FMCSA format</span><span data-revi-from="v12">Full Fleet · 07/01/2026 – 07/31/2026 · FMCSA Format</span></td><td><span data-revi-until="v10">S. Patel</span><span data-revi-from="v11">Sam Patel</span></td><td><span data-revi-until="v10">8/3/2026</span><span data-revi-from="v11">08/03/2026</span></td><td><span class="wb-pill out">↓</span></td></tr>
                       <tr><td><span data-revi-until="v10">K. Burns · 8/10/2026–8/17/2026 · CSV</span><span data-revi-from="v11">Kevin Burns · 08/10/2026–08/17/2026 · CSV</span></td><td><span data-revi-until="v10">S. Patel</span><span data-revi-from="v11">Sam Patel</span></td><td><span data-revi-until="v10">8/18/2026</span><span data-revi-from="v11">08/18/2026</span></td><td><span class="wb-pill out">↓</span></td></tr>
                     </tbody>
                   </table>
@@ -4676,8 +4709,8 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>Fleet No.</th><th>Asset Name</th><th>Table 4 Code</th><th>Logged &middot; Code 1</th><th>Clock or Cleared &middot; Code 2</th><th>Driver on Paper Logs</th><th>Status</th></tr></thead>
                     <tbody>
-                      <tr><td><b>207</b></td><td>Ford F-550 · WQ-…0355</td><td><span class="wb-pill dark">P · Power</span></td><td>08/18/2026 · 02:38 PM</td><td><div class="wb-bar" style="width:60px;"><i style="width:75%;"></i></div> 144h 00m 00s left</td><td>Kevin Burns ✓ ack</td><td><span class="wb-pill out">Open</span></td></tr>
-                      <tr><td><b>231</b></td><td>Kenworth T380 · WQ-…0301</td><td><span class="wb-pill dark">E · Engine sync</span></td><td>08/20/2026 · 09:12 AM</td><td><div class="wb-bar" style="width:60px;"><i style="width:97%;"></i></div> 186h 00m 00s</td><td>Rosa Delgado ✓ ack</td><td><span class="wb-pill out">Open</span></td></tr>
+                      <tr><td><b>207</b></td><td>Ford F-550 · WQ-…0355</td><td><span class="wb-pill dark">P · Power</span></td><td>08/18/2026 · 02:38 PM</td><td><div class="wb-bar" style="width:60px;"><i style="width:75%;"></i></div> 144h 00m 00s left</td><td>Kevin Burns <span data-revi-until="v11">✓ ack</span><span data-revi-from="v12">✓ Acknowledged</span></td><td><span class="wb-pill out">Open</span></td></tr>
+                      <tr><td><b>231</b></td><td>Kenworth T380 · WQ-…0301</td><td><span class="wb-pill dark"><span data-revi-until="v11">E · Engine sync</span><span data-revi-from="v12">E · Engine Sync</span></span></td><td>08/20/2026 · 09:12 AM</td><td><div class="wb-bar" style="width:60px;"><i style="width:97%;"></i></div> 186h 00m 00s<span data-revi-from="v12"> left</span></td><td>Rosa Delgado <span data-revi-until="v11">✓ ack</span><span data-revi-from="v12">✓ Acknowledged</span></td><td><span class="wb-pill out">Open</span></td></tr>
                       <tr><td><b>224</b></td><td>Ford F-250 · WQ-…0266</td><td><span class="wb-pill">T · Timing</span></td><td>08/09/2026 · 11:20 AM</td><td>Resolved 08/10/2026 · 04:05 PM</td><td>–</td><td><span class="wb-pill">Resolved</span></td></tr>
                       
                       <tr data-rev-from="v8"><td>–</td><td>All devices · daily transfer self-test</td><td><span class="wb-pill out">S · Transfer</span></td><td>08/20/2026 · 03:00 AM · TEST flag</td><td>next due 08/21/2026</td><td>–</td><td><span class="wb-pill">14 / 14 Passing</span></td></tr>
@@ -4828,7 +4861,7 @@
                   <div class="wb-two">
                     <div class="wb-box"><div class="h"><span data-revi-until="v10">Tenna asset</span><span data-revi-from="v11">Tenna Asset</span></div><span data-revi-until="v10">
                       Unit 218 · Ford F-150</span><span data-revi-from="v11">
-                      218 - Ford F-150</span><br/>VIN 1FTFW1R63EFA84339<br/><span class="wb-pill out">from Tenna asset records</span>
+                      218 - Ford F-150</span><br/>VIN 1FTFW1R63EFA84339<br/><span class="wb-pill out"><span data-revi-until="v11">from Tenna asset records</span><span data-revi-from="v12">From Tenna Asset Records</span></span>
                     </div>
                     <div class="wb-box"><div class="h"><span data-revi-until="v10">ELD device</span><span data-revi-from="v11">ELD Device</span></div>
                       Serial WQ-87X060680218<br/>BLE addr 78:42:1C:12:16:66<br/><span class="wb-pill out">read from device · byte order corrected</span>
@@ -5005,7 +5038,7 @@
                     <tbody>
                       <tr><td>08/20/2026 · 02:44 PM</td><td><b>Alvarez</b></td><td>Marcus</td><td><b>218</b></td><td>Ford F-150</td><td>4400 Cooper Rd, Blue Ash, OH 45242</td><td>eRODS</td><td>OH-3471</td><td><span class="wb-pill">✓ A93F21</span></td></tr>
                       <tr><td>07/28/2026 · 09:15 AM</td><td><b>Burns</b></td><td>Kevin</td><td><b>207</b></td><td>Ford F-550</td><td>I-75 mile 171, Walton, KY 41094</td><td>eRODS</td><td>KY-118</td><td><span class="wb-pill">✓ 77C0DE</span></td></tr>
-                      <tr><td>07/28/2026 · 09:11 AM</td><td><b>Burns</b></td><td>Kevin</td><td><b>207</b></td><td>Ford F-550</td><td>I-75 mile 171, Walton, KY 41094</td><td>eRODS</td><td>KY-118</td><td><span class="wb-pill out">✗ retried</span></td></tr>
+                      <tr><td>07/28/2026 · 09:11 AM</td><td><b>Burns</b></td><td>Kevin</td><td><b>207</b></td><td>Ford F-550</td><td>I-75 mile 171, Walton, KY 41094</td><td>eRODS</td><td>KY-118</td><td><span class="wb-pill out"><span data-revi-until="v11">✗ retried</span><span data-revi-from="v12">✗ Retried</span></span></td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">Failed attempts stay in the record; the retry trail is evidence of good faith at the roadside.</div>
@@ -5346,23 +5379,23 @@
                     </div>
                   </div>
                   <div class="wb-box" style="margin-top:9px;"><div class="h"><span data-revi-until="v10">Yard-move geofences</span><span data-revi-from="v11">Yard-Move Geofences</span></div>
-                    <span data-revi-until="v10">Blue Ash yard · 400 m radius </span><span data-revi-from="v11">Blue Ash yard · 0.25 miles radius </span><span class="wb-pill out">from Tenna site</span><br/>
+                    <span data-revi-until="v10">Blue Ash yard · 400 m radius </span><span data-revi-from="v11">Blue Ash yard · 0.25 miles radius </span><span class="wb-pill out"><span data-revi-until="v11">from Tenna site</span><span data-revi-from="v12">From Tenna Site</span></span><br/>
                     Kenwood jobsite · drawn polygon <span class="wb-pill out">ELD-defined</span><br/>
                     <span data-revi-until="v10"><span class="wb-pill">+ Add geofence</span></span><span data-revi-from="v11"><span class="wb-pill">+ Add Geofence</span></span>
                   </div>
-                  <div data-rev-from="v2" class="wb-box" style="margin-top:9px;"><div class="h"><span data-revi-until="v10">Unidentified driving </span><span data-revi-from="v11">Unidentified Driving </span><span class="wb-pill dark">new</span></div>
+                  <div data-rev-from="v2" class="wb-box" style="margin-top:9px;"><div class="h"><span data-revi-until="v10">Unidentified driving </span><span data-revi-from="v11">Unidentified Driving </span><span class="wb-pill dark"><span data-revi-until="v11">new</span><span data-revi-from="v12">New</span></span></div>
                     <span data-revi-until="v10">Suggested reasons: <span class="wb-pill out">Mechanic road test</span> <span class="wb-pill out">Yard movement</span> <span class="wb-pill out">Yard relocation</span> <span class="wb-pill out">OEM / warranty</span> <span class="wb-pill">+ add</span></span><span data-revi-from="v11">Suggested Reasons: <span class="wb-pill out">Mechanic Road Test</span> <span class="wb-pill out">Internal Yard Move</span> <span class="wb-pill out">Yard Relocation</span> <span class="wb-pill out">OEM Pickup</span> <span class="wb-pill out">Maintenance Yard Move</span> <span class="wb-pill out">Jobsite Shuttle</span> <span class="wb-pill">+ Add</span></span><br/><span data-revi-until="v10">
                     Review reminder: every 3 days &#9662; &nbsp;·&nbsp; Let drivers name another driver: &#9744; off</span><span data-revi-from="v11">
                     Review Reminder: every 72h 00m 00s &#9662; &nbsp;·&nbsp; Let drivers name another driver: &#9744; off</span><br/>
-                    <span data-revi-until="v10">Non-HOS move roles:</span><span data-revi-from="v11">Non-HOS Move Roles:</span> &#9745; Mechanics &nbsp; &#9745; Yard operators &nbsp; &#9744; Vendors
+                    <span data-revi-until="v10">Non-HOS move roles:</span><span data-revi-from="v11">Non-HOS Move Roles:</span> &#9745; Mechanics &nbsp; &#9745; <span data-revi-until="v11">Yard operators</span><span data-revi-from="v12">Yard Operators</span> &nbsp; &#9744; Vendors
                   </div>
                   <div data-rev-from="v7" class="wb-box" style="margin-top:9px;"><div class="h"><span data-revi-until="v10">Exempt drivers </span><span data-revi-from="v11">Exempt Drivers </span><span class="wb-pill out" data-revi-until="v7">0 of 14</span><span class="wb-pill out" data-revi-from="v8">2 of 14</span></div>
                     Mark a driver exempt from ELD use ▾ &nbsp;·&nbsp; annotation required &nbsp;·&nbsp; shown to the driver at login and logout<br/>
                     <span style="font-size:8px;" data-revi-until="v7">Exempt drivers are still recorded. Missing-data and transfer diagnostics are suspended for them. Enforcement scrutinises exempt accounts; use only where §395.1 applies.</span><span style="font-size:8px;" data-revi-from="v8"><span data-revi-until="v10">D. Kowalski · short-haul §395.1(e) &nbsp;·&nbsp; R. Ortiz · mechanic, road tests only. Exempt drivers get the segment-only app (D38). One person per account; never share an exempt login.</span><span data-revi-from="v11">Dale Kowalski · short-haul §395.1(e) &nbsp;·&nbsp; Rita Ortiz · mechanic, road tests only. Exempt drivers get the segment-only app (D38). One person per account; never share an exempt login.</span></span>
                   </div>
-                  <div data-rev-from="v8" class="wb-box" style="margin-top:9px;"><div class="h"><span data-revi-until="v10">Legal holds </span><span data-revi-from="v11">Legal Holds </span><span class="wb-pill dark">new</span></div>
+                  <div data-rev-from="v8" class="wb-box" style="margin-top:9px;"><div class="h"><span data-revi-until="v10">Legal holds </span><span data-revi-from="v11">Legal Holds </span><span class="wb-pill dark"><span data-revi-until="v11">new</span><span data-revi-from="v12">New</span></span></div>
                     <span class="wb-pill out"><span data-revi-until="v10">K. Burns · all records · placed 8/12/2026 by J. Cueva · "Incident 8/11/2026, counsel request"</span><span data-revi-from="v11">Kevin Burns · all records · placed 08/12/2026 by Jose Cueva · "Incident 08/11/2026, counsel request"</span></span><br/>
-                    <span class="wb-pill">+ Hold a driver</span> <span class="wb-pill">+ Hold the whole carrier</span><br/>
+                    <span class="wb-pill"><span data-revi-until="v11">+ Hold a driver</span><span data-revi-from="v12">+ Hold a Driver</span></span> <span class="wb-pill"><span data-revi-until="v11">+ Hold the whole carrier</span><span data-revi-from="v12">+ Hold the Whole Carrier</span></span><br/>
                     <span style="font-size:8px;">A hold stops every purge for its scope: logs, unidentified records, raw readings on the device, edits. Nothing is deleted until the hold is released, and the release is recorded with who and why.</span>
                   </div>
                   <div class="wb-note">Compliance rules are not configurable; these settings choose among legal behaviors, never around them.</div>

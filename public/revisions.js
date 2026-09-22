@@ -36,6 +36,9 @@
  *   v11 "9/21/2026"   - Tom Caliendo's 9/21/2026 UX audit applied: Tenna formatting
  *                       standards, full names and fleet numbers, back controls,
  *                       bottom-pinned actions, PIN recovery, per-screen copy
+ *   v12 "9/22/2026"   - second pass over the 9/21/2026 audit: status values and
+ *                       control-panel leftovers in title case, durations on D13,
+ *                       D22 and D28, one selection on D33, annotation wording
  *
  * Content that differs between them is marked up in place, as a range
  * rather than as a single version, so a fourth revision costs one entry in
@@ -53,7 +56,7 @@
  * Only one side is ever visible, and whatever is new in the revision being
  * read is outlined so it can be found. The choice persists across pages via
  * localStorage and can be forced with ?v=original, ?v=8-28, ?v=9-2, ?v=9-3, ?v=9-8, ?v=9-10,
- * ?v=9-11, ?v=9-14, ?v=9-15, ?v=9-16 or ?v=9-21, so a link can open the package in a known state.
+ * ?v=9-11, ?v=9-14, ?v=9-15, ?v=9-16, ?v=9-21 or ?v=9-22, so a link can open the package in a known state.
  */
 (function () {
   'use strict';
@@ -71,7 +74,8 @@
     { id: 'v8', label: '9/14/2026', sub: 'Tom Cuthbertson call', slug: '9-14' },
     { id: 'v9', label: '9/15/2026', sub: 'malfunction codes', slug: '9-15' },
     { id: 'v10', label: '9/16/2026', sub: 'Tom Cuthbertson sign-off', slug: '9-16' },
-    { id: 'v11', label: '9/21/2026', sub: 'Tenna UX audit', slug: '9-21' }
+    { id: 'v11', label: '9/21/2026', sub: 'Tenna UX audit', slug: '9-21' },
+    { id: 'v12', label: '9/22/2026', sub: 'audit second pass', slug: '9-22' }
   ];
 
   var DEFAULT = VERSIONS[VERSIONS.length - 1].id;
