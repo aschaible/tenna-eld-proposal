@@ -21,7 +21,8 @@ blocks, data-revi-from / -until inline) and checks, per screen:
   S4  durations as HHh MMm SSs (no H:MM, no "6 min", no "7 d 18 h");
       every time range shows its duration beside it (judgment call 4)
       and joins its ends with → (judgment call 9)
-  S5  miles as a decimal with the word miles, no thousands separator
+  S5  miles as a decimal with the word miles, no thousands separator;
+      one decimal place (109.5 miles), never 0.25 or a bare integer
   S6  N/A only where the screen says why the value is unavailable
       drivers as first and last name (no "M. Alvarez"), vehicles as fleet
       number and asset name (no "Unit 218")
@@ -43,7 +44,10 @@ blocks, data-revi-from / -until inline) and checks, per screen:
       ancestor whose -until is earlier)
 
   S4  minutes, hours or seconds in words on a value or label line (fewer
-      than SENTENCE_WORDS words) is a finding (judgment call 10)
+      than SENTENCE_WORDS words) is a finding (judgment call 10); the
+      reverse too: HHh MMm SSs after for, by, after, before or within in a
+      sentence (SENTENCE_WORDS words or more), or opening a sentence that
+      goes on with before, after or until, is a finding (judgment call 10)
 
 Warnings, printed but not counted: the same duration shown on two
 adjacent lines, and dead markup (a -until element inside a later -from
@@ -273,6 +277,7 @@ CHECKS = [
     ('S4 hyphenated duration abbreviation', r'\b\d+-(h|hr|hrs|min|mins|d)\b'),
     ('S5 thousands separator',            r'\d,\d{3}'),
     ('S5 "mi" abbreviation',              r'\d ?mi\b'),
+    ('S5 miles not to one decimal',        r'(?<![\d.])\d+ miles|\d\.\d{2,} miles'),
     ('S2 time range with en dash or hyphen', r'\d\d:\d\d (AM|PM)( ?[–-] ?)\d\d:\d\d (AM|PM)'),
     ('S2 date range not a spaced en dash', r'\d\d/\d\d/\d{4}(–|→| → |-| - )\d\d/\d\d/\d{4}'),
     ('name as initial',                   r'(?<![A-Za-z0-9)/])[A-Z]\. [A-Z][a-z]+'),
@@ -319,6 +324,11 @@ def lint(ver):
                 around = line[max(0, m.start() - 12):m.end() + 12]
                 if re.search(DURATION_PHRASES, around) or word_count(line) >= SENTENCE_WORDS: continue
                 out.append((sid, 'S4 duration in words on a value line', line.strip()[:100]))
+            # and the reverse: the code form inside a sentence
+            if word_count(line) >= SENTENCE_WORDS and (
+                    re.search(r'\b(for|by|after|before|within) [−-]?\d+h \d\dm \d\ds', line) or
+                    re.match(r'\W*\d+h \d\dm \d\ds (before|after|until)\b', line)):
+                out.append((sid, 'S4 duration code inside a sentence (JC10)', line.strip()[:100]))
             if i:
                 for d in set(re.findall(r'\d+h \d\dm \d\ds', line)):
                     if d in lines[i - 1]: warn.append((sid, 'duration repeated on adjacent lines', '%s / %s' % (lines[i - 1].strip()[:45], line.strip()[:45])))
