@@ -132,8 +132,8 @@
     return out.join('\n');
   }
 
-  /* Change marking, opt-in and on by default. Orange means new in the revision
-     on screen; gray means this is the side about to be replaced. An element
+  /* Change marking, off by default; ?marks=1 turns it on for a session. Orange
+     means new in the revision on screen; gray means this is the side about to be replaced. An element
      that is both (introduced in one revision, superseded in the next) reads as
      new, which is the more useful signal while that revision is the one open.
 
@@ -447,7 +447,7 @@
     injectStyles();
     var current = fromQuery() || read(KEY) || DEFAULT;
     if (!known(current)) current = DEFAULT;
-    document.body.classList.add('rev-marks');
+    if (/[?&]marks=1\b/.test(window.location.search)) document.body.classList.add('rev-marks');
     setupWhatsChanged();
     barEl = build(current);
     document.body.appendChild(barEl);
