@@ -541,13 +541,6 @@
             <span class="q-label">Our position pending an answer</span>
             We have not guessed. The machine holds Driving rather than inventing a transition it cannot support, which we believe is the safer failure. We would rather implement the correct behaviour once than ship a plausible one now.
           </p>
-          <div class="q-ask" data-rev-from="v6">
-            <span class="q-label">Where it stands, 9/10/2026</span>
-            <p>
-              Still the Phase 3 HOS-engine blocker, and now stated as the two scenarios that produce it. <b>Planned:</b> the driver parks, walks into a building with the phone, the Bluetooth link drops within a few steps, the app never sees five stationary minutes so the prompt never fires, and the log sits in Driving until reconnect. The tracker meanwhile stamped the stop and the key-off. <b>Unplanned:</b> the link drops mid-drive, the truck keeps moving, and the tracker records that stretch as unidentified driving that the app drains on reconnect.<br/>
-              Three rulings needed from Tom Cuthbertson: may the app close the Driving segment at the tracker's stop time automatically, or must it end at reconnect with an annotation, or be left to the carrier's "end drive at power-down" edit; may drained records that fill the same signed-in driver's own gap be attached to that driver automatically; and does link-loss time count toward the 30-minutes-in-24-hours malfunction clock in 4.6.1.1 when the tracker kept recording.
-            </p>
-          </div>
         </div>
       </article>
 
