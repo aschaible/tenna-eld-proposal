@@ -972,7 +972,7 @@
 
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">D4 &middot; D38 &middot; D19 &middot; D14 &middot; D9 &middot; D22 &middot; D26</span>
-          <p><b>Status values in title case.</b> The header dot now reads Tracker Linked and Link Lost, the inspection card reads Status Today: Not Started, the all-day row reads OFF All Day, an answered unidentified-driving record reads Mine · Done, its day headers count Records, and the registration id reads Pending.</p>
+          <p><b>Status values in title case.</b> The header dot now reads Tracker Linked and Link Lost, the inspection card reads Status Today: Not Started, the all-day row reads OFF All Day, an answered unidentified-driving record reads Mine · Done, its day headers count Records, and the registration id reads a dash, with pending in its caption.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">W2 &middot; W4 &middot; W7 &middot; W10 &middot; W12 &middot; W14 &middot; W15</span>
@@ -989,10 +989,11 @@
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">D10 &middot; D12 &middot; D20 &middot; D21 &middot; D22 &middot; D38 &middot; W3 &middot; W4 &middot; W5 &middot; W6 &middot; W7 &middot; W10 &middot; W17 &middot; W19</span>
           <p><b>Third pass.</b> Every time range now has its duration beside it, and every time range uses one arrow, on the exempt driver's day, the log detail, the edit form, the edit request, the review screen, the proposal, the edit tracker, the odometer jump report; the export list spaces its date range like the filters do. Table cells follow title case (30-Minute Break, 1 Edit Pending, Next Due, 3 More Increments), and the lint now reads cells. The W4 buttons put the primary on the right like the other control panel screens. Every date shown with a time ends in the home terminal zone, ET here, written as MM/DD/YYYY - HH:MM AM (ET). The yard is Blue Ash Yard everywhere, the name Tenna's site record uses.</p>
+          <p><b>Fourth pass.</b> Durations inside sentences went back to words on D7, D19, D21 and D24 (judgment call 10), the W15 yard radius reads 0.3 miles, the D16 note says what a dash means, the D8 stat tiles sit in two columns, and 25 dead revision spans were removed. The lint gained the one-decimal miles check and the reverse of judgment call 10.</p>
           <p><b>Fifth pass.</b> Frame copy uses the one verb the buttons use: log in, logged in, log out, on D22, D27, D30, D33, D35 and D38. The W2 window filter reads 02h 00m 00s like the W15 lead time, the W15 review reminder and the W16 retention stat are calendar counts in words. A relative date with a time ends in ET (D14, D18). D18 draws the code P first line its annotation quotes. W6 separates the proposer from the proposal time and W7 lists the exporter as Last Name and First Name. The flow map names the control panel screens as their titles do.</p>
           <p><b>Sixth pass.</b> A date shown with a time now uses the S2 string, MM/DD/YYYY - HH:MM AM (ET), on every screen that had read the middle-dot form with a bare ET. The home screens D4, D38 and D19 show a menu control, since nothing sits behind a home screen. The D26 registration id reads a dash with pending in its caption, and the W1 driver with no vehicle shows a dash for Fleet No. and Asset Name, because both are values that are pending or none. The flow map names D2 Pair Vehicle as the screen does.</p>
-          <p><b>Eighth pass.</b> Table headers render in title case instead of uppercase and miles cells are right aligned (S5). Scenario values that disagreed between screens now agree: the D31 receipt and time match D17 and W14, the D16 unaccepted count matches D22, the D33 drive left matches D4, the W2 break row adds up, the W3 and W19 filters read All, and the W6 proposal is dated the day it was made. D35 reads Pull Over When Safe.</p>
           <p><b>Seventh pass.</b> The re-evaluation of 9/23/2026. The D13 origin reads automatic in lowercase like every other origin. A range that opens with a date closes with one on D28, D34 and W19. The W15 review-reminder state reads Off. The D32 note sits above its button. The flow map names every screen in title case and as the screen or its heading does. The lint checks each of these.</p>
+          <p><b>Eighth pass.</b> Table headers render in title case instead of uppercase and miles cells are right aligned (S5). Scenario values that disagreed between screens now agree: the D31 receipt and time match D17 and W14, the D16 unaccepted count matches D22, the D33 drive left matches D4, the W2 break row adds up, the W3 and W19 filters read All, and the W6 proposal is dated the day it was made. D35 reads Pull Over When Safe.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">Judgment calls</span>
@@ -1433,7 +1434,7 @@
           </div></div>
         </div>
         <div class="wf-annot">
-          <div class="wf-head"><span class="wf-id">D2</span><h4 class="wf-name">Vehicle Pair</h4></div>
+          <div class="wf-head"><span class="wf-id">D2</span><h4 class="wf-name"><span data-revi-until="v10">Vehicle Pair</span><span data-revi-from="v11">Pair Vehicle</span></h4></div>
           <p class="wf-purpose" data-rev-until="v2">Driver selects the truck and the app connects to its Geometris WQ over Bluetooth. Required before any duty-status change; the pairing is what ties every HOS event to a VIN and odometer.</p>
           <p class="wf-purpose" data-rev-from="v3">The driver picks the truck and connects to its Geometris tracker over Bluetooth. This has to happen before any duty change, because pairing is what ties each record to a VIN and odometer. The VIN only arrives once the engine is on.</p>
           <div>
@@ -2218,11 +2219,12 @@
                 <div class="ph-tile"><div class="v" style="font-size:10.5px;">61.5 miles</div><div class="l">Distance Today</div></div>
                 <div class="ph-tile"><div class="v" style="font-size:10.5px;">06h 31m 00s</div><div class="l">Driving</div></div>
                 <div class="ph-tile"><div class="v" style="font-size:10.5px;">01h 25m 00s</div><div class="l">On Duty</div></div>
-                <div class="ph-tile"><div class="v" style="font-size:10.5px;">3</div><div class="l">Events</div></div>
+                <div class="ph-tile"><div class="v" style="font-size:10.5px;">6</div><div class="l">Events</div></div>
               </div>
               <div class="ph-li"><span class="a">12:00 PM · D · Driving<small><span data-revi-until="v10">automatic · Blue Ash, OH · odo 126,485.7</span><span data-revi-from="v11">automatic · Blue Ash, OH · odo 126485.7 miles</span></small></span><span class="b"><span data-revi-until="v10">→</span><span data-revi-from="v11">&#8250;</span></span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">11:30 AM · OFF · Off duty</span><span data-revi-from="v11">11:30 AM · OFF · Off Duty</span><small><span data-revi-until="v10">manual · "Lunch" · odo 126,485.7</span><span data-revi-from="v11">manual · "Lunch" · odo 126485.7 miles</span></small></span><span class="b"><span data-revi-until="v10">→</span><span data-revi-from="v11">&#8250;</span></span></div>
               <div class="ph-li"><span class="a">10:10 AM · D · Driving<small><span data-revi-until="v10">automatic · Evendale, OH · odo 126,470.1</span><span data-revi-from="v11">automatic · Evendale, OH · odo 126470.1 miles</span></small></span><span class="b"><span data-revi-until="v10">→</span><span data-revi-from="v11">&#8250;</span></span></div>
+              <div class="ph-li" data-rev-from="v11"><span class="a">+ 3 Earlier Events · from 06:15 AM<small>ON 06:15 AM · D 07:05 AM · ON 09:35 AM · Blue Ash Yard → Evendale, OH</small></span><span class="b">&#8250;</span></div>
               <div class="ph-note" data-rev-until="v10">Tap any segment or event for detail (D10). Distance today: 61.5 mi.</div>
               <div class="ph-tabbar">
                 <div class="ph-tab"><span class="ic">⌂</span>Home</div>
