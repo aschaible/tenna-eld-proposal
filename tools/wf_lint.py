@@ -56,7 +56,7 @@ blocks, data-revi-from / -until inline) and checks, per screen:
       words (judgment call 10)
   JC9 a relative date with a time (today, 02:38 PM; Yesterday 06:04 AM) ends
       in ET like a written date
-  one verb: sign in / sign out / signed in in frame copy is a finding, the
+  one verb: sign in / sign out / signed in / signs in in frame copy is a finding, the
       same as on a button (the annotations may still say sign-in)
   S4  a limit named as a rule (11-Hour Drive, 30-Minute Break, 14-Hour
       Window, 70-Hour Cycle) is a name, not a duration
@@ -144,7 +144,9 @@ ALWAYS = {'ph-btn', 'wb-btn', 'th', 'ph-appbar-t', 'wb-h', 'ph-label', 'ph-card-
 # Screens whose app bar has no back control on purpose (judgment call 6).
 NO_BACK = {'d15', 'd16', 'd18', 'd31', 'd32'}
 # A screen that names a control on another screen: (screen, other screen, text the other screen must show).
-CLAIMS = [('w19', 'w15', 'Odometer Jump Threshold')]
+CLAIMS = [('w19', 'w15', 'Odometer Jump Threshold'),
+          ('d30', 'd11', 'Certify'), ('d30', 'd11', 'Not Ready'),
+          ('d34', 'd22', 'Unidentified Driving')]
 # Regulatory phrases that spell a period in words and are not S4 durations.
 DURATION_PHRASES = r'(?i)\d+-(hour|minute) (drive|window|cycle|break)|24-hour|70 hours / 8 days|60 hours / 7 days|30-minute-in-24-hour|6-month|8th hour|30-minute break|8-day|30-day|within 24 hours|cumulative in 24 hours'
 OTHER_PAGES = ['architecture.html', 'decisions.html', 'certification.html', 'stack-research.html', 'api-docs.html']
@@ -281,6 +283,10 @@ def title_case_problems(t):
             if i not in (0, len(words) - 1) and core.lower() in LOWER_OK: continue
             if "'" in core or '-' in core and core.split('-')[0][0].isupper(): continue
             bad.append(w)
+        elif '-' in core:
+            # a hyphenated compound is title case on both sides (Co-Driver, ELD-Defined), not ELD-defined
+            tail = core.split('-', 1)[1]
+            if tail[:1].isalpha() and tail[:1].islower() and tail.lower() not in LOWER_OK: bad.append(w)
     return bad
 
 CHECKS = [
@@ -301,7 +307,7 @@ CHECKS = [
     ('vehicle as "Unit N"',               r'\bUnit \d+'),
     ('S4 abbreviated count (JC10)',        r'\b\d+ (mo|wk|yr)s?\b'),
     ('JC9 relative date and time without a zone', r'(?i)\b(today|yesterday),? \d\d:\d\d (AM|PM)(?! ET)'),
-    ('one verb: sign in/out in frame copy', r'(?i)\bsign(ed)?[ -](in|out)\b'),
+    ('one verb: sign in/out in frame copy', r'(?i)\bsign(s|ed|ing)?[ -](in|out)s?\b'),
 ]
 NA_JUSTIFIED = {'w1'}   # screens whose note says why N/A appears (judgment call 7)
 
