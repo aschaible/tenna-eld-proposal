@@ -16,16 +16,19 @@ blocks, data-revi-from / -until inline) and checks, per screen:
 
   S1  title case on titles, buttons, field labels, table headers, cells,
       pills, list-row titles and status chips (the SCOPE classes below)
-  S2  dates as MM/DD/YYYY and times as HH:MM AM/PM inside mockups
-  S3  speed as "N MPH"
-  S4  durations as HHh MMm SSs (no H:MM, no "6 min", no "7 d 18 h");
+  S2  dates as MM/DD/YYYY and times as HH:MM AM/PM inside mockups; a date
+      shown with a time is MM/DD/YYYY - HH:MM AM (ET), the S2 string: a
+      middle-dot separator or a bare ET is a finding (judgment call 9)
+  S3  speed as "N MPH": no decimals, no leading zero, never km/h
+  S4  durations as HHh MMm SSs (no H:MM, no "6 min", no "7 d 18 h", no
+      "11h 42m" without seconds, no unpadded "3h 05m 00s");
       every time range shows its duration beside it (judgment call 4)
       and joins its ends with → (judgment call 9)
   S5  miles as a decimal with the word miles, no thousands separator;
       one decimal place (109.5 miles), never 0.25 or a bare integer
   S6  N/A only where the screen says why the value is unavailable
       drivers as first and last name (no "M. Alvarez"), vehicles as fleet
-      number and asset name (no "Unit 218")
+      number and asset name joined by a hyphen (no "Unit 218", no "218 · Ford F-150")
   prose: annotations and legend use m/d/yyyy, no em dash, no "carries"
       hyphenated duration abbreviations (11-h, 30-min, 8-day) are S4 misses
   S1  the sentence test counts only alphabetic words on the label side of a
@@ -55,13 +58,26 @@ blocks, data-revi-from / -until inline) and checks, per screen:
   S4  an abbreviated count (6 mo, 2 wk, 1 yr) is a finding: counts stay in
       words (judgment call 10)
   JC9 a relative date with a time (today, 02:38 PM; Yesterday 06:04 AM) ends
-      in ET like a written date
+      in (ET) like a written date
   one verb: sign in / sign out / signed in / signs in in frame copy is a finding, the
       same as on a button (the annotations may still say sign-in)
   S4  a limit named as a rule (11-Hour Drive, 30-Minute Break, 14-Hour
       Window, 70-Hour Cycle) is a name, not a duration
   S1  AP keeps prepositions of four letters or more capitalized, so "with"
       is not a lowercase word mid-title
+
+  JC2 an origin word (automatic, manual, auto, edited) capitalized beside a
+      · separator is a finding: origins are lowercase everywhere (9/23/2026)
+  S2  a range that opens with a date-time closes with one: "08/19/2026 -
+      06:12 AM (ET) → 06:20 AM (ET)" is a finding (9/23/2026)
+  S1  a checkbox state in frame copy (☐ off) is a status value and is title
+      case (9/23/2026)
+  prose: a time with a leading zero in annotations or site prose (02:41 PM)
+      is a finding, the same as an MM/DD/YYYY date (9/23/2026)
+  map: every flow-map node label ("W2 Approaching Limits") is title case and
+      is the screen's title or heading, or a part of it (9/23/2026)
+  bottom: on the screens the audit named for bottom action buttons (BOTTOM),
+      at most 15 words follow the last button (9/23/2026)
 
 Warnings, printed but not counted: the same duration shown on two
 adjacent lines, and dead markup (a -until element inside a later -from
@@ -85,13 +101,15 @@ Judgment calls, decided 9/22/2026 so they are not re-decided every pass
      format and are exempt from S1 to S6. The D16 status bar, its button
      and the W18 filter row are not exempt.
   6. D18 and D32 have no back control; D15, D16 and D31 leave only by PIN
-     or password. Not a finding.
+     or password; the home screens D4, D38 and D19 show a menu control (≡)
+     instead of a back control. Not a finding.
   7. A dash marks a value that is pending or none; N/A marks a value
      confirmed unavailable, and the screen says why.
   8. Dates in site prose are m/d/yyyy. Dates inside mockups are
      MM/DD/YYYY.
-  9. A date shown with a time ends in the home terminal zone (ET), on
-     both ends of a range. A time range uses one arrow (→); a date range
+  9. A date shown with a time is written MM/DD/YYYY - HH:MM AM (ET), the
+     S2 string with the home terminal zone, on both ends of a range
+     (9/23/2026: the separator and the parentheses follow the standard). A time range uses one arrow (→); a date range
      uses a spaced en dash (–). Table cells (td) are in the title-case scope, and place
      names in cells are title case, as Tenna's site record spells them.
  10. (9/22/2026, internal, not on the page) A duration inside a sentence
@@ -141,8 +159,13 @@ DATA_OK = {'miles', 'mile', 'since', 'ago', 'left', 'radius', 'from', 'odo', 're
 # sentence case (judgment call 1), except in the ALWAYS roles.
 SENTENCE_WORDS = 5
 ALWAYS = {'ph-btn', 'wb-btn', 'th', 'ph-appbar-t', 'wb-h', 'ph-label', 'ph-card-h', 'ph-tab'}
+# Event origins (judgment call 2): lowercase data values, so a capitalized one beside · is a finding.
+ORIGINS = {'automatic', 'manual', 'auto', 'edited'}
+# Screens the audit named for action buttons at the bottom: little may follow the last button.
+BOTTOM = {'d5', 'd6', 'd7', 'd12', 'd18', 'd30', 'd32'}
+BOTTOM_WORDS = 15
 # Screens whose app bar has no back control on purpose (judgment call 6).
-NO_BACK = {'d15', 'd16', 'd18', 'd31', 'd32'}
+NO_BACK = {'d15', 'd16', 'd18', 'd31', 'd32', 'd4', 'd38', 'd19'}   # the last three are home screens
 # A screen that names a control on another screen: (screen, other screen, text the other screen must show).
 CLAIMS = [('w19', 'w15', 'Odometer Jump Threshold'),
           ('d30', 'd11', 'Certify'), ('d30', 'd11', 'Not Ready'),
@@ -278,6 +301,7 @@ def title_case_problems(t):
     for i, w in enumerate(words):
         core = w.strip('"“”\'‘’()[]·:;,.?!*›‹→←↓↗✓✗☐☑○◉◎●⚠+&')
         if not core or not core[0].isalpha(): continue
+        if core.lower() in ORIGINS and core[0].isupper() and '·' in t: bad.append(w); continue
         if core in DATA_OK or core.lower() in DATA_OK or re.fullmatch(r'v\d+', core): continue   # version markers (v1, v2, v3) are data values
         if core[0].islower():
             if i not in (0, len(words) - 1) and core.lower() in LOWER_OK: continue
@@ -295,9 +319,12 @@ CHECKS = [
     ('S2 date not MM/DD/YYYY',            r'(?<![\d/])\d/\d{1,2}/\d{4}|(?<![\d/])\d{1,2}/\d/\d{4}'),
     ('S2 "Jul 2026" style month',         r'\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) 20\d\d\b'),
     ('S3 lowercase mph',                  r'\bmph\b'),
+    ('S3 speed with a decimal, a leading zero or km/h', r'\d\.\d+ MPH|(?<!\d)0\d MPH|\bkm/h\b'),
     ('S4 duration as H:MM',               r'(?<![\d:])\d{1,2}:\d\d(?! ?(AM|PM))(?![\d:])'),
     ('S4 duration in words',              r'\b\d+ ?(min|mins|h|hr|hrs|d)\b(?! ?\d)'),
     ('S4 hyphenated duration abbreviation', r'\b\d+-(h|hr|hrs|min|mins|d)\b'),
+    ('S4 duration without seconds',       r'\b\d+h \d\dm\b(?! \d\ds)'),
+    ('S4 unpadded hours',                 r'(?<![\d])\dh \d\dm \d\ds'),
     ('S5 thousands separator',            r'\d,\d{3}'),
     ('S5 "mi" abbreviation',              r'\d ?mi\b'),
     ('S5 miles not to one decimal',        r'(?<![\d.])\d+ miles|\d\.\d{2,} miles'),
@@ -305,9 +332,14 @@ CHECKS = [
     ('S2 date range not a spaced en dash', r'\d\d/\d\d/\d{4}(–|→| → |-| - )\d\d/\d\d/\d{4}'),
     ('name as initial',                   r'(?<![A-Za-z0-9)/])[A-Z]\. [A-Z][a-z]+'),
     ('vehicle as "Unit N"',               r'\bUnit \d+'),
+    ('vehicle as "N · Asset" (hyphen expected)', r'(?<![\w/:.-])\d{3} (?:·|\u00b7) (?:Ford|Kenworth|Freightliner|Peterbilt|Chevrolet|GMC|Ram|International)\b'),
+    ('S2 date and time not joined by " - "', r'\d\d/\d\d/\d{4} (?:·|,) ?\d\d:\d\d (AM|PM)'),
+    ('S2 zone not in parentheses',        r'\d\d:\d\d (AM|PM) ET\b'),
     ('S4 abbreviated count (JC10)',        r'\b\d+ (mo|wk|yr)s?\b'),
-    ('JC9 relative date and time without a zone', r'(?i)\b(today|yesterday),? \d\d:\d\d (AM|PM)(?! ET)'),
+    ('JC9 relative date and time without a zone', r'(?i)\b(today|yesterday),? \d\d:\d\d (AM|PM)(?! \(ET\))'),
     ('one verb: sign in/out in frame copy', r'(?i)\bsign(s|ed|ing)?[ -](in|out)s?\b'),
+    ('S2 date-time range without a date on the second end', r'\d\d/\d\d/\d{4} - \d\d:\d\d (AM|PM) \(ET\) → \d\d:\d\d (AM|PM)'),
+    ('S1 control state lowercase',        r'[☐☑] [a-z]'),
 ]
 NA_JUSTIFIED = {'w1'}   # screens whose note says why N/A appears (judgment call 7)
 
@@ -329,10 +361,10 @@ def lint(ver):
                 out.append((sid, name, line.strip()[:100]))
         # judgment call 4: a time range shows its duration on the same line
         for line in body.split('\n'):
-            if re.search(r'\d\d:\d\d (AM|PM)( ET)? → \d\d:\d\d (AM|PM)', line) and not re.search(r'\d\dh \d\dm \d\ds', line):
+            if re.search(r'\d\d:\d\d (AM|PM)( \(ET\))? → \d\d:\d\d (AM|PM)', line) and not re.search(r'\d\dh \d\dm \d\ds', line):
                 out.append((sid, 'JC4 time range without a duration', line.strip()[:100]))
         # judgment call 9: a date shown with a time ends in ET
-        for m in re.finditer(r'\d\d/\d\d/\d{4} · \d\d:\d\d (AM|PM)(?! ET)', body):
+        for m in re.finditer(r'\d\d/\d\d/\d{4} - \d\d:\d\d (AM|PM)(?! \(ET\))', body):
             line = body[body.rfind('\n', 0, m.start()) + 1:].split('\n', 1)[0]
             out.append((sid, 'JC9 date and time without a zone', line.strip()[:100]))
         if 'N/A' in fr and sid not in NA_JUSTIFIED:
@@ -340,6 +372,15 @@ def lint(ver):
         an = screens[sid]['annot']
         for m in re.finditer(r'(?<!\d)0\d/\d\d/\d{4}', an):
             out.append((sid, 'prose date with leading zero', an[max(0, m.start() - 30):m.end() + 10].replace('\n', ' ')))
+        for m in re.finditer(r'(?<![\d:])0\d:\d\d (AM|PM)', an):
+            out.append((sid, 'prose time with leading zero', an[max(0, m.start() - 30):m.end() + 10].replace('\n', ' ')))
+        # bottom action buttons: little text after the last button
+        if sid in BOTTOM:
+            btns = [t for s, r, t in labels if s == sid and r == 'ph-btn']
+            if btns:
+                tail = fr[fr.rfind(btns[-1]) + len(btns[-1]):]
+                n = len(re.findall(r'[A-Za-z]+', tail))
+                if n > BOTTOM_WORDS: out.append((sid, 'text after the last action button', '%d words: %s' % (n, tail.strip().replace('\n', ' / ')[:70])))
         for m in re.finditer(r'—|\bcarries\b', an + '\n' + fr):
             out.append((sid, 'em dash or "carries"', (an + '\n' + fr)[max(0, m.start() - 40):m.end() + 20].replace('\n', ' ')))
         # warnings: durations in words, the same duration on two adjacent lines
@@ -383,13 +424,41 @@ def lint(ver):
             out.append((sid, 'app bar without a back control', text[:80]))
         if kind == 'sheet' and btns < 2 and 'Cancel' not in text:
             out.append((sid, 'sheet with no Cancel or second choice', text[:80]))
-    for m in re.finditer(r'—|\bcarries\b|(?<!\d)0\d/\d\d/\d{4}', prose):
-        out.append(('page', 'prose: em dash, "carries" or MM/DD/YYYY', prose[max(0, m.start() - 40):m.end() + 20].replace('\n', ' ')))
+    for m in re.finditer(r'—|\bcarries\b|(?<!\d)0\d/\d\d/\d{4}|(?<![\d:])0\d:\d\d (AM|PM)', prose):
+        out.append(('page', 'prose: em dash, "carries", MM/DD/YYYY or 0H:MM', prose[max(0, m.start() - 40):m.end() + 20].replace('\n', ' ')))
+    out += flowmap(ver, screens, labels)
     seen = set(); uniq = []
     for f in out:
         if f not in seen: seen.add(f); uniq.append(f)
     lint.warnings = warn
     return uniq
+
+def flowmap(ver, screens, labels):
+    """Flow-map node labels: title case, and the screen's title or heading or a part of it."""
+    import html as _h
+    t = open(INDEX, encoding='utf-8').read(); out = []
+    titles = {}
+    for sid, role, txt in labels:
+        if role in ('ph-appbar-t', 'wb-h') and sid not in titles: titles[sid] = txt
+    names = {sid: (v['annot'].split('\n') + ['', ''])[1] for sid, v in screens.items()}
+    for sm in re.finditer(r'<svg([^>]*)>(.*?)</svg>', t, re.S):
+        sa = sm.group(1)
+        f = re.search(r'data-rev-from="(v\d+)"', sa); u = re.search(r'data-rev-until="(v\d+)"', sa)
+        if (f and vi(f.group(1)) > vi(ver)) or (u and vi(u.group(1)) < vi(ver)): continue
+        for m in re.finditer(r'<text([^>]*)>([^<]*)</text>', sm.group(2)):
+            a = m.group(1); s = _h.unescape(m.group(2)).strip()
+            f = re.search(r'data-revi?-from="(v\d+)"', a); u = re.search(r'data-revi?-until="(v\d+)"', a)
+            if (f and vi(f.group(1)) > vi(ver)) or (u and vi(u.group(1)) < vi(ver)): continue
+            mm = re.match(r'^([DW]\d+) (.+)$', s)
+            if not mm: continue
+            sid, label = mm.group(1).lower(), mm.group(2)
+            if sid not in screens: continue
+            bad = title_case_problems(label)
+            if bad: out.append(('map', 'flow map label not title case', '%s %s  <- %s' % (sid.upper(), label, ', '.join(bad))))
+            hay = (titles.get(sid, '') + ' | ' + names.get(sid, '')).lower()
+            if label.lower() not in hay:
+                out.append(('map', 'flow map label is not the %s title or heading' % sid.upper(), '%s | screen: %s | heading: %s' % (label, titles.get(sid, '')[:40], names.get(sid, '')[:40])))
+    return out
 
 VOID = {'br', 'img', 'input', 'hr', 'meta', 'link', 'wbr', 'source', 'col', 'area', 'base', 'embed', 'param', 'track'}
 

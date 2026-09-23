@@ -930,7 +930,7 @@
       <div class="legend-grid">
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">All screens</span>
-          <p><b>Tenna formatting standards.</b> Titles, headings, fields, buttons and status values in AP title case. Dates as MM/DD/YYYY and times as HH:MM AM/PM. Speed as MPH. Durations as HHh MMm SSs, including the HOS clocks. Odometer and distance as a decimal with the word miles and no thousands separator. N/A only where a value is confirmed unavailable, such as an off-duty driver with no vehicle; a dash still marks a value that is pending. Drivers shown by first and last name, vehicles as fleet number and asset name. D16 and W18 keep the Appendix A display format, which the rule fixes.</p>
+          <p><b>Tenna formatting standards.</b> Titles, headings, fields, buttons and status values in AP title case. Dates as MM/DD/YYYY and times as HH:MM AM/PM, together as MM/DD/YYYY - HH:MM AM (ET). Speed as MPH. Durations as HHh MMm SSs, including the HOS clocks. Odometer and distance as a decimal with the word miles and no thousands separator. N/A only where a value is confirmed unavailable, such as the location of an off-duty driver; a dash marks a value that is pending or none. Drivers shown by first and last name, vehicles as fleet number and asset name. D16 and W18 keep the Appendix A display format, which the rule fixes.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">All screens</span>
@@ -987,12 +987,14 @@
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">D10 &middot; D12 &middot; D20 &middot; D21 &middot; D22 &middot; D38 &middot; W3 &middot; W4 &middot; W5 &middot; W6 &middot; W7 &middot; W10 &middot; W17 &middot; W19</span>
-          <p><b>Third pass.</b> Every time range now has its duration beside it, and every time range uses one arrow, on the exempt driver's day, the log detail, the edit form, the edit request, the review screen, the proposal, the edit tracker, the odometer jump report; the export list spaces its date range like the filters do. Table cells follow title case (30-Minute Break, 1 Edit Pending, Next Due, 3 More Increments), and the lint now reads cells. The W4 buttons put the primary on the right like the other control panel screens. Every date shown with a time ends in the home terminal zone, ET here. The yard is Blue Ash Yard everywhere, the name Tenna's site record uses.</p>
+          <p><b>Third pass.</b> Every time range now has its duration beside it, and every time range uses one arrow, on the exempt driver's day, the log detail, the edit form, the edit request, the review screen, the proposal, the edit tracker, the odometer jump report; the export list spaces its date range like the filters do. Table cells follow title case (30-Minute Break, 1 Edit Pending, Next Due, 3 More Increments), and the lint now reads cells. The W4 buttons put the primary on the right like the other control panel screens. Every date shown with a time ends in the home terminal zone, ET here, written as MM/DD/YYYY - HH:MM AM (ET). The yard is Blue Ash Yard everywhere, the name Tenna's site record uses.</p>
           <p><b>Fifth pass.</b> Frame copy uses the one verb the buttons use: log in, logged in, log out, on D22, D27, D30, D33, D35 and D38. The W2 window filter reads 02h 00m 00s like the W15 lead time, the W15 review reminder and the W16 retention stat are calendar counts in words. A relative date with a time ends in ET (D14, D18). D18 draws the code P first line its annotation quotes. W6 separates the proposer from the proposal time and W7 lists the exporter as Last Name and First Name. The flow map names the control panel screens as their titles do.</p>
+          <p><b>Sixth pass.</b> A date shown with a time now uses the S2 string, MM/DD/YYYY - HH:MM AM (ET), on every screen that had read the middle-dot form with a bare ET. The home screens D4, D38 and D19 show a menu control, since nothing sits behind a home screen. The D26 registration id reads a dash with pending in its caption, and the W1 driver with no vehicle shows a dash for Fleet No. and Asset Name, because both are values that are pending or none. The flow map names D2 Pair Vehicle as the screen does.</p>
+          <p><b>Seventh pass.</b> The re-evaluation of 9/23/2026. The D13 origin reads automatic in lowercase like every other origin. A range that opens with a date closes with one on D28, D34 and W19. The W15 review-reminder state reads Off. The D32 note sits above its button. The flow map names every screen in title case and as the screen or its heading does. The lint checks each of these.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">Judgment calls</span>
-          <p><b>Decided once, so no later pass re-decides them.</b> App bar sub-notes, scenario labels and small captions are captions, not status values, and stay lowercase. Event origins (automatic, manual, driver, auto, edited) are lowercase data values. Values inside table cells and pills follow title case like the labels around them. A string of five or more words is a sentence and keeps sentence case, unless it is a button, header, title or field label. Wherever a time range is shown, its duration is shown next to it. D18 and D32 have no back control, and D15, D16 and D31 leave only by PIN or password. A dash marks a value that is pending or none; N/A marks a value confirmed unavailable, and the screen says why. Site prose dates are m/d/yyyy, mockup dates MM/DD/YYYY. A date shown with a time ends in the home terminal zone (ET), on both ends of a range. Place names in cells are title case, as the Tenna site record spells them. The same list heads <span class="mono">tools/wf_lint.py</span>, which checks every revision against it.</p>
+          <p><b>Decided once, so no later pass re-decides them.</b> App bar sub-notes, scenario labels and small captions are captions, not status values, and stay lowercase. Event origins (automatic, manual, driver, auto, edited) are lowercase data values. Values inside table cells and pills follow title case like the labels around them. A string of five or more words is a sentence and keeps sentence case, unless it is a button, header, title or field label. Wherever a time range is shown, its duration is shown next to it. D18 and D32 have no back control, D15, D16 and D31 leave only by PIN or password, and the home screens D4, D38 and D19 show a menu control instead of a back control. A dash marks a value that is pending or none; N/A marks a value confirmed unavailable, and the screen says why. Site prose dates are m/d/yyyy, mockup dates MM/DD/YYYY. A date shown with a time is written MM/DD/YYYY - HH:MM AM (ET), the S2 string with the home terminal zone, on both ends of a range. Place names in cells are title case, as the Tenna site record spells them. The same list heads <span class="mono">tools/wf_lint.py</span>, which checks every revision against it.</p>
         </div>
         <div class="legend-item">
           <span class="rev-badge">Not changed</span>
@@ -1654,13 +1656,13 @@
     <div class="wf-group" id="g-hos">
       <div class="wf-group-head"><h3>HOS Main Loop</h3><span class="range" data-rev-until="v1">D4 – D7</span><span class="range" data-rev-from="v2" data-rev-until="v2">D4 – D7 · D27</span><span class="range" data-rev-from="v3" data-rev-until="v7">D4 – D7 · D27 · D29 · D33</span><span class="range" data-rev-from="v8">D4 – D7 · D27 · D29 · D33 · D38</span></div>
       <p class="wf-group-note" data-rev-until="v2">The screens a driver lives in all day. D4 is the hub; D5–D7 are the status-change path, drawn as sheets over it. The sample moment throughout: 2:41 PM, mid-shift, driving since noon.</p>
-      <p class="wf-group-note" data-rev-from="v3">The screens a driver uses all day. D4 is the home screen. D5 to D7, D29 and D33 slide up over it. Throughout, <span data-revi-until="v10">the sample time is 2:41 PM</span><span data-revi-from="v11">the sample time is 02:41 PM</span>, driving since noon.</p>
+      <p class="wf-group-note" data-rev-from="v3">The screens a driver uses all day. D4 is the home screen. D5 to D7, D29 and D33 slide up over it. Throughout, the sample time is 2:41 PM, driving since noon.</p>
 
       <div class="wf-item" id="d4">
         <div class="wf-frame-col">
           <div class="wf-phone"><div class="wf-screen">
             <div class="ph-status"><span><span data-revi-until="v10">2:41 PM</span><span data-revi-from="v11">02:41 PM</span></span><span>▪▪▪ 5G · 84%</span></div>
-            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Marcus</span><span data-revi-from="v11">Good Afternoon, Marcus</span></span><span class="r"><span data-revi-until="v10">Unit 218</span><span data-revi-from="v11">218 - Ford F-150</span><br/><span data-revi-until="v10">● tracker linked</span><span data-revi-from="v11">● Tracker Linked</span></span></div>
+            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8801;</span><span class="t"><span data-revi-until="v10">Good afternoon, Marcus</span><span data-revi-from="v11">Good Afternoon, Marcus</span></span><span class="r"><span data-revi-until="v10">Unit 218</span><span data-revi-from="v11">218 - Ford F-150</span><br/><span data-revi-until="v10">● tracker linked</span><span data-revi-from="v11">● Tracker Linked</span></span></div>
             <div class="ph-body">
               <div class="ph-hero">
                 <div class="st"><span data-revi-until="v10">DRIVING</span><span data-revi-from="v11">Driving</span></div>
@@ -1728,7 +1730,7 @@
         <div class="wf-frame-col">
           <div class="wf-phone"><div class="wf-screen">
             <div class="ph-status"><span><span data-revi-until="v10">2:41 PM</span><span data-revi-from="v11">02:41 PM</span></span><span>▪▪▪ 5G · 84%</span></div>
-            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Dale</span><span data-revi-from="v11">Good Afternoon, Dale</span></span><span class="r"><span data-revi-until="v10">Unit 231</span><span data-revi-from="v11">231 - Kenworth T380</span><br/><span data-revi-until="v10">● tracker linked</span><span data-revi-from="v11">● Tracker Linked</span></span></div>
+            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8801;</span><span class="t"><span data-revi-until="v10">Good afternoon, Dale</span><span data-revi-from="v11">Good Afternoon, Dale</span></span><span class="r"><span data-revi-until="v10">Unit 231</span><span data-revi-from="v11">231 - Kenworth T380</span><br/><span data-revi-until="v10">● tracker linked</span><span data-revi-from="v11">● Tracker Linked</span></span></div>
             <div class="ph-body">
               <div class="ph-banner"><b>Exempt driver · §395.1 short-haul.</b> Set by Blue Ash Construction Co. Your driving is recorded; no hours-of-service log is kept.</div>
               <div class="ph-hero">
@@ -2485,13 +2487,13 @@
             <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Edit history · 8/19/2026</span><span data-revi-from="v11">Edit History · 08/19/2026</span></span><span class="r">originals<br/>preserved</span></div>
             <div class="ph-body">
               <div class="ph-card"><div class="h"><span data-revi-until="v10">v3 · current</span><span data-revi-from="v11">v3 · Current</span></div>
-                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 5:30 PM</span><span data-revi-from="v11">ON · 04:30 PM → 05:30 PM<span data-revi-from="v11"> · 01h 00m 00s</span></span><br/><span data-revi-until="v10">Edited by M. Alvarez · 8/20/2026, 7:12 AM</span><span data-revi-from="v11">Edited by Marcus Alvarez · 08/20/2026 · 07:12 AM<span data-revi-from="v11"> ET</span></span><br/>"Unload ran long, forgot to log it"</div>
+                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 5:30 PM</span><span data-revi-from="v11">ON · 04:30 PM → 05:30 PM<span data-revi-from="v11"> · 01h 00m 00s</span></span><br/><span data-revi-until="v10">Edited by M. Alvarez · 8/20/2026, 7:12 AM</span><span data-revi-from="v11">Edited by Marcus Alvarez · 08/20/2026 - 07:12 AM<span data-revi-from="v11"> (ET)</span></span><br/>"Unload ran long, forgot to log it"</div>
               </div>
               <div class="ph-card"><div class="h"><span data-revi-until="v10">v2 · carrier proposal · rejected</span><span data-revi-from="v11">v2 · Carrier Proposal · Rejected</span></div>
-                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 6:00 PM</span><span data-revi-from="v11">ON · 04:30 PM → 06:00 PM<span data-revi-from="v11"> · 01h 30m 00s</span></span><br/><span data-revi-until="v10">Proposed by dispatch (K. Byers) · 8/19/2026, 9:02 PM</span><span data-revi-from="v11">Proposed by dispatch (Kim Byers) · 08/19/2026 · 09:02 PM<span data-revi-from="v11"> ET</span></span><br/><span data-revi-until="v10">Rejected by driver: "Left yard at 5:30"</span><span data-revi-from="v11">Rejected by driver: "Left yard at 05:30 PM"</span></div>
+                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 6:00 PM</span><span data-revi-from="v11">ON · 04:30 PM → 06:00 PM<span data-revi-from="v11"> · 01h 30m 00s</span></span><br/><span data-revi-until="v10">Proposed by dispatch (K. Byers) · 8/19/2026, 9:02 PM</span><span data-revi-from="v11">Proposed by dispatch (Kim Byers) · 08/19/2026 - 09:02 PM<span data-revi-from="v11"> (ET)</span></span><br/><span data-revi-until="v10">Rejected by driver: "Left yard at 5:30"</span><span data-revi-from="v11">Rejected by driver: "Left yard at 05:30 PM"</span></div>
               </div>
-              <div class="ph-card"><div class="h"><span data-revi-until="v10">v1 · original · automatic</span><span data-revi-from="v11">v1 · Original · Automatic</span></div>
-                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 5:15 PM</span><span data-revi-from="v11">ON · 04:30 PM → 05:15 PM<span data-revi-from="v11"> · 00h 45m 00s</span></span><br/><span data-revi-until="v10">Recorded automatically · 8/19/2026, 4:30 PM</span><span data-revi-from="v11">Recorded automatically · 08/19/2026 · 04:30 PM<span data-revi-from="v11"> ET</span></span></div>
+              <div class="ph-card"><div class="h"><span data-revi-until="v10">v1 · original · automatic</span><span data-revi-from="v11">v1 · Original · automatic</span></div>
+                <div class="ph-note"><span data-revi-until="v10">ON · 4:30 → 5:15 PM</span><span data-revi-from="v11">ON · 04:30 PM → 05:15 PM<span data-revi-from="v11"> · 00h 45m 00s</span></span><br/><span data-revi-until="v10">Recorded automatically · 8/19/2026, 4:30 PM</span><span data-revi-from="v11">Recorded automatically · 08/19/2026 - 04:30 PM<span data-revi-from="v11"> (ET)</span></span></div>
               </div>
               <div class="ph-note">Every version is retained. Nothing is ever overwritten, per §395.32(c).</div>
             </div>
@@ -2543,7 +2545,7 @@
               <div class="ph-btn primary">Open Tenna DVIR ↗</div>
               <div class="ph-card"><div class="h"><span data-revi-until="v10">Last inspection</span><span data-revi-from="v11">Previous Inspection</span></div>
                 <div class="ph-note" data-rev-until="v10">Yesterday 6:04 AM · J. Whitfield<br/>No defects reported</div>
-                <div class="ph-note" data-rev-from="v11">Yesterday 06:04 AM ET · James Whitfield<br/>1 defect noted: left mirror cracked · repaired 08/19/2026 ✓</div>
+                <div class="ph-note" data-rev-from="v11">Yesterday 06:04 AM (ET) · James Whitfield<br/>1 defect noted: left mirror cracked · repaired 08/19/2026 ✓</div>
               </div>
               <div class="ph-tabbar">
                 <div class="ph-tab"><span class="ic">⌂</span>Home</div>
@@ -3004,7 +3006,7 @@
               <div style="font-size:34px; line-height:1;">⚠</div>
               <div style="font-size:15px; font-weight:800; letter-spacing:1.5px; color:#fff;"><span data-revi-until="v10">ELD MALFUNCTION</span><span data-revi-from="v11">ELD Malfunction</span></div>
               <div class="ph-chip" style="background:#3D4654; color:#E2E5EA; align-self:center;"><span data-revi-until="v10">CODE P · POWER COMPLIANCE</span><span data-revi-from="v11">Code P · Power Compliance</span></div>
-              <div class="ph-note" style="color:#B9BFC9;"><span data-revi-until="v10">Detected today, 2:38 PM · Unit 218</span><span data-revi-from="v11">Detected today, 02:38 PM ET · 218 - Ford F-150</span></div>
+              <div class="ph-note" style="color:#B9BFC9;"><span data-revi-until="v10">Detected today, 2:38 PM · Unit 218</span><span data-revi-from="v11">Detected today, 02:38 PM (ET) · 218 - Ford F-150</span></div>
               <div class="ph-note" data-rev-from="v11" style="color:#E2E5EA;">The ELD lost power while the engine was running.</div>
               <div class="ph-banner" style="background:#343B47; border-color:#4A5261; color:#E2E5EA; text-align:left;">
                 <b style="color:#fff;"><span data-revi-until="v10">What you must do now</span><span data-revi-from="v11">What You Must Do Now</span></b><br/>
@@ -3068,7 +3070,7 @@
         <div class="wf-frame-col">
           <div class="wf-phone"><div class="wf-screen">
             <div class="ph-status"><span><span data-revi-until="v10">2:41 PM</span><span data-revi-from="v11">02:41 PM</span></span><span>▪▪▪ 5G · 84%</span></div>
-            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Good afternoon, Marcus</span><span data-revi-from="v11">Good Afternoon, Marcus</span></span><span class="r"><span data-revi-until="v10">Unit 218<br/>○ link lost 6 m</span><span data-revi-from="v11">218 - Ford F-150<br/>○ Link Lost · 00h 06m 00s</span></span></div>
+            <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8801;</span><span class="t"><span data-revi-until="v10">Good afternoon, Marcus</span><span data-revi-from="v11">Good Afternoon, Marcus</span></span><span class="r"><span data-revi-until="v10">Unit 218<br/>○ link lost 6 m</span><span data-revi-from="v11">218 - Ford F-150<br/>○ Link Lost · 00h 06m 00s</span></span></div>
             <div class="ph-body">
               <div class="ph-banner" style="border-style:solid; border-color:#9AA1AD;"><b><span data-revi-until="v10">Data diagnostic · engine synchronization</span><span data-revi-from="v11">Data Diagnostic · Engine Synchronization</span></b><br/>The tracker link has been down for 6 minutes. Reconnect to the vehicle to clear. Not a malfunction; logs continue.<span data-revi-from="v11"> A drop under 60 seconds shows only as the header dot; this banner waits a full minute so a brief loss in a garage does not alarm you. The diagnostic record itself is written per the rule.</span></div>
               <div class="ph-hero" style="background:#565D6A;">
@@ -3135,16 +3137,16 @@
             <div class="ph-appbar"><span class="t"><span data-revi-until="v10">Malfunction cleared</span><span data-revi-from="v11">Malfunction Cleared</span></span><span class="r"><span data-revi-until="v10">code P</span><span data-revi-from="v11">Code P</span></span></div>
             <div class="ph-body">
               <div class="ph-card"><div class="h"><span data-revi-until="v10">Power compliance malfunction</span><span data-revi-from="v11">Power Compliance Malfunction</span></div>
-                <div class="ph-li"><span class="a">Raised<small><span data-revi-until="v10">Unit 218</span><span data-revi-from="v11">218 - Ford F-150</span></small></span><span class="b"><span data-revi-until="v10">8/27/2026 &middot; 2:38 PM</span><span data-revi-from="v11">08/27/2026 &middot; 02:38 PM<span data-revi-from="v11"> ET</span></span></span></div>
-                <div class="ph-li"><span class="a">Cleared<small>condition resolved</small></span><span class="b"><span data-revi-until="v10">8/28/2026 &middot; 9:11 AM</span><span data-revi-from="v11">08/28/2026 &middot; 09:11 AM<span data-revi-from="v11"> ET</span></span></span></div>
+                <div class="ph-li"><span class="a">Raised<small><span data-revi-until="v10">Unit 218</span><span data-revi-from="v11">218 - Ford F-150</span></small></span><span class="b"><span data-revi-until="v10">8/27/2026 &middot; 2:38 PM</span><span data-revi-from="v11">08/27/2026 - 02:38 PM<span data-revi-from="v11"> (ET)</span></span></span></div>
+                <div class="ph-li"><span class="a">Cleared<small>condition resolved</small></span><span class="b"><span data-revi-until="v10">8/28/2026 &middot; 9:11 AM</span><span data-revi-from="v11">08/28/2026 - 09:11 AM<span data-revi-from="v11"> (ET)</span></span></span></div>
                 <div class="ph-li"><span class="a"><span data-revi-until="v10">Paper logs required</span><span data-revi-from="v11">Paper Logs Required</span><small>the period an auditor will ask about</small></span><span class="b"><span data-revi-until="v10">18 h 33 min</span><span data-revi-from="v11">18h 33m 00s</span></span></div>
               </div>
               <div class="ph-banner"><b>You may stop keeping paper logs.</b> The ELD is recording normally again. Keep the paper you already wrote: it covers the period above.</div>
               <div data-rev-until="v10" class="ph-btn primary">Acknowledge</div>
               <div data-rev-until="v10" class="ph-note">Your acknowledgment is recorded, the same way the D18 notice was. Your carrier sees the clear on W10.</div>
               <div class="ph-actions" data-rev-from="v11">
-              <div class="ph-btn primary">Acknowledge</div>
               <div class="ph-note">Your acknowledgment is recorded, the same way the D18 notice was. Your carrier sees the clear on W10. The paper-log period ends at the cleared time above, not when you read this. If the clear happened while you were offline, this notice waits for your next launch and the period is still exact.</div>
+              <div class="ph-btn primary">Acknowledge</div>
               </div>
             </div>
           </div></div>
@@ -3429,7 +3431,7 @@
               <div class="ph-grip"></div>
               <div class="ph-label" data-rev-until="v3">Not yours &middot; what do you think it was?</div>
               <div class="ph-label" data-rev-from="v4"><span data-revi-until="v10">Not yours &middot; tell your carrier why</span><span data-revi-from="v11">Not Yours &middot; Tell Your Carrier Why</span></div>
-              <div class="ph-note" style="margin-top:-3px;"><span data-revi-until="v10">Wed 8/19/2026 &middot; 6:12 &rarr; 6:20 AM &middot; 2.1 mi &middot; Blue Ash yard</span><span data-revi-from="v11">Wed 08/19/2026 &middot; 06:12 AM<span data-revi-from="v11"> ET</span> &rarr; 06:20 AM<span data-revi-from="v11"> ET</span> &middot; 2.1 miles<span data-revi-from="v11"> &middot; 00h 08m 00s</span> &middot; Blue Ash Yard</span></div>
+              <div class="ph-note" style="margin-top:-3px;"><span data-revi-until="v10">Wed 8/19/2026 &middot; 6:12 &rarr; 6:20 AM &middot; 2.1 mi &middot; Blue Ash yard</span><span data-revi-from="v11">Wed 08/19/2026 - 06:12 AM<span data-revi-from="v11"> (ET)</span> &rarr; 08/19/2026 - 06:20 AM<span data-revi-from="v11"> (ET)</span> &middot; 2.1 miles<span data-revi-from="v11"> &middot; 00h 08m 00s</span> &middot; Blue Ash Yard</span></div>
               <div class="ph-li" data-rev-until="v3"><span class="a">Mechanic road test<small>shop had the truck that morning</small></span><span class="b">&#9673;</span></div>
               <div class="ph-li" data-rev-until="v3"><span class="a">Yard movement<small>someone repositioned it in the yard</small></span><span class="b">&#9675;</span></div>
               <div class="ph-li" data-rev-until="v3"><span class="a">Yard relocation<small>moved to another yard</small></span><span class="b">&#9675;</span></div>
@@ -3500,10 +3502,10 @@
             <div class="ph-status"><span><span data-revi-until="v10">9:14 AM</span><span data-revi-from="v11">09:14 AM</span></span><span>&#9642;&#9642;&#9642; 5G &middot; 88%</span></div>
             <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">Assigned to you</span><span data-revi-from="v11">Assigned to You</span></span><span class="r">1 to confirm</span></div>
             <div class="ph-body">
-              <div class="ph-banner"><span data-revi-until="v10">Push notification &middot; received 8/22/2026, 9:14 AM</span><span data-revi-from="v11">Push notification &middot; received 08/22/2026 · 09:14 AM<span data-revi-from="v11"> ET</span></span><br/><span data-revi-until="v10">&ldquo;Your carrier says a trip on 8/19/2026 was yours.&rdquo;</span><span data-revi-from="v11">&ldquo;Your carrier says a trip on 08/19/2026 was yours.&rdquo;</span></div>
-              <div class="ph-card"><div class="h"><span data-revi-until="v10">Wed 8/19/2026 &middot; 6:12 &rarr; 6:20 AM</span><span data-revi-from="v11">Wed 08/19/2026 &middot; 06:12 AM<span data-revi-from="v11"> ET</span> &rarr; 06:20 AM<span data-revi-from="v11"> ET · 00h 08m 00s</span></span></div>
+              <div class="ph-banner"><span data-revi-until="v10">Push notification &middot; received 8/22/2026, 9:14 AM</span><span data-revi-from="v11">Push notification &middot; received 08/22/2026 - 09:14 AM<span data-revi-from="v11"> (ET)</span></span><br/><span data-revi-until="v10">&ldquo;Your carrier says a trip on 8/19/2026 was yours.&rdquo;</span><span data-revi-from="v11">&ldquo;Your carrier says a trip on 08/19/2026 was yours.&rdquo;</span></div>
+              <div class="ph-card"><div class="h"><span data-revi-until="v10">Wed 8/19/2026 &middot; 6:12 &rarr; 6:20 AM</span><span data-revi-from="v11">Wed 08/19/2026 - 06:12 AM<span data-revi-from="v11"> (ET)</span> &rarr; 08/19/2026 - 06:20 AM<span data-revi-from="v11"> (ET) · 00h 08m 00s</span></span></div>
                 <div class="ph-li"><span class="a"><span data-revi-until="v10">2.1 mi &middot; Blue Ash yard</span><span data-revi-from="v11">2.1 miles &middot; Blue Ash Yard</span><small><span data-revi-until="v10">odo 126,474.5 &rarr; 126,476.6</span><span data-revi-from="v11">odo 126474.5 miles &rarr; 126476.6 miles</span></small></span><span class="b" data-rev-until="v10">8 min</span></div>
-                <div class="ph-li"><span class="a"><span data-revi-until="v10">Assigned by K. Byers</span><span data-revi-from="v11">Assigned by Kim Byers</span><small><span data-revi-until="v10">dispatch &middot; 8/22/2026, 9:12 AM</span><span data-revi-from="v11">dispatch &middot; 08/22/2026 · 09:12 AM<span data-revi-from="v11"> ET</span></span></small></span><span class="b"><span data-revi-until="v10">from W16</span><span data-revi-from="v11">From W16</span></span></div>
+                <div class="ph-li"><span class="a"><span data-revi-until="v10">Assigned by K. Byers</span><span data-revi-from="v11">Assigned by Kim Byers</span><small><span data-revi-until="v10">dispatch &middot; 8/22/2026, 9:12 AM</span><span data-revi-from="v11">dispatch &middot; 08/22/2026 - 09:12 AM<span data-revi-from="v11"> (ET)</span></span></small></span><span class="b"><span data-revi-until="v10">from W16</span><span data-revi-from="v11">From W16</span></span></div>
                 <div class="ph-li"><span class="a"><span data-revi-until="v10">Their reason</span><span data-revi-from="v11">Their Reason</span><small>&ldquo;Yard movement, your truck, your shift&rdquo;</small></span><span class="b">&nbsp;</span></div>
               </div>
               <div data-rev-until="v10" class="ph-btn primary">This was me &middot; add to my log</div>
@@ -3757,7 +3759,7 @@
             <div class="ph-appbar"><span class="bk" data-revi-from="v11">&#8249;</span><span class="t"><span data-revi-until="v10">About this ELD</span><span data-revi-from="v11">About This ELD</span></span><span class="r">required<br/>visible</span></div>
             <div class="ph-body">
               <div class="ph-li"><span class="a"><span data-revi-until="v10">ELD identifier</span><span data-revi-from="v11">ELD Identifier</span><small>Assigned at FMCSA registration · pending</small></span><span class="b mono">TENNA01</span></div>
-              <div class="ph-li"><span class="a">Registration ID<small>fmcsa.dot.gov listing</small></span><span class="b mono"><span data-revi-until="v10">pending</span><span data-revi-from="v11">Pending</span></span></div>
+              <div class="ph-li"><span class="a">Registration ID<small>fmcsa.dot.gov listing<span data-revi-from="v11"> · pending</span></small></span><span class="b mono"><span data-revi-until="v10">pending</span><span data-revi-from="v11">–</span></span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">App version</span><span data-revi-from="v11">App Version</span><small>source revision stamped per build</small></span><span class="b mono">0.9.0<br/>e9262cb</span></div>
               <div class="ph-li"><span class="a"><span data-revi-until="v10">Paired tracker</span><span data-revi-from="v11">Paired Tracker</span><small><span data-revi-until="v10">Geometris WQ · Unit 218</span><span data-revi-from="v11">Geometris WQ · 218 - Ford F-150</span></small></span><span class="b mono">WQ-87X06<br/>0680218</span></div>
               <div class="ph-li" data-rev-until="v2"><span class="a">Tracker firmware<small>TLV protocol 1</small></span><span class="b mono">3.2</span></div><div class="ph-li" data-rev-from="v3"><span class="a"><span data-revi-until="v10">Broadcast protocol</span><span data-revi-from="v11">Broadcast Protocol</span><small>TLV, protocol 1</small></span><span class="b mono">1</span></div>
@@ -3847,7 +3849,7 @@
               </div>
               <div class="wb-stage">
                 <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
-                  <div class="wb-h"><span data-revi-until="v10">Live fleet HOS</span><span data-revi-from="v11">Live Fleet HOS</span> <span class="sub"><span data-revi-until="v10">Thu 8/20/2026 · 2:41 PM ET · refreshed 12 s ago</span><span data-revi-from="v11">Thu 08/20/2026 · 02:41 PM ET · refreshed 00h 00m 12s ago</span></span></div>
+                  <div class="wb-h"><span data-revi-until="v10">Live fleet HOS</span><span data-revi-from="v11">Live Fleet HOS</span> <span class="sub"><span data-revi-until="v10">Thu 8/20/2026 · 2:41 PM ET · refreshed 12 s ago</span><span data-revi-from="v11">Thu 08/20/2026 - 02:41 PM (ET) · refreshed 00h 00m 12s ago</span></span></div>
                   <div class="wb-kpis">
                     <div class="wb-kpi"><div class="v">12</div><div class="l"><span data-revi-until="v10">Driving now</span><span data-revi-from="v11">Driving Now</span></div></div>
                     <div class="wb-kpi"><div class="v">7</div><div class="l"><span data-revi-until="v10">On duty</span><span data-revi-from="v11">On Duty</span></div></div>
@@ -3871,10 +3873,10 @@
                       <tr><td><b>Alvarez</b></td><td>Marcus</td><td><span class="wb-pill dark">D · Driving</span></td><td>04h 29m 00s</td><td><b>218</b></td><td>Ford F-150</td><td>4400 Cooper Rd, Blue Ash, OH 45242</td><td>00h 00m 12s</td></tr>
                       <tr><td><b>Whitfield</b></td><td>James</td><td><span class="wb-pill">ON · On Duty</span></td><td>07h 02m 00s</td><td><b>224</b></td><td>Ford F-250</td><td>5200 Kings Mills Rd, Mason, OH 45040</td><td>00h 00m 41s</td></tr>
                       <tr><td><b>Delgado</b></td><td>Rosa</td><td><span class="wb-pill">SB · Sleeper</span></td><td>08h 15m 00s</td><td><b>231</b></td><td>Kenworth T380</td><td>2100 Alum Creek Dr, Columbus, OH 43207</td><td>00h 03m 00s</td></tr>
-                      <tr><td><b>Okafor</b></td><td>Tomas</td><td><span class="wb-pill out">OFF</span></td><td>11h 00m 00s</td><td>N/A</td><td>N/A</td><td>N/A</td><td>00h 22m 00s</td></tr>
+                      <tr><td><b>Okafor</b></td><td>Tomas</td><td><span class="wb-pill out">OFF</span></td><td>11h 00m 00s</td><td>–</td><td>–</td><td>N/A</td><td>00h 22m 00s</td></tr>
                     </tbody>
                   </table>
-                  <div class="wb-note">Sorted by urgency, closest clock to zero first. Row click → driver's log (W4).<span data-revi-from="v11"> Location is shown only while the driver is on duty; an off-duty driver with no vehicle shows N/A. Positions live on the event log for six months and are never kept as a track (P3).</span></div>
+                  <div class="wb-note">Sorted by urgency, closest clock to zero first. Row click → driver's log (W4).<span data-revi-from="v11"> Location is shown only while the driver is on duty and reads N/A off duty; a driver with no vehicle shows a dash for Fleet No. and Asset Name. Positions live on the event log for six months and are never kept as a track (P3).</span></div>
                 </div>
               </div>
             </div>
@@ -4097,7 +4099,7 @@
               </div>
               <div class="wb-stage">
                 <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
-                  <div class="wb-h"><span data-revi-until="v10">M. Alvarez · Wed 8/19/2026 </span><span data-revi-from="v11">Marcus Alvarez · Wed 08/19/2026 </span><span class="sub"><span data-revi-until="v10">✓ certified 8/20/2026, 7:14 AM · Unit 218</span><span data-revi-from="v11">✓ Certified 08/20/2026 · 07:14 AM<span data-revi-from="v11"> ET</span> · 218 - Ford F-150</span></span></div>
+                  <div class="wb-h"><span data-revi-until="v10">M. Alvarez · Wed 8/19/2026 </span><span data-revi-from="v11">Marcus Alvarez · Wed 08/19/2026 </span><span class="sub"><span data-revi-until="v10">✓ certified 8/20/2026, 7:14 AM · Unit 218</span><span data-revi-from="v11">✓ Certified 08/20/2026 - 07:14 AM<span data-revi-from="v11"> (ET)</span> · 218 - Ford F-150</span></span></div>
                   <svg class="ph-grid-svg" viewBox="0 0 480 96" role="img" aria-label="24-hour duty grid, web view">
                     <g stroke="#E9EBEF" stroke-width="1">
                       <line x1="24" y1="9" x2="456" y2="9"/><line x1="24" y1="27" x2="456" y2="27"/><line x1="24" y1="45" x2="456" y2="45"/><line x1="24" y1="63" x2="456" y2="63"/><line x1="24" y1="81" x2="456" y2="81"/>
@@ -4270,10 +4272,10 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>Log Day</th><th>Last Name</th><th>First Name</th><th>Change</th><th>Proposed By</th><th>Proposed</th><th>Status</th><th>Waiting</th></tr></thead>
                     <tbody>
-                      <tr><td>08/18/2026</td><td><b>Alvarez</b></td><td>Marcus</td><td>OFF → ON · 03:15 PM → 03:45 PM · 00h 30m 00s</td><td>Kim Byers</td><td>08/18/2026 · 02:39 PM ET</td><td><span class="wb-pill dark">Pending</span></td><td>00h 02m 00s</td></tr>
-                      <tr><td>08/16/2026</td><td><b>Okafor</b></td><td>Tomas</td><td>OFF → ON · 07:00 AM → 07:20 AM · 00h 20m 00s</td><td>Kim Byers</td><td>08/17/2026 · 09:00 AM ET</td><td><span class="wb-pill dark">Pending</span></td><td>72h 00m 00s ⚠</td></tr>
-                      <tr><td>08/19/2026</td><td><b>Alvarez</b></td><td>Marcus</td><td>ON 04:30 PM → 05:15 PM · 00h 45m 00s, now 04:30 PM → 06:00 PM · 01h 30m 00s</td><td>Kim Byers</td><td>08/19/2026 · 09:02 PM ET</td><td><span class="wb-pill out">Rejected</span></td><td>"Left yard at 05:30 PM"</td></tr>
-                      <tr><td>08/14/2026</td><td><b>Delgado</b></td><td>Rosa</td><td>OFF → SB · 10:00 PM → 02:00 AM · 04h 00m 00s</td><td>Sam Patel</td><td>08/15/2026 · 08:10 AM ET</td><td><span class="wb-pill">Approved</span></td><td>–</td></tr>
+                      <tr><td>08/18/2026</td><td><b>Alvarez</b></td><td>Marcus</td><td>OFF → ON · 03:15 PM → 03:45 PM · 00h 30m 00s</td><td>Kim Byers</td><td>08/18/2026 - 02:39 PM (ET)</td><td><span class="wb-pill dark">Pending</span></td><td>00h 02m 00s</td></tr>
+                      <tr><td>08/16/2026</td><td><b>Okafor</b></td><td>Tomas</td><td>OFF → ON · 07:00 AM → 07:20 AM · 00h 20m 00s</td><td>Kim Byers</td><td>08/17/2026 - 09:00 AM (ET)</td><td><span class="wb-pill dark">Pending</span></td><td>72h 00m 00s ⚠</td></tr>
+                      <tr><td>08/19/2026</td><td><b>Alvarez</b></td><td>Marcus</td><td>ON 04:30 PM → 05:15 PM · 00h 45m 00s, now 04:30 PM → 06:00 PM · 01h 30m 00s</td><td>Kim Byers</td><td>08/19/2026 - 09:02 PM (ET)</td><td><span class="wb-pill out">Rejected</span></td><td>"Left yard at 05:30 PM"</td></tr>
+                      <tr><td>08/14/2026</td><td><b>Delgado</b></td><td>Rosa</td><td>OFF → SB · 10:00 PM → 02:00 AM · 04h 00m 00s</td><td>Sam Patel</td><td>08/15/2026 - 08:10 AM (ET)</td><td><span class="wb-pill">Approved</span></td><td>–</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">Stale pending proposals age visibly. <span data-revi-until="v10">Rejections carry the driver's reason back to the proposer.</span><span data-revi-from="v11">Rejections return the driver's reason to the proposer.</span></div>
@@ -4442,12 +4444,12 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>&#9744;</th><th>When</th><th>Fleet No.</th><th>Asset Name</th><th>Distance</th><th>Driver Said</th><th>Status</th></tr></thead>
                     <tbody>
-                      <tr><td>&#9745;</td><td>08/19/2026 &middot; 06:12 AM<span data-revi-from="v11"> ET</span></td><td><b>218</b></td><td>Ford F-150</td><td>2.1 miles</td><td>&ldquo;Shop had it that morning&rdquo;</td><td>Needs Annotation</td></tr>
-                      <tr><td>&#9745;</td><td>08/19/2026 &middot; 06:41 AM<span data-revi-from="v11"> ET</span></td><td><b>218</b></td><td>Ford F-150</td><td>0.4 miles</td><td>&ldquo;Someone moved it in the yard&rdquo;</td><td>Needs Annotation</td></tr>
-                      <tr><td>&#9744;</td><td>08/18/2026 &middot; 07:02 PM<span data-revi-from="v11"> ET</span></td><td><b>218</b></td><td>Ford F-150</td><td>12.4 miles</td><td>&ldquo;Never seen this trip&rdquo;</td><td>Investigate</td></tr>
-                      <tr><td>&#9744;</td><td>08/18/2026 &middot; 06:04 AM<span data-revi-from="v11"> ET</span></td><td><b>231</b></td><td>Kenworth T380</td><td>0.3 miles</td><td>&ndash;</td><td>Never Claimed</td></tr>
-                      <tr><td>&#9744;</td><td>08/17/2026 &middot; 05:48 AM<span data-revi-from="v11"> ET</span></td><td><b>224</b></td><td>Ford F-250</td><td>0.6 miles</td><td><span class="wb-pill dark">Stamped &middot; D27</span></td><td>Accounted For</td></tr>
-                      <tr><td>&#9744;</td><td>08/16/2026 &middot; 02:11 PM<span data-revi-from="v11"> ET</span></td><td><b>231</b></td><td>Kenworth T380</td><td>8.9 miles</td><td>&ldquo;Kevin Burns had my truck&rdquo;</td><td>Assign &rarr; Kevin Burns</td></tr>
+                      <tr><td>&#9745;</td><td>08/19/2026 - 06:12 AM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td>2.1 miles</td><td>&ldquo;Shop had it that morning&rdquo;</td><td>Needs Annotation</td></tr>
+                      <tr><td>&#9745;</td><td>08/19/2026 - 06:41 AM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td>0.4 miles</td><td>&ldquo;Someone moved it in the yard&rdquo;</td><td>Needs Annotation</td></tr>
+                      <tr><td>&#9744;</td><td>08/18/2026 - 07:02 PM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td>12.4 miles</td><td>&ldquo;Never seen this trip&rdquo;</td><td>Investigate</td></tr>
+                      <tr><td>&#9744;</td><td>08/18/2026 - 06:04 AM<span data-revi-from="v11"> (ET)</span></td><td><b>231</b></td><td>Kenworth T380</td><td>0.3 miles</td><td>&ndash;</td><td>Never Claimed</td></tr>
+                      <tr><td>&#9744;</td><td>08/17/2026 - 05:48 AM<span data-revi-from="v11"> (ET)</span></td><td><b>224</b></td><td>Ford F-250</td><td>0.6 miles</td><td><span class="wb-pill dark">Stamped &middot; D27</span></td><td>Accounted For</td></tr>
+                      <tr><td>&#9744;</td><td>08/16/2026 - 02:11 PM<span data-revi-from="v11"> (ET)</span></td><td><b>231</b></td><td>Kenworth T380</td><td>8.9 miles</td><td>&ldquo;Kevin Burns had my truck&rdquo;</td><td>Assign &rarr; Kevin Burns</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-box" style="margin-top:9px;">
@@ -4715,11 +4717,11 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>Fleet No.</th><th>Asset Name</th><th>Table 4 Code</th><th>Logged &middot; Code 1</th><th>Clock or Cleared &middot; Code 2</th><th>Last Name</th><th>First Name</th><th>Paper Logs</th><th>Status</th></tr></thead>
                     <tbody>
-                      <tr><td><b>207</b></td><td>Ford F-550 · WQ-…0355</td><td><span class="wb-pill dark">P · Power</span></td><td>08/18/2026 · 02:38 PM<span data-revi-from="v11"> ET</span></td><td><div class="wb-bar" style="width:48px;"><i style="width:75%;"></i></div> 144h 00m 00s left</td><td><b>Burns</b></td><td>Kevin</td><td>✓ Acknowledged</td><td><span class="wb-pill out">Open</span></td></tr>
-                      <tr><td><b>231</b></td><td>Kenworth T380 · WQ-…0301</td><td><span class="wb-pill dark">E · Engine Sync</span></td><td>08/20/2026 · 09:12 AM<span data-revi-from="v11"> ET</span></td><td><div class="wb-bar" style="width:48px;"><i style="width:97%;"></i></div> 186h 00m 00s<span data-revi-from="v11"> left</span></td><td><b>Delgado</b></td><td>Rosa</td><td>✓ Acknowledged</td><td><span class="wb-pill out">Open</span></td></tr>
-                      <tr><td><b>224</b></td><td>Ford F-250 · WQ-…0266</td><td><span class="wb-pill">T · Timing</span></td><td>08/09/2026 · 11:20 AM<span data-revi-from="v11"> ET</span></td><td>Resolved 08/10/2026 · 04:05 PM<span data-revi-from="v11"> ET</span></td><td>–</td><td>–</td><td>–</td><td><span class="wb-pill">Resolved</span></td></tr>
+                      <tr><td><b>207</b></td><td>Ford F-550 · WQ-…0355</td><td><span class="wb-pill dark">P · Power</span></td><td>08/18/2026 - 02:38 PM<span data-revi-from="v11"> (ET)</span></td><td><div class="wb-bar" style="width:48px;"><i style="width:75%;"></i></div> 144h 00m 00s left</td><td><b>Burns</b></td><td>Kevin</td><td>✓ Acknowledged</td><td><span class="wb-pill out">Open</span></td></tr>
+                      <tr><td><b>231</b></td><td>Kenworth T380 · WQ-…0301</td><td><span class="wb-pill dark">E · Engine Sync</span></td><td>08/20/2026 - 09:12 AM<span data-revi-from="v11"> (ET)</span></td><td><div class="wb-bar" style="width:48px;"><i style="width:97%;"></i></div> 186h 00m 00s<span data-revi-from="v11"> left</span></td><td><b>Delgado</b></td><td>Rosa</td><td>✓ Acknowledged</td><td><span class="wb-pill out">Open</span></td></tr>
+                      <tr><td><b>224</b></td><td>Ford F-250 · WQ-…0266</td><td><span class="wb-pill">T · Timing</span></td><td>08/09/2026 - 11:20 AM<span data-revi-from="v11"> (ET)</span></td><td>Resolved 08/10/2026 - 04:05 PM<span data-revi-from="v11"> (ET)</span></td><td>–</td><td>–</td><td>–</td><td><span class="wb-pill">Resolved</span></td></tr>
                       
-                      <tr data-rev-from="v8"><td>–</td><td>All devices · daily transfer self-test</td><td><span class="wb-pill out">S · Transfer</span></td><td>08/20/2026 · 03:00 AM<span data-revi-from="v11"> ET</span> · TEST Flag</td><td>Next Due 08/21/2026</td><td>–</td><td>–</td><td>–</td><td><span class="wb-pill">14 / 14 Passing</span></td></tr>
+                      <tr data-rev-from="v8"><td>–</td><td>All devices · daily transfer self-test</td><td><span class="wb-pill out">S · Transfer</span></td><td>08/20/2026 - 03:00 AM<span data-revi-from="v11"> (ET)</span> · TEST Flag</td><td>Next Due 08/21/2026</td><td>–</td><td>–</td><td>–</td><td><span class="wb-pill">14 / 14 Passing</span></td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">A malfunction that outlives its 8-day clock is an out-of-service ELD. This table exists so that never happens quietly.</div>
@@ -5042,9 +5044,9 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>When</th><th>Last Name</th><th>First Name</th><th>Fleet No.</th><th>Asset Name</th><th>Location</th><th>Method</th><th>Officer Code</th><th>Result</th></tr></thead>
                     <tbody>
-                      <tr><td>08/20/2026 · 02:44 PM<span data-revi-from="v11"> ET</span></td><td><b>Alvarez</b></td><td>Marcus</td><td><b>218</b></td><td>Ford F-150</td><td>4400 Cooper Rd, Blue Ash, OH 45242</td><td>eRODS</td><td>OH-3471</td><td><span class="wb-pill">✓ A93F21</span></td></tr>
-                      <tr><td>07/28/2026 · 09:15 AM<span data-revi-from="v11"> ET</span></td><td><b>Burns</b></td><td>Kevin</td><td><b>207</b></td><td>Ford F-550</td><td>I-75 mile 171, Walton, KY 41094</td><td>eRODS</td><td>KY-118</td><td><span class="wb-pill">✓ 77C0DE</span></td></tr>
-                      <tr><td>07/28/2026 · 09:11 AM<span data-revi-from="v11"> ET</span></td><td><b>Burns</b></td><td>Kevin</td><td><b>207</b></td><td>Ford F-550</td><td>I-75 mile 171, Walton, KY 41094</td><td>eRODS</td><td>KY-118</td><td><span class="wb-pill out">✗ Retried</span></td></tr>
+                      <tr><td>08/20/2026 - 02:44 PM<span data-revi-from="v11"> (ET)</span></td><td><b>Alvarez</b></td><td>Marcus</td><td><b>218</b></td><td>Ford F-150</td><td>4400 Cooper Rd, Blue Ash, OH 45242</td><td>eRODS</td><td>OH-3471</td><td><span class="wb-pill">✓ A93F21</span></td></tr>
+                      <tr><td>07/28/2026 - 09:15 AM<span data-revi-from="v11"> (ET)</span></td><td><b>Burns</b></td><td>Kevin</td><td><b>207</b></td><td>Ford F-550</td><td>I-75 mile 171, Walton, KY 41094</td><td>eRODS</td><td>KY-118</td><td><span class="wb-pill">✓ 77C0DE</span></td></tr>
+                      <tr><td>07/28/2026 - 09:11 AM<span data-revi-from="v11"> (ET)</span></td><td><b>Burns</b></td><td>Kevin</td><td><b>207</b></td><td>Ford F-550</td><td>I-75 mile 171, Walton, KY 41094</td><td>eRODS</td><td>KY-118</td><td><span class="wb-pill out">✗ Retried</span></td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">Failed attempts stay in the record; the retry trail is evidence of good faith at the roadside.</div>
@@ -5311,8 +5313,8 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>Fleet No.</th><th>Asset Name</th><th>Last Odometer</th><th>New Odometer</th><th>Gap</th><th>Window</th><th>Status</th></tr></thead>
                     <tbody>
-                      <tr><td><b>231</b></td><td>Kenworth T380</td><td>128904.2 miles</td><td>128961.7 miles</td><td><b>57.5 miles</b></td><td>08/18/2026 · 06:10 PM<span data-revi-from="v11"> ET</span> &rarr; 08/19/2026 · 07:02 AM ET · 12h 52m 00s</td><td><span class="wb-pill dark">Investigate</span></td></tr>
-                      <tr><td><b>224</b></td><td>Ford F-250</td><td>84112.0 miles</td><td>84113.1 miles</td><td>1.1 miles</td><td>08/16/2026 · 05:40 PM<span data-revi-from="v11"> ET</span> &rarr; 06:05 PM ET · 00h 25m 00s</td><td><span class="wb-pill out">Explained</span></td></tr>
+                      <tr><td><b>231</b></td><td>Kenworth T380</td><td>128904.2 miles</td><td>128961.7 miles</td><td><b>57.5 miles</b></td><td>08/18/2026 - 06:10 PM<span data-revi-from="v11"> (ET)</span> &rarr; 08/19/2026 - 07:02 AM (ET) · 12h 52m 00s</td><td><span class="wb-pill dark">Investigate</span></td></tr>
+                      <tr><td><b>224</b></td><td>Ford F-250</td><td>84112.0 miles</td><td>84113.1 miles</td><td>1.1 miles</td><td>08/16/2026 - 05:40 PM<span data-revi-from="v11"> (ET)</span> &rarr; 08/16/2026 - 06:05 PM (ET) · 00h 25m 00s</td><td><span class="wb-pill out">Explained</span></td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">A tracker asleep while parked cannot report its own removal. The odometer that does not line up on reconnect is the detection, so this report is the carrier's view of unplug and replug.<span data-revi-from="v11"> The threshold is a carrier setting on W15, defaulting to a gap over 2.0 miles or more than 30 minutes with no tracker link while the engine was on; gaps under it are listed but not flagged.</span></div>
@@ -5394,7 +5396,7 @@
                   <div data-rev-from="v2" class="wb-box" style="margin-top:9px;"><div class="h"><span data-revi-until="v10">Unidentified driving </span><span data-revi-from="v11">Unidentified Driving </span><span class="wb-pill dark"><span data-revi-until="v10">new</span><span data-revi-from="v11">New</span></span></div>
                     <span data-revi-until="v10">Suggested reasons: <span class="wb-pill out">Mechanic road test</span> <span class="wb-pill out">Yard movement</span> <span class="wb-pill out">Yard relocation</span> <span class="wb-pill out">OEM / warranty</span> <span class="wb-pill">+ add</span></span><span data-revi-from="v11">Suggested Reasons: <span class="wb-pill out">Mechanic Road Test</span> <span class="wb-pill out">Internal Yard Move</span> <span class="wb-pill out">Yard Relocation</span> <span class="wb-pill out">OEM Pickup</span> <span class="wb-pill out">Maintenance Yard Move</span> <span class="wb-pill out">Jobsite Shuttle</span> <span class="wb-pill">+ Add</span></span><br/><span data-revi-until="v10">
                     Review reminder: every 3 days &#9662; &nbsp;·&nbsp; Let drivers name another driver: &#9744; off</span><span data-revi-from="v11">
-                    Review Reminder: every 3 days &#9662; &nbsp;·&nbsp; Let drivers name another driver: &#9744; off</span><br/>
+                    Review Reminder: every 3 days &#9662; &nbsp;·&nbsp; Let drivers name another driver: &#9744; Off</span><br/>
                     <span data-revi-until="v10">Non-HOS move roles:</span><span data-revi-from="v11">Non-HOS Move Roles:</span> &#9745; Mechanics &nbsp; &#9745; <span data-revi-until="v10">Yard operators</span><span data-revi-from="v11">Yard Operators</span> &nbsp; &#9744; Vendors
                   </div>
                   <div data-rev-from="v7" class="wb-box" style="margin-top:9px;"><div class="h"><span data-revi-until="v10">Exempt drivers </span><span data-revi-from="v11">Exempt Drivers </span><span class="wb-pill out" data-revi-until="v7">0 of 14</span><span class="wb-pill out" data-revi-from="v8">2 of 14</span></div>
@@ -6025,7 +6027,7 @@ eld.transfers(id, output_file_id, method, caller,
         <rect x="20" y="40" width="110" height="36" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="75" y="62" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1A1F2A">D1 Login</text>
         <rect x="20" y="106" width="110" height="36" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="75" y="128" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1A1F2A">D2 Vehicle Pair</text>
+        <text x="75" y="128" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1A1F2A">D2 Pair Vehicle</text>
         <rect x="20" y="172" width="110" height="44" rx="8" fill="#FFF7F2" stroke="#F37021"/>
         <text x="75" y="190" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#D9591A">Geometris WQ</text>
         <text x="75" y="204" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">tracker · BLE ~2 s</text>
@@ -6136,9 +6138,9 @@ eld.transfers(id, output_file_id, method, caller,
         <rect x="18" y="42" width="112" height="32" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="74" y="63" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1A1F2A">D1 Login</text>
         <rect x="18" y="88" width="112" height="32" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="74" y="109" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1A1F2A">D3 Co-driver</text>
+        <text x="74" y="109" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1A1F2A">D3 Co-Driver Login</text>
         <rect x="18" y="134" width="112" height="32" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="74" y="155" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1A1F2A">D2 Vehicle Pair</text>
+        <text x="74" y="155" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1A1F2A">D2 Pair Vehicle</text>
         <rect x="18" y="180" width="112" height="42" rx="8" fill="#FFF7F2" stroke="#F37021"/>
         <text x="74" y="198" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#D9591A">Geometris WQ</text>
         <text x="74" y="212" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">tracker &#183; BLE ~2 s</text>
@@ -6158,25 +6160,25 @@ eld.transfers(id, output_file_id, method, caller,
         <text x="448" y="47" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D5&#8211;D7 Status change</text>
         <text x="448" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">sheet &#8594; annotation</text>
         <rect x="372" y="78" width="152" height="38" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="448" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D29 Stationary prompt</text>
+        <text x="448" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D29 Stationary Prompt</text>
         <text x="448" y="108" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">5 min stopped &#183; 60 s to answer</text>
         <rect x="372" y="126" width="152" height="30" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="448" y="146" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D33 Driver swap</text>
+        <text x="448" y="146" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D33 Active Driver Swap</text>
         <rect x="372" y="166" width="152" height="38" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="448" y="183" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D8&#8211;D13 Daily logs</text>
         <text x="448" y="196" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">grid &#183; certify &#183; edit</text>
         <rect x="372" y="214" width="152" height="30" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="448" y="234" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D14 DVIR handoff</text>
+        <text x="448" y="234" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D14 DVIR Launch</text>
         <rect x="372" y="254" width="152" height="38" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="448" y="271" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D22 Unidentified drv.</text>
+        <text x="448" y="271" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1A1F2A">D22 Unidentified Driving</text>
         <text x="448" y="284" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">last 8 days &#183; claim / reject</text>
         <rect x="372" y="302" width="152" height="30" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="448" y="322" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D28 Rejection Remark</text>
         <rect x="372" y="342" width="152" height="38" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="448" y="359" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D34 Assigned driving</text>
+        <text x="448" y="359" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D34 Assigned Driving</text>
         <text x="448" y="372" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">assigned on W16 &#183; driver confirms</text>
         <rect x="372" y="390" width="152" height="30" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="448" y="410" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D27 Non-HOS move</text>
+        <text x="448" y="410" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D27 Non-HOS Move</text>
         <rect x="372" y="430" width="152" height="38" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="448" y="447" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D23&#8211;D26 Profile</text>
         <text x="448" y="460" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">settings &#183; help &#183; about</text>
@@ -6189,7 +6191,7 @@ eld.transfers(id, output_file_id, method, caller,
         <text x="220" y="518" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D15&#8211;D17 Roadside inspection</text>
         <text x="220" y="532" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">PIN &#183; officer view &#183; eRODS transfer</text>
         <rect x="120" y="556" width="200" height="30" rx="8" fill="#fff" stroke="#9AA1AD" stroke-dasharray="5 4"/>
-        <text x="220" y="575" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1A1F2A">D31 Inspection exit &#183; PIN</text>
+        <text x="220" y="575" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1A1F2A">D31 Inspection Exit</text>
         <rect x="372" y="548" width="152" height="42" rx="8" fill="#fff" stroke="#9AA1AD" stroke-dasharray="5 4"/>
         <text x="448" y="566" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">D20&#8211;D21 Edit review</text>
         <text x="448" y="580" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">push-driven from W5</text>
@@ -6227,17 +6229,17 @@ eld.transfers(id, output_file_id, method, caller,
         <text x="661" y="194" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">the destination</text>
         <rect x="596" y="228" width="130" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="661" y="249" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W5 Propose Edit</text>
-        <rect x="596" y="290" width="130" height="42" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="661" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W16 Unidentified &#183; host</text>
+        <rect x="590" y="290" width="142" height="42" rx="8" fill="#fff" stroke="#C9CED8"/>
+        <text x="661" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1A1F2A">W16 Unidentified Driving</text>
         <text x="661" y="322" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">annotate or assign &#183; 6 months</text>
         <rect x="596" y="354" width="130" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="661" y="375" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W11&#8211;W12 Vehicles</text>
-        <rect x="596" y="410" width="130" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="661" y="431" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W14 Inspection record</text>
+        <rect x="590" y="410" width="142" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
+        <text x="661" y="431" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1A1F2A">W14 Roadside Inspections</text>
         <rect x="596" y="522" width="130" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="661" y="543" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W15 Settings</text>
-        <rect x="750" y="42" width="118" height="40" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="809" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W2 Alerts</text>
+        <text x="661" y="543" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1A1F2A">W15 Carrier Settings</text>
+        <rect x="740" y="42" width="128" height="40" rx="8" fill="#fff" stroke="#C9CED8"/>
+        <text x="804" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1A1F2A">W2 Approaching Limits</text>
         <text x="809" y="74" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9AA1AD">approaching limits</text>
         <rect x="750" y="104" width="118" height="44" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="809" y="122" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W8&#8211;W10</text>
@@ -6246,10 +6248,10 @@ eld.transfers(id, output_file_id, method, caller,
         <text x="809" y="249" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W6 Edit Requests</text>
         <rect x="750" y="290" width="118" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="809" y="311" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W7 Log Export</text>
-        <rect x="750" y="354" width="118" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="809" y="375" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W13 Audit Export</text>
+        <rect x="740" y="354" width="128" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
+        <text x="804" y="375" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1A1F2A">W13 DOT Audit Export</text>
         <rect x="750" y="410" width="118" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
-        <text x="809" y="431" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W17 Host eRODS</text>
+        <text x="809" y="431" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W17 eRODS Transfer</text>
         <rect x="750" y="466" width="118" height="34" rx="8" fill="#fff" stroke="#C9CED8"/>
         <text x="809" y="487" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1A1F2A">W18 Inspector View</text>
       
