@@ -57,8 +57,8 @@ blocks, data-revi-from / -until inline) and checks, per screen:
       each end a line, so a filter row is never mistaken for a sentence
   S4  an abbreviated count (6 mo, 2 wk, 1 yr) is a finding: counts stay in
       words (judgment call 10)
-  JC9 a relative date with a time (today, 02:38 PM; Yesterday 06:04 AM) ends
-      in (ET) like a written date
+  JC9 a relative date with a time (today, 02:38 PM; Yesterday, 06:04 AM) ends
+      in (ET) like a written date, with a comma after the word (9/23/2026)
   one verb: sign in / sign out / signed in / signs in in frame copy is a finding, the
       same as on a button (the annotations may still say sign-in)
   S4  a limit named as a rule (11-Hour Drive, 30-Minute Break, 14-Hour
@@ -337,6 +337,7 @@ CHECKS = [
     ('S2 zone not in parentheses',        r'\d\d:\d\d (AM|PM) ET\b'),
     ('S4 abbreviated count (JC10)',        r'\b\d+ (mo|wk|yr)s?\b'),
     ('JC9 relative date and time without a zone', r'(?i)\b(today|yesterday),? \d\d:\d\d (AM|PM)(?! \(ET\))'),
+    ('JC9 relative date without a comma before the time', r'(?i)\b(today|yesterday) \d\d:\d\d (AM|PM)'),
     ('one verb: sign in/out in frame copy', r'(?i)\bsign(s|ed|ing)?[ -](in|out)s?\b'),
     ('S2 date-time range without a date on the second end', r'\d\d/\d\d/\d{4} - \d\d:\d\d (AM|PM) \(ET\) → \d\d:\d\d (AM|PM)'),
     ('S1 control state lowercase',        r'[☐☑] [a-z]'),

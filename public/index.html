@@ -399,9 +399,10 @@
   .wb-kpi .v { font-size: 14px; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--ink); }
   .wb-kpi .l { font-size: 6.6px; font-weight: 800; letter-spacing: 0.7px; text-transform: uppercase; color: var(--wf-mid); margin-top: 1px; }
   .wb-table { width: 100%; border-collapse: collapse; font-size: 8.6px; }
-  .wb-table th { text-align: left; font-size: 7px; letter-spacing: 0.7px; text-transform: uppercase; color: var(--wf-mid); padding: 5px 6px; border-bottom: 1px solid var(--wf-line); background: #FAFBFC; font-weight: 800; white-space: nowrap; }
+  .wb-table th { text-align: left; font-size: 7px; letter-spacing: 0.7px; color: var(--wf-mid); padding: 5px 6px; border-bottom: 1px solid var(--wf-line); background: #FAFBFC; font-weight: 800; white-space: nowrap; }
   .wb-table td { padding: 5.5px 6px; border-bottom: 1px solid var(--wf-line-soft); color: var(--wf-text); white-space: nowrap; }
   .wb-table td b { color: var(--wf-dark); }
+  .wb-table td.num { text-align: right; }
   .wb-pill { display: inline-block; font-size: 6.8px; font-weight: 800; letter-spacing: 0.5px; padding: 2px 7px; border-radius: 99px; background: var(--wf-fill); color: var(--wf-text); text-transform: uppercase; }
   .wb-pill.dark { background: var(--wf-dark); color: white; }
   .wb-pill.out { background: white; border: 1px solid #C9CED8; }
@@ -925,7 +926,7 @@
     <div data-rev-from="v11">
       <div class="eyebrow">Revision 9/21/2026</div>
       <h2 style="margin-bottom:6px;">What changed</h2>
-      <p class="lede" style="margin-bottom:18px;">Tom Caliendo audited every screen against Tenna's platform standards on 9/21/2026. This revision applies his findings in five passes: the audit itself, a re-check of every screen against the six standards and his per-screen notes, a third pass on durations, ranges, cells and zones, a fourth on the re-evaluation findings, and a fifth on frame copy and the flow map. Two of them stay open because they conflict with what Tom Cuthbertson settled: the biometric concern on D1 is already Q24, and the DVIR handoff on D14 is the T7 contract agreed with Tenna.</p>
+      <p class="lede" style="margin-bottom:18px;">Tom Caliendo audited every screen against Tenna's platform standards on 9/21/2026. This revision applies his findings in eight passes: the audit itself, a re-check of every screen against the six standards and his per-screen notes, a third pass on durations, ranges, cells and zones, a fourth on the re-evaluation findings, a fifth on frame copy and the flow map, a sixth on the S2 string and the home screens, a seventh and an eighth from the re-evaluations of 9/23/2026. Two of them stay open because they conflict with what Tom Cuthbertson settled: the biometric concern on D1 is already Q24, and the DVIR handoff on D14 is the T7 contract agreed with Tenna.</p>
 
       <div class="legend-grid">
         <div class="legend-item" style="border-left:3px solid var(--orange);">
@@ -934,7 +935,7 @@
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">All screens</span>
-          <p><b>A way back everywhere.</b> Every app bar has a back control. The five deliberately locked screens are the exceptions: inspection mode (D15, D16, D31), which only the driver's PIN or password leaves, and the malfunction notices (D18, D32), which need an acknowledgment. On D5, D6, D7, D12, D18, D30 and D32 the action buttons sit at the bottom of the screen; required fields have an asterisk; single choices use a checkmark, not a toggle; list rows use a chevron.</p>
+          <p><b>A way back everywhere.</b> Every app bar has a back control, except on the three home screens (D4, D38, D19), which show a menu control, and on the five deliberately locked screens: inspection mode (D15, D16, D31), which only the driver's PIN or password leaves, and the malfunction notices (D18, D32), which need an acknowledgment. On D5, D6, D7, D12, D18, D30 and D32 the action buttons sit at the bottom of the screen; required fields have an asterisk; single choices use a checkmark, not a toggle; list rows use a chevron.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
           <span class="rev-badge rev-changed">D1 &middot; D3 &middot; D35</span>
@@ -990,6 +991,7 @@
           <p><b>Third pass.</b> Every time range now has its duration beside it, and every time range uses one arrow, on the exempt driver's day, the log detail, the edit form, the edit request, the review screen, the proposal, the edit tracker, the odometer jump report; the export list spaces its date range like the filters do. Table cells follow title case (30-Minute Break, 1 Edit Pending, Next Due, 3 More Increments), and the lint now reads cells. The W4 buttons put the primary on the right like the other control panel screens. Every date shown with a time ends in the home terminal zone, ET here, written as MM/DD/YYYY - HH:MM AM (ET). The yard is Blue Ash Yard everywhere, the name Tenna's site record uses.</p>
           <p><b>Fifth pass.</b> Frame copy uses the one verb the buttons use: log in, logged in, log out, on D22, D27, D30, D33, D35 and D38. The W2 window filter reads 02h 00m 00s like the W15 lead time, the W15 review reminder and the W16 retention stat are calendar counts in words. A relative date with a time ends in ET (D14, D18). D18 draws the code P first line its annotation quotes. W6 separates the proposer from the proposal time and W7 lists the exporter as Last Name and First Name. The flow map names the control panel screens as their titles do.</p>
           <p><b>Sixth pass.</b> A date shown with a time now uses the S2 string, MM/DD/YYYY - HH:MM AM (ET), on every screen that had read the middle-dot form with a bare ET. The home screens D4, D38 and D19 show a menu control, since nothing sits behind a home screen. The D26 registration id reads a dash with pending in its caption, and the W1 driver with no vehicle shows a dash for Fleet No. and Asset Name, because both are values that are pending or none. The flow map names D2 Pair Vehicle as the screen does.</p>
+          <p><b>Eighth pass.</b> Table headers render in title case instead of uppercase and miles cells are right aligned (S5). Scenario values that disagreed between screens now agree: the D31 receipt and time match D17 and W14, the D16 unaccepted count matches D22, the D33 drive left matches D4, the W2 break row adds up, the W3 and W19 filters read All, and the W6 proposal is dated the day it was made. D35 reads Pull Over When Safe.</p>
           <p><b>Seventh pass.</b> The re-evaluation of 9/23/2026. The D13 origin reads automatic in lowercase like every other origin. A range that opens with a date closes with one on D28, D34 and W19. The W15 review-reminder state reads Off. The D32 note sits above its button. The flow map names every screen in title case and as the screen or its heading does. The lint checks each of these.</p>
         </div>
         <div class="legend-item" style="border-left:3px solid var(--orange);">
@@ -1583,7 +1585,7 @@
             <div class="ph-status"><span><span data-revi-until="v10">6:04 AM</span><span data-revi-from="v11">06:04 AM</span></span><span>&#9642;&#9642;&#9642; 5G &middot; 91%</span></div>
             <div class="ph-body center" style="text-align:center; gap:12px;">
               <div style="font-size:34px; line-height:1;">&#9888;</div>
-              <div style="font-size:15px; font-weight:800; letter-spacing:1.5px; color:#fff;">PULL OVER WHEN SAFE</div>
+              <div style="font-size:15px; font-weight:800; letter-spacing:1.5px; color:#fff;"><span data-revi-until="v10">PULL OVER WHEN SAFE</span><span data-revi-from="v11">Pull Over When Safe</span></div>
               <div class="ph-note" style="color:#B9BFC9;"><span data-revi-until="v10">Unit 218 &middot; in motion &middot; nobody signed in</span><span data-revi-from="v11">218 - Ford F-150 &middot; in motion &middot; nobody logged in</span></div>
               <div class="ph-banner" style="background:#343B47; border-color:#4A5261; color:#E2E5EA; text-align:left;">
                 <span data-revi-until="v10">This vehicle is moving and nobody is signed in.</span><span data-revi-from="v11">This vehicle is moving and nobody is logged in.</span> Driving is being recorded as unidentified.
@@ -1903,7 +1905,7 @@
               <div style="font-size:11.5px; font-weight:800; color:var(--wf-dark); text-align:center;"><span data-revi-until="v10">Who is at the wheel?</span><span data-revi-from="v11">Hand Over the Wheel</span></div>
               <div class="ph-note" style="text-align:center;"><span data-revi-until="v10">Team driving &middot; Unit 218 &middot; both signed in</span><span data-revi-from="v11">Team driving &middot; 218 - Ford F-150 &middot; both logged in</span></div>
               <div class="ph-card"><div class="h"><span data-revi-until="v10">At the wheel now</span><span data-revi-from="v11">At the Wheel Now</span></div>
-                <div class="ph-li" style="border:0; padding:4px 0 0;"><span class="a"><span data-revi-until="v10">M. Alvarez</span><span data-revi-from="v11">Marcus Alvarez · Emp 1184</span><small><span data-revi-until="v10">Driving since 12:00 PM &middot; 4:12 drive left</span><span data-revi-from="v11">Driving since 12:00 PM &middot; 04h 12m 00s drive left</span></small></span><span class="b"><span data-revi-until="v10">&#9679; active</span><span data-revi-from="v11">&#9679; Active</span></span></div>
+                <div class="ph-li" style="border:0; padding:4px 0 0;"><span class="a"><span data-revi-until="v10">M. Alvarez</span><span data-revi-from="v11">Marcus Alvarez · Emp 1184</span><small><span data-revi-until="v10">Driving since 12:00 PM &middot; 4:12 drive left</span><span data-revi-from="v11">Driving since 12:00 PM &middot; 04h 29m 00s drive left</span></small></span><span class="b"><span data-revi-until="v10">&#9679; active</span><span data-revi-from="v11">&#9679; Active</span></span></div>
               </div>
               <div class="ph-card"><div class="h"><span data-revi-until="v10">Co-driver</span><span data-revi-from="v11">Co-Driver</span></div>
                 <div class="ph-li" style="border:0; padding:4px 0 0;"><span class="a"><span data-revi-until="v10">J. Whitfield</span><span data-revi-from="v11">James Whitfield · Emp 2093</span><small><span data-revi-until="v10">Sleeper berth since 11:20 AM &middot; 10:38 drive left</span><span data-revi-from="v11">Sleeper Berth since 11:20 AM &middot; 10h 38m 00s drive left</span></small></span><span class="b"><span data-revi-until="v10">&#9675; select</span><span data-revi-from="v11">Next at the Wheel</span></span></div>
@@ -2545,7 +2547,7 @@
               <div class="ph-btn primary">Open Tenna DVIR ↗</div>
               <div class="ph-card"><div class="h"><span data-revi-until="v10">Last inspection</span><span data-revi-from="v11">Previous Inspection</span></div>
                 <div class="ph-note" data-rev-until="v10">Yesterday 6:04 AM · J. Whitfield<br/>No defects reported</div>
-                <div class="ph-note" data-rev-from="v11">Yesterday 06:04 AM (ET) · James Whitfield<br/>1 defect noted: left mirror cracked · repaired 08/19/2026 ✓</div>
+                <div class="ph-note" data-rev-from="v11">Yesterday, 06:04 AM (ET) · James Whitfield<br/>1 defect noted: left mirror cracked · repaired 08/19/2026 ✓</div>
               </div>
               <div class="ph-tabbar">
                 <div class="ph-tab"><span class="ic">⌂</span>Home</div>
@@ -2658,7 +2660,7 @@
                 <span data-revi-until="v1">ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · odo 126,502.5 · eng-hrs –<br/>
                 Unident.&nbsp;2 unassigned driving records</span><span data-revi-from="v2">ELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID TENNA01 · reg. TENNA01<br/>
                 Odo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;126,502.5 mi · eng 4,187.6 h <i style="font-style:normal; color:#9AA1AD;">last valid 2:35 PM</i><br/>
-                Unident.&nbsp;2 unaccepted records · last 8 days</span><span data-revi-from="v7"><br/>
+                Unident.&nbsp;<span data-revi-until="v10">2</span><span data-revi-from="v11">10</span> unaccepted records · last 8 days</span><span data-revi-from="v7"><br/>
                 Trailer&nbsp;&nbsp;T-4471 · Ship doc – · Exempt No<br/>
                 TZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-4 · Mfr TENNA · MALF none · DIAG none</span>
               </div>
@@ -2683,9 +2685,9 @@
               <div data-rev-until="v1" class="ph-note">Full event list follows; officer scrolls. FMCSA-required display format, all 8 days.</div>
               <div data-rev-from="v2" class="ph-note">Sequence number, elapsed engine hours, and accumulated vehicle miles on every row per §4.5.1.1. Full list follows; officer scrolls. All 8 days.</div>
               <div data-rev-from="v7" class="ph-card" style="font-family:'JetBrains Mono',monospace; font-size:7.5px; line-height:1.7; padding:8px 9px;">
-                <span style="color:#9AA1AD; font-weight:700;">UNIDENTIFIED DRIVER PROFILE · 2 records</span><br/>
+                <span style="color:#9AA1AD; font-weight:700;">UNIDENTIFIED DRIVER PROFILE · <span data-revi-until="v10">2</span><span data-revi-from="v11">10</span> records</span><br/>
                 0139&nbsp; 8/18/2026 19:02&nbsp; D&nbsp;&nbsp; 12.4 mi&nbsp; unaccepted<br/>
-                0140&nbsp; 8/19/2026 06:12&nbsp; D&nbsp;&nbsp;&nbsp; 2.1 mi&nbsp; unaccepted
+                0140&nbsp; 8/19/2026 06:12&nbsp; D&nbsp;&nbsp;&nbsp; 2.1 mi&nbsp; unaccepted<span data-revi-from="v11"><br/>+ 8 more · officer scrolls</span>
               </div>
               <div data-rev-from="v7" class="ph-note">Grid overlays personal conveyance and yard move as dashed segments. Unidentified profile shown as its own report per 4.8.1.3.</div>
               <div data-rev-from="v11" class="ph-note">A value from the last valid tracker frame is marked with its time. A dash means the tracker never reported the value; the display never shows a zero it did not read.</div>
@@ -2829,7 +2831,7 @@
             <div class="ph-appbar"><span class="t"><span data-revi-until="v10">Exit inspection</span><span data-revi-from="v11">Exit Inspection</span></span><span class="r">PIN required</span></div>
             <div class="ph-body">
               <div class="ph-banner">Officer finished? Hand the phone back to the driver. Only the driver&rsquo;s PIN leaves inspection mode.</div>
-              <div class="ph-note" style="text-align:center;"><span data-revi-until="v10">Inspection open 17 min &middot; started 2:41 PM</span><span data-revi-from="v11">Inspection open 00h 17m 00s &middot; started 02:41 PM</span><br/><span data-revi-until="v10">Transfer sent 2:47 PM &middot; receipt </span><span data-revi-from="v11">Transfer sent 02:47 PM &middot; receipt </span><span class="mono" style="font-size:8.5px;">ER-4471-88</span></div>
+              <div class="ph-note" style="text-align:center;"><span data-revi-until="v10">Inspection open 17 min &middot; started 2:41 PM</span><span data-revi-from="v11">Inspection open 00h 17m 00s &middot; started 02:41 PM</span><br/><span data-revi-until="v10">Transfer sent 2:47 PM &middot; receipt </span><span data-revi-from="v11">Transfer accepted 02:44 PM &middot; confirmation </span><span class="mono" style="font-size:8.5px;"><span data-revi-until="v10">ER-4471-88</span><span data-revi-from="v11">A93F21</span></span></div>
               <div class="ph-dots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div>
               <div class="ph-keypad">
                 <div class="ph-key">1</div><div class="ph-key">2</div><div class="ph-key">3</div>
@@ -3959,8 +3961,8 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>Last Name</th><th>First Name</th><th>Limit</th><th>Time Left</th><th>Violation At</th><th>Now</th><th>Alerted</th></tr></thead>
                     <tbody>
+                      <tr><td><b>Burns</b></td><td>Kevin</td><td><span class="wb-pill">30-Minute Break</span></td><td>00h 12m 00s ⚠</td><td>02:53 PM</td><td>07h 48m 00s Since Last Break</td><td>Dispatch · 02:41 PM</td></tr>
                       <tr><td><b>Burns</b></td><td>Kevin</td><td><span class="wb-pill dark">11-Hour Drive</span></td><td>00h 48m 00s</td><td>03:29 PM</td><td>Driving · I-71/75 S</td><td>Dispatch · 02:29 PM</td></tr>
-                      <tr><td><b>Burns</b></td><td>Kevin</td><td><span class="wb-pill">30-Minute Break</span></td><td>01h 12m 00s</td><td>03:53 PM</td><td>07h 48m 00s Since Last Break</td><td>Dispatch · 02:41 PM</td></tr>
                       <tr><td><b>Alvarez</b></td><td>Marcus</td><td><span class="wb-pill">14-Hour Window</span></td><td>05h 34m 00s</td><td>08:15 PM</td><td>Driving · Blue Ash</td><td>At 01h 00m 00s</td></tr>
                       <tr><td><b>Delgado</b></td><td>Rosa</td><td><span class="wb-pill">70-Hour Cycle</span></td><td>08h 15m 00s</td><td>Tomorrow</td><td>Sleeper</td><td>At 01h 00m 00s</td></tr>
                     </tbody>
@@ -4027,7 +4029,7 @@
               <div class="wb-stage">
                 <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h"><span data-revi-until="v10">Logs review</span><span data-revi-from="v11">Logs Review</span></div>
-                  <div class="wb-filter"><span class="wb-fld"><span data-revi-until="v10">Driver: all ▾</span><span data-revi-from="v11">Driver: All ▾</span></span><span class="wb-fld"><span data-revi-until="v10">8/13/2026 – 8/20/2026 ▾</span><span data-revi-from="v11">08/13/2026 – 08/20/2026 ▾</span></span><span class="wb-fld"><span data-revi-until="v10">Status: uncertified ▾</span><span data-revi-from="v11">Status: Uncertified ▾</span></span><span class="wb-btn">Apply</span></div>
+                  <div class="wb-filter"><span class="wb-fld"><span data-revi-until="v10">Driver: all ▾</span><span data-revi-from="v11">Driver: All ▾</span></span><span class="wb-fld"><span data-revi-until="v10">8/13/2026 – 8/20/2026 ▾</span><span data-revi-from="v11">08/13/2026 – 08/20/2026 ▾</span></span><span class="wb-fld"><span data-revi-until="v10">Status: uncertified ▾</span><span data-revi-from="v11">Status: All ▾</span></span><span class="wb-btn">Apply</span></div>
                   <table class="wb-table" data-rev-until="v10">
                     <thead><tr><th>Date</th><th>Driver</th><th>Drive</th><th>On duty</th><th>Certified</th><th>Flags</th></tr></thead>
                     <tbody>
@@ -4123,10 +4125,10 @@
                   <table class="wb-table" data-rev-from="v11" style="margin-top:8px;">
                     <thead><tr><th>Time</th><th>Event</th><th>Origin</th><th>Odometer</th><th>Location</th></tr></thead>
                     <tbody>
-                      <tr data-rev-from="v5"><td>05:31 PM</td><td>Engine Power Down</td><td>automatic</td><td>126474.5 miles</td><td>Blue Ash Yard</td></tr>
-                      <tr><td>04:30 PM</td><td>ON · On Duty</td><td>edited · v3 <span class="wb-pill out">History</span></td><td>126474.5 miles</td><td>Blue Ash Yard</td></tr>
-                      <tr><td>12:00 PM</td><td>D · Driving</td><td>automatic</td><td>126447.9 miles</td><td>11700 Chester Rd, Sharonville, OH 45246</td></tr>
-                      <tr><td>06:00 AM</td><td>D · Driving</td><td>automatic</td><td>126412.3 miles</td><td>4400 Cooper Rd, Blue Ash, OH 45242</td></tr>
+                      <tr data-rev-from="v5"><td>05:31 PM</td><td>Engine Power Down</td><td>automatic</td><td class="num">126474.5 miles</td><td>Blue Ash Yard</td></tr>
+                      <tr><td>04:30 PM</td><td>ON · On Duty</td><td>edited · v3 <span class="wb-pill out">History</span></td><td class="num">126474.5 miles</td><td>Blue Ash Yard</td></tr>
+                      <tr><td>12:00 PM</td><td>D · Driving</td><td>automatic</td><td class="num">126447.9 miles</td><td>11700 Chester Rd, Sharonville, OH 45246</td></tr>
+                      <tr><td>06:00 AM</td><td>D · Driving</td><td>automatic</td><td class="num">126412.3 miles</td><td>4400 Cooper Rd, Blue Ash, OH 45242</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-filter" style="margin-top:8px;" data-rev-until="v10"><span class="wb-btn primary">Propose edit</span><span class="wb-btn">Full edit history</span><span class="wb-btn">Export this day</span></div><div class="wb-filter" style="margin-top:8px;" data-rev-from="v11"><span class="wb-btn">Full Edit History</span><span class="wb-btn">Export This Day</span><span class="wb-btn primary">Propose Edit</span></div>
@@ -4272,7 +4274,7 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>Log Day</th><th>Last Name</th><th>First Name</th><th>Change</th><th>Proposed By</th><th>Proposed</th><th>Status</th><th>Waiting</th></tr></thead>
                     <tbody>
-                      <tr><td>08/18/2026</td><td><b>Alvarez</b></td><td>Marcus</td><td>OFF → ON · 03:15 PM → 03:45 PM · 00h 30m 00s</td><td>Kim Byers</td><td>08/18/2026 - 02:39 PM (ET)</td><td><span class="wb-pill dark">Pending</span></td><td>00h 02m 00s</td></tr>
+                      <tr><td>08/18/2026</td><td><b>Alvarez</b></td><td>Marcus</td><td>OFF → ON · 03:15 PM → 03:45 PM · 00h 30m 00s</td><td>Kim Byers</td><td>08/20/2026 - 02:39 PM (ET)</td><td><span class="wb-pill dark">Pending</span></td><td>00h 02m 00s</td></tr>
                       <tr><td>08/16/2026</td><td><b>Okafor</b></td><td>Tomas</td><td>OFF → ON · 07:00 AM → 07:20 AM · 00h 20m 00s</td><td>Kim Byers</td><td>08/17/2026 - 09:00 AM (ET)</td><td><span class="wb-pill dark">Pending</span></td><td>72h 00m 00s ⚠</td></tr>
                       <tr><td>08/19/2026</td><td><b>Alvarez</b></td><td>Marcus</td><td>ON 04:30 PM → 05:15 PM · 00h 45m 00s, now 04:30 PM → 06:00 PM · 01h 30m 00s</td><td>Kim Byers</td><td>08/19/2026 - 09:02 PM (ET)</td><td><span class="wb-pill out">Rejected</span></td><td>"Left yard at 05:30 PM"</td></tr>
                       <tr><td>08/14/2026</td><td><b>Delgado</b></td><td>Rosa</td><td>OFF → SB · 10:00 PM → 02:00 AM · 04h 00m 00s</td><td>Sam Patel</td><td>08/15/2026 - 08:10 AM (ET)</td><td><span class="wb-pill">Approved</span></td><td>–</td></tr>
@@ -4444,12 +4446,12 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>&#9744;</th><th>When</th><th>Fleet No.</th><th>Asset Name</th><th>Distance</th><th>Driver Said</th><th>Status</th></tr></thead>
                     <tbody>
-                      <tr><td>&#9745;</td><td>08/19/2026 - 06:12 AM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td>2.1 miles</td><td>&ldquo;Shop had it that morning&rdquo;</td><td>Needs Annotation</td></tr>
-                      <tr><td>&#9745;</td><td>08/19/2026 - 06:41 AM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td>0.4 miles</td><td>&ldquo;Someone moved it in the yard&rdquo;</td><td>Needs Annotation</td></tr>
-                      <tr><td>&#9744;</td><td>08/18/2026 - 07:02 PM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td>12.4 miles</td><td>&ldquo;Never seen this trip&rdquo;</td><td>Investigate</td></tr>
-                      <tr><td>&#9744;</td><td>08/18/2026 - 06:04 AM<span data-revi-from="v11"> (ET)</span></td><td><b>231</b></td><td>Kenworth T380</td><td>0.3 miles</td><td>&ndash;</td><td>Never Claimed</td></tr>
-                      <tr><td>&#9744;</td><td>08/17/2026 - 05:48 AM<span data-revi-from="v11"> (ET)</span></td><td><b>224</b></td><td>Ford F-250</td><td>0.6 miles</td><td><span class="wb-pill dark">Stamped &middot; D27</span></td><td>Accounted For</td></tr>
-                      <tr><td>&#9744;</td><td>08/16/2026 - 02:11 PM<span data-revi-from="v11"> (ET)</span></td><td><b>231</b></td><td>Kenworth T380</td><td>8.9 miles</td><td>&ldquo;Kevin Burns had my truck&rdquo;</td><td>Assign &rarr; Kevin Burns</td></tr>
+                      <tr><td>&#9745;</td><td>08/19/2026 - 06:12 AM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td class="num">2.1 miles</td><td>&ldquo;Shop had it that morning&rdquo;</td><td>Needs Annotation</td></tr>
+                      <tr><td>&#9745;</td><td>08/19/2026 - 06:41 AM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td class="num">0.4 miles</td><td>&ldquo;Someone moved it in the yard&rdquo;</td><td>Needs Annotation</td></tr>
+                      <tr><td>&#9744;</td><td>08/18/2026 - 07:02 PM<span data-revi-from="v11"> (ET)</span></td><td><b>218</b></td><td>Ford F-150</td><td class="num">12.4 miles</td><td>&ldquo;Never seen this trip&rdquo;</td><td>Investigate</td></tr>
+                      <tr><td>&#9744;</td><td>08/18/2026 - 06:04 AM<span data-revi-from="v11"> (ET)</span></td><td><b>231</b></td><td>Kenworth T380</td><td class="num">0.3 miles</td><td>&ndash;</td><td>Never Claimed</td></tr>
+                      <tr><td>&#9744;</td><td>08/17/2026 - 05:48 AM<span data-revi-from="v11"> (ET)</span></td><td><b>224</b></td><td>Ford F-250</td><td class="num">0.6 miles</td><td><span class="wb-pill dark">Stamped &middot; D27</span></td><td>Accounted For</td></tr>
+                      <tr><td>&#9744;</td><td>08/16/2026 - 02:11 PM<span data-revi-from="v11"> (ET)</span></td><td><b>231</b></td><td>Kenworth T380</td><td class="num">8.9 miles</td><td>&ldquo;Kevin Burns had my truck&rdquo;</td><td>Assign &rarr; Kevin Burns</td></tr>
                     </tbody>
                   </table>
                   <div class="wb-box" style="margin-top:9px;">
@@ -5302,7 +5304,7 @@
               <div class="wb-stage">
                 <div class="wb-mfe"><span class="wb-mfe-tag">ELD control panel</span>
                   <div class="wb-h"><span data-revi-until="v10">Odometer jumps</span><span data-revi-from="v11">Odometer Jumps</span> <span class="sub">reconnect discontinuities &middot; possible unplugged trackers</span></div>
-                  <div class="wb-filter"><span class="wb-fld"><span data-revi-until="v10">Vehicle: all &#9662;</span><span data-revi-from="v11">Vehicle: All &#9662;</span></span><span class="wb-fld"><span data-revi-until="v10">8/1/2026 &ndash; 8/20/2026 &#9662;</span><span data-revi-from="v11">08/01/2026 &ndash; 08/20/2026 &#9662;</span></span><span class="wb-fld"><span data-revi-until="v10">Status: open &#9662;</span><span data-revi-from="v11">Status: Open &#9662;</span></span><span data-revi-from="v11"><span class="wb-fld">Threshold: gap over 2.0 miles or 00h 30m 00s unplugged &#9662;</span></span><span class="wb-btn"><span data-revi-until="v10">Annotate selected</span><span data-revi-from="v11">Annotate Selected</span></span></div>
+                  <div class="wb-filter"><span class="wb-fld"><span data-revi-until="v10">Vehicle: all &#9662;</span><span data-revi-from="v11">Vehicle: All &#9662;</span></span><span class="wb-fld"><span data-revi-until="v10">8/1/2026 &ndash; 8/20/2026 &#9662;</span><span data-revi-from="v11">08/01/2026 &ndash; 08/20/2026 &#9662;</span></span><span class="wb-fld"><span data-revi-until="v10">Status: open &#9662;</span><span data-revi-from="v11">Status: All &#9662;</span></span><span data-revi-from="v11"><span class="wb-fld">Threshold: gap over 2.0 miles or 00h 30m 00s unplugged &#9662;</span></span><span class="wb-btn"><span data-revi-until="v10">Annotate selected</span><span data-revi-from="v11">Annotate Selected</span></span></div>
                   <table class="wb-table" data-rev-until="v10">
                     <thead><tr><th>Vehicle</th><th>Last odo</th><th>New odo</th><th>Gap</th><th>Window</th><th>Status</th></tr></thead>
                     <tbody>
@@ -5313,8 +5315,8 @@
                   <table class="wb-table" data-rev-from="v11">
                     <thead><tr><th>Fleet No.</th><th>Asset Name</th><th>Last Odometer</th><th>New Odometer</th><th>Gap</th><th>Window</th><th>Status</th></tr></thead>
                     <tbody>
-                      <tr><td><b>231</b></td><td>Kenworth T380</td><td>128904.2 miles</td><td>128961.7 miles</td><td><b>57.5 miles</b></td><td>08/18/2026 - 06:10 PM<span data-revi-from="v11"> (ET)</span> &rarr; 08/19/2026 - 07:02 AM (ET) · 12h 52m 00s</td><td><span class="wb-pill dark">Investigate</span></td></tr>
-                      <tr><td><b>224</b></td><td>Ford F-250</td><td>84112.0 miles</td><td>84113.1 miles</td><td>1.1 miles</td><td>08/16/2026 - 05:40 PM<span data-revi-from="v11"> (ET)</span> &rarr; 08/16/2026 - 06:05 PM (ET) · 00h 25m 00s</td><td><span class="wb-pill out">Explained</span></td></tr>
+                      <tr><td><b>231</b></td><td>Kenworth T380</td><td class="num">128904.2 miles</td><td class="num">128961.7 miles</td><td class="num"><b>57.5 miles</b></td><td>08/18/2026 - 06:10 PM<span data-revi-from="v11"> (ET)</span> &rarr; 08/19/2026 - 07:02 AM (ET) · 12h 52m 00s</td><td><span class="wb-pill dark">Investigate</span></td></tr>
+                      <tr><td><b>224</b></td><td>Ford F-250</td><td class="num">84112.0 miles</td><td class="num">84113.1 miles</td><td class="num">1.1 miles</td><td>08/16/2026 - 05:40 PM<span data-revi-from="v11"> (ET)</span> &rarr; 08/16/2026 - 06:05 PM (ET) · 00h 25m 00s</td><td><span class="wb-pill out">Explained</span></td></tr>
                     </tbody>
                   </table>
                   <div class="wb-note">A tracker asleep while parked cannot report its own removal. The odometer that does not line up on reconnect is the detection, so this report is the carrier's view of unplug and replug.<span data-revi-from="v11"> The threshold is a carrier setting on W15, defaulting to a gap over 2.0 miles or more than 30 minutes with no tracker link while the engine was on; gaps under it are listed but not flagged.</span></div>
