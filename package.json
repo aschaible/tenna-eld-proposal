@@ -4,5 +4,8 @@
   "private": true,
   "dependencies": {
     "@vercel/functions": "^2.2.0"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.12.0"
   }
 }

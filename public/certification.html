@@ -68,7 +68,7 @@
 <div class="doc">
 
   <h1>Certification Roadmap</h1>
-  <p class="subtitle">Tenna ELD · Updated 9/20/2026</p>
+  <p class="subtitle">Tenna ELD · Updated 9/24/2026</p>
 
   <h2>1. Basis</h2>
   <ul>
@@ -316,22 +316,38 @@
   <h2>5. Open items</h2>
   <div class="tbl-wrap">
   <table>
-    <thead><tr><th>Item</th><th>Needed</th><th>Blocks</th></tr></thead>
+    <thead><tr><th>Item</th><th>Needed</th><th>Owner</th><th>Blocks</th></tr></thead>
     <tbody>
       <tr><td>Q24 · biometric sign-in to the ELD application</td>
         <td>Tom Cuthbertson's reading: user code and password, tied to the host account; a biometric may unlock the
           phone, not the ELD app. He is asking his FMCSA contact for a yes or no. Product position (Adam, 9/10/2026) was
           biometric for the saved session on personal phones</td>
+        <td>Tom Cuthbertson</td>
         <td>Stage B; D1</td></tr>
       <tr><td>Written confirmation from Tom Cuthbertson</td>
         <td>Tom approved the roadmap, the test inventory and the malfunction test matrix on the 9/16/2026 call and
           confirmed the 9/10/2026 rulings verbally. Written confirmation follows when he is back, around 9/23/2026</td>
+        <td>Tom Cuthbertson</td>
         <td>Stage A exit; Stage B exit</td></tr>
       <tr><td>Home terminal wording</td>
         <td>Tom is sending the 49 CFR 395.8 language on the home terminal. The ELD keeps the rule's word and stores a
           time zone and 24-hour day start as a fleet default with a per-driver override; confirm that reading against
           his text</td>
+        <td>Tom Cuthbertson</td>
         <td>Stage B; W15, D23</td></tr>
+      <tr><td>Tracker stored-event drain rate</td>
+        <td>Mark Leszczynski confirmed on 9/22/2026 that the WQ tracker has no bulk transfer: stored events come one
+          per frame, about one every 3 seconds, so an hour of unidentified driving takes close to an hour of
+          connection to drain. Jose asked on 9/23/2026 for a hardware spike with the vendor to find a faster path or
+          a different configuration. Not a blocker for the Phase 3 decision</td>
+        <td>Tenna hardware (Mark Leszczynski)</td>
+        <td>Stage C, unidentified-driving detection window; W16</td></tr>
+      <tr><td>Idle-shutdown signals from the tracker</td>
+        <td>Whether the tracker reads and exposes J1939 SPN 591, 592 and 593 (PGN 65252) so the ELD can record a
+          power-down when a commercial vehicle shuts itself off without a key-off. Tom Cuthbertson owes Mark the
+          written list; Mark asks the manufacturer. Only matters for heavy-duty vehicles</td>
+        <td>Tenna hardware (Mark Leszczynski); list from Tom Cuthbertson</td>
+        <td>Stage C, power-down events on CMVs</td></tr>
     </tbody>
   </table>
   </div>
